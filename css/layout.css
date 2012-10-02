@@ -603,7 +603,7 @@ body.omni-style.no-selection {
 
 
 
-.omni-style .top-bar-input {
+.omni-style .top-bar-input > .text-field {
     width: 345px;
 }
 
