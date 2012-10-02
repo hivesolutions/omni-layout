@@ -1,0 +1,72 @@
+.omni-style .list.welcome-list {
+    background: transparent url(../images/lists/welcome-list-ruller.png) repeat-y 25px top;
+    float: right;
+    margin: 50px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    width: 240px;
+}
+
+.omni-style .list.welcome-list li {
+    list-style: none;
+    margin: 0px 0px 16px 0px;
+}
+
+.omni-style .list.welcome-list li.checked a {
+    text-decoration: line-through;
+}
+
+.omni-style .list.welcome-list li.bullet-number {
+    background: transparent url(../images/lists/welcome-list-numbers.png) no-repeat 0px 0px;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 13px;
+    padding-left: 34px;
+}
+
+.omni-style .list.welcome-list li .bullet-number.number-1 {
+    background-position: 0px 0px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-2 {
+    background-position: 0px -24px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-3 {
+    background-position: 0px -48px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-4 {
+    background-position: 0px -72px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-5 {
+    background-position: 0px -96px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-1.checked {
+    background-position: 0px -120px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-2.checked  {
+    background-position: 0px -144px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-3.checked  {
+    background-position: 0px -168px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-4.checked  {
+    background-position: 0px -192px;
+}
+
+.omni-style .list.welcome-list li.bullet-number.number-5.checked  {
+    background-position: 0px -216px;
+}
+
+.omni-style .list.welcome-list li.sign {
+    background: transparent url(../images/lists/welcome-list-sign.png) no-repeat 0px 0px;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 0px;
+    padding-left: 60px;
+}

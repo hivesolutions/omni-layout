@@ -1,0 +1,138 @@
+@import url(//fonts.googleapis.com/css?family=Open+Sans);
+
+@page {
+    margin: 0px 15px 0px 15px;
+}
+
+body.omni-print-style {
+    color: #3d3d3d;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 13px;
+}
+
+body.omni-print-style.preview {
+    margin: 22px auto 22px auto;
+    width: 680px;
+}
+
+body.omni-print-style.small {
+    font-size: 10px;
+}
+
+body.omni-print-style.receipt {
+    color: #000000;
+    font-size: 12px;
+    width: 260px;
+}
+
+.omni-print-style h1 {
+    font-size: 20px;
+}
+
+.omni-print-style .header {
+    border-bottom: 1px dashed #cccccc;
+    margin: 0px 0px 24px 0px;
+    padding: 0px 0px 12px 0px;
+}
+
+.omni-print-style .header .logo-image {
+    border-radius: 6px 6px 6px 6px;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
+    float: left;
+}
+
+.omni-print-style .header .header-details {
+    float: left;
+    margin-left: 16px;
+}
+
+.omni-print-style .header .header-details h1 {
+    font-size: 22px;
+    margin: 0px 0px 8px 0px;
+}
+
+.omni-print-style .header .header-details h2 {
+    font-size: 16px;
+    margin: 2px 0px 8px 0px;
+}
+
+.omni-print-style .header .header-side {
+    float: right;
+}
+
+.omni-print-style .header .header-side h3 {
+    font-size: 12px;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-print-style .body h1 {
+    font-size: 16px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+}
+
+.omni-print-style .footer {
+    border-top: 1px dashed #cccccc;
+    font-size: 10px;
+    margin: 36px 0px 0px 0px;
+    padding: 12px 0px 0px 0px;
+    text-align: center;
+}
+
+.omni-print-style .footer .barcode {
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-print-style .footer .date {
+    margin: 2px 0px 2px 0px;
+}
+
+.omni-print-style .footer .corporate {
+    margin: 2px 0px 2px 0px;
+}
+
+.omni-print-style.small .header .header-details h1 {
+    font-size: 16px;
+    margin: 0px 0px 2px 0px;
+}
+
+.omni-print-style.small .header .header-details h2 {
+    font-size: 14px;
+    margin: 2px 0px 2px 0px;
+}
+
+.omni-print-style.small .body h1 {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.omni-print-style.receipt .header {
+    border-bottom: none;
+    text-align: center;
+}
+
+.omni-print-style.receipt .header .logo-image {
+    float: none;
+}
+
+.omni-print-style.receipt .header .header-details {
+    float: none;
+    margin-left: 0px;
+}
+
+.omni-print-style.receipt .header .header-details h1 {
+    font-size: 12px;
+    font-weight: normal;
+    margin: 16px 0px 12px 0px; ;
+}
+
+.omni-print-style.receipt .header .header-details h2 {
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 6px;
+}
+
+.omni-print-style.receipt .footer {
+    font-size: 8px;
+}

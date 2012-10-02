@@ -1,0 +1,32 @@
+.omni-style .content-panel {
+    border: 1px solid #eeeeee;
+    padding: 16px 16px 16px 16px;
+    transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+}
+
+.omni-style .content-panel:hover {
+    border-color: #dddddd;
+    box-shadow: 0px 1px 4px #eeeeee;
+    -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -webkit-box-shadow: 0px 1px 4px #eeeeee;
+}
+
+.omni-style.dark .content-panel {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 6px 6px 6px 6px;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
+    box-shadow: 0px 0px 10px #3d3d3d;
+    -moz-box-shadow: 0px 0px 10px #3d3d3d;
+    -webkit-box-shadow: 0px 0px 10px #3d3d3d;
+}
+
+.omni-style.dark .content-panel:hover {
+    box-shadow: 0px 0px 10px #3d3d3d;
+    -moz-box-shadow: 0px 0px 10px #3d3d3d;
+    -webkit-box-shadow: 0px 0px 10px #3d3d3d;
+}

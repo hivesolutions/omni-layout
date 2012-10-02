@@ -1,0 +1,112 @@
+.omni-style .content-permission {
+    margin: 120px auto 60px auto;
+    width: 624px;
+}
+
+.omni-style .content-permission .column {
+    float: left;
+    padding: 16px 20px 16px 20px;
+}
+
+.omni-style .content-permission .column-left {
+    text-align: center;
+    width: 160px;
+}
+
+.omni-style .content-permission .column-right {
+    border-left: 1px solid #e9e9e9;
+    width: 382px;
+}
+
+.omni-style .content-permission .title {
+    color: #4d4d4d;
+    font-size: 40px;
+    font-weight: normal;
+    line-height: 40px;
+    margin-bottom: 12px;
+    margin-top: 0px;
+}
+
+.omni-style .content-permission .contents {
+    color: #4d4d4d;
+    line-height: 18px;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style .content-permission .permissions-list {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .content-permission .permissions-list li {
+    list-style: none;
+    margin-top: 18px;
+}
+
+.omni-style .content-permission .permissions-list li .permission-image {
+    background-image: url(../images/tiles/tile-grey_48.png);
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    float: left;
+    height: 48px;
+    width: 48px;
+}
+
+.omni-style .content-permission .permissions-list li .permission-image.blue {
+    background-image: url(../images/tiles/tile-blue_48.png);
+}
+
+.omni-style .content-permission .permissions-list li .permission-image.green {
+    background-image: url(../images/tiles/tile-green_48.png);
+}
+
+.omni-style .content-permission .permissions-list li .permission-image.grey {
+    background-image: url(../images/tiles/tile-grey_48.png);
+}
+
+.omni-style .content-permission .permissions-list li .permission-image.red {
+    background-image: url(../images/tiles/tile-red_48.png);
+}
+
+.omni-style .content-permission .permissions-list li .permission-image.yellow {
+    background-image: url(../images/tiles/tile-yellow_48.png);
+}
+
+.omni-style .content-permission .permissions-list li .permission-text {
+    float: left;
+    margin-left: 8px;
+    width: 326px;
+}
+
+.omni-style .content-permission .permissions-list li h1 {
+    color: #4d4d4d;
+    font-size: 14px;
+    line-height: 14px;
+    margin: 0px 0px 4px 0px;
+}
+
+.omni-style .content-permission .permissions-list li p {
+    color: #4d4d4d;
+    font-size: 11px;
+    line-height: 16px;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style .content-permission .permission-footer {
+    padding-top: 16px;
+}
+
+.omni-style .content-permission .permission-buttons {
+    margin: 0px auto 0px auto;
+    width: 246px;
+}
+
+.omni-style .content-permission .permission-buttons > .button {
+    text-align: center;
+    width: 80px;
+}
+
+.omni-style .content-permission .permission-buttons > .button-deny {
+    margin-left: 10px;
+}

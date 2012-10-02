@@ -1,0 +1,22 @@
+.omni-style .content-success {
+    margin: 120px auto 60px auto;
+    width: 532px;
+}
+
+.omni-style .content-success .success {
+    padding: 24px 48px 0px 48px;
+    text-align: center;
+}
+
+.omni-style .content-success .success .title {
+    color: #484848;
+    font-size: 24px;
+    line-height: 24px;
+    margin: 12px 0px 12px 0px;
+}
+
+.omni-style .content-success .success .message {
+    color: #555555;
+    line-height: 22px;
+    margin: 22px 0px 22px 0px;
+}

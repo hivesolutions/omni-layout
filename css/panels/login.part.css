@@ -1,0 +1,15 @@
+.omni-style .content-login {
+    margin: 60px auto 60px auto;
+    width: 532px;
+}
+
+.omni-style .login-logo {
+    background: transparent url(../images/logos/front-door-login-logo.png) no-repeat center center;
+    height: 79px;
+    margin: 60px auto 0px auto;
+    width: 151px;
+}
+
+.omni-style.dark .login-logo {
+    background-image: url(../images/logos/front-door-login-logo-dark.png);
+}
