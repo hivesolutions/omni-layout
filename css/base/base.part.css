@@ -1072,12 +1072,12 @@ body.omni-style.no-selection {
     width: 80px;
 }
 
-.login-remember-container {
+.omni-style .login-remember-container {
     margin-left: 104px;
     padding-top: 12px;
 }
 
-.login-remember {
+.omni-style .login-remember {
     color: #666666;
     font-size: 12px;
     line-height: 18px;
