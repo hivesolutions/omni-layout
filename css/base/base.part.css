@@ -479,6 +479,9 @@
     margin: 8px 0px 12px 0px;
 }
 
+.omni-style .activity-list .activity-list-no-results span {
+    color: #777777;
+}
 
 
 
