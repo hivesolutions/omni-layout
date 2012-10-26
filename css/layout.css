@@ -1016,6 +1016,10 @@ body.omni-style.no-selection {
     float: right;
 }
 
+.entity-details-box li {
+    clear: both;
+}
+
 .entity-details-box li.header-label {
     background-color: #bbbbbb;
     border-radius: 5px 5px 5px 5px;
