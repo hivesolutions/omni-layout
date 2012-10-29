@@ -1387,6 +1387,17 @@ body.omni-style.no-selection {
     background-position: left -8px;
 }
 
+.omni-style .drop-field.entities-search .entity-description {
+    display: none;
+    line-height: 14px;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style .drop-field.entities-search li.selected .entity-description,
+.omni-style .drop-field.entities-search li:hover .entity-description {
+    display: block;
+}
+
 .omni-style .list.welcome-list {
     background: transparent url(../images/lists/welcome-list-ruller.png) repeat-y 25px top;
     float: right;
