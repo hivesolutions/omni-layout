@@ -1582,6 +1582,10 @@ body.omni-style.no-selection {
     padding: 0px 6px 0px 6px;
 }
 
+.omni-style .chat-panel > .chat-contents::-webkit-scrollbar {
+    width: 6px;
+}
+
 .omni-style .chat-panel > .chat-contents > .chat-paragraph {
     margin: 4px 0px 4px 0px;
     min-height: 32px;
