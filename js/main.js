@@ -161,6 +161,9 @@ jQuery(document).ready(function() {
         //from the contents and parses the ones that are meant
         // to be parsed (using json)
         var mvcPath = jQuery("#mvc-path", matchedObject).html();
+        var objectId = jQuery("#object-id", matchedObject).html();
+        var username = jQuery("#username", matchedObject).html();
+        var representation = jQuery("#representation", matchedObject).html();
         var definitions_s = jQuery("#definitions", matchedObject).html();
         var alias_s = jQuery("#alias", matchedObject).html();
         var definitions = jQuery.parseJSON(definitions_s) || {};
@@ -220,6 +223,9 @@ jQuery(document).ready(function() {
         // updates the various (configuration) references in the
         // element to be used for reference latter
         matchedObject.data("mvc_path", mvcPath);
+        matchedObject.data("object_id", objectId);
+        matchedObject.data("username", username);
+        matchedObject.data("representation", representation);
         matchedObject.data("definitions", definitions);
         matchedObject.data("alias", alias);
         matchedObject.data("sections", sections);
