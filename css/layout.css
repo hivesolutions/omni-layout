@@ -1471,6 +1471,167 @@ body.omni-style.no-selection {
     padding-left: 60px;
 }
 
+.omni-style .list.buddy-list {
+    margin: 12px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .list.buddy-list > li {
+    background: transparent url(../images/chat/status.png) no-repeat 2px 0px;
+    color: #666666;
+    cursor: pointer;
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 6px 0px 6px 28px;
+}
+
+.omni-style .list.buddy-list > li:hover {
+    background-color: #f4f4f4;
+}
+
+.omni-style .list.buddy-list > li.budy-available {
+    background-position: 2px 0px;
+}
+
+.omni-style .list.buddy-list > li.budy-busy {
+    background-position: 2px -28px;
+}
+
+.omni-style .list.buddy-list > li.budy-unavailable {
+    background-position: 2px -56px;
+}
+
+.omni-style .chat-panel {
+    position: fixed;
+    z-index: 12;
+}
+
+.omni-style .chat-panel {
+    background-color: #ffffff;
+    border: 1px solid #d2d2d2;
+    box-shadow: 0px 0px 4px #d6d6d6;
+    -moz-box-shadow: 0px 0px 4px #d6d6d6;
+    -webkit-box-shadow: 0px 0px 4px #d6d6d6;
+    width: 240px;
+}
+
+.omni-style .chat-panel > .chat-header {
+    background: #627bae url(../images/chat/status.png) no-repeat -3px 0px;
+    border-bottom: 1px solid #888888;
+    color: #ffffff;
+    color: #ffffff;
+    cursor: pointer;
+    height: 16px;
+    line-height: 16px;
+    padding: 6px 0px 6px 22px;
+}
+
+.omni-style .chat-panel.budy-available > .chat-header {
+    background-position: -3px 0px;
+}
+
+.omni-style .chat-panel.budy-busy > .chat-header {
+    background-position: -3px -28px;
+}
+
+.omni-style .chat-panel.budy-unavailable > .chat-header {
+    background-position: -3px -56px;
+}
+
+.omni-style .chat-panel > .chat-header > .chat-buttons {
+    float: right;
+    margin-right: 4px;
+    margin-top: -3px;
+}
+
+.omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button {
+    background: transparent url(../images/chat/actions.png) no-repeat 0px 0px;
+    cursor: pointer;
+    float: left;
+    height: 22px;
+    opacity: 0.75;
+    width: 22px;
+}
+
+.omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button:hover {
+    opacity: 1.0;
+}
+
+.omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button.chat-settings {
+    background-position: 0px 0px;
+}
+
+.omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button.chat-detach {
+    background-position: 0px -22px;
+}
+
+.omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button.chat-attach {
+    background-position: 0px -44px;
+}
+
+.omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button.chat-close {
+    background-position: 0px -66px;
+}
+
+.omni-style .chat-panel > .chat-contents {
+    clear: both;
+    color: #2d2d2d;
+    font-size: 11px;
+    height: 200px; ;
+    overflow: auto;
+    padding: 0px 6px 0px 6px;
+}
+
+.omni-style .chat-panel > .chat-contents > .chat-paragraph {
+    margin: 4px 0px 4px 0px;
+    min-height: 32px;
+    padding-left: 40px;
+}
+
+.omni-style .chat-panel > .chat-contents > .chat-paragraph:last-child {
+    margin-bottom: 8px;
+}
+
+.omni-style .chat-panel > .chat-contents .chat-line {
+    line-height: 14px;
+    margin-bottom: 3px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.omni-style .chat-panel > .chat-contents .chat-line:last-child {
+    margin-bottom: 0px;
+}
+
+.omni-style .chat-panel > .chat-contents .chat-line > * {
+    width: 180px;
+}
+
+.omni-style .chat-panel > .chat-contents .chat-line > .link {
+    padding-bottom: 0px;
+}
+
+.omni-style .chat-panel > .chat-contents .chat-separator {
+    background-color: #f2f2f2;
+    height: 1px;
+    margin: 8px 0px 8px 0px;
+}
+
+.omni-style .chat-panel > .chat-message {
+    border-top: 1px solid #d2d2d2;
+    height: 28px;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style .chat-panel > .chat-message > .text-area {
+    border: none;
+    color: #2d2d2d;
+    font-size: 13px;
+    height: 16px;
+    padding: 6px 6px 5px 6px;
+    width: 228px;
+}
+
 .omni-style .content-login-extra {
     background-color: #fefefe;
     border: 1px solid #eeeeee;

@@ -1,17 +1,19 @@
 {
     "layout.css" : {
         "files" : ["base/base.part.css", "lists/welcome.part.css",
-                "panels/login_extra.part.css", "panels/login.part.css",
-                "panels/panel.part.css", "panels/permission.part.css",
-                "panels/success.part.css", "panels/welcome.part.css",
-                "panels/wizard.part.css", "printing/base.part.css"]
+                "panels/chat.part.css", "panels/login_extra.part.css",
+                "panels/login.part.css", "panels/panel.part.css",
+                "panels/permission.part.css", "panels/success.part.css",
+                "panels/welcome.part.css", "panels/wizard.part.css",
+                "printing/base.part.css"]
     },
     "layout-min.css" : {
         "files" : ["base/base.part.css", "lists/welcome.part.css",
-                "panels/login_extra.part.css", "panels/login.part.css",
-                "panels/panel.part.css", "panels/permission.part.css",
-                "panels/success.part.css", "panels/welcome.part.css",
-                "panels/wizard.part.css", "printing/base.part.css"],
+                "panels/chat.part.css", "panels/login_extra.part.css",
+                "panels/login.part.css", "panels/panel.part.css",
+                "panels/permission.part.css", "panels/success.part.css",
+                "panels/welcome.part.css", "panels/wizard.part.css",
+                "printing/base.part.css"],
         "minify" : "css"
     }
 }
