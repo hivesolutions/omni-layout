@@ -1,0 +1,134 @@
+.omni-style .entity-details-inner-container .entity-name {
+    color: #4d4d4d;
+    font-size: 20px;
+    font-weight: bold;
+    width: 380px;
+}
+
+.omni-style .entity-details-inner-container .entity-description {
+    color: #777777;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style .entity-id {
+    color: #777777;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style .entity-details-inner-container {
+    min-height: 68px;
+    width: 380px;
+}
+
+.omni-style .entity-details-inner-container p {
+    margin: 5px 0px 5px 0px;
+}
+
+.omni-style .entity-details-inner-container.full {
+    width: 100%;
+}
+
+.omni-style .entity-details-container {
+    border-bottom: 1px solid #eaeaea;
+    height: 50px;
+    padding-bottom: 16px;
+}
+
+.omni-style .entity-details-list {
+    list-style: none;
+    margin: 0px 0px 16px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .entity-details-list li {
+    float: left;
+    width: 100%;
+}
+
+.omni-style .entity-details-list li p {
+    float: left;
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.omni-style .entity-details-list li .list-sub-label.replacer,
+.omni-style .entity-details-list li .list-sub-label.uploader {
+    line-height: 48px;
+}
+
+.omni-style .entity-details-box {
+    float: left;
+    list-style: none;
+    margin: 0px 0px 8px 0px;
+    padding: 0px 0px 0px 0px;
+    width: 250px;
+}
+
+.omni-style .entity-details-box.special {
+    border: 1px dashed #eaeaea;
+}
+
+.omni-style .entity-details-box.box-right {
+    float: right;
+}
+
+.omni-style .entity-details-box li {
+    clear: both;
+}
+
+.omni-style .entity-details-box li.header-label {
+    background-color: #908e8f;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    color: white;
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-left: 105px;
+    margin-top: -6px;
+    padding: 0px 8px 0px 8px;
+    position: absolute;
+    text-transform: uppercase;
+}
+
+.omni-style .entity-details-box li p {
+    float: left;
+    line-height: 14px;
+    margin: 8px 0px 8px 0px;
+}
+
+.omni-style .entity-details-box.special li p {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.omni-style .entity-details-box li:last-child p {
+    margin-bottom: 0px;
+}
+
+.omni-style .entity-details-box.special li:last-child p {
+    margin-bottom: 8px;
+}
+
+.omni-style .entity-details-box li p.list-label {
+    color: #777777;
+    font-size: 10px;
+    padding-top: 2px;
+    text-align: left;
+    text-transform: uppercase;
+    width: 94px;
+}
+
+.omni-style .entity-details-box li p.list-sub-label {
+    text-align: right;
+    width: 140px;
+}
+
+.omni-style .entity-details-box li.strong p.list-sub-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.omni-style .entity-details-box.special li p.list-sub-label {
+    width: 112px;
+}

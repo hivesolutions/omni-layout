@@ -1,0 +1,38 @@
+.omni-style .login-image {
+    background-image: url(../images/captain.png);
+    height: 440px;
+    margin-left: 0px;
+    margin-top: -60px;
+    position: absolute;
+    width: 500px;
+}
+
+.omni-style .login-list {
+    list-style: none;
+    margin: 0px 0px 16px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .login-list li p {
+    float: left;
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.omni-style .button-login {
+    margin: 0px auto 0px auto;
+    text-align: center;
+    width: 80px;
+}
+
+.omni-style .login-remember-container {
+    margin-left: 104px;
+    padding-top: 12px;
+}
+
+.omni-style .login-remember {
+    color: #666666;
+    font-size: 12px;
+    line-height: 18px;
+    margin-left: 6px;
+}

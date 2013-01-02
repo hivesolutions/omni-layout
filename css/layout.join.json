@@ -10,8 +10,9 @@
                 "panels/success.part.css", "panels/welcome.part.css",
                 "panels/wizard.part.css", "parts/box.part.css",
                 "parts/chart.part.css", "parts/footer.part.css",
-                "parts/header.part.css", "printing/base.part.css",
-                "structs/contact.part.css"]
+                "parts/header.part.css", "parts/login.part.css",
+                "printing/base.part.css", "structs/contact.part.css",
+                "structs/entity_details.part.css"]
     },
     "layout-min.css" : {
         "files" : ["base/base.part.css",
@@ -24,8 +25,9 @@
                 "panels/success.part.css", "panels/welcome.part.css",
                 "panels/wizard.part.css", "parts/box.part.css",
                 "parts/chart.part.css", "parts/footer.part.css",
-                "parts/header.part.css", "printing/base.part.css",
-                "structs/contact.part.css"],
+                "parts/header.part.css", "parts/login.part.css",
+                "printing/base.part.css", "structs/contact.part.css",
+                "structs/entity_details.part.css"],
         "minify" : "css"
     }
 }
