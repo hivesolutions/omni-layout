@@ -1,0 +1,81 @@
+.omni-style .display-box {
+    border: 1px solid #eaeaea;
+    color: #4d4d4d;
+    cursor: pointer;
+    margin-bottom: 24px;
+    text-align: center;
+    transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+}
+
+.omni-style .display-box:hover {
+    border: 1px solid #dddddd;
+    box-shadow: 0px 1px 4px #eeeeee;
+    -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -webkit-box-shadow: 0px 1px 4px #eeeeee;
+    color: #222222;
+}
+
+.omni-style .display-box-flip {
+    height: 164px;
+    transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    width: 260px;
+}
+
+.omni-style .display-box-background {
+    background-color: #ffffff;
+    background-repeat: no-repeat;
+}
+
+.omni-style .chart-box {
+    height: 144px;
+    padding: 10px 0px 10px 0px;
+    width: 260px;
+}
+
+.omni-style .stats-box {
+    font-size: 16px;
+    height: 124px;
+    padding: 20px 20px 20px 20px;
+    width: 220px;
+}
+
+.omni-style .display-box-background.box {
+    background-image: url(../images/entities/box_background.png);
+    background-position: 176px 60px;
+}
+
+.omni-style .display-box-background.folder {
+    background-image: url(../images/entities/folder_background.png);
+    background-position: 176px 60px;
+}
+
+.omni-style .display-box-background.money-in {
+    background-image: url(../images/entities/money_in_background.png);
+    background-position: 176px 60px;
+}
+
+.omni-style .display-box-background.money-out {
+    background-image: url(../images/entities/money_out_background.png);
+    background-position: 176px 60px;
+}
+
+.omni-style .display-box-background.person {
+    background-image: url(../images/entities/person_background.png);
+    background-position: 176px 36px;
+}
+
+.omni-style .display-box-background.store {
+    background-image: url(../images/entities/store_background.png);
+    background-position: 176px 40px;
+}
+
+.omni-style .stats-box-numbers {
+    font-size: 42px;
+    margin: 20px 0px 20px 0px;
+}

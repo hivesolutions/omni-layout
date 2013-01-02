@@ -2,22 +2,30 @@
     "layout.css" : {
         "files" : ["base/base.part.css",
                 "drop_fields/entities_search.part.css",
-                "lists/navigation.part.css", "lists/welcome.part.css",
-                "panels/chat.part.css", "panels/login_extra.part.css",
-                "panels/login.part.css", "panels/panel.part.css",
-                "panels/permission.part.css", "panels/success.part.css",
-                "panels/welcome.part.css", "panels/wizard.part.css",
-                "printing/base.part.css"]
+                "lists/activity.part.css", "lists/navigation.part.css",
+                "lists/welcome.part.css", "menus/context.part.css",
+                "menus/system.part.css", "panels/chat.part.css",
+                "panels/login_extra.part.css", "panels/login.part.css",
+                "panels/panel.part.css", "panels/permission.part.css",
+                "panels/success.part.css", "panels/welcome.part.css",
+                "panels/wizard.part.css", "parts/box.part.css",
+                "parts/chart.part.css", "parts/footer.part.css",
+                "parts/header.part.css", "printing/base.part.css",
+                "structs/contact.part.css"]
     },
     "layout-min.css" : {
         "files" : ["base/base.part.css",
                 "drop_fields/entities_search.part.css",
-                "lists/navigation.part.css", "lists/welcome.part.css",
-                "panels/chat.part.css", "panels/login_extra.part.css",
-                "panels/login.part.css", "panels/panel.part.css",
-                "panels/permission.part.css", "panels/success.part.css",
-                "panels/welcome.part.css", "panels/wizard.part.css",
-                "printing/base.part.css"],
+                "lists/activity.part.css", "lists/navigation.part.css",
+                "lists/welcome.part.css", "menus/context.part.css",
+                "menus/system.part.css", "panels/chat.part.css",
+                "panels/login_extra.part.css", "panels/login.part.css",
+                "panels/panel.part.css", "panels/permission.part.css",
+                "panels/success.part.css", "panels/welcome.part.css",
+                "panels/wizard.part.css", "parts/box.part.css",
+                "parts/chart.part.css", "parts/footer.part.css",
+                "parts/header.part.css", "printing/base.part.css",
+                "structs/contact.part.css"],
         "minify" : "css"
     }
 }

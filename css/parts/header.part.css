@@ -1,0 +1,16 @@
+.omni-style .header-logo-area {
+    background: transparent url(../images/header-logo-area.png) no-repeat center center;
+    display: block;
+    height: 80px;
+    margin-top: -10px;
+    text-align: center;
+    width: 190px;
+}
+
+.omni-style .header-logo-area.warning {
+    background-image: url(../images/header-logo-area-warning.png);
+}
+
+.omni-style .header-logo {
+    border: none;
+}

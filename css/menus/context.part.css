@@ -1,0 +1,73 @@
+.omni-style .context-menu {
+    margin-left: 506px;
+    margin-top: -22px;
+    position: absolute;
+}
+
+.omni-style .context-menu .context {
+    background: #ffffff url(../images/context-menu-marker.png) no-repeat center 0px;
+    border: 1px solid #dddddd;
+    box-shadow: 0px 0px 4px #dddddd;
+    -moz-box-shadow: 0px 0px 4px #dddddd;
+    -webkit-box-shadow: 0px 0px 4px #dddddd;
+    display: none;
+    height: 20px;
+    width: 18px;
+}
+
+.omni-style .context-menu .context:hover {
+    background-position: center -20px;
+    border-color: #c0c0c0;
+}
+
+.omni-style .context-menu .context.click {
+    background-color: #cccccc;
+    background-position: center -40px;
+    border-color: #bbbbbb;
+}
+
+.omni-style .context-menu.active .context {
+    background-color: #cccccc;    ;
+    background-position: center -40px;
+    border-color: #bbbbbb;
+}
+
+.omni-style .context-menu .menu-contents {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    box-shadow: 0px 1px 4px #eeeeee;
+    -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -webkit-box-shadow: 0px 1px 4px #eeeeee;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .context-menu .menu-contents .element {
+    color: #4d4d4d;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 11px;
+    padding: 6px 12px 6px 12px;
+}
+
+.omni-style .context-menu .menu-contents .element:hover {
+    background-color: #efefef;
+}
+
+.omni-style .context-menu .menu-contents .element.selected {
+    background-color: #efefef;
+}
+
+.omni-style .context-menu .menu-contents .element.sub-element {
+    background-image: url(../images/context-menu-arrow.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+}
+
+.omni-style .context-menu .menu-contents .separator {
+    border-bottom: 1px solid #dddddd;
+    margin: 4px 6px 4px 6px;
+}
+
+.omni-style .filter.entities-list li.selected.first .context {
+    display: block;
+}

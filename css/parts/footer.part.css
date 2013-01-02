@@ -1,0 +1,45 @@
+.omni-style .footer {
+    color: #777777;
+    font-size: 12px;
+    margin: 22px auto 22px auto;
+}
+
+.omni-style .footer-message {
+    border-bottom: 1px dashed #eaeaea;
+    margin: 0px auto 0px auto;
+    padding: 0px 0px 8px 0px;
+    width: 200px;
+}
+
+.omni-style .footer-message .link {
+    margin-left: 4px;
+}
+
+.omni-style .footer-language {
+    margin: 8px auto 0px auto;
+}
+
+.omni-style .footer-language .link {
+    margin-left: 4px;
+}
+
+.omni-style .footer-warning {
+    margin: 8px auto 0px auto;
+}
+
+.omni-style .footer-timing {
+    margin: 8px auto 0px auto;
+}
+
+.omni-style.dark .footer {
+    color: #e4e4e4;
+}
+
+.omni-style.dark .footer .link {
+    color: #ffffff;
+}
+
+.omni-style.dark .footer .link:hover,
+.omni-style.dark .footer .link.selected {
+    border-bottom: 1px solid #ffffff;
+}

@@ -1,0 +1,32 @@
+.omni-style .contact-simple {
+    margin-bottom: 8px;
+}
+
+.omni-style .contact {
+    padding: 8px 16px 8px 16px;
+}
+
+.omni-style .contact:hover {
+    background-color: #f8f8f8;
+}
+
+.omni-style .contact .contents {
+    margin: 6px 12px 6px 12px;
+}
+
+.omni-style .contact .object-id {
+    display: none;
+}
+
+.omni-style .contact .name {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.omni-style .contact.selected .name {
+    color: #3668c6;
+}
+
+.omni-style .contact.selected:hover {
+    background-color: transparent;
+}

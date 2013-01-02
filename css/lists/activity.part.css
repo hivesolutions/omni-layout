@@ -1,0 +1,69 @@
+.omni-style .activity-list {
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .activity-list li {
+    border-top: 1px solid #f2f2f2;
+    padding: 16px 0px 16px 0px;
+}
+
+.omni-style .activity-list li:first-child {
+    border-top: none;
+}
+
+.omni-style .activity-list li img {
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    height: 50px;
+    margin: 0px 12px 0px 0px;
+    width: 50px;  ;
+}
+
+.omni-style .activity-list-content {
+    margin: 20px 0px 20px 0px;
+}
+
+.omni-style .activity-list-action {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style .activity-list-action-delete {
+    color: #d3503f;
+}
+
+.omni-style .activity-list-action-undelete {
+    color: #c51432;
+}
+
+.omni-style .activity-list-action-create {
+    color: #42b551;
+}
+
+.omni-style .activity-list-action-update {
+    color: #f0b751;
+}
+
+.omni-style .activity-list-description {
+    color: #777777;
+    margin: 10px 0px 0px 0px;
+}
+
+.omni-style .activity-list .activity-list-no-results {
+    padding: 20px;
+    text-align: center;
+}
+
+.omni-style .activity-list .activity-list-no-results p {
+    color: #484848;
+    font-size: 18px;
+    margin: 8px 0px 12px 0px;
+}
+
+.omni-style .activity-list .activity-list-no-results span {
+    color: #777777;
+}
