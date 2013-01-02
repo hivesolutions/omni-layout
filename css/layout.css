@@ -381,7 +381,7 @@ body.omni-style.no-selection {
     margin: 0px 16px 0px 16px;
 }
 
-.omni-style #cancel-link {
+.omni-style .cancel-link {
     margin-top: 10px;
 }
 
