@@ -293,36 +293,6 @@ body.omni-style.no-selection {
     width: 174px;
 }
 
-.omni-style .entity-picture {
-    border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    height: 50px;
-    margin-right: 14px;
-    width: 50px;
-}
-
-.omni-style .entity-big-picture {
-    height: 64px;
-    margin-left: 19px;
-    margin-right: 19px;
-    width: 64px;
-}
-
-.omni-style .entity-big-picture > img {
-    border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-}
-
-.omni-style .entity-huge-picture {
-    border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    height: 96px;
-    width: 96px;
-}
-
 .omni-style .section-title {
     color: #4d4d4d;
     font-size: 18px;
@@ -1791,6 +1761,36 @@ body.omni-print-style.receipt {
 
 .omni-style .contact.selected:hover {
     background-color: transparent;
+}
+
+.omni-style .entity-picture {
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    height: 50px;
+    margin-right: 14px;
+    width: 50px;
+}
+
+.omni-style .entity-big-picture {
+    height: 64px;
+    margin-left: 19px;
+    margin-right: 19px;
+    width: 64px;
+}
+
+.omni-style .entity-big-picture > img {
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+}
+
+.omni-style .entity-huge-picture {
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    height: 96px;
+    width: 96px;
 }
 
 .omni-style .entity-id {

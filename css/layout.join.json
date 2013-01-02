@@ -12,7 +12,7 @@
                 "parts/chart.part.css", "parts/footer.part.css",
                 "parts/header.part.css", "parts/login.part.css",
                 "printing/base.part.css", "structs/contact.part.css",
-                "structs/entity_details.part.css"]
+                "structs/entity.part.css"]
     },
     "layout-min.css" : {
         "files" : ["base/base.part.css",
@@ -27,7 +27,7 @@
                 "parts/chart.part.css", "parts/footer.part.css",
                 "parts/header.part.css", "parts/login.part.css",
                 "printing/base.part.css", "structs/contact.part.css",
-                "structs/entity_details.part.css"],
+                "structs/entity.part.css"],
         "minify" : "css"
     }
 }
