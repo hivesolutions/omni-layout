@@ -1,6 +1,8 @@
 {
     "layout.css" : {
-        "files" : ["base/base.part.css", "lists/welcome.part.css",
+        "files" : ["base/base.part.css",
+                "drop_fields/entities_search.part.css",
+                "lists/navigation.part.css", "lists/welcome.part.css",
                 "panels/chat.part.css", "panels/login_extra.part.css",
                 "panels/login.part.css", "panels/panel.part.css",
                 "panels/permission.part.css", "panels/success.part.css",
@@ -8,7 +10,9 @@
                 "printing/base.part.css"]
     },
     "layout-min.css" : {
-        "files" : ["base/base.part.css", "lists/welcome.part.css",
+        "files" : ["base/base.part.css",
+                "drop_fields/entities_search.part.css",
+                "lists/navigation.part.css", "lists/welcome.part.css",
                 "panels/chat.part.css", "panels/login_extra.part.css",
                 "panels/login.part.css", "panels/panel.part.css",
                 "panels/permission.part.css", "panels/success.part.css",

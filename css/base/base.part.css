@@ -754,94 +754,6 @@ body.omni-style.no-selection {
 
 
 
-.list.navigation-list {
-    font-size: 12px;
-    list-style: none;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    text-transform: uppercase;
-}
-
-.list.navigation-list.navigation-mini {
-    font-size: 10px;
-}
-
-.list.navigation-list > li {
-    border-bottom: 1px dashed #eaeaea;
-    padding: 17px 12px 17px 12px;
-    text-align: right;
-}
-
-.list.navigation-list.navigation-left > li {
-    text-align: left;
-}
-
-.list.navigation-list.navigation-mini > li {
-    padding: 12px 12px 12px 12px;
-    text-align: left;
-}
-
-.list.navigation-list > li a {
-    color: #777777;
-    cursor: pointer;
-    transition-duration: 0.5s;
-    -o-transition-duration: 0.5s;
-    -moz-transition-duration: 0.5s;
-    -webkit-transition-duration: 0.5s;
-}
-
-.list.navigation-list.navigation-mini > li > a {
-    color: #5d5d5d;
-}
-
-.list.navigation-list > li a:hover {
-    text-decoration: none;
-}
-
-.list.navigation-list > li:first-child {
-    padding: 24px 22px 11px 12px;
-}
-
-.list.navigation-list > li:first-child > a {
-    color: #4d4d4d;
-}
-
-.list.navigation-list.navigation-mini > li:first-child > a {
-    color: #2d2d2d;
-}
-
-.list.navigation-sub-list {
-    color: #777777;
-    display: none;
-    font-size: 10px;
-    list-style: none;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    text-transform: uppercase;
-}
-
-.list.navigation-sub-list > li {
-    padding: 10px 12px 0px 0px;
-}
-
-.list.navigation-sub-list > li > a {
-    color: #777777;
-}
-
-.list.navigation-list .link-expand {
-    display: block;
-    float: right;
-    text-align: right;
-    width: 12px;
-}
-
-.list.navigation-list.navigation-left .link-expand {
-    text-align: center;
-}
-
-.list.navigation-list.navigation-mini .link-expand {
-    text-align: center;
-}
 
 .entity-picture {
     border-radius: 4px 4px 4px 4px;
@@ -1217,103 +1129,33 @@ body.omni-style.no-selection {
 
 
 
-.faded-text {
+.omni-style .faded-text {
     color: #b3b3b3;
 }
 
-.inner-table {
+.omni-style .inner-table {
     border-bottom: none;
     border-top: none;
     padding: 12px 12px 12px 12px;
 }
 
-.small-caps {
+.omni-style .small-caps {
     font-size: smaller;
     text-transform: uppercase;
 }
 
-.table tr th.medium-input {
+.omni-style .table tr th.medium-input {
     width: 150px;
 }
 
-.table tr th.longer-input {
+.omni-style .table tr th.longer-input {
     width: 250px;
 }
 
-.omni-style  .map {
+.omni-style .map {
     border: 1px solid #eaeaea;
     box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     margin-top: 10px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-.omni-style .drop-field.entities-search ul {
-    border: 1px solid #eaeaea;
-}
-
-.omni-style .drop-field.entities-search li {
-    border-color: #f2f2f2;
-    padding: 8px 6px 8px 6px;
-}
-
-.omni-style .drop-field.entities-search li.selected {
-    background-color: #f4f4f4;
-}
-
-.omni-style .drop-field.entities-search li:hover {
-    background-color: #f4f4f4;
-}
-
-.omni-style .drop-field.entities-search .entity-picture {
-    margin-right: 10px;
-}
-
-.omni-style .drop-field.entities-search .entity-name {
-    color: #555555;
-    font-size: 14px;
-    font-weight: bold;
-    margin: 2px 0px 0px 0px;
-}
-
-.omni-style .drop-field.entities-search .entity-details {
-    color: #777777;
-    margin: 2px 0px 0px 0px;
-}
-
-.omni-style .drop-field.entities-search .entity-status {
-    background: transparent url(../images/entity-status.png) no-repeat;
-    height: 8px;
-    margin: 0px 0px 0px 0px;
-    width: 8px;
-}
-
-.omni-style .drop-field.entities-search .entity-status.enabled {
-    background-position: left 0px;
-}
-
-.omni-style .drop-field.entities-search .entity-status.disabled {
-    background-position: left -8px;
-}
-
-.omni-style .drop-field.entities-search .entity-description {
-    display: none;
-    line-height: 14px;
-    margin: 0px 0px 0px 0px;
-}
-
-.omni-style .drop-field.entities-search li.selected .entity-description,
-.omni-style .drop-field.entities-search li:hover .entity-description {
-    display: block;
 }
