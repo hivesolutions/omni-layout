@@ -1,0 +1,13 @@
+{
+    "main.js" : {
+        "files" : ["header.part.js", "apply.part.js", "extras/chat.part.js",
+                "extras/configurations.part.js", "extras/eureka.part.js",
+                "extras/scan.part.js", "footer.part.js"]
+    },
+    "main-min.js" : {
+        "files" : ["header.part.js", "apply.part.js", "extras/chat.part.js",
+                "extras/configurations.part.js", "extras/eureka.part.js",
+                "extras/scan.part.js", "footer.part.js"],
+        "minify" : "javascript"
+    }
+}
