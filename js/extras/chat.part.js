@@ -171,32 +171,48 @@
         };
 
         var statusProcessor = function(envelope) {
+            // retrieves the "global" reference to the body element
+            // used for the communication
+            var _body = jQuery("body");
+
+            // retrieves the username of the currently logged user
+            // to compare it with the one in the status update
+            var username = _body.data("username");
+
+            // retrieves the complete set of components (attributes)
+            // from the envelope containing the received message
             var status = envelope["status"];
             var objectId = envelope["object_id"];
-            var username = envelope["username"];
+            var _username = envelope["username"];
             var representation = envelope["representation"];
+
+            // in case the current status update refers the current
+            // users, must return immediately
+            if (username == _username) {
+                return;
+            }
 
             // updates the user structure information so that
             // it contains the latest version of the information
             // provided by the server data source
             var userStatus = matchedObject.data("user_status");
-            var userS = userStatus[username] || {};
+            var userS = userStatus[_username] || {};
             userS["status"] = status;
             userS["object_id"] = objectId;
-            userS["username"] = username;
+            userS["username"] = _username;
             userS["representation"] = representation;
-            userStatus[username] = userS;
+            userStatus[_username] = userS;
 
             switch (status) {
                 case "offline" :
                     var item = jQuery(".buddy-list > li[data-user_id="
-                                    + username + "]", matchedObject)
+                                    + _username + "]", matchedObject)
                     item.remove();
                     break;
 
                 default :
                     var item = jQuery(".buddy-list > li[data-user_id="
-                                    + username + "]", matchedObject)
+                                    + _username + "]", matchedObject)
                     if (item.length == 0) {
                         createItem(matchedObject, envelope);
                     }
