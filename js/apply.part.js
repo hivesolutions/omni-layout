@@ -11,8 +11,13 @@
         // (this is going to be a global scan)
         matchedObject.uscan();
 
+        // retrieves the chat elements for the the current
+        // structure and applies the chat logic on it
+        var chat = jQuery(".chat")
+        chat.uchat();
+
         // retrieves the eureka as the eureka and
-        // then starts the eurke logic on it
+        // then starts the eurka logic on it
         var eureka = jQuery(".eureka", matchedObject);
         eureka.ueureka();
     };

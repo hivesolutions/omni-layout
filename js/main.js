@@ -36,8 +36,13 @@
         // (this is going to be a global scan)
         matchedObject.uscan();
 
+        // retrieves the chat elements for the the current
+        // structure and applies the chat logic on it
+        var chat = jQuery(".chat")
+        chat.uchat();
+
         // retrieves the eureka as the eureka and
-        // then starts the eurke logic on it
+        // then starts the eurka logic on it
         var eureka = jQuery(".eureka", matchedObject);
         eureka.ueureka();
     };
@@ -91,12 +96,212 @@
             }
         };
 
+        var updateStatus = function(matchedObject) {
+            // retrieves the "global" reference to the body element
+            // to be used for the communication
+            var _body = jQuery("body");
+
+            // retrieves the url value to be used for the chat
+            // communication
+            var username = _body.data("username");
+            var url = matchedObject.attr("data-url");
+            jQuery.ajax({
+                        type : "get",
+                        url : url + "/chat/status.json",
+                        success : function(data) {
+                            for (var _username in data) {
+                                if (_username == username) {
+                                    continue;
+                                }
+
+                                var userS = data[_username];
+                                userS["username"] = _username;
+                                createItem(matchedObject, userS);
+                            }
+
+                            matchedObject.data("user_status", data);
+                        }
+                    });
+        };
+
+        var createItem = function(matchedObject, data) {
+            // retrieves the budy list for the current
+            // chat instance for which the item is going
+            // to be added
+            var budyList = jQuery(".buddy-list", matchedObject);
+
+            // unpacks the data structure into the various
+            // component of the user, in order to be able to
+            // construct the list item representing it
+            var status = data["status"];
+            var objectId = data["object_id"];
+            var username = data["username"];
+            var representation = data["representation"];
+
+            // creates the list item (budy item) used to represent
+            // the user and adds it to the buddy list
+            var item = jQuery("<li class=\"budy-" + status
+                    + "\" data-user_id=\"" + username + "\" data-object_id=\""
+                    + objectId + "\">" + representation + "</li>")
+            budyList.append(item);
+
+            // registers for the click event on the item so that
+            // a new chat panel is created for the the item in
+            // case it's required
+            item.click(function() {
+                        var element = jQuery(this);
+                        var name = element.html();
+                        var userId = element.attr("data-user_id");
+                        var objectId = element.attr("data-object_id");
+
+                        matchedObject.uchatpanel({
+                                    owner : matchedObject,
+                                    name : name,
+                                    user_id : userId,
+                                    object_id : objectId
+                                });
+                    });
+        };
+
+        var dataProcessor = function(data) {
+            // parses the data retrieving the json
+            // then unpacks the various attributes from it
+            var jsonData = jQuery.parseJSON(data);
+            var type = jsonData["type"];
+
+            switch (type) {
+                case "message" :
+                    messageProcessor(jsonData);
+                    break;
+
+                case "status" :
+                    statusProcessor(jsonData);
+                    break;
+
+                default :
+                    break;
+            }
+        };
+
+        var messageProcessor = function(envelope) {
+            // retrieves the main attributes from the
+            // message to be used in the processing
+            var message = envelope["message"];
+            var sender = envelope["sender"];
+
+            // tries to retrieve the panel associated with the
+            // sender in case no panel is found creates a new
+            // one to display the initial message
+            var panel = jQuery(".chat-panel[data-user_id=" + sender + "]",
+                    matchedObject);
+            if (panel.length == 0) {
+                var userStatus = matchedObject.data("user_status");
+                var userS = userStatus[sender];
+
+                var objectId = userS["object_id"];
+                var representation = userS["representation"];
+
+                panel = matchedObject.uchatpanel({
+                            owner : matchedObject,
+                            name : representation,
+                            user_id : sender,
+                            object_id : objectId
+                        });
+            }
+
+            panel.trigger("restore");
+            panel.uchatline({
+                        message : message
+                    });
+
+            // retrieves the reference to the audio object
+            // of the current object and plays it
+            var audio = jQuery("> audio", matchedObject);
+            audio[0].play();
+        };
+
+        var statusProcessor = function(envelope) {
+            var status = envelope["status"];
+            var objectId = envelope["object_id"];
+            var username = envelope["username"];
+            var representation = envelope["representation"];
+
+            // updates the user structure information so that
+            // it contains the latest version of the information
+            // provided by the server data source
+            var userStatus = matchedObject.data("user_status");
+            var userS = userStatus[username] || {};
+            userS["status"] = status;
+            userS["object_id"] = objectId;
+            userS["username"] = username;
+            userS["representation"] = representation;
+            userStatus[username] = userS;
+
+            switch (status) {
+                case "offline" :
+                    var item = jQuery(".buddy-list > li[data-user_id="
+                                    + username + "]", matchedObject)
+                    item.remove();
+                    break;
+
+                default :
+                    var item = jQuery(".buddy-list > li[data-user_id="
+                                    + username + "]", matchedObject)
+                    if (item.length == 0) {
+                        createItem(matchedObject, envelope);
+                    }
+                    item.removeClass("budy-online");
+                    item.removeClass("budy-busy");
+                    item.removeClass("budy-unavailable");
+                    item.addClass("budy-" + status);
+                    break;
+            }
+        };
+
         // iterateas over each of the matched object to add the sound
         // element to be used in notification
         matchedObject.each(function(index, element) {
                     // retrieves the reference to the current element in
                     // iteration
                     var _element = jQuery(this);
+
+                    // retrieves the "global" reference to the body element
+                    // to be used for the communication
+                    var _body = jQuery("body");
+
+                    // retrieves the reference to the variable containing
+                    var username = _body.data("username");
+
+                    // retrieves the url value to be used for the chat
+                    // communication
+                    var url = _element.attr("data-url");
+
+                    // starts the communication infra-structure with a
+                    // simple timeout and the default callback operations
+                    _element.communication("default", {
+                                url : url + "/communication",
+                                channels : ["public", "chat/" + username],
+                                timeout : 500,
+                                dataCallbackFunctions : [dataProcessor]
+                            });
+
+                    // registers for the communication connected event so
+                    // that the user is notified about the new connection
+                    _element.bind("stream_connected", function() {
+                                console.info("conectado");
+                            });
+
+                    // registers for the communication disconnected event so
+                    // that the user is notified about the closing of the connection
+                    _element.bind("stream_disconnected", function() {
+                                console.info("deconectado");
+                            });
+
+                    // registers for the communication error event so
+                    // that the user is notified about the error
+                    _element.bind("stream_error", function() {
+                                console.info("error");
+                            });
 
                     // retrieves the value of the sound ti be played (the
                     // url to the sound to be played)
@@ -105,6 +310,11 @@
 
                     // adds the audio element to the matched object
                     matchedObject.append(audio);
+
+                    // updates the status information for the current
+                    // element this should run a remote query to retrieve
+                    // the most up to date information on all "buddies"
+                    updateStatus(_element);
                 });
 
         // registers for the event triggered when a new chat
@@ -136,6 +346,7 @@
 
         // retrives the various options to be used in the
         // creation of the chat panel
+        var owner = options["owner"];
         var name = options["name"];
         var userId = options["user_id"];
         var objectId = options["object_id"];
@@ -321,18 +532,15 @@
                                 message : textArea.val()
                             });
 
-                    // ----------------- THIS SHOULD BE CHANGED ----------------------
-
-                    var _body = jQuery("body");
-                    _body.communication("data", {
+                    // uses the communication channel to send the
+                    // chat data to the other end
+                    owner.communication("data", {
                                 data : JSON.stringify({
                                             type : "chat",
                                             receiver : userId,
                                             message : textArea.val()
                                         })
                             });
-
-                    /// ---------------------------- END OF REMOVAL ----------------------
 
                     // unsets the value from the text area, this should
                     // be considered a clenaup operation
@@ -437,188 +645,6 @@
         contents.scrollTop(scrollHeight);
     };
 })(jQuery);
-
-var dataProcessor = function(data) {
-    // parses the data retrieving the json
-    // then unpacks the various attributes from it
-    var jsonData = jQuery.parseJSON(data);
-    var type = jsonData["type"];
-
-    switch (type) {
-        case "message" :
-            messageProcessor(jsonData);
-            break;
-
-        case "status" :
-            statusProcessor(jsonData);
-            break;
-
-        default :
-            break;
-    }
-};
-
-var messageProcessor = function(envelope) {
-    // retrieves the main attributes from the
-    // message to be used in the processing
-    var message = envelope["message"];
-    var sender = envelope["sender"];
-
-    // tries to retrieve the panel associated with the
-    // sender in case no panel is found creates a new
-    // one to display the initial message
-    var panel = jQuery(".chat-panel[data-user_id=" + sender + "]");
-    if (panel.length == 0) {
-        var status = jQuery("body").data("user_status");
-        var userS = status[sender];
-
-        var objectId = userS["object_id"];
-        var representation = userS["representation"];
-
-        // @TODO this is an hardcode
-        var chat = jQuery(".chat");
-        panel = chat.uchatpanel({
-                    name : representation,
-                    user_id : sender,
-                    object_id : objectId
-                });
-    }
-
-    panel.trigger("restore");
-    panel.uchatline({
-                message : message
-            });
-
-    // @TODO this is quite some hardcode
-    var chatAudio = jQuery(".chat > audio");
-    chatAudio[0].play();
-};
-
-var statusProcessor = function(envelope) {
-    var status = envelope["status"];
-    var objectId = envelope["object_id"];
-    var username = envelope["username"];
-    var representation = envelope["representation"];
-
-    switch (status) {
-        case "offline" :
-            var item = jQuery(".buddy-list > li[data-user_id=" + username + "]")
-            item.remove();
-            break;
-
-        default :
-            var item = jQuery(".buddy-list > li[data-user_id=" + username + "]")
-            if (item.length == 0) {
-                var item = jQuery("<li class=\"budy-" + status
-                        + "\" data-user_id=\"" + username
-                        + "\" data-object_id=\"" + objectId + "\">"
-                        + representation + "</li>")
-                // @TODO: this is an hardcode
-                jQuery(".buddy-list").append(item);
-
-                jQuery(".buddy-list > li").click(function() {
-                            var element = jQuery(this);
-                            var name = element.html();
-                            var userId = element.attr("data-user_id");
-                            var objectId = element.attr("data-object_id");
-
-                            // @TODO this is an hardcode
-                            var chat = jQuery(".chat");
-                            chat.uchatpanel({
-                                        name : name,
-                                        user_id : userId,
-                                        object_id : objectId
-                                    });
-                        });
-            }
-            item.removeClass("budy-online");
-            item.removeClass("budy-busy");
-            item.removeClass("budy-unavailable");
-            item.addClass("budy-" + status);
-            break;
-    }
-};
-
-jQuery(document).ready(function() {
-    jQuery(".chat").uchat();
-
-    // retrieves the "global" reference to the body element
-    // to be used for the communication
-    var _body = jQuery("body");
-
-    // retrieves the reference to the variable containing
-    var username = _body.data("username");
-    var mvcPath = _body.data("mvc_path");
-
-    jQuery.ajax({
-                type : "get",
-                url : mvcPath + "omni_web_adm/chat/status.json",
-                success : function(data) {
-                    for (var _username in data) {
-                        if (_username == username) {
-                            continue;
-                        }
-
-                        var userS = data[_username];
-
-                        var status = userS["status"];
-                        var objectId = userS["object_id"];
-                        var representation = userS["representation"];
-
-                        var item = jQuery("<li class=\"budy-" + status
-                                + "\" data-user_id=\"" + _username
-                                + "\" data-object_id=\"" + objectId + "\">"
-                                + representation + "</li>")
-                        // @TODO: this is an hardcode
-                        jQuery(".buddy-list").append(item);
-                    }
-
-                    jQuery(".buddy-list > li").click(function() {
-                                var element = jQuery(this);
-                                var name = element.html();
-                                var userId = element.attr("data-user_id");
-                                var objectId = element.attr("data-object_id");
-
-                                // @TODO this is an hardcode
-                                var chat = jQuery(".chat");
-                                chat.uchatpanel({
-                                            name : name,
-                                            user_id : userId,
-                                            object_id : objectId
-                                        });
-                            });
-
-                    jQuery("body").data("user_status", data);
-                }
-            });
-
-    // starts the communication infra-structure with a
-    // simple timeout and the default callback operations
-    _body.communication("default", {
-                url : mvcPath + "omni_web_adm/communication",
-                channels : ["public", "chat/" + username],
-                timeout : 500,
-                dataCallbackFunctions : [dataProcessor]
-            });
-
-    // registers for the communication connected event so
-    // that the user is notified about the new connection
-    _body.bind("stream_connected", function() {
-                console.info("conectado");
-            });
-
-    // registers for the communication disconnected event so
-    // that the user is notified about the closing of the connection
-    _body.bind("stream_disconnected", function() {
-                console.info("deconectado");
-            });
-
-    // registers for the communication error event so
-    // that the user is notified about the error
-    _body.bind("stream_error", function() {
-                console.info("error");
-            });
-});
 
 (function($) {
     jQuery.fn.uconfigurations = function(options) {
@@ -784,110 +810,106 @@ jQuery(document).ready(function() {
 })(jQuery);
 
 jQuery(document).ready(function() {
-            // retrieves the body
-            var _body = jQuery("body");
+    // retrieves the body
+    var _body = jQuery("body");
 
-            // retrieves the filters
-            var filter = jQuery(".filter");
+    // retrieves the filters
+    var filter = jQuery(".filter");
 
-            // applies the ui component to the body
-            _body.uxapply();
+    // applies the ui component to the body
+    _body.uxapply();
 
-            // FAZER UM PLUGIN PARA SUBSTITUI ESTE CHAMADO TOGGLE VISIBLE
-            jQuery(".filter-button").click(function() {
-                        // retrieves the element
-                        var element = jQuery(this);
+    // FAZER UM PLUGIN PARA SUBSTITUI ESTE CHAMADO TOGGLE VISIBLE
+    jQuery(".filter-button").click(function() {
+                // retrieves the element
+                var element = jQuery(this);
 
-                        // retrieves the filter and the filter options
-                        var filter = element.parents(".filter");
-                        var filterOptions = jQuery(".filter-options", filter);
+                // retrieves the filter and the filter options
+                var filter = element.parents(".filter");
+                var filterOptions = jQuery(".filter-options", filter);
 
-                        // checks if the filter options is visible
-                        var filterOptionsVisible = filterOptions.is(":visible");
+                // checks if the filter options is visible
+                var filterOptionsVisible = filterOptions.is(":visible");
 
-                        if (filterOptionsVisible) {
-                            filterOptions.hide();
-                            element.removeClass("selected");
-                        } else {
-                            filterOptions.show();
-                            element.addClass("selected");
-                        }
-                    });
+                if (filterOptionsVisible) {
+                    filterOptions.hide();
+                    element.removeClass("selected");
+                } else {
+                    filterOptions.show();
+                    element.addClass("selected");
+                }
+            });
 
-            // TODO: Remove this and generalize this concepts
-            jQuery(".menu").bind("show", function() {
-                        // tenho de apagar o que est actualmente e mostrar o outro
-                        // ou fazer push para a stack para depois fazer pop
-                        var element = jQuery(this);
+    // TODO: Remove this and generalize this concepts
+    jQuery(".menu").bind("show", function() {
+                // tenho de apagar o que est actualmente e mostrar o outro
+                // ou fazer push para a stack para depois fazer pop
+                var element = jQuery(this);
 
-                        jQuery(".switch-panel").hide();
-                        jQuery(".account-panel").show();
+                jQuery(".switch-panel").hide();
+                jQuery(".account-panel").show();
 
-                        // repositions the menu (link)
-                        element.uxmenulink("reposition");
-                    });
+                // repositions the menu (link)
+                element.uxmenulink("reposition");
+            });
 
-            // TODO: Remove this and generalize this concepts
-            jQuery(".switch").click(function() {
-                        // tenho de apagar o que est actualmente e mostrar o outro
-                        // ou fazer push para a stack para depois fazer pop
-                        var element = jQuery(this);
-                        var menu = element.parents(".menu");
+    // TODO: Remove this and generalize this concepts
+    jQuery(".switch").click(function() {
+                // tenho de apagar o que est actualmente e mostrar o outro
+                // ou fazer push para a stack para depois fazer pop
+                var element = jQuery(this);
+                var menu = element.parents(".menu");
 
-                        jQuery(".account-panel").hide();
-                        jQuery(".switch-panel").show();
+                jQuery(".account-panel").hide();
+                jQuery(".switch-panel").show();
 
-                        // repositions the menu (link)
-                        menu.uxmenulink("reposition");
-                    });
+                // repositions the menu (link)
+                menu.uxmenulink("reposition");
+            });
 
-            // TODO: Remove this and generalize this concepts
-            jQuery(".back").click(function() {
-                        // tenho de apagar o que est actualmente e mostrar o outro
-                        // ou fazer push para a stack para depois fazer pop
-                        var element = jQuery(this);
-                        var menu = element.parents(".menu");
+    // TODO: Remove this and generalize this concepts
+    jQuery(".back").click(function() {
+                // tenho de apagar o que est actualmente e mostrar o outro
+                // ou fazer push para a stack para depois fazer pop
+                var element = jQuery(this);
+                var menu = element.parents(".menu");
 
-                        jQuery(".account-panel").show();
-                        jQuery(".switch-panel").hide();
+                jQuery(".account-panel").show();
+                jQuery(".switch-panel").hide();
 
-                        // repositions the menu (link)
-                        menu.uxmenulink("reposition");
-                    });
+                // repositions the menu (link)
+                menu.uxmenulink("reposition");
+            });
 
-            // @TODO: had to add this to manipulate windows (better with ux?)
-            jQuery(".window-paypal-api-service .button-cancel").click(
-                    function() {
-                        jQuery(".window-paypal-api-service").uxwindow("hide");
-                    });
+    // @TODO: had to add this to manipulate windows (better with ux?)
+    jQuery(".window-paypal-api-service .button-cancel").click(function() {
+                jQuery(".window-paypal-api-service").uxwindow("hide");
+            });
 
-            jQuery(".window-paypal-api-service .button-confirm").click(
-                    function() {
-                        jQuery(".window-paypal-api-service .form").submit();
-                        jQuery(".window-paypal-api-service").uxwindow("hide");
-                    });
+    jQuery(".window-paypal-api-service .button-confirm").click(function() {
+                jQuery(".window-paypal-api-service .form").submit();
+                jQuery(".window-paypal-api-service").uxwindow("hide");
+            });
 
-            jQuery(".paypal-api-service-authorize-button").click(function() {
-                        jQuery(".window-paypal-api-service").uxwindow("show");
-                    });
+    jQuery(".paypal-api-service-authorize-button").click(function() {
+                jQuery(".window-paypal-api-service").uxwindow("show");
+            });
 
-            jQuery(".window-easypay-api-service .button-cancel").click(
-                    function() {
-                        jQuery(".window-easypay-api-service").uxwindow("hide");
-                    });
+    jQuery(".window-easypay-api-service .button-cancel").click(function() {
+                jQuery(".window-easypay-api-service").uxwindow("hide");
+            });
 
-            jQuery(".window-easypay-api-service .button-confirm").click(
-                    function() {
-                        jQuery(".window-easypay-api-service .form").submit();
-                        jQuery(".window-easypay-api-service").uxwindow("hide");
-                    });
+    jQuery(".window-easypay-api-service .button-confirm").click(function() {
+                jQuery(".window-easypay-api-service .form").submit();
+                jQuery(".window-easypay-api-service").uxwindow("hide");
+            });
 
-            jQuery(".easypay-api-service-authorize-button").click(function() {
-                        jQuery(".window-easypay-api-service").uxwindow("show");
-                    });
+    jQuery(".easypay-api-service-authorize-button").click(function() {
+                jQuery(".window-easypay-api-service").uxwindow("show");
+            });
 
-            // retrieves the urrent body element and then applies
-            // the uscope plugins to it
-            var _body = jQuery("body");
-            _body.uapply();
-        });
+    // retrieves the urrent body element and then applies
+    // the uscope plugins to it
+    var _body = jQuery("body");
+    _body.uapply();
+});
