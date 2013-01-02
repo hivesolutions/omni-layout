@@ -1,18 +1,10 @@
-.omni-style .entity-details-inner-container .entity-name {
-    color: #4d4d4d;
-    font-size: 20px;
-    font-weight: bold;
-    width: 380px;
-}
-
-.omni-style .entity-details-inner-container .entity-description {
-    color: #777777;
-    margin: 0px 0px 0px 0px;
-}
-
 .omni-style .entity-id {
     color: #777777;
     margin: 0px 0px 0px 0px;
+}
+
+.omni-style .tag.entity-id {
+    color: #ffffff;
 }
 
 .omni-style .entity-details-inner-container {
@@ -26,6 +18,18 @@
 
 .omni-style .entity-details-inner-container.full {
     width: 100%;
+}
+
+.omni-style .entity-details-inner-container .entity-name {
+    color: #4d4d4d;
+    font-size: 20px;
+    font-weight: bold;
+    width: 380px;
+}
+
+.omni-style .entity-details-inner-container .entity-description {
+    color: #777777;
+    margin: 0px 0px 0px 0px;
 }
 
 .omni-style .entity-details-container {
