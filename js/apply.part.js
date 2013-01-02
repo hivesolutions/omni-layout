@@ -11,6 +11,11 @@
         // (this is going to be a global scan)
         matchedObject.uscan();
 
+        // retrieves the menu elements for the the current
+        // structure and applies the menu logic on it
+        var menu = jQuery(".menu")
+        menu.umenu();
+
         // retrieves the chat elements for the the current
         // structure and applies the chat logic on it
         var chat = jQuery(".chat")
