@@ -246,7 +246,7 @@
                     // simple timeout and the default callback operations
                     _element.communication("default", {
                                 url : url + "/communication",
-                                channels : ["public", "chat/" + username],
+                                channels : ["chat/" + username],
                                 timeout : 500,
                                 dataCallbackFunctions : [dataProcessor]
                             });

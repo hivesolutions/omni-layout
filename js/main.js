@@ -54,6 +54,228 @@
 })(jQuery);
 
 (function($) {
+    jQuery.fn.uconfigurations = function(options) {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        // retrieves the various serializes (meta) elements
+        //from the contents and parses the ones that are meant
+        // to be parsed (using json)
+        var mvcPath = jQuery("#mvc-path", matchedObject).html();
+        var objectId = jQuery("#object-id", matchedObject).html();
+        var username = jQuery("#username", matchedObject).html();
+        var representation = jQuery("#representation", matchedObject).html();
+        var definitions_s = jQuery("#definitions", matchedObject).html();
+        var alias_s = jQuery("#alias", matchedObject).html();
+        var definitions = jQuery.parseJSON(definitions_s) || {};
+        var alias = jQuery.parseJSON(alias_s) || {};
+        var sections = definitions["sections"] || {};
+        var classIdUrl = definitions["class_id_url"] || {};
+
+        // creates the map that will hold the association between
+        // the section name and the relative path for it
+        var paths = {};
+
+        // iterates over all the sections to construct the correct
+        // paths map taking into account the alias map
+        for (name in sections) {
+            var section = sections[name];
+            var path = alias[section] || section;
+            paths[name] = path;
+        }
+
+        // creates the regular expression to be used to match the
+        // values that are going to be replaces in the template url
+        var tagRegex = new RegExp("\%\[[a-z]+\]", "g");
+
+        // iterates over all the elements in the class id url map
+        // to process their template items with the real section values
+        for (classId in classIdUrl) {
+            // retrieves the url for the current class identifier
+            // in iteration (to replace and process it)
+            var url = classIdUrl[classId];
+
+            // iterates continuously over all the token elements
+            // of the url to be replaced
+            while (true) {
+                // executes the tag regular expression and in case
+                // there is no match breaks the loop, nothing more
+                // to be replaced
+                var result = tagRegex.exec(url);
+                if (result == null) {
+                    break;
+                }
+
+                // retrieves the first result from the match (first
+                // and only group of the match)
+                result = result[0];
+
+                // retrieves the name of the tag from the result and
+                // uses it to retrieve the target relative path and
+                // replaces it in the url
+                var name = result.slice(2, result.length - 1)
+                var path = paths[name]
+                url = url.replace(result, path);
+            }
+
+            classIdUrl[classId] = url;
+        }
+
+        // updates the various (configuration) references in the
+        // element to be used for reference latter
+        matchedObject.data("mvc_path", mvcPath);
+        matchedObject.data("object_id", objectId);
+        matchedObject.data("username", username);
+        matchedObject.data("representation", representation);
+        matchedObject.data("definitions", definitions);
+        matchedObject.data("alias", alias);
+        matchedObject.data("sections", sections);
+        matchedObject.data("class_id_url", classIdUrl);
+    };
+})(jQuery);
+
+(function($) {
+    jQuery.fn.umenu = function(options) {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        // iterates over each of the menu elements
+        // to build them accordingly
+        matchedObject.each(function(index, element) {
+                    // retrieves the current element and the associated
+                    // switch and back buttons
+                    var _element = jQuery(this);
+                    var _switch = jQuery(".switch", _element);
+                    var back = jQuery(".back", _element);
+
+                    // registers for the show event so that whenever the
+                    // menu is displayed the account panel is shown
+                    _element.bind("show", function() {
+                                // tenho de apagar o que est actualmente e mostrar o outro
+                                // ou fazer push para a stack para depois fazer pop
+                                var element = jQuery(this);
+
+                                // sets the current reference to the menu as the element
+                                // currently in iteration
+                                var menu = _element;
+
+                                // retrieves the references for both the account and
+                                // the switch panels to be toggled
+                                var accountPanel = jQuery(".account-panel",
+                                        menu);
+                                var switchPanel = jQuery(".switch-panel", menu);
+
+                                // hides the switch panel and shows the account
+                                // panel (toggle of visibility)
+                                switchPanel.hide();
+                                accountPanel.show();
+
+                                // repositions the menu (link)
+                                element.uxmenulink("reposition");
+                            });
+
+                    // registers for the click event on the switch button in
+                    // order to be able hide the account panel and show the
+                    // correct switch panel
+                    _switch.click(function() {
+                                // tenho de apagar o que est actualmente e mostrar o outro
+                                // ou fazer push para a stack para depois fazer pop
+                                var element = jQuery(this);
+                                var menu = element.parents(".menu");
+
+                                // retrieves the references for both the account and
+                                // the switch panels to be toggled
+                                var accountPanel = jQuery(".account-panel",
+                                        menu);
+                                var switchPanel = jQuery(".switch-panel", menu);
+
+                                // hides the account panel and shows the switch
+                                // panel (toggle of visibility)
+                                accountPanel.hide();
+                                switchPanel.show();
+
+                                // repositions the menu (link)
+                                menu.uxmenulink("reposition");
+                            });
+
+                    // registers for the click event on the back button in
+                    // order to be able show the account panel and hide the
+                    // correct switch panel
+                    back.click(function() {
+                                // tenho de apagar o que est actualmente e mostrar o outro
+                                // ou fazer push para a stack para depois fazer pop
+                                var element = jQuery(this);
+                                var menu = element.parents(".menu");
+
+                                // retrieves the references for both the account and
+                                // the switch panels to be toggled
+                                var accountPanel = jQuery(".account-panel",
+                                        menu);
+                                var switchPanel = jQuery(".switch-panel", menu);
+
+                                // hides the account panel and shows the switch
+                                // panel (toggle of visibility)
+                                accountPanel.show();
+                                switchPanel.hide();
+
+                                // repositions the menu (link)
+                                menu.uxmenulink("reposition");
+                            });
+                });
+
+        return matchedObject;
+    };
+})(jQuery);
+
+(function($) {
+    jQuery.fn.uscan = function(options) {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        // retrieves the reference to the top level
+        // document and body elements
+        var _document = jQuery(document);
+        var _body = jQuery("body");
+
+        // registers for the scan event in the document
+        // to be able to react to it
+        _document.bind("scan", function(event, value) {
+                    // retrieves the mvc path and the class id url
+                    // map for the current page
+                    var mvcPath = _body.data("mvc_path");
+                    var classIdUrl = _body.data("class_id_url");
+
+                    // retrieves the version of the barcode then
+                    // retrieves the class of the object that is
+                    // represented by the barcode and then retrieves
+                    // the identifier of the object
+                    var version = value.slice(0, 2);
+                    var classId = value.slice(2, 6);
+                    var objectId = value.slice(6);
+
+                    // converts the class identifier into an integer
+                    // to be used in the resolution
+                    var classIdInt = parseInt(classId);
+
+                    // constructs the url using the base mvc path and
+                    // appending the url to the requested class
+                    var baseUrl = mvcPath + classIdUrl[classIdInt];
+
+                    // replaces the left padded zeros in the object
+                    // id to contruct the final object id, then uses
+                    // it to redirect the user agent to the show page
+                    objectId = objectId.replace(/^0+|\s+$/g, "");
+                    document.location = baseUrl + objectId;
+                });
+
+        // registers for the scan erro event in the document
+        // to be able to react to it
+        _document.bind("scan_error", function(event, value) {
+                });
+    };
+})(jQuery);
+
+(function($) {
     jQuery.fn.uchat = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -301,7 +523,7 @@
                     // simple timeout and the default callback operations
                     _element.communication("default", {
                                 url : url + "/communication",
-                                channels : ["public", "chat/" + username],
+                                channels : ["chat/" + username],
                                 timeout : 500,
                                 dataCallbackFunctions : [dataProcessor]
                             });
@@ -668,87 +890,6 @@
 })(jQuery);
 
 (function($) {
-    jQuery.fn.uconfigurations = function(options) {
-        // sets the jquery matched object
-        var matchedObject = this;
-
-        // retrieves the various serializes (meta) elements
-        //from the contents and parses the ones that are meant
-        // to be parsed (using json)
-        var mvcPath = jQuery("#mvc-path", matchedObject).html();
-        var objectId = jQuery("#object-id", matchedObject).html();
-        var username = jQuery("#username", matchedObject).html();
-        var representation = jQuery("#representation", matchedObject).html();
-        var definitions_s = jQuery("#definitions", matchedObject).html();
-        var alias_s = jQuery("#alias", matchedObject).html();
-        var definitions = jQuery.parseJSON(definitions_s) || {};
-        var alias = jQuery.parseJSON(alias_s) || {};
-        var sections = definitions["sections"] || {};
-        var classIdUrl = definitions["class_id_url"] || {};
-
-        // creates the map that will hold the association between
-        // the section name and the relative path for it
-        var paths = {};
-
-        // iterates over all the sections to construct the correct
-        // paths map taking into account the alias map
-        for (name in sections) {
-            var section = sections[name];
-            var path = alias[section] || section;
-            paths[name] = path;
-        }
-
-        // creates the regular expression to be used to match the
-        // values that are going to be replaces in the template url
-        var tagRegex = new RegExp("\%\[[a-z]+\]", "g");
-
-        // iterates over all the elements in the class id url map
-        // to process their template items with the real section values
-        for (classId in classIdUrl) {
-            // retrieves the url for the current class identifier
-            // in iteration (to replace and process it)
-            var url = classIdUrl[classId];
-
-            // iterates continuously over all the token elements
-            // of the url to be replaced
-            while (true) {
-                // executes the tag regular expression and in case
-                // there is no match breaks the loop, nothing more
-                // to be replaced
-                var result = tagRegex.exec(url);
-                if (result == null) {
-                    break;
-                }
-
-                // retrieves the first result from the match (first
-                // and only group of the match)
-                result = result[0];
-
-                // retrieves the name of the tag from the result and
-                // uses it to retrieve the target relative path and
-                // replaces it in the url
-                var name = result.slice(2, result.length - 1)
-                var path = paths[name]
-                url = url.replace(result, path);
-            }
-
-            classIdUrl[classId] = url;
-        }
-
-        // updates the various (configuration) references in the
-        // element to be used for reference latter
-        matchedObject.data("mvc_path", mvcPath);
-        matchedObject.data("object_id", objectId);
-        matchedObject.data("username", username);
-        matchedObject.data("representation", representation);
-        matchedObject.data("definitions", definitions);
-        matchedObject.data("alias", alias);
-        matchedObject.data("sections", sections);
-        matchedObject.data("class_id_url", classIdUrl);
-    };
-})(jQuery);
-
-(function($) {
     jQuery.fn.ueureka = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -778,127 +919,6 @@
                     // item with it
                     var link = baseUrl + objectId;
                     item["link"] = link;
-                });
-    };
-})(jQuery);
-
-(function($) {
-    jQuery.fn.umenu = function(options) {
-        // sets the jquery matched object
-        var matchedObject = this;
-
-        matchedObject.each(function(index, element) {
-                    var _element = jQuery(this);
-                    var _switch = jQuery(".switch", _element);
-                    var back = jQuery(".back", _element);
-
-                    _element.bind("show", function() {
-                                // tenho de apagar o que est actualmente e mostrar o outro
-                                // ou fazer push para a stack para depois fazer pop
-                                var element = jQuery(this);
-
-                                // sets the current reference to the menu as the element
-                                // currently in iteration
-                                var menu = _element;
-
-                                // retrieves the references for both the account and
-                                // the switch panels to be toggled
-                                var accountPanel = jQuery(".account-panel",
-                                        menu);
-                                var switchPanel = jQuery(".switch-panel", menu);
-
-                                // hides the switch panel and shows the account
-                                // panel (toggle of visibility)
-                                switchPanel.hide();
-                                accountPanel.show();
-
-                                // repositions the menu (link)
-                                element.uxmenulink("reposition");
-                            });
-
-                    _switch.click(function() {
-                                // tenho de apagar o que est actualmente e mostrar o outro
-                                // ou fazer push para a stack para depois fazer pop
-                                var element = jQuery(this);
-                                var menu = element.parents(".menu");
-
-                                jQuery(".account-panel", menu).hide();
-                                jQuery(".switch-panel", menu).show();
-
-                                // repositions the menu (link)
-                                menu.uxmenulink("reposition");
-                            });
-
-                    back.click(function() {
-                                // tenho de apagar o que est actualmente e mostrar o outro
-                                // ou fazer push para a stack para depois fazer pop
-                                var element = jQuery(this);
-                                var menu = element.parents(".menu");
-
-                                // retrieves the references for both the account and
-                                // the switch panels to be toggled
-                                var accountPanel = jQuery(".account-panel",
-                                        menu);
-                                var switchPanel = jQuery(".switch-panel", menu);
-
-                                // hides the account panel and shows the switch
-                                // panel (toggle of visibility)
-                                accountPanel.show();
-                                switchPanel.hide();
-
-                                // repositions the menu (link)
-                                menu.uxmenulink("reposition");
-                            });
-                });
-
-        return matchedObject;
-    };
-})(jQuery);
-
-(function($) {
-    jQuery.fn.uscan = function(options) {
-        // sets the jquery matched object
-        var matchedObject = this;
-
-        // retrieves the reference to the top level
-        // document and body elements
-        var _document = jQuery(document);
-        var _body = jQuery("body");
-
-        // registers for the scan event in the document
-        // to be able to react to it
-        _document.bind("scan", function(event, value) {
-                    // retrieves the mvc path and the class id url
-                    // map for the current page
-                    var mvcPath = _body.data("mvc_path");
-                    var classIdUrl = _body.data("class_id_url");
-
-                    // retrieves the version of the barcode then
-                    // retrieves the class of the object that is
-                    // represented by the barcode and then retrieves
-                    // the identifier of the object
-                    var version = value.slice(0, 2);
-                    var classId = value.slice(2, 6);
-                    var objectId = value.slice(6);
-
-                    // converts the class identifier into an integer
-                    // to be used in the resolution
-                    var classIdInt = parseInt(classId);
-
-                    // constructs the url using the base mvc path and
-                    // appending the url to the requested class
-                    var baseUrl = mvcPath + classIdUrl[classIdInt];
-
-                    // replaces the left padded zeros in the object
-                    // id to contruct the final object id, then uses
-                    // it to redirect the user agent to the show page
-                    objectId = objectId.replace(/^0+|\s+$/g, "");
-                    document.location = baseUrl + objectId;
-                });
-
-        // registers for the scan erro event in the document
-        // to be able to react to it
-        _document.bind("scan_error", function(event, value) {
                 });
     };
 })(jQuery);
