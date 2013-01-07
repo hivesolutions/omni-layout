@@ -29,6 +29,26 @@ body.omni-print-style.receipt {
     font-size: 20px;
 }
 
+.omni-print-style .left {
+    float: left;
+}
+
+.omni-print-style .right {
+    float: right;
+}
+
+.omni-print-style .text-left {
+    text-align: left;
+}
+
+.omni-print-style .text-right {
+    text-align: right;
+}
+
+.omni-print-style .text-center {
+    text-align: center;
+}
+
 .omni-print-style .clear {
     clear: both;
 }
