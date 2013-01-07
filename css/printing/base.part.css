@@ -29,6 +29,10 @@ body.omni-print-style.receipt {
     font-size: 20px;
 }
 
+.omni-print-style .clear {
+    clear: both;
+}
+
 .omni-print-style .header {
     border-bottom: 1px dashed #cccccc;
     margin: 0px 0px 24px 0px;
