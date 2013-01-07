@@ -525,7 +525,7 @@
                                 url : url + "/communication",
                                 channels : ["chat/" + username],
                                 timeout : 500,
-                                dataCallbackFunctions : [dataProcessor]
+                                callbacks : [dataProcessor]
                             });
 
                     // registers for the communication connected event so
