@@ -261,6 +261,12 @@ body.omni-style.no-selection {
     width: 50px;
 }
 
+.omni-style .list-window-input {
+    height: 26px;
+    margin-top: 8px;
+    width: 302px;
+}
+
 .omni-style .section-input {
 }
 
@@ -1872,6 +1878,7 @@ body.omni-print-style.receipt {
     float: left;
     font-size: 13px;
     line-height: 22px;
+    min-height: auto;
 }
 
 .omni-style .entity-details-list li .list-sub-label.replacer,

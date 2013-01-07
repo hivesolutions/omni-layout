@@ -261,6 +261,12 @@ body.omni-style.no-selection {
     width: 50px;
 }
 
+.omni-style .list-window-input {
+    height: 26px;
+    margin-top: 8px;
+    width: 302px;
+}
+
 .omni-style .section-input {
 }
 
