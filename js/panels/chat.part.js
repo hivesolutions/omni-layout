@@ -227,62 +227,61 @@
         // iterateas over each of the matched object to add the sound
         // element to be used in notification
         matchedObject.each(function(index, element) {
-                    // retrieves the reference to the current element in
-                    // iteration
-                    var _element = jQuery(this);
+            // retrieves the reference to the current element in
+            // iteration
+            var _element = jQuery(this);
 
-                    // retrieves the "global" reference to the body element
-                    // to be used for the communication
-                    var _body = jQuery("body");
+            // retrieves the "global" reference to the body element
+            // to be used for the communication
+            var _body = jQuery("body");
 
-                    // retrieves the reference to the variable containing
-                    var username = _body.data("username");
+            // retrieves the reference to the variable containing
+            var username = _body.data("username");
 
-                    // retrieves the url value to be used for the chat
-                    // communication
-                    var url = _element.attr("data-url");
+            // retrieves the url value to be used for the chat
+            // communication
+            var url = _element.attr("data-url");
 
-                    // starts the communication infra-structure with a
-                    // simple timeout and the default callback operations
-                    _element.communication("default", {
-                                url : url + "/communication",
-                                channels : ["chat/" + username],
-                                timeout : 500,
-                                callbacks : [dataProcessor]
-                            });
+            // starts the communication infra-structure with a
+            // simple timeout and the default callback operations
+            _element.communication("default", {
+                        url : url + "/communication",
+                        channels : ["chat/" + username],
+                        timeout : 500,
+                        callbacks : [dataProcessor]
+                    });
 
-                    // registers for the communication connected event so
-                    // that the user is notified about the new connection
-                    _element.bind("stream_connected", function() {
-                                console.info("conectado");
-                            });
+            // registers for the communication connected event so
+            // that the user is notified about the new connection
+            _element.bind("stream_connected", function() {
+                    });
 
-                    // registers for the communication disconnected event so
-                    // that the user is notified about the closing of the connection
-                    _element.bind("stream_disconnected", function() {
-                                console.info("deconectado");
-                            });
+            // registers for the communication disconnected event so
+            // that the user is notified about the closing of the connection
+            _element.bind("stream_disconnected", function() {
+                _body.uxalert("The server communication has been disconnected");
+            });
 
-                    // registers for the communication error event so
-                    // that the user is notified about the error
-                    _element.bind("stream_error", function() {
-                                console.info("error");
-                            });
+            // registers for the communication error event so
+            // that the user is notified about the error
+            _element.bind("stream_error", function() {
+                _body.uxalert("There was an error communicating with the server");
+            });
 
-                    // retrieves the value of the sound ti be played (the
-                    // url to the sound to be played)
-                    var sound = _element.attr("data-sound");
-                    var audio = jQuery("<audio src=\"" + sound
-                            + "\" preload=\"none\"></audio>");
+            // retrieves the value of the sound ti be played (the
+            // url to the sound to be played)
+            var sound = _element.attr("data-sound");
+            var audio = jQuery("<audio src=\"" + sound
+                    + "\" preload=\"none\"></audio>");
 
-                    // adds the audio element to the matched object
-                    matchedObject.append(audio);
+            // adds the audio element to the matched object
+            matchedObject.append(audio);
 
-                    // updates the status information for the current
-                    // element this should run a remote query to retrieve
-                    // the most up to date information on all "buddies"
-                    updateStatus(_element);
-                });
+            // updates the status information for the current
+            // element this should run a remote query to retrieve
+            // the most up to date information on all "buddies"
+            updateStatus(_element);
+        });
 
         // registers for the event triggered when a new chat
         // is reqeusted this shoud create a new chat panel
