@@ -549,7 +549,8 @@
                     // retrieves the value of the sound ti be played (the
                     // url to the sound to be played)
                     var sound = _element.attr("data-sound");
-                    var audio = jQuery("<audio src=\"" + sound + "\"></audio>");
+                    var audio = jQuery("<audio src=\"" + sound
+                            + "\" preload=\"none\"></audio>");
 
                     // adds the audio element to the matched object
                     matchedObject.append(audio);
