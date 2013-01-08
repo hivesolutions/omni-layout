@@ -248,6 +248,16 @@ body.omni-style.no-selection {
     width: 100px;
 }
 
+.omni-style .list-window-drop-input {
+    width: 328px;
+}
+
+.omni-style .list-window-drop-input > .text-field {
+    height: 26px;
+    margin-top: 6px;
+    width: 292px;
+}
+
 .omni-style .list-mini-input {
     height: 26px;
     margin-top: 6px;
