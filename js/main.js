@@ -563,7 +563,7 @@
         // registers for the event triggered when a new chat
         // is reqeusted this shoud create a new chat panel
         matchedObject.bind("new_chat", function() {
-                    var panels = matchedObject.data("panels", panels) || [];
+                    var panels = matchedObject.data("panels") || {};
                     placePanels(panels);
                 });
 
@@ -571,12 +571,12 @@
         // meant to be removed from the current system this
         // should remove the associated panel
         matchedObject.bind("delete_chat", function() {
-                    var panels = matchedObject.data("panels", panels) || [];
+                    var panels = matchedObject.data("panels") || {};
                     placePanels(panels);
                 });
 
         _window.resize(function() {
-                    var panels = matchedObject.data("panels", panels) || [];
+                    var panels = matchedObject.data("panels") || {};
                     placePanels(panels);
                 });
     };
@@ -704,7 +704,7 @@
         buttonClose.click(function(event) {
                     // retrieves the list of panels from the chat controllers
                     // and removes the current panel from it
-                    var panels = matchedObject.data("panels") || [];
+                    var panels = matchedObject.data("panels") || {};
                     delete panels[name];
 
                     // removes the contents of the chat panel and triggers
