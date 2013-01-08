@@ -264,7 +264,7 @@ body.omni-style.no-selection {
 .omni-style .list-window-input {
     height: 26px;
     margin-top: 8px;
-    width: 302px;
+    width: 314px;
 }
 
 .omni-style .section-input {
@@ -378,6 +378,14 @@ body.omni-style.no-selection {
     color: #4d4d4d;
     font-size: 13px;
     width: 428px;
+}
+
+.omni-style .list-window-label {
+    color: #777777;
+    font-size: 14px;
+    padding-right: 12px;
+    text-align: right;
+    width: 80px;
 }
 
 .omni-style .list-divider {
