@@ -536,13 +536,19 @@
             // registers for the communication disconnected event so
             // that the user is notified about the closing of the connection
             _element.bind("stream_disconnected", function() {
-                _body.uxalert("The server communication has been disconnected");
+                _body.uxinfo(
+                        "The server communication has been disconnected.\\n"
+                                + "Please contact your system administrator using [geral@hive.pt].",
+                        "Warning", "warning");
             });
 
             // registers for the communication error event so
             // that the user is notified about the error
             _element.bind("stream_error", function() {
-                _body.uxalert("There was an error communicating with the server");
+                _body.uxinfo(
+                        "There was an error communicating with the server.\\n"
+                                + "Please contact your system administrator using [geral@hive.pt].",
+                        "Warning", "warning");
             });
 
             // retrieves the value of the sound ti be played (the
