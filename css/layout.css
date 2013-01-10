@@ -807,6 +807,8 @@ body.omni-style.no-selection {
     box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
+    list-style: none;
+    margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
 }
 
