@@ -226,6 +226,10 @@ body.omni-style.no-selection {
     width: 414px;
 }
 
+.omni-style .list-medium-drop-input {
+    width: 428px;
+}
+
 .omni-style .list-medium-drop-input > .text-field {
     height: 26px;
     margin-top: 6px;
@@ -249,9 +253,17 @@ body.omni-style.no-selection {
     width: 244px;
 }
 
+.omni-style .list-small-drop-input {
+    width: 136px;
+}
+
 .omni-style .list-small-drop-input > .text-field {
     height: 22px;
     width: 100px;
+}
+
+.omni-style .list-window-drop-input {
+    width: 328px;
 }
 
 .omni-style .list-window-drop-input > .text-field {
