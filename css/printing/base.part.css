@@ -54,8 +54,7 @@ body.omni-print-style.receipt {
 }
 
 .omni-print-style .header {
-    border-bottom: 1px dashed #cccccc;
-    margin: 0px 0px 24px 0px;
+    margin: 0px 0px 16px 0px;
     padding: 0px 0px 12px 0px;
 }
 
@@ -87,7 +86,7 @@ body.omni-print-style.receipt {
 
 .omni-print-style .header .header-side h3 {
     font-size: 12px;
-    margin: 0px 0px 0px 0px;
+    line-height: 18px;
 }
 
 .omni-print-style .body h1 {
@@ -96,7 +95,6 @@ body.omni-print-style.receipt {
 }
 
 .omni-print-style .footer {
-    border-top: 1px dashed #cccccc;
     font-size: 10px;
     margin: 36px 0px 0px 0px;
     padding: 12px 0px 0px 0px;
@@ -117,12 +115,18 @@ body.omni-print-style.receipt {
 
 .omni-print-style.small .header .header-details h1 {
     font-size: 16px;
+    line-height: 22px;
     margin: 0px 0px 2px 0px;
 }
 
 .omni-print-style.small .header .header-details h2 {
     font-size: 14px;
+    line-height: 20px;
     margin: 2px 0px 2px 0px;
+}
+
+.omni-print-style.small .header .header-side h3 {
+    margin: 26px 0px 0px 0px;
 }
 
 .omni-print-style.small .body h1 {
@@ -147,7 +151,7 @@ body.omni-print-style.receipt {
 .omni-print-style.receipt .header .header-details h1 {
     font-size: 12px;
     font-weight: normal;
-    margin: 16px 0px 12px 0px; ;
+    margin: 16px 0px 12px 0px;
 }
 
 .omni-print-style.receipt .header .header-details h2 {
