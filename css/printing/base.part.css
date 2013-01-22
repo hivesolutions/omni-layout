@@ -93,7 +93,6 @@ body.omni-print-style.receipt {
 .omni-print-style .body h1 {
     font-size: 16px;
     margin-bottom: 22px;
-    text-transform: uppercase;
 }
 
 .omni-print-style .footer {
@@ -128,7 +127,7 @@ body.omni-print-style.receipt {
 
 .omni-print-style.small .body h1 {
     font-size: 14px;
-    margin-bottom: 12px;
+    margin: 16px 0px 12px 0px;
 }
 
 .omni-print-style.receipt .header {
