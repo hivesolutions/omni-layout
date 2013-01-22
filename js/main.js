@@ -229,6 +229,12 @@
 
 (function($) {
     jQuery.fn.uscan = function(options) {
+        /**
+         * The length of the code to be scanned this value should be defined in
+         * accordance with the defined specification.
+         */
+        var SCAN_CODE_LENGTH = 18;
+
         // sets the jquery matched object
         var matchedObject = this;
 
@@ -244,6 +250,13 @@
                     // map for the current page
                     var mvcPath = _body.data("mvc_path");
                     var classIdUrl = _body.data("class_id_url");
+
+                    // verifies that the size of the code legnth
+                    // is of the expected size, otherwise returns
+                    // immediately not an expected code
+                    if (value.length != SCAN_CODE_LENGTH) {
+                        return;
+                    }
 
                     // retrieves the version of the barcode then
                     // retrieves the class of the object that is
@@ -261,9 +274,17 @@
                         return;
                     }
 
+                    // tries to retrieve the "partial" class url for
+                    // the class with the provided identifier in case
+                    // it's not found returns immediately in error
+                    var classUrl = classIdUrl[classIdInt];
+                    if (!classUrl) {
+                        return;
+                    }
+
                     // constructs the url using the base mvc path and
                     // appending the url to the requested class
-                    var baseUrl = mvcPath + classIdUrl[classIdInt];
+                    var baseUrl = mvcPath + classUrl;
 
                     // replaces the left padded zeros in the object
                     // id to contruct the final object id, then uses
