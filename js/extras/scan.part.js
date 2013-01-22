@@ -17,6 +17,10 @@
         // registers for the scan event in the document
         // to be able to react to it
         _document.bind("scan", function(event, value) {
+                    // retrieves the current element that is the
+                    // target of the scan operation
+                    var element = jQuery(this);
+
                     // retrieves the mvc path and the class id url
                     // map for the current page
                     var mvcPath = _body.data("mvc_path");
@@ -52,6 +56,11 @@
                     if (!classUrl) {
                         return;
                     }
+
+                    // triggers the uscan handler so that any listening handler
+                    // should be able to handle the scan
+                    element.triggerHandler("uscan",
+                            [version, classId, objectId]);
 
                     // constructs the url using the base mvc path and
                     // appending the url to the requested class
