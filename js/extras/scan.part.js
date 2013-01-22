@@ -41,11 +41,26 @@
                     var classId = value.slice(2, 6);
                     var objectId = value.slice(6);
 
+                    // converts the version into an integer
+                    // to be used in the resolution and verifies that
+                    // the "generated" integer is valid
+                    var versionInt = parseInt(version);
+                    if (isNaN(versionInt)) {
+                        return;
+                    }
                     // converts the class identifier into an integer
                     // to be used in the resolution and verifies that
                     // the "generated" integer is valid
                     var classIdInt = parseInt(classId);
                     if (isNaN(classIdInt)) {
+                        return;
+                    }
+
+                    // converts the object identifier into an integer
+                    // to be used in the resolution and verifies that
+                    // the "generated" integer is valid
+                    var objectIdInt = parseInt(objectId);
+                    if (isNaN(objectId)) {
                         return;
                     }
 
@@ -59,8 +74,8 @@
 
                     // triggers the uscan handler so that any listening handler
                     // should be able to handle the scan
-                    element.triggerHandler("uscan",
-                            [version, classId, objectId]);
+                    element.triggerHandler("uscan", [versionInt, classIdInt,
+                                    objectIdInt]);
 
                     // constructs the url using the base mvc path and
                     // appending the url to the requested class
