@@ -254,8 +254,12 @@
                     var objectId = value.slice(6);
 
                     // converts the class identifier into an integer
-                    // to be used in the resolution
+                    // to be used in the resolution and verifies that
+                    // the "generated" integer is valid
                     var classIdInt = parseInt(classId);
+                    if (isNaN(classIdInt)) {
+                        return;
+                    }
 
                     // constructs the url using the base mvc path and
                     // appending the url to the requested class
