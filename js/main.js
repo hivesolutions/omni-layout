@@ -301,10 +301,17 @@
                         return;
                     }
 
-                    // triggers the uscan handler so that any listening handler
-                    // should be able to handle the scan
-                    element.triggerHandler("uscan", [versionInt, classIdInt,
-                                    objectIdInt]);
+                    try {
+                        // triggers the uscan handler so that any listening handler
+                        // should be able to handle the scan
+                        element.triggerHandler("uscan", [versionInt,
+                                        classIdInt, objectIdInt]);
+                    } catch (exception) {
+                        // in case an exception was throw must return
+                        // immediately as the redirectionis meant to
+                        // be avoided (exception semantics)
+                        return;
+                    }
 
                     // constructs the url using the base mvc path and
                     // appending the url to the requested class
