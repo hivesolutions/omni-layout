@@ -144,6 +144,7 @@
         if (!mvcPath) {
             throw jQuery.uxexception("No mvc path variable defined");
         }
+        var alias = _body.data("alias") || {};
 
         // unpacks the various elements of the provided parameters
         // map, these are the elements to be used in the remote query
@@ -153,6 +154,17 @@
         var complete = param["complete"];
         var success = param["success"];
         var error = param["error"];
+
+        // splits the url into the section and the remainder components
+        // to be used for the section and alias construction
+        var urlSplit = url.split("/");
+        var section = urlSplit[0];
+        var remainder = urlSplit.slice(1);
+
+        // creates the section url fromthe alias and rejoins the values
+        // to created the alias resolved url
+        var sectionUrl = alias[section] || section;
+        url = sectionUrl + "/" + remainder.join("/")
 
         // creates the complete url (from the partial one) by
         // prepending the mvc path to it
