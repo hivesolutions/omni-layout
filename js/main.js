@@ -368,6 +368,11 @@
                         return;
                     }
 
+                    // sets the uscan attribute in the event so that
+                    // any other handler is able to "understand" that
+                    // the event has been handled as uscan
+                    event.uscan = true;
+
                     try {
                         // triggers the uscan handler so that any listening handler
                         // should be able to handle the scan
