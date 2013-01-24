@@ -6,6 +6,12 @@
          */
         var SCAN_CODE_LENGTH = 18;
 
+        /**
+         * The list of integer based versions that are compatible with the
+         * client scan implementation.
+         */
+        var COMPATIBLE_VERSIONS = [1];
+
         // sets the jquery matched object
         var matchedObject = this;
 
@@ -61,6 +67,15 @@
                     // the "generated" integer is valid
                     var objectIdInt = parseInt(objectId);
                     if (isNaN(objectId)) {
+                        return;
+                    }
+
+                    // verifies if the current integer version of the
+                    // provided scan value is compatible with the current
+                    // scan version (version is included in compatible
+                    // version set) in case it's not returns immediately
+                    var isCompatible = COMPATIBLE_VERSIONS.indexof(versionInt) != -1;
+                    if (!isCompatible) {
                         return;
                     }
 
