@@ -291,6 +291,12 @@ body.omni-style.no-selection {
     width: 314px;
 }
 
+.omni-style .list-window-mini-input {
+    height: 26px;
+    margin-top: 8px;
+    width: 136px;
+}
+
 .omni-style .section-input {
 }
 
@@ -410,6 +416,14 @@ body.omni-style.no-selection {
     padding-right: 12px;
     text-align: right;
     width: 80px;
+}
+
+.omni-style .list-window-separator {
+    color: #4d4d4d;
+    font-size: 14px;
+    line-height: 48px;
+    text-align: center;
+    width: 28px;
 }
 
 .omni-style .list-divider {
