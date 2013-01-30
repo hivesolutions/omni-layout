@@ -349,9 +349,18 @@
 
                     // retrieves the checksum for the barcode value
                     // in order to verify it against the base buffer
-                    // value and in case the verification fails returns
-                    // immediately (not a valid barcode)
+                    // converts the value into an integer value and
+                    // then converts it back to a string (removal of
+                    // left based zeros)
                     var checksumS = value.slice(0, 4);
+                    checksumS = parseInt(checksumS);
+                    checksumS = String(checksumS);
+
+                    // retrieves the checksum buffer from the complete
+                    // value and then computes the checksum string for
+                    // the value and compares it with the received
+                    // checksum value in case they do not match returns
+                    // immediately in error (invalid checksum)
                     var buffer = value.slice(4);
                     var _checksumS = checksum(buffer);
                     if (_checksumS != checksumS) {
