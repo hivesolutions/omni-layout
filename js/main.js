@@ -23,7 +23,7 @@
 // __copyright__ = Copyright (c) 2008-2012 Hive Solutions Lda.
 // __license__   = GNU General Public License (GPL), Version 3
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uapply = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -53,7 +53,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uconfigurations = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -134,7 +134,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.uquery = function(param) {
         // retrieves the reference to the body element and uses
         // it to retrieve the currently set mvc path in case it's
@@ -213,7 +213,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.umenu = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -306,7 +306,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uscan = function(options) {
         /**
          * The length of the code to be scanned this value should be defined in
@@ -482,7 +482,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uchat = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -795,7 +795,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uchatpanel = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -1029,7 +1029,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uchatline = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -1102,7 +1102,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.ueureka = function(options) {
         // sets the jquery matched object
         var matchedObject = this;

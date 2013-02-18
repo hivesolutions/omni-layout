@@ -1,4 +1,4 @@
-(function($) {
+(function(jQuery) {
     jQuery.fn.umenu = function(options) {
         // sets the jquery matched object
         var matchedObject = this;

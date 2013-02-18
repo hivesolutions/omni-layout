@@ -1,4 +1,4 @@
-(function($) {
+(function(jQuery) {
     jQuery.fn.uscan = function(options) {
         /**
          * The length of the code to be scanned this value should be defined in

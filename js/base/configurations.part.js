@@ -1,4 +1,4 @@
-(function($) {
+(function(jQuery) {
     jQuery.fn.uconfigurations = function(options) {
         // sets the jquery matched object
         var matchedObject = this;

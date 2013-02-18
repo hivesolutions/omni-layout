@@ -1,4 +1,4 @@
-(function($) {
+(function(jQuery) {
     jQuery.fn.ueureka = function(options) {
         // sets the jquery matched object
         var matchedObject = this;

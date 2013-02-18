@@ -1,4 +1,4 @@
-(function($) {
+(function(jQuery) {
     jQuery.uquery = function(param) {
         // retrieves the reference to the body element and uses
         // it to retrieve the currently set mvc path in case it's

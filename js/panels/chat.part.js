@@ -1,4 +1,4 @@
-(function($) {
+(function(jQuery) {
     jQuery.fn.uchat = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -311,7 +311,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uchatpanel = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -545,7 +545,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function(jQuery) {
     jQuery.fn.uchatline = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
