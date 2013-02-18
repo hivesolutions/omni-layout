@@ -1,0 +1,30 @@
+.omni-style .top-bar-slider {
+    border-top: 8px solid #f0f0f0;
+    display: none;
+    width: 100%;
+    z-index: 11;
+}
+
+.omni-style.full .top-bar-slider {
+    display: block;
+}
+
+.omni-style .top-bar-handle {
+    background: transparent url(../images/panels/top-bar-handle.png) no-repeat left top;
+    cursor: pointer;
+    float: right;
+    height: 38px;
+    width: 180px;
+}
+
+.omni-style .top-bar-handle:hover {
+    background-position: left -38px;
+}
+
+.omni-style .top-bar-handle.up {
+    background-position: left -76px;
+}
+
+.omni-style .top-bar-handle.up:hover {
+    background-position: left -114px;
+}

@@ -1325,6 +1325,37 @@ body.omni-style.no-selection {
     margin: 22px 0px 22px 0px;
 }
 
+.omni-style .top-bar-slider {
+    border-top: 8px solid #f0f0f0;
+    display: none;
+    width: 100%;
+    z-index: 11;
+}
+
+.omni-style.full .top-bar-slider {
+    display: block;
+}
+
+.omni-style .top-bar-handle {
+    background: transparent url(../images/panels/top-bar-handle.png) no-repeat left top;
+    cursor: pointer;
+    float: right;
+    height: 38px;
+    width: 180px;
+}
+
+.omni-style .top-bar-handle:hover {
+    background-position: left -38px;
+}
+
+.omni-style .top-bar-handle.up {
+    background-position: left -76px;
+}
+
+.omni-style .top-bar-handle.up:hover {
+    background-position: left -114px;
+}
+
 .omni-style .welcome {
     background: transparent url(../images/panels/welcome-logo.png) no-repeat 45px bottom;
     height: 404px;
@@ -1660,6 +1691,75 @@ body.omni-style.no-selection {
     font-size: 12px;
     line-height: 18px;
     margin-left: 6px;
+}
+
+.omni-style .report {
+    margin: 8px 0px 18px 0px;
+}
+
+.omni-style .report .report-header {
+    margin: 12px 0px 16px 8px;
+}
+
+.omni-style .report .report-header > h1 {
+    color: #2d2d2d;
+    font-size: 24px;
+    margin: 8px 0px 4px 0px;
+}
+
+.omni-style .report .report-header > .buttons {
+    color: #2d2d2d;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.omni-style .report .report-header > .buttons > .link {
+    display: inline-block;
+    margin-left: 6px;
+    margin-right: 12px;
+    vertical-align: bottom;
+}
+
+.omni-style .report .report-header > .buttons > .icon {
+    margin-left: 22px;
+    margin-right: 12px;
+}
+
+.omni-style .report .report-table {
+    margin: 0px auto 0px auto;
+}
+
+.omni-style .report .table {
+    display: table-row;
+}
+
+.omni-style .report .table thead th {
+    background: transparent url(../images/parts/report-header.png) repeat-x left bottom;
+    border-bottom: 1px solid #aaaaaa;
+    border-top: 1px solid #cccccc;
+    color: #2d2d2d;
+    font-size: 12px;
+    font-weight: bold;
+    height: 35px;
+    padding: 0px 12px 0px 12px;
+}
+
+.omni-style .report .table tbody tr {
+    cursor: pointer;
+    height: 35px;
+}
+
+.omni-style .report .table tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.omni-style .report .table tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+.omni-style .report .table td {
+    border-bottom: 1px solid #e8e8e8;
+    padding: 0px 12px 0px 12px;
 }
 
 @import url(//fonts.googleapis.com/css?family=Open+Sans);

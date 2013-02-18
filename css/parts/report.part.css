@@ -1,0 +1,68 @@
+.omni-style .report {
+    margin: 8px 0px 18px 0px;
+}
+
+.omni-style .report .report-header {
+    margin: 12px 0px 16px 8px;
+}
+
+.omni-style .report .report-header > h1 {
+    color: #2d2d2d;
+    font-size: 24px;
+    margin: 8px 0px 4px 0px;
+}
+
+.omni-style .report .report-header > .buttons {
+    color: #2d2d2d;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.omni-style .report .report-header > .buttons > .link {
+    display: inline-block;
+    margin-left: 6px;
+    margin-right: 12px;
+    vertical-align: bottom;
+}
+
+.omni-style .report .report-header > .buttons > .icon {
+    margin-left: 22px;
+    margin-right: 12px;
+}
+
+.omni-style .report .report-table {
+    margin: 0px auto 0px auto;
+}
+
+.omni-style .report .table {
+    display: table-row;
+}
+
+.omni-style .report .table thead th {
+    background: transparent url(../images/parts/report-header.png) repeat-x left bottom;
+    border-bottom: 1px solid #aaaaaa;
+    border-top: 1px solid #cccccc;
+    color: #2d2d2d;
+    font-size: 12px;
+    font-weight: bold;
+    height: 35px;
+    padding: 0px 12px 0px 12px;
+}
+
+.omni-style .report .table tbody tr {
+    cursor: pointer;
+    height: 35px;
+}
+
+.omni-style .report .table tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.omni-style .report .table tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+.omni-style .report .table td {
+    border-bottom: 1px solid #e8e8e8;
+    padding: 0px 12px 0px 12px;
+}
