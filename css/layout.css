@@ -1721,8 +1721,8 @@ body.omni-style.no-selection {
 }
 
 .omni-style .report .report-header > .buttons > .icon {
-    margin-left: 22px;
-    margin-right: 12px;
+    height: 24px;
+    width: 24px;
 }
 
 .omni-style .report .report-table {

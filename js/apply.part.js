@@ -7,6 +7,10 @@
         // (global configurations)
         matchedObject.uconfigurations();
 
+        // applies the top bar related configuations to the
+        // current top level object
+        matchedObject.utopbar();
+
         // starts the scan plugin system in the matched object
         // (this is going to be a global scan)
         matchedObject.uscan();
