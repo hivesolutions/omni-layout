@@ -106,5 +106,10 @@
 
 .omni-style .report .table td {
     border-bottom: 1px solid #e8e8e8;
+    border-left: 1px solid #e8e8e8;
     padding: 0px 12px 0px 12px;
+}
+
+.omni-style .report .table td:last-child {
+    border-right: 1px solid #e8e8e8;
 }
