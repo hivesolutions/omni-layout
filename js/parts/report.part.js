@@ -160,18 +160,18 @@
         };
 
         var decrement = function(matchedObject, options) {
-            var page = report.data("page");
+            var page = matchedObject.data("page");
             if (page == 0) {
                 return;
             }
             page--;
-            report.data("page", page);
-            update(report, options)
+            matchedObject.data("page", page);
+            update(matchedObject, options)
         };
 
         var increment = function(matchedObject, options) {
             var page = matchedObject.data("page");
-            var limit = report.data("limit");
+            var limit = matchedObject.data("limit");
             if (page == limit) {
                 return;
             }
