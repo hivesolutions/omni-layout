@@ -1205,14 +1205,6 @@
         var previous = jQuery(".previous", more);
         var next = jQuery(".next", more);
 
-        // iterates over all the present links to update their
-        // link values to match the arguments of the current request
-        links.each(function(index, element) {
-                    var _element = jQuery(this);
-                    var href = _element.attr("href");
-                    _element.attr("href", href + search);
-                });
-
         // updates the report location contents with the unset
         // value set, indicating that no page information is available
         location.html("-");
@@ -1222,6 +1214,14 @@
         // update operation their status will be updated
         previous.uxdisable();
         next.uxdisable();
+
+        // iterates over all the present links to update their
+        // link values to match the arguments of the current request
+        links.each(function(index, element) {
+                    var _element = jQuery(this);
+                    var href = _element.attr("href");
+                    _element.attr("href", href + search);
+                });
 
         // retrieves the number of rows to be used in the table
         // associated with the report
