@@ -5,12 +5,26 @@
         var matchedObject = this;
         var _document = jQuery(document);
 
+        // retievs the currently set search parameters present
+        // in the url string (from the window object)
+        var search = window.location.search;
+
         // retrieves the various element that componse the
         // current report contents
+        var buttons = jQuery(".report-header > .buttons", matchedObject);
+        var links = jQuery("> a", buttons);
         var location = jQuery(".report-location", matchedObject);
         var more = jQuery(".report-more", matchedObject);
         var previous = jQuery(".previous", more);
         var next = jQuery(".next", more);
+
+        // iterates over all the present links to update their
+        // link values to match the arguments of the current request
+        links.each(function(index, element) {
+                    var _element = jQuery(this);
+                    var href = _element.attr("href");
+                    _element.attr("href", href + search);
+                });
 
         // updates the report location contents with the unset
         // value set, indicating that no page information is available
