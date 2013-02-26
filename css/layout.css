@@ -1818,6 +1818,12 @@ body.omni-style.no-selection {
     border-right: 1px solid #e8e8e8;
 }
 
+.omni-style .report.print .report-header > .buttons,
+.omni-style .report.print .report-location,
+.omni-style .report.print .report-more {
+    display: none;
+}
+
 @import url(//fonts.googleapis.com/css?family=Open+Sans);
 
 @page {

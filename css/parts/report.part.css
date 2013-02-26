@@ -121,3 +121,9 @@
 .omni-style .report .table td:last-child {
     border-right: 1px solid #e8e8e8;
 }
+
+.omni-style .report.print .report-header > .buttons,
+.omni-style .report.print .report-location,
+.omni-style .report.print .report-more {
+    display: none;
+}
