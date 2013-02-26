@@ -26,8 +26,13 @@
         chat.uchat();
 
         // retrieves the eureka as the eureka and
-        // then starts the eurka logic on it
+        // then starts the eureka logic on it
         var eureka = jQuery(".eureka", matchedObject);
         eureka.ueureka();
+
+        // retrieves the report as the report and
+        // then starts the report logic on it
+        var report = jQuery(".report", matchedObject);
+        report.ureport();
     };
 })(jQuery);

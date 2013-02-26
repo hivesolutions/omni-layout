@@ -20,7 +20,7 @@
 
 .omni-style .report .report-header > .buttons > .link {
     display: inline-block;
-    margin-left: 6px;
+    margin-left: 2px;
     margin-right: 12px;
     vertical-align: bottom;
 }
@@ -34,8 +34,16 @@
     margin: 0px auto 0px auto;
 }
 
-.omni-style .report .report-more {
+.omni-style .report .report-location {
+    color: #4d4d4d;
+    font-weight: bold;
     margin: 24px auto 0px auto;
+    min-width: 960px;
+    text-align: center;
+}
+
+.omni-style .report .report-more {
+    margin: 8px auto 0px auto;
     min-width: 960px;
     text-align: center;
 }
