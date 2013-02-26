@@ -4,7 +4,7 @@
         var matchedObject = this;
 
         // retrieves the various serializes (meta) elements
-        //from the contents and parses the ones that are meant
+        // from the contents and parses the ones that are meant
         // to be parsed (using json)
         var mvcPath = jQuery("#mvc-path", matchedObject).html();
         var objectId = jQuery("#object-id", matchedObject).html();

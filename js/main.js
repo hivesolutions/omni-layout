@@ -68,7 +68,7 @@
         var matchedObject = this;
 
         // retrieves the various serializes (meta) elements
-        //from the contents and parses the ones that are meant
+        // from the contents and parses the ones that are meant
         // to be parsed (using json)
         var mvcPath = jQuery("#mvc-path", matchedObject).html();
         var objectId = jQuery("#object-id", matchedObject).html();
@@ -1187,6 +1187,11 @@
 
 (function(jQuery) {
     jQuery.fn.ureport = function(options) {
+        // the default value to be used when no number of
+        // values to be printed in case the print mode is
+        // currently active
+        var MAX_RECORDS = 100000000;
+
         // sets the jquery matched object and the reference
         // to the parent document element
         var matchedObject = this;
@@ -1195,6 +1200,16 @@
         // retievs the currently set search parameters present
         // in the url string (from the window object)
         var search = window.location.search;
+        var pathname = window.location.pathname;
+        var pathname_l = pathname.length;
+
+        // retrieves the extension from the path name and in case
+        // the current extension refers a print document the print
+        // report attribute is set
+        var extension = pathname.slice(pathname_l - 4, pathname_l);
+        if(extension == ".prt") {
+            matchedObject.attr("data-print", 1);
+        }
 
         // retrieves the various element that componse the
         // current report contents
@@ -1225,10 +1240,35 @@
 
         // retrieves the number of rows to be used in the table
         // associated with the report
+        var print = matchedObject.attr("data-print");
         var count = matchedObject.attr("data-rows") || "30";
-        count = parseInt(count);
+        count = print ? MAX_RECORDS : parseInt(count);
         matchedObject.data("count", count);
         matchedObject.data("page", 0);
+
+        // in case the current mode is print the proper changes
+        // for the layout are actioned and the print dialog is
+        // shown in the screen
+        if(print) {
+            // retrieves the reference to the various elements
+            // that are going to be changed for the print mode
+            var header = jQuery(".header");
+            var footer = jQuery(".footer");
+            var topBar = jQuery(".top-bar");
+
+            // adds the print class to the current report element
+            matchedObject.addClass("print");
+
+            // removes the various elements that are considered
+            // not required from the print mode
+            header.remove();
+            footer.remove();
+            topBar.remove();
+
+            // shows the print dialog window to start the print
+            // procedure
+            window.print();
+        }
 
         // registers for the key down event on the document in order
         // to provide easy of use shortcut for navigation
