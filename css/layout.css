@@ -2100,12 +2100,14 @@ body.omni-print-style.receipt {
     padding: 0px 0px 0px 0px;
 }
 
-.omni-style .entity-details-list > li {
+.omni-style .entity-details-list > li,
+.omni-style .entity-details-list .panel-more > div > li {
     float: left;
     width: 100%;
 }
 
-.omni-style .entity-details-list > li p {
+.omni-style .entity-details-list > li p,
+.omni-style .entity-details-list .panel-more > div > li p  {
     float: left;
     font-size: 13px;
     line-height: 22px;
@@ -2113,7 +2115,9 @@ body.omni-print-style.receipt {
 }
 
 .omni-style .entity-details-list > li .list-sub-label.replacer,
-.omni-style .entity-details-list > li .list-sub-label.uploader {
+.omni-style .entity-details-list > li .list-sub-label.uploader,
+.omni-style .entity-details-list .panel-more > div > li .list-sub-label.replacer,
+.omni-style .entity-details-list .panel-more > div > li .list-sub-label.uploader {
     line-height: 48px;
 }
 
