@@ -10,6 +10,13 @@
         var matchedObject = this;
         var _document = jQuery(document);
 
+        // in case there's no matched object there's not need
+        // to run the report initialization, global handlers
+        // exist and may cause conflicts
+        if (matchedObject.length == 0) {
+            return
+        }
+
         // retievs the currently set search parameters present
         // in the url string (from the window object)
         var search = window.location.search;
@@ -20,7 +27,7 @@
         // the current extension refers a print document the print
         // report attribute is set
         var extension = pathname.slice(pathname_l - 4, pathname_l);
-        if(extension == ".prt") {
+        if (extension == ".prt") {
             matchedObject.attr("data-print", 1);
         }
 
@@ -62,7 +69,7 @@
         // in case the current mode is print the proper changes
         // for the layout are actioned and the print dialog is
         // shown in the screen
-        if(print) {
+        if (print) {
             // retrieves the reference to the various elements
             // that are going to be changed for the print mode
             var header = jQuery(".header");
