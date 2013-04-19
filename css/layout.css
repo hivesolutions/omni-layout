@@ -588,7 +588,7 @@ body.omni-style.no-selection {
     -webkit-border-radius: 4px 4px 4px 4px;
     height: 50px;
     margin: 0px 12px 0px 0px;
-    width: 50px;  ;
+    width: 50px;
 }
 
 .omni-style .activity-list-content {
@@ -828,7 +828,7 @@ body.omni-style.no-selection {
 }
 
 .omni-style .context-menu.active .context {
-    background-color: #cccccc;    ;
+    background-color: #cccccc;
     background-position: center -40px;
     border-color: #bbbbbb;
 }
