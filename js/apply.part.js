@@ -3,6 +3,11 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        // applies the async logic plugin to the current
+        // matched object this should provide the structures
+        // for the initial async execution
+        matchedObject.uasync();
+
         // applies the configurations to the matched object
         // (global configurations)
         matchedObject.uconfigurations();
