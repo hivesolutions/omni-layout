@@ -132,7 +132,7 @@
                     // id to contruct the final object id, then uses
                     // it to redirect the user agent to the show page
                     objectId = objectId.replace(/^0+|\s+$/g, "");
-                    document.location = baseUrl + objectId;
+                    jQuery.uxlocation(baseUrl + objectId);
                 });
 
         // registers for the scan erro event in the document
