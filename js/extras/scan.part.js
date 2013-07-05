@@ -15,6 +15,13 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        // in case the current object ot be matched is not of type
+        // body there's no need to continue (nothing to be done)
+        var isBody = matchedObject.is("body");
+        if (!isBody) {
+            return;
+        }
+
         // retrieves the reference to the top level
         // document and body elements
         var _document = jQuery(document);
