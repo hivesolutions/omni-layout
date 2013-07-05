@@ -28,6 +28,11 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        // applies the async logic plugin to the current
+        // matched object this should provide the structures
+        // for the initial async execution
+        matchedObject.uasync();
+
         // applies the configurations to the matched object
         // (global configurations)
         matchedObject.uconfigurations();
@@ -59,6 +64,243 @@
         // then starts the report logic on it
         var report = jQuery(".report", matchedObject);
         report.ureport();
+    };
+})(jQuery);
+
+(function(jQuery) {
+    jQuery.fn.uasync = function() {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        var _registerHandlers = function() {
+            // retrieves the various elements that are going to be
+            // used in the registration for the handlers
+            var _body = jQuery("body");
+            var links = jQuery("a[href], .link[href]", matchedObject);
+
+            // registers for the click event on the current set of links
+            // that exist in the object, so that they can be handled in
+            // an async fashion if thats the case
+            links.click(function(event) {
+                        // in case the click used the right or center button the
+                        // event should be ignored not bean to be overriden
+                        if (event.which == 2 || event.which == 3) {
+                            return;
+                        }
+
+                        // retrieves the current element and the current link
+                        // associated so that it can be validated and tested in
+                        // the current async environment
+                        var element = jQuery(this);
+                        var href = element.attr("href");
+
+                        // runs the async link execution with no force flag set
+                        // and in case it run through avoids the default link
+                        // behavior (avoid duplicated execution)
+                        var result = jQuery.ulinkasync(href, false, true, true);
+                        result && event.preventDefault();
+                    });
+
+            // retrieves the current async registration flag from the body
+            // elemennt in case it's currently set returns immediately to
+            // avoid duplicated registration
+            var async = _body.data("async") || false;
+            if (async) {
+                return;
+            }
+
+            // registers for the location changed event in order to validated the
+            // location changes for async execution then sets the async flag in the
+            // current body in order duplicated registration
+            _body.bind("location", function(event, location) {
+                        // tries to runthe async link logic and in case it goes through
+                        // cancels the current event returning an invalid value, so that
+                        // the default location setting logic does not run
+                        var result = jQuery.ulinkasync(location, false, true,
+                                true);
+                        return !result;
+                    });
+            _body.data("async", true);
+        };
+
+        var _setPopHandler = function() {
+            // in case the pop state (changed) handler is already set there's
+            // no need to set it again and so returns immediately
+            if (window.onpopstate != null) {
+                return;
+            }
+
+            // sets the initial and loded variables so that they will
+            // be used by the pop state function handler as a clojure
+            var initial = null;
+            var loaded = false;
+
+            // registers the pop state changed handler function so that
+            // it's possible to restore the state using an async approach
+            window.onpopstate = function(event) {
+                // in case the event raised contains no state (not pushed)
+                // and the location or the location is the initial one the
+                // async login must be run
+                if (event.state != null || document.location == initial) {
+                    var href = document.location;
+                    jQuery.ulinkasync(href, true, true, true);
+                }
+
+                // in case the initial location value is not set this is the
+                // the right time to set it
+                if (initial == null) {
+                    initial = document.location;
+                }
+            };
+        }
+
+        // runs the initial registration logic enabling the current matched
+        // object with the async logic and execution
+        _registerHandlers();
+        _setPopHandler();
+    };
+})(jQuery);
+
+(function(jQuery) {
+    /**
+     * The regular expression that is going to be used for the verification of
+     * the same host policy, required for the async based links.
+     */
+    var HOST_REGEX = new RegExp(location.host);
+
+    jQuery.ulinkasync = function(href, force, navigation, bar) {
+        // in case the provided link value is invalid, not set
+        // or empty there's no panel to be changed and everything
+        // shuold remain the same (no update)
+        if (!href) {
+            return true;
+        }
+
+        // in case this is an internal link the panel change must be
+        // avoided and the top handler should take this into account
+        if (href[0] == "#") {
+            return false;
+        }
+
+        // resolves the provided link so that were able to find out the
+        // absolute url out of it and set it as the location to be retrieved
+        // using an asynchronous approach (ajax)
+        href = jQuery.uxresolve(href);
+
+        // runs the regular expression that will verify if the current link
+        // is local and in case it's not returns immediately with the error
+        // flag set indicating that no processing has been done
+        var isLocal = HOST_REGEX.test(href)
+        if (!isLocal) {
+            return false;
+        }
+
+        if (!force && href == document.location) {
+            return true;
+        }
+
+        jQuery.ajax({
+            url : href,
+            dataType : "html",
+            success : function(data, status, request) {
+                // in case this is a forced operation the assync operations
+                // may pile up and so we must verify if the document location
+                // in the current document is the same as the document we're
+                // trying to retrieve, if it's not return immediately (ignore)
+                if (force && document.location != href) {
+                    return;
+                }
+
+                // in case this is not a forced operation the current state
+                // must be pushed into the history stack, so that we're able
+                // to rollback to it latter
+                !force && window.history.pushState(href, "dsfasd", href);
+
+                try {
+                    data = data.replace(/src=/ig, "aux-src=");
+                    var base = jQuery(data);
+
+                    var isLayout = jQuery(".top-bar").length > 0
+                            && base.filter(".top-bar").length > 0;
+                    if (!isLayout) {
+                        throw "Invalid layout";
+                    }
+
+                    if (bar) {
+                        var topBar = base.filter(".top-bar");
+                        var headerImage = jQuery(".header-logo-area", topBar);
+
+                        var headerImageLink = headerImage.attr("href");
+                        jQuery(".top-bar .header-logo-area").attr("href",
+                                headerImageLink);
+
+                        var scondLeft = jQuery(".left:nth-child(2)", topBar);
+                        var scondLeftHtml = scondLeft.html();
+                        scondLeftHtml = scondLeftHtml.replace(/aux-src=/ig,
+                                "src=");
+                        jQuery(".top-bar .left:nth-child(2)").html(scondLeftHtml);
+                        jQuery(".top-bar .left:nth-child(2)").uxapply();
+
+                        var menu = jQuery(".menu", topBar);
+                        var menuHtml = menu.html();
+                        menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
+                        jQuery(".top-bar .menu").replaceWith("<div class=\"menu system-menu\">"
+                                + menuHtml + "</div>");
+                        jQuery(".top-bar .menu").uxapply();
+                    }
+
+                    if (navigation) {
+                        var navigationList = jQuery(
+                                ".sidebar-left > .navigation-list", base);
+                        var navigationListHtml = navigationList.html();
+                        navigationListHtml = navigationListHtml.replace(
+                                /aux-src=/ig, "src=");
+                        jQuery(".sidebar-left > .navigation-list").html(navigationListHtml);
+                        jQuery(".sidebar-left > .navigation-list").uxapply();
+                        jQuery(".sidebar-left > .navigation-list").uxlist();
+
+                        var chat = jQuery(".sidebar-left > .chat", base);
+                        var url = chat.attr("data-url")
+                        jQuery(".sidebar-left > .chat").attr("data-url", url);
+                    }
+
+                    var content = jQuery(".content", base);
+                    var contentHtml = content.html();
+                    contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
+                    jQuery(".content").html(contentHtml);
+                    jQuery(".content").uxapply();
+
+                    var sidebarRight = jQuery(".sidebar-right", base);
+                    var sidebarRightHtml = sidebarRight.html();
+                    sidebarRightHtml = sidebarRightHtml.replace(/aux-src=/ig,
+                            "src=");
+                    jQuery(".sidebar-right").html(sidebarRightHtml);
+                    jQuery(".sidebar-right").uxapply();
+
+                    var overlaySearch = base.filter(".overlay-search");
+                    var overlaySearchHtml = overlaySearch.html();
+                    overlaySearchHtml = overlaySearchHtml.replace(/aux-src=/ig,
+                            "src=");
+                    jQuery(".overlay-search").html(overlaySearchHtml);
+                    jQuery(".overlay-search").uxapply();
+
+                    var meta = base.filter(".meta")
+                    var metaHtml = meta.html();
+                    metaHtml = metaHtml.replace(/aux-src=/ig, "src=");
+                    jQuery(".meta").html(metaHtml);
+                    jQuery(".meta").uxapply();
+                    jQuery("body").uconfigurations();
+                } catch (exception) {
+                    window.history.back();
+                    document.location = href;
+                }
+            },
+            error : function() {
+                document.location = href;
+            }
+        });
+
+        return true;
     };
 })(jQuery);
 
