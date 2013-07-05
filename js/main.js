@@ -67,6 +67,13 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        // in case the current object ot be matched is not of type
+        // body there's no need to continu (nothing to be done)
+        var isBody = matchedObject.is("body");
+        if (!isBody) {
+            return;
+        }
+
         // retrieves the various serializes (meta) elements
         // from the contents and parses the ones that are meant
         // to be parsed (using json)
@@ -142,7 +149,6 @@
         matchedObject.data("class_id_url", classIdUrl);
     };
 })(jQuery);
-
 (function(jQuery) {
     jQuery.uquery = function(param) {
         // retrieves the reference to the body element and uses
@@ -449,7 +455,7 @@
                     // id to contruct the final object id, then uses
                     // it to redirect the user agent to the show page
                     objectId = objectId.replace(/^0+|\s+$/g, "");
-                    document.location = baseUrl + objectId;
+                    jQuery.uxlocation(baseUrl + objectId);
                 });
 
         // registers for the scan erro event in the document
@@ -1452,4 +1458,11 @@ jQuery(document).ready(function() {
             // from the composite extensions
             _body.uxapply();
             _body.uapply();
+
+            // registers for the applied event on the body to be
+            // notified of new apply operations and react to them
+            // in the sense of applying the specifics
+            _body.bind("applied", function(event, base) {
+                        base.uapply();
+                    });
         });
