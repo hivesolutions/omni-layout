@@ -3,6 +3,13 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        // in case the current object ot be matched is not of type
+        // body there's no need to continu (nothing to be done)
+        var isBody = matchedObject.is("body");
+        if (!isBody) {
+            return;
+        }
+
         // retrieves the various serializes (meta) elements
         // from the contents and parses the ones that are meant
         // to be parsed (using json)
