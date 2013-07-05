@@ -1393,6 +1393,16 @@
         // body element
         var _body = jQuery("body");
 
+        // retrieves the text field associated with the drop field
+        // element of the eureka element and registers for the key
+        // down event to avoid its propagation, could cause global
+        // key events to have unexpected behaviour
+        var textField = jQuery(".text-field", matchedObject);
+        textField.keydown(function(event) {
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                });
+
         // registers for the (new) item event to change
         // the item inserting new attributes in it
         matchedObject.bind("item", function(event, item) {
