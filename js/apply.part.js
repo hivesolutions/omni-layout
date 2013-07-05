@@ -22,7 +22,7 @@
 
         // retrieves the chat elements for the the current
         // structure and applies the chat logic on it
-        var chat = jQuery(".chat")
+        var chat = jQuery(".chat", matchedObject)
         chat.uchat();
 
         // retrieves the eureka as the eureka and
