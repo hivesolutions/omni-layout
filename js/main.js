@@ -68,7 +68,7 @@
         var matchedObject = this;
 
         // in case the current object ot be matched is not of type
-        // body there's no need to continu (nothing to be done)
+        // body there's no need to continue (nothing to be done)
         var isBody = matchedObject.is("body");
         if (!isBody) {
             return;
@@ -149,6 +149,7 @@
         matchedObject.data("class_id_url", classIdUrl);
     };
 })(jQuery);
+
 (function(jQuery) {
     jQuery.uquery = function(param) {
         // retrieves the reference to the body element and uses
@@ -337,6 +338,13 @@
 
         // sets the jquery matched object
         var matchedObject = this;
+
+        // in case the current object ot be matched is not of type
+        // body there's no need to continue (nothing to be done)
+        var isBody = matchedObject.is("body");
+        if (!isBody) {
+            return;
+        }
 
         // retrieves the reference to the top level
         // document and body elements
@@ -1147,6 +1155,21 @@
                     // item with it
                     var link = baseUrl + objectId;
                     item["link"] = link;
+                });
+
+        // registers for the value selection event so that it's possible
+        // to hide the panel and invalidate the current value
+        matchedObject.bind("value_select",
+                function(event, value, valueLogic, item) {
+                    // retrieves the current element and uses it to retrieve
+                    // the associated overlay panel element
+                    var element = jQuery(this);
+                    var overlayPanel = element.parents(".overlay-panel");
+
+                    // triggers the hide event on the overlay panel to initate
+                    // the process of hidding the panel
+                    overlayPanel.triggerHandler("hide");
+                    element.uxreset();
                 });
     };
 })(jQuery);
