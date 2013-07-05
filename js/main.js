@@ -1127,9 +1127,13 @@
         var prefix = name != _name ? "<strong>" + name + ": </strong>" : "";
 
         // adds a new chat line to the current paragraph with the message
-        // contents of the requested line
-        paragraph.append("<div class=\"chat-line\">" + prefix + message
+        // contents of the requested line, then applies the proper styling
+        // to the new line to be created so that the various links and other
+        // dynamic content is correctly handled
+        var chatLine = jQuery("<div class=\"chat-line\">" + prefix + message
                 + "</div>");
+        paragraph.append(chatLine);
+        chatLine.uxapply();
 
         // retrieves the scroll height of the contents section and used the
         // value to scroll the contents to the bottom position
