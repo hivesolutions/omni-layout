@@ -47,7 +47,7 @@
 
         // retrieves the chat elements for the the current
         // structure and applies the chat logic on it
-        var chat = jQuery(".chat")
+        var chat = jQuery(".chat", matchedObject)
         chat.uchat();
 
         // retrieves the eureka as the eureka and
@@ -738,6 +738,17 @@
             // iteration
             var _element = jQuery(this);
 
+            // checks if the current element is already connection registered
+            // in case it is avoid the current logic (skips registration)
+            var isRegistered = _element.data("registered") || false;
+            if (isRegistered) {
+                return;
+            }
+
+            // sets the current element as registered avoiding any extra
+            // registration in the current context (could cause problems)
+            _element.data("registered", true);
+
             // retrieves the "global" reference to the body element
             // to be used for the communication
             var _body = jQuery("body");
@@ -746,13 +757,15 @@
             var username = _body.data("username");
 
             // retrieves the url value to be used for the chat
-            // communication
+            // communication, and then creates the full absolute ur
+            // from the base url and the communication suffix
             var url = _element.attr("data-url");
+            var absolueUrl = jQuery.uxresolve(url + "/communication");
 
             // starts the communication infra-structure with a
             // simple timeout and the default callback operations
             _element.communication("default", {
-                        url : url + "/communication",
+                        url : absolueUrl,
                         channels : ["chat/" + username],
                         timeout : 500,
                         callbacks : [dataProcessor]
