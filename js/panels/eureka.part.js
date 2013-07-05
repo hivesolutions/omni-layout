@@ -29,5 +29,20 @@
                     var link = baseUrl + objectId;
                     item["link"] = link;
                 });
+
+        // registers for the value selection event so that it's possible
+        // to hide the panel and invalidate the current value
+        matchedObject.bind("value_select",
+                function(event, value, valueLogic, item) {
+                    // retrieves the current element and uses it to retrieve
+                    // the associated overlay panel element
+                    var element = jQuery(this);
+                    var overlayPanel = element.parents(".overlay-panel");
+
+                    // triggers the hide event on the overlay panel to initate
+                    // the process of hidding the panel
+                    overlayPanel.triggerHandler("hide");
+                    element.uxreset();
+                });
     };
 })(jQuery);
