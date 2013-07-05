@@ -4,7 +4,7 @@
         var matchedObject = this;
 
         // in case the current object ot be matched is not of type
-        // body there's no need to continu (nothing to be done)
+        // body there's no need to continue (nothing to be done)
         var isBody = matchedObject.is("body");
         if (!isBody) {
             return;
