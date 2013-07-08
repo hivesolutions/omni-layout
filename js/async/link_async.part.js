@@ -5,7 +5,7 @@
      */
     var HOST_REGEX = new RegExp(location.host);
 
-    jQuery.ulinkasync = function(href, force, verify, navigation, bar) {
+    jQuery.ulinkasync = function(href, force, verify) {
         // in case the provided link value is invalid, not set
         // or empty there's no panel to be changed and everything
         // shuold remain the same (no update)
@@ -73,8 +73,7 @@
                         if (isRedirect) {
                             var hrefR = request.getResponseHeader("Location");
                             hrefR = jQuery.uxresolve(hrefR, href);
-                            jQuery.ulinkasync(hrefR, true, false, navigation,
-                                    bar);
+                            jQuery.ulinkasync(hrefR, true, false);
                             return;
                         }
 
@@ -114,25 +113,8 @@
                                 throw "Invalid layout or layout not found";
                             }
 
-                            // in case the bar is meant to be loaded additional logic
-                            // must be performed to archieve the desired behaviour
-                            if (bar) {
-                                updateHeaderImage(base);
-                                updateSecondLeft(base);
-                                updateMenu(base);
-                            }
+                            updateComplete(base);
 
-                            if (navigation) {
-                                updateNavigationList(base);
-                                updateChat(base);
-                            }
-
-                            updateIcon(base);
-                            updateContent(base);
-                            updateFooter(base);
-                            updateSidebarRight(base);
-                            updateOverlaySearch(base);
-                            updateMeta(base);
                         } catch (exception) {
                             window.history.back();
                             document.location = href;
@@ -144,6 +126,57 @@
                 });
 
         return true;
+    };
+
+    var updateComplete = function(base) {
+        updateIcon(base);
+        updateContent(base);
+        updateFooter(base);
+        updateHeaderImage(base);
+        updateSecondLeft(base);
+        updateMenu(base);
+        updateNavigationList(base);
+        updateChat(base);
+        updateSidebarRight(base);
+        updateOverlaySearch(base);
+        updateMeta(base);
+    };
+
+    var updateSimple = function(base) {
+        updateIcon(base);
+        updateContent(base);
+        updateFooter(base);
+        updateHeaderImage(base);
+        updateSecondLeft(base);
+        updateMenu(base);
+        updateOverlaySearch(base);
+        updateMeta(base);
+    };
+
+    var updateIcon = function(base) {
+        // updates the currently defined favicon with the new relative
+        // path so that it does not become unreadable
+        var icon = base.filter("[rel=\"shortcut icon\"]");
+        var icon_ = jQuery("[rel=\"shortcut icon\"]");
+        icon_.replaceWith(icon);
+    };
+
+    var updateContent = function(base) {
+        var content = jQuery(".content", base);
+        var content_ = jQuery(".content");
+        var contentHtml = content.html();
+        contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
+        content_.html(contentHtml);
+        content_.uxapply();
+    };
+
+    var updateFooter = function(base) {
+        var footer = base.filter(".footer");
+        var footer_ = jQuery(".footer");
+        var footerHtml = footer.html();
+        footerHtml = footerHtml.replace(/aux-src=/ig, "src=");
+        footer_.html(footerHtml);
+        footer_.uxapply();
     };
 
     var updateHeaderImage = function(base) {
@@ -191,32 +224,6 @@
         var chat_ = jQuery(".sidebar-left > .chat");
         var url = chat.attr("data-url");
         chat_.attr("data-url", url);
-    };
-
-    var updateIcon = function(base) {
-        // updates the currently defined favicon with the new relative
-        // path so that it does not become unreadable
-        var icon = base.filter("[rel=\"shortcut icon\"]");
-        var icon_ = jQuery("[rel=\"shortcut icon\"]");
-        icon_.replaceWith(icon);
-    };
-
-    var updateContent = function(base) {
-        var content = jQuery(".content", base);
-        var content_ = jQuery(".content");
-        var contentHtml = content.html();
-        contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
-        content_.html(contentHtml);
-        content_.uxapply();
-    };
-
-    var updateFooter = function(base) {
-        var footer = base.filter(".footer");
-        var footer_ = jQuery(".footer");
-        var footerHtml = footer.html();
-        footerHtml = footerHtml.replace(/aux-src=/ig, "src=");
-        footer_.html(footerHtml);
-        footer_.uxapply();
     };
 
     var updateSidebarRight = function(base) {
