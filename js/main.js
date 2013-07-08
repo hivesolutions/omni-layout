@@ -330,6 +330,13 @@
         contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
         content_.html(contentHtml);
         content_.uxapply();
+
+        // retrieves the complete set of keys associated with
+        // the current content and registers them for the key
+        // plugin, this is required otherwise no registration
+        // would be done according to the ux
+        var key = jQuery(".key", content_).not(".template .key");
+        key.uxkey();
     };
 
     var updateFooter = function(base) {
