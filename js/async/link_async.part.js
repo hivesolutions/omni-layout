@@ -130,6 +130,7 @@
 
     var updateComplete = function(base) {
         updateIcon(base);
+        updateResources(base);
         updateContent(base);
         updateFooter(base);
         updateHeaderImage(base);
@@ -144,6 +145,7 @@
 
     var updateSimple = function(base) {
         updateIcon(base);
+        updateResources(base);
         updateContent(base);
         updateFooter(base);
         updateHeaderImage(base);
@@ -159,6 +161,49 @@
         var icon = base.filter("[rel=\"shortcut icon\"]");
         var icon_ = jQuery("[rel=\"shortcut icon\"]");
         icon_.replaceWith(icon);
+    };
+
+    var updateResources = function(base) {
+        var _head = jQuery("head");
+        var _body = jQuery("body");
+
+        var section = jQuery("#section", base);
+        var section_ = jQuery(".meta > #section");
+        var basePath = jQuery(".meta > #base-path");
+
+        var sectionValue = section.html();
+        var sectionValue_ = section_.html();
+        var basePathValue = basePath.html();
+
+        // verifies if the current section is different from the target
+        // section in case it's not returns immediately, as there's nothing
+        // to be done in the current context
+        var isDifferent = sectionValue != sectionValue_;
+        if (!isDifferent) {
+            return;
+        }
+
+        // retrieves the map containing the list of sections that
+        // already have their resources loaded, this structure avoids
+        // the constant loading of the section resources
+        var sectionsL = _body.data("sections_l") || {};
+        _body.data("sections_l", sectionsL);
+
+        // sets the current selected section as loaded and verifies
+        // if the target section is already loaded if it's returns
+        // immediately avoiding the resource loading
+        sectionsL[sectionValue_] = true;
+        var exists = sectionsL[sectionValue] || false;
+        if (exists) {
+            return;
+        }
+
+        // appends both the css file and the javascript logic for the
+        // target section so that it's correctly loaded
+        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue
+                + "resources/css/layout.css\" type=\"text/css\" />");
+        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue
+                + "resources/js/main.js\"></script>");
     };
 
     var updateContent = function(base) {
