@@ -424,7 +424,6 @@
         _body.uconfigurations();
     };
 })(jQuery);
-
 (function(jQuery) {
     jQuery.fn.uconfigurations = function(options) {
         // sets the jquery matched object
