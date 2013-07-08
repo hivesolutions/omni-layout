@@ -324,6 +324,14 @@
     };
 
     var updateContent = function(base) {
+        // retrieves the currently set locale from the base
+        // structure and uses it to update the data locale
+        // attribute of the current content (locale change)
+        var locale = jQuery("#locale", base);
+        var locale_ = jQuery("[data-locale]");
+        var language = locale.html().replace("_", "-");
+        locale_.attr("data-locale", language);
+
         var content = jQuery(".content", base);
         var content_ = jQuery(".content");
         var contentHtml = content.html();
