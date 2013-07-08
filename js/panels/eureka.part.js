@@ -13,6 +13,8 @@
         // key events to have unexpected behaviour
         var textField = jQuery(".text-field", matchedObject);
         textField.keydown(function(event) {
+                    // stops the event propagation in order to avoid
+                    // unwanted global behavior coming from this key press
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                 });
