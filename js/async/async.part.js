@@ -28,7 +28,8 @@
                         // runs the async link execution with no force flag set
                         // and in case it run through avoids the default link
                         // behavior (avoid duplicated execution)
-                        var result = jQuery.ulinkasync(href, false, true, true);
+                        var result = jQuery.ulinkasync(href, false, false,
+                                true, true);
                         result && event.preventDefault();
                     });
 
@@ -47,8 +48,8 @@
                         // tries to runthe async link logic and in case it goes through
                         // cancels the current event returning an invalid value, so that
                         // the default location setting logic does not run
-                        var result = jQuery.ulinkasync(location, false, true,
-                                true);
+                        var result = jQuery.ulinkasync(location, false, false,
+                                true, true);
                         return !result;
                     });
             _body.data("async", true);
@@ -74,7 +75,7 @@
                 // async login must be run
                 if (event.state != null || document.location == initial) {
                     var href = document.location;
-                    jQuery.ulinkasync(href, true, true, true);
+                    jQuery.ulinkasync(href, true, true, true, true);
                 }
 
                 // in case the initial location value is not set this is the

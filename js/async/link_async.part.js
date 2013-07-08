@@ -5,7 +5,7 @@
      */
     var HOST_REGEX = new RegExp(location.host);
 
-    jQuery.ulinkasync = function(href, force, navigation, bar) {
+    jQuery.ulinkasync = function(href, force, verify, navigation, bar) {
         // in case the provided link value is invalid, not set
         // or empty there's no panel to be changed and everything
         // shuold remain the same (no update)
@@ -61,22 +61,34 @@
                 async : 1
             },
             success : function(data, status, request) {
+                // verifies if the current result if of type (async) redirect, this
+                // is a special case and the redirection must be performed using a
+                // special strateg by retrieving the new location and setting it as
+                // new async contents to be loaded
+                var isRedirect = request.status == 280;
+                if (isRedirect) {
+                    var hrefR = request.getResponseHeader("Location");
+                    hrefR = jQuery.uxresolve(hrefR, href);
+                    jQuery.ulinkasync(hrefR, true, false, navigation, bar);
+                    return;
+                }
+
                 // removes the loading notification, as the request has been
                 // completed with success (no need to display it anymore)
                 notification.remove();
 
-                // in case this is a forced operation the assync operations
+                // in case this is a verified operation the assync operations
                 // may pile up and so we must verify if the document location
                 // in the current document is the same as the document we're
                 // trying to retrieve, if it's not return immediately (ignore)
-                if (force && document.location != href) {
+                if (verify && document.location != href) {
                     return;
                 }
 
-                // in case this is not a forced operation the current state
+                // in case this is not a verified operation the current state
                 // must be pushed into the history stack, so that we're able
                 // to rollback to it latter
-                !force && window.history.pushState(href, href, href);
+                !verify && window.history.pushState(href, href, href);
 
                 try {
                     // retrieves the reference to the top level body element
