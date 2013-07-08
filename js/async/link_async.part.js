@@ -32,14 +32,36 @@
             return false;
         }
 
+        // in case the force flag is not set and the location is the same as
+        // the current one no change is taken, page remains the same
         if (!force && href == document.location) {
             return true;
         }
+
+        // retrieves the localized version of the loading message so that it
+        // may be used in the notification to be shown
+        var loading = jQuery.uxlocale("Loading");
+
+        // retrieves the reference to the notifications container element
+        // and removes any message that is contained in it, avoiding any
+        // duplicatd message display
+        var container = jQuery(".header-notifications-container");
+        container.empty();
+
+        // creates the notification message that will indicate the loading
+        // of the new panel and adds it to the notifications container
+        var notification = jQuery("<div class=\"header-notification warning\"><strong>"
+                + loading + "</strong></div>");
+        container.append(notification);
 
         jQuery.ajax({
             url : href,
             dataType : "html",
             success : function(data, status, request) {
+                // removes the loading notification, as the request has been
+                // completed with success (no need to display it anymore)
+                notification.remove();
+
                 // in case this is a forced operation the assync operations
                 // may pile up and so we must verify if the document location
                 // in the current document is the same as the document we're
@@ -51,7 +73,7 @@
                 // in case this is not a forced operation the current state
                 // must be pushed into the history stack, so that we're able
                 // to rollback to it latter
-                !force && window.history.pushState(href, "dsfasd", href);
+                !force && window.history.pushState(href, href, href);
 
                 try {
                     data = data.replace(/src=/ig, "aux-src=");
