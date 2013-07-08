@@ -321,6 +321,12 @@
                         chat_.attr("data-url", url);
                     }
 
+                    // updates the currently defined favicon with the new relative
+                    // path so that it does not become unreadable
+                    var icon = base.filter("[rel=\"shortcut icon\"]");
+                    var icon_ = jQuery("[rel=\"shortcut icon\"]");
+                    icon_.replaceWith(icon);
+
                     var content = jQuery(".content", base);
                     var content_ = jQuery(".content");
                     var contentHtml = content.html();
