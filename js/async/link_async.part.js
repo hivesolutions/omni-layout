@@ -107,7 +107,7 @@
                     var isLayout = jQuery(".top-bar").length > 0
                             && base.filter(".top-bar").length > 0;
                     if (!isLayout) {
-                        throw "Invalid layout";
+                        throw "Invalid layout or layout not found";
                     }
 
                     // in case the bar is meant to be loaded additional logic
