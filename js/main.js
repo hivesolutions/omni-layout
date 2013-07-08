@@ -239,79 +239,105 @@
                 !force && window.history.pushState(href, href, href);
 
                 try {
+                    // retrieves the reference to the top level body element
+                    // to be used in global style applies
+                    var _body = jQuery("body");
+
+                    // replaces the image source references in the requested
+                    // data so that no extra images are loaded then loads the
+                    // data as the base object structure
                     data = data.replace(/src=/ig, "aux-src=");
                     var base = jQuery(data);
 
+                    // tries to verify if the current page is a layout page
+                    // by checking the top bar existence, in case it's not
+                    // a layout page raises an invalid layout exception
                     var isLayout = jQuery(".top-bar").length > 0
                             && base.filter(".top-bar").length > 0;
                     if (!isLayout) {
                         throw "Invalid layout";
                     }
 
+                    // in case the bar is meant to be loaded additional logic
+                    // must be performed to archieve the desired behaviour
                     if (bar) {
                         var topBar = base.filter(".top-bar");
                         var headerImage = jQuery(".header-logo-area", topBar);
-
+                        var headerImage_ = jQuery(".top-bar .header-logo-area");
                         var headerImageLink = headerImage.attr("href");
-                        jQuery(".top-bar .header-logo-area").attr("href",
-                                headerImageLink);
+                        headerImage_.attr("href", headerImageLink);
 
-                        var scondLeft = jQuery(".left:nth-child(2)", topBar);
-                        var scondLeftHtml = scondLeft.html();
-                        scondLeftHtml = scondLeftHtml.replace(/aux-src=/ig,
+                        var secondLeft = jQuery(".left:nth-child(2)", topBar);
+                        var secondLeft_ = jQuery(".top-bar .left:nth-child(2)");
+                        var secondLeftHtml = secondLeft.html();
+                        secondLeftHtml = secondLeftHtml.replace(/aux-src=/ig,
                                 "src=");
-                        jQuery(".top-bar .left:nth-child(2)").html(scondLeftHtml);
-                        jQuery(".top-bar .left:nth-child(2)").uxapply();
+                        secondLeft_.html(secondLeftHtml);
+                        secondLeft_.uxapply();
 
                         var menu = jQuery(".menu", topBar);
+                        var menu_ = jQuery(".top-bar .menu");
                         var menuHtml = menu.html();
                         menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
-                        jQuery(".top-bar .menu").replaceWith("<div class=\"menu system-menu\">"
+                        menu_.replaceWith("<div class=\"menu system-menu\">"
                                 + menuHtml + "</div>");
-                        jQuery(".top-bar .menu").uxapply();
+                        menu_.uxapply();
                     }
 
                     if (navigation) {
                         var navigationList = jQuery(
                                 ".sidebar-left > .navigation-list", base);
+                        var navigationList_ = jQuery(".sidebar-left > .navigation-list");
                         var navigationListHtml = navigationList.html();
                         navigationListHtml = navigationListHtml.replace(
                                 /aux-src=/ig, "src=");
-                        jQuery(".sidebar-left > .navigation-list").html(navigationListHtml);
-                        jQuery(".sidebar-left > .navigation-list").uxapply();
-                        jQuery(".sidebar-left > .navigation-list").uxlist();
+                        navigationList_.html(navigationListHtml);
+                        navigationList_.uxapply();
+                        navigationList_.uxlist();
 
                         var chat = jQuery(".sidebar-left > .chat", base);
-                        var url = chat.attr("data-url")
-                        jQuery(".sidebar-left > .chat").attr("data-url", url);
+                        var chat_ = jQuery(".sidebar-left > .chat");
+                        var url = chat.attr("data-url");
+                        chat_.attr("data-url", url);
                     }
 
                     var content = jQuery(".content", base);
+                    var content_ = jQuery(".content");
                     var contentHtml = content.html();
                     contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
-                    jQuery(".content").html(contentHtml);
-                    jQuery(".content").uxapply();
+                    content_.html(contentHtml);
+                    content_.uxapply();
+
+                    var footer = base.filter(".footer");
+                    var footer_ = jQuery(".footer");
+                    var footerHtml = footer.html();
+                    footerHtml = footerHtml.replace(/aux-src=/ig, "src=");
+                    footer_.html(footerHtml);
+                    footer_.uxapply();
 
                     var sidebarRight = jQuery(".sidebar-right", base);
+                    var sidebarRight_ = jQuery(".sidebar-right");
                     var sidebarRightHtml = sidebarRight.html();
                     sidebarRightHtml = sidebarRightHtml.replace(/aux-src=/ig,
                             "src=");
-                    jQuery(".sidebar-right").html(sidebarRightHtml);
-                    jQuery(".sidebar-right").uxapply();
+                    sidebarRight_.html(sidebarRightHtml);
+                    sidebarRight_.uxapply();
 
                     var overlaySearch = base.filter(".overlay-search");
+                    var overlaySearch_ = jQuery(".overlay-search");
                     var overlaySearchHtml = overlaySearch.html();
                     overlaySearchHtml = overlaySearchHtml.replace(/aux-src=/ig,
                             "src=");
-                    jQuery(".overlay-search").html(overlaySearchHtml);
-                    jQuery(".overlay-search").uxapply();
+                    overlaySearch_.html(overlaySearchHtml);
+                    overlaySearch_.uxapply();
 
                     var meta = base.filter(".meta")
+                    var meta_ = jQuery(".meta");
                     var metaHtml = meta.html();
                     metaHtml = metaHtml.replace(/aux-src=/ig, "src=");
-                    jQuery(".meta").html(metaHtml);
-                    jQuery(".meta").uxapply();
-                    jQuery("body").uconfigurations();
+                    meta_.html(metaHtml);
+                    meta_.uxapply();
+                    _body.uconfigurations();
                 } catch (exception) {
                     window.history.back();
                     document.location = href;
