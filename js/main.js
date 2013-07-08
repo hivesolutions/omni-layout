@@ -411,6 +411,7 @@
         overlaySearchHtml = overlaySearchHtml.replace(/aux-src=/ig, "src=");
         overlaySearch_.html(overlaySearchHtml);
         overlaySearch_.uxapply();
+        overlaySearch_.uxoverlaysearch();
     };
 
     var updateMeta = function(base) {
@@ -424,6 +425,7 @@
         _body.uconfigurations();
     };
 })(jQuery);
+
 (function(jQuery) {
     jQuery.fn.uconfigurations = function(options) {
         // sets the jquery matched object
@@ -1509,6 +1511,14 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        // in case the matched object is not defined
+        // or in case it's an empty list must return
+        // immediatly initialization is not meant to
+        // be run (corruption may occur)
+        if (!matchedObject || matchedObject.length == 0) {
+            return;
+        }
+
         // retrieves the reference to the top level
         // body element
         var _body = jQuery("body");
@@ -1519,6 +1529,27 @@
         // key events to have unexpected behaviour
         var textField = jQuery(".text-field", matchedObject);
         textField.keydown(function(event) {
+                    // retrievs the current element and uses it to retrieve
+                    // the associated overlay panel element
+                    var element = jQuery(this);
+                    var overlayPanel = element.parents(".overlay-panel");
+
+                    // retrieves the current activation key associated with
+                    // the overlay panel so that it may be "allowed"
+                    var key = overlayPanel.attr("data-key");
+                    key = key ? parseInt(key) : key;
+
+                    // retrieves the event key code and in case the code refers
+                    // the escape key returns immediately to avoid behavior
+                    var eventKeyCode = event.keyCode
+                            ? event.keyCode
+                            : event.which;
+                    if (eventKeyCode == 27 || eventKeyCode == key) {
+                        return;
+                    }
+
+                    // stops the event propagation in order to avoid
+                    // unwanted global behavior coming  from this key press
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                 });

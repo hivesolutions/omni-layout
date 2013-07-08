@@ -249,6 +249,7 @@
         overlaySearchHtml = overlaySearchHtml.replace(/aux-src=/ig, "src=");
         overlaySearch_.html(overlaySearchHtml);
         overlaySearch_.uxapply();
+        overlaySearch_.uxoverlaysearch();
     };
 
     var updateMeta = function(base) {
