@@ -104,8 +104,11 @@
                     // tries to verify if the current page is a layout page
                     // by checking the top bar existence, in case it's not
                     // a layout page raises an invalid layout exception
-                    var isLayout = jQuery(".top-bar").length > 0
+                    var hasTopBar = jQuery(".top-bar").length > 0
                             && base.filter(".top-bar").length > 0;
+                    var hasSideLeft = jQuery(".sidebar-left").length > 0
+                            && jQuery(".sidebar-left", base.filter).length > 0;
+                    var isLayout = hasTopBar && hasSideLeft;
                     if (!isLayout) {
                         throw "Invalid layout or layout not found";
                     }
