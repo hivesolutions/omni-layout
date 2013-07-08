@@ -54,162 +54,197 @@
                 + loading + "</strong></div>");
         container.append(notification);
 
+        // runs the remove async call that will retrieve the partial contents
+        // that will be used to change and re-populate the current dom, note
+        // the extra async data parameter sent indicating that this is meant
+        // to be handled differently (notably the redirection process)
         jQuery.ajax({
-            url : href,
-            dataType : "html",
-            data : {
-                async : 1
-            },
-            success : function(data, status, request) {
-                // verifies if the current result if of type (async) redirect, this
-                // is a special case and the redirection must be performed using a
-                // special strateg by retrieving the new location and setting it as
-                // new async contents to be loaded
-                var isRedirect = request.status == 280;
-                if (isRedirect) {
-                    var hrefR = request.getResponseHeader("Location");
-                    hrefR = jQuery.uxresolve(hrefR, href);
-                    jQuery.ulinkasync(hrefR, true, false, navigation, bar);
-                    return;
-                }
+                    url : href,
+                    dataType : "html",
+                    data : {
+                        async : 1
+                    },
+                    success : function(data, status, request) {
+                        // verifies if the current result if of type (async) redirect, this
+                        // is a special case and the redirection must be performed using a
+                        // special strateg by retrieving the new location and setting it as
+                        // new async contents to be loaded
+                        var isRedirect = request.status == 280;
+                        if (isRedirect) {
+                            var hrefR = request.getResponseHeader("Location");
+                            hrefR = jQuery.uxresolve(hrefR, href);
+                            jQuery.ulinkasync(hrefR, true, false, navigation,
+                                    bar);
+                            return;
+                        }
 
-                // removes the loading notification, as the request has been
-                // completed with success (no need to display it anymore)
-                notification.remove();
+                        // removes the loading notification, as the request has been
+                        // completed with success (no need to display it anymore)
+                        notification.remove();
 
-                // in case this is a verified operation the assync operations
-                // may pile up and so we must verify if the document location
-                // in the current document is the same as the document we're
-                // trying to retrieve, if it's not return immediately (ignore)
-                if (verify && document.location != href) {
-                    return;
-                }
+                        // in case this is a verified operation the assync operations
+                        // may pile up and so we must verify if the document location
+                        // in the current document is the same as the document we're
+                        // trying to retrieve, if it's not return immediately (ignore)
+                        if (verify && document.location != href) {
+                            return;
+                        }
 
-                // in case this is not a verified operation the current state
-                // must be pushed into the history stack, so that we're able
-                // to rollback to it latter
-                !verify && window.history.pushState(href, href, href);
+                        // in case this is not a verified operation the current state
+                        // must be pushed into the history stack, so that we're able
+                        // to rollback to it latter
+                        !verify && window.history.pushState(href, href, href);
 
-                try {
-                    // retrieves the reference to the top level body element
-                    // to be used in global style applies
-                    var _body = jQuery("body");
+                        try {
+                            // replaces the image source references in the requested
+                            // data so that no extra images are loaded then loads the
+                            // data as the base object structure
+                            data = data.replace(/src=/ig, "aux-src=");
+                            var base = jQuery(data);
 
-                    // replaces the image source references in the requested
-                    // data so that no extra images are loaded then loads the
-                    // data as the base object structure
-                    data = data.replace(/src=/ig, "aux-src=");
-                    var base = jQuery(data);
+                            // tries to verify if the current page is a layout page
+                            // by checking the top bar existence, in case it's not
+                            // a layout page raises an invalid layout exception
+                            var hasTopBar = jQuery(".top-bar").length > 0
+                                    && base.filter(".top-bar").length > 0;
+                            var hasSideLeft = jQuery(".sidebar-left").length > 0
+                                    && jQuery(".sidebar-left", base).length > 0;
+                            var isLayout = hasTopBar && hasSideLeft;
+                            if (!isLayout) {
+                                throw "Invalid layout or layout not found";
+                            }
 
-                    // tries to verify if the current page is a layout page
-                    // by checking the top bar existence, in case it's not
-                    // a layout page raises an invalid layout exception
-                    var hasTopBar = jQuery(".top-bar").length > 0
-                            && base.filter(".top-bar").length > 0;
-                    var hasSideLeft = jQuery(".sidebar-left").length > 0
-                            && jQuery(".sidebar-left", base.filter).length > 0;
-                    var isLayout = hasTopBar && hasSideLeft;
-                    if (!isLayout) {
-                        throw "Invalid layout or layout not found";
+                            // in case the bar is meant to be loaded additional logic
+                            // must be performed to archieve the desired behaviour
+                            if (bar) {
+                                updateHeaderImage(base);
+                                updateSecondLeft(base);
+                                updateMenu(base);
+                            }
+
+                            if (navigation) {
+                                updateNavigationList(base);
+                                updateChat(base);
+                            }
+
+                            updateIcon(base);
+                            updateContent(base);
+                            updateFooter(base);
+                            updateSidebarRight(base);
+                            updateOverlaySearch(base);
+                            updateMeta(base);
+                        } catch (exception) {
+                            window.history.back();
+                            document.location = href;
+                        }
+                    },
+                    error : function() {
+                        document.location = href;
                     }
-
-                    // in case the bar is meant to be loaded additional logic
-                    // must be performed to archieve the desired behaviour
-                    if (bar) {
-                        var topBar = base.filter(".top-bar");
-                        var headerImage = jQuery(".header-logo-area", topBar);
-                        var headerImage_ = jQuery(".top-bar .header-logo-area");
-                        var headerImageLink = headerImage.attr("href");
-                        headerImage_.attr("href", headerImageLink);
-
-                        var secondLeft = jQuery(".left:nth-child(2)", topBar);
-                        var secondLeft_ = jQuery(".top-bar .left:nth-child(2)");
-                        var secondLeftHtml = secondLeft.html();
-                        secondLeftHtml = secondLeftHtml.replace(/aux-src=/ig,
-                                "src=");
-                        secondLeft_.html(secondLeftHtml);
-                        secondLeft_.uxapply();
-
-                        var menu = jQuery(".menu", topBar);
-                        var menu_ = jQuery(".top-bar .menu");
-                        var menuHtml = menu.html();
-                        menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
-                        menu_.replaceWith("<div class=\"menu system-menu\">"
-                                + menuHtml + "</div>");
-                        menu_ = jQuery(".top-bar .menu");
-                        menu_.uxapply();
-                    }
-
-                    if (navigation) {
-                        var navigationList = jQuery(
-                                ".sidebar-left > .navigation-list", base);
-                        var navigationList_ = jQuery(".sidebar-left > .navigation-list");
-                        var navigationListHtml = navigationList.html();
-                        navigationListHtml = navigationListHtml.replace(
-                                /aux-src=/ig, "src=");
-                        navigationList_.html(navigationListHtml);
-                        navigationList_.uxapply();
-                        navigationList_.uxlist();
-
-                        var chat = jQuery(".sidebar-left > .chat", base);
-                        var chat_ = jQuery(".sidebar-left > .chat");
-                        var url = chat.attr("data-url");
-                        chat_.attr("data-url", url);
-                    }
-
-                    // updates the currently defined favicon with the new relative
-                    // path so that it does not become unreadable
-                    var icon = base.filter("[rel=\"shortcut icon\"]");
-                    var icon_ = jQuery("[rel=\"shortcut icon\"]");
-                    icon_.replaceWith(icon);
-
-                    var content = jQuery(".content", base);
-                    var content_ = jQuery(".content");
-                    var contentHtml = content.html();
-                    contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
-                    content_.html(contentHtml);
-                    content_.uxapply();
-
-                    var footer = base.filter(".footer");
-                    var footer_ = jQuery(".footer");
-                    var footerHtml = footer.html();
-                    footerHtml = footerHtml.replace(/aux-src=/ig, "src=");
-                    footer_.html(footerHtml);
-                    footer_.uxapply();
-
-                    var sidebarRight = jQuery(".sidebar-right", base);
-                    var sidebarRight_ = jQuery(".sidebar-right");
-                    var sidebarRightHtml = sidebarRight.html();
-                    sidebarRightHtml = sidebarRightHtml.replace(/aux-src=/ig,
-                            "src=");
-                    sidebarRight_.html(sidebarRightHtml);
-                    sidebarRight_.uxapply();
-
-                    var overlaySearch = base.filter(".overlay-search");
-                    var overlaySearch_ = jQuery(".overlay-search");
-                    var overlaySearchHtml = overlaySearch.html();
-                    overlaySearchHtml = overlaySearchHtml.replace(/aux-src=/ig,
-                            "src=");
-                    overlaySearch_.html(overlaySearchHtml);
-                    overlaySearch_.uxapply();
-
-                    var meta = base.filter(".meta")
-                    var meta_ = jQuery(".meta");
-                    var metaHtml = meta.html();
-                    metaHtml = metaHtml.replace(/aux-src=/ig, "src=");
-                    meta_.html(metaHtml);
-                    meta_.uxapply();
-                    _body.uconfigurations();
-                } catch (exception) {
-                    window.history.back();
-                    document.location = href;
-                }
-            },
-            error : function() {
-                document.location = href;
-            }
-        });
+                });
 
         return true;
+    };
+
+    var updateHeaderImage = function(base) {
+        var topBar = base.filter(".top-bar");
+        var headerImage = jQuery(".header-logo-area", topBar);
+        var headerImage_ = jQuery(".top-bar .header-logo-area");
+        var headerImageLink = headerImage.attr("href");
+        headerImage_.attr("href", headerImageLink);
+    };
+
+    var updateSecondLeft = function(base) {
+        var topBar = base.filter(".top-bar");
+        var secondLeft = jQuery(".left:nth-child(2)", topBar);
+        var secondLeft_ = jQuery(".top-bar .left:nth-child(2)");
+        var secondLeftHtml = secondLeft.html();
+        secondLeftHtml = secondLeftHtml.replace(/aux-src=/ig, "src=");
+        secondLeft_.html(secondLeftHtml);
+        secondLeft_.uxapply();
+    };
+
+    var updateMenu = function(base) {
+        var topBar = base.filter(".top-bar");
+        var menu = jQuery(".menu", topBar);
+        var menu_ = jQuery(".top-bar .menu");
+        var menuHtml = menu.html();
+        menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
+        menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml
+                + "</div>");
+        menu_ = jQuery(".top-bar .menu");
+        menu_.uxapply();
+    };
+
+    var updateNavigationList = function(base) {
+        var navigationList = jQuery(".sidebar-left > .navigation-list", base);
+        var navigationList_ = jQuery(".sidebar-left > .navigation-list");
+        var navigationListHtml = navigationList.html();
+        navigationListHtml = navigationListHtml.replace(/aux-src=/ig, "src=");
+        navigationList_.html(navigationListHtml);
+        navigationList_.uxapply();
+        navigationList_.uxlist();
+    };
+
+    var updateChat = function(base) {
+        var chat = jQuery(".sidebar-left > .chat", base);
+        var chat_ = jQuery(".sidebar-left > .chat");
+        var url = chat.attr("data-url");
+        chat_.attr("data-url", url);
+    };
+
+    var updateIcon = function(base) {
+        // updates the currently defined favicon with the new relative
+        // path so that it does not become unreadable
+        var icon = base.filter("[rel=\"shortcut icon\"]");
+        var icon_ = jQuery("[rel=\"shortcut icon\"]");
+        icon_.replaceWith(icon);
+    };
+
+    var updateContent = function(base) {
+        var content = jQuery(".content", base);
+        var content_ = jQuery(".content");
+        var contentHtml = content.html();
+        contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
+        content_.html(contentHtml);
+        content_.uxapply();
+    };
+
+    var updateFooter = function(base) {
+        var footer = base.filter(".footer");
+        var footer_ = jQuery(".footer");
+        var footerHtml = footer.html();
+        footerHtml = footerHtml.replace(/aux-src=/ig, "src=");
+        footer_.html(footerHtml);
+        footer_.uxapply();
+    };
+
+    var updateSidebarRight = function(base) {
+        var sidebarRight = jQuery(".sidebar-right", base);
+        var sidebarRight_ = jQuery(".sidebar-right");
+        var sidebarRightHtml = sidebarRight.html();
+        sidebarRightHtml = sidebarRightHtml.replace(/aux-src=/ig, "src=");
+        sidebarRight_.html(sidebarRightHtml);
+        sidebarRight_.uxapply();
+    };
+
+    var updateOverlaySearch = function(base) {
+        var overlaySearch = base.filter(".overlay-search");
+        var overlaySearch_ = jQuery(".overlay-search");
+        var overlaySearchHtml = overlaySearch.html();
+        overlaySearchHtml = overlaySearchHtml.replace(/aux-src=/ig, "src=");
+        overlaySearch_.html(overlaySearchHtml);
+        overlaySearch_.uxapply();
+    };
+
+    var updateMeta = function(base) {
+        var _body = jQuery("body");
+        var meta = base.filter(".meta")
+        var meta_ = jQuery(".meta");
+        var metaHtml = meta.html();
+        metaHtml = metaHtml.replace(/aux-src=/ig, "src=");
+        meta_.html(metaHtml);
+        meta_.uxapply();
+        _body.uconfigurations();
     };
 })(jQuery);
