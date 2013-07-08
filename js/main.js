@@ -220,6 +220,9 @@
         jQuery.ajax({
             url : href,
             dataType : "html",
+            data : {
+                async : 1
+            },
             success : function(data, status, request) {
                 // removes the loading notification, as the request has been
                 // completed with success (no need to display it anymore)
