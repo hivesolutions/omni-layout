@@ -133,6 +133,7 @@
         updateResources(base);
         updateContent(base);
         updateFooter(base);
+        updateWindow(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
@@ -148,6 +149,7 @@
         updateResources(base);
         updateContent(base);
         updateFooter(base);
+        updateWindow(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
@@ -231,6 +233,35 @@
         footerHtml = footerHtml.replace(/aux-src=/ig, "src=");
         footer_.html(footerHtml);
         footer_.uxapply();
+    };
+
+    var updateWindow = function(base) {
+        // retrieves the complete set of windows available in the
+        // base element to be processed and then retrieves the
+        // widows currently set in the content wrapper's body
+        var window = jQuery(".window", base);
+        var window_ = jQuery("body > .content-wrapper .window");
+
+        // tries to find the window placeholder section in the current
+        // element in case it's not fond creates a new placeholder and
+        // sets it in the content wrapper section of the body
+        var placeholder = jQuery(".window-placeholder");
+        if (placeholder.length == 0) {
+            var contentWrapper = jQuery("body > .content-wrapper");
+            placeholder = jQuery("<div class=\"window-placeholder\"></div>");
+            contentWrapper.append(placeholder);
+        }
+
+        // removes the complete set of windows that exist in the
+        // the current content area and then empties the placeholder
+        // from any previous elements
+        window_.remove();
+        placeholder.empty();
+
+        // adds the windows found in the current base element and
+        // applies the current logic to the placeholder section
+        placeholder.append(window);
+        placeholder.uxapply();
     };
 
     var updateHeaderImage = function(base) {
