@@ -72,6 +72,10 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        var _validate = function() {
+            return window.FormData ? true : false;
+        };
+
         var _registerHandlers = function() {
             // retrieves the various elements that are going to be
             // used in the registration for the handlers
@@ -188,8 +192,13 @@
             };
         };
 
-        var setDataHandler = function() {
-        };
+        // validates if the current system has support for the asyn
+        // behavior in case it does not returns immediately avoiding
+        // any async behavior to be applied
+        var result = _validate();
+        if (!result) {
+            return;
+        }
 
         // runs the initial registration logic enabling the current matched
         // object with the async logic and execution
