@@ -13,7 +13,9 @@
         // retrieves the various serializes (meta) elements
         // from the contents and parses the ones that are meant
         // to be parsed (using json)
+        var basePath = jQuery("#base-path", matchedObject).html();
         var mvcPath = jQuery("#mvc-path", matchedObject).html();
+        var locale = jQuery("#locale", matchedObject).html();
         var objectId = jQuery("#object-id", matchedObject).html();
         var username = jQuery("#username", matchedObject).html();
         var representation = jQuery("#representation", matchedObject).html();
@@ -75,7 +77,9 @@
 
         // updates the various (configuration) references in the
         // element to be used for reference latter
+        matchedObject.data("base_path", basePath);
         matchedObject.data("mvc_path", mvcPath);
+        matchedObject.data("locale", locale);
         matchedObject.data("object_id", objectId);
         matchedObject.data("username", username);
         matchedObject.data("representation", representation);

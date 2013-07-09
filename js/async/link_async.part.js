@@ -219,9 +219,11 @@
 
         var content = jQuery(".content", base);
         var content_ = jQuery(".content");
+        var contentClass = content.attr("class")
         var contentHtml = content.html();
         contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
         content_.html(contentHtml);
+        content_.attr("class", contentClass);
         content_.uxapply();
         content_.uxshortcuts();
     };
