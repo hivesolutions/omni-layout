@@ -421,6 +421,18 @@
     var HOST_REGEX = new RegExp(location.host);
 
     jQuery.ulinkasync = function(href, verify) {
+        // retrievs the reference to the body element to be used
+        // for async verification
+        var _body = jQuery("body");
+
+        // retrieves the value of the async flag for the current body
+        // element in case the value is not set returns immediately
+        // with a not processed value (not meant to be handled async)
+        var async = _body.data("async");
+        if (!async) {
+            return false;
+        }
+
         // in case the provided link value is invalid, not set
         // or empty there's no panel to be changed and everything
         // shuold remain the same (no update)
