@@ -97,7 +97,7 @@
                         // runs the async link execution with no force flag set
                         // and in case it run through avoids the default link
                         // behavior (avoid duplicated execution)
-                        var result = jQuery.ulinkasync(href, false, false);
+                        var result = jQuery.ulinkasync(href, false);
                         result && event.preventDefault();
                     });
 
@@ -109,6 +109,41 @@
                 return;
             }
 
+            // registers for the data changed event so that if there's new panel
+            // data available the layour is update in acordance, so that the async
+            // requests are reflected in a layout change
+            _body.bind("data", function(event, data, href, push) {
+                        // in case this is not a verified operation the current state
+                        // must be pushed into the history stack, so that we're able
+                        // to rollback to it latter
+                        push && window.history.pushState(href, href, href);
+
+                        try {
+                            // replaces the image source references in the requested
+                            // data so that no extra images are loaded then loads the
+                            // data as the base object structure
+                            data = data.replace(/src=/ig, "aux-src=");
+                            var base = jQuery(data);
+
+                            // tries to verify if the current page is a layout page
+                            // by checking the top bar existence, in case it's not
+                            // a layout page raises an invalid layout exception
+                            var hasTopBar = jQuery(".top-bar").length > 0
+                                    && base.filter(".top-bar").length > 0;
+                            var hasSideLeft = jQuery(".sidebar-left").length > 0
+                                    && jQuery(".sidebar-left", base).length > 0;
+                            var isLayout = hasTopBar && hasSideLeft;
+                            if (!isLayout) {
+                                throw "Invalid layout or layout not found";
+                            }
+
+                            updateComplete(base);
+                        } catch (exception) {
+                            window.history.back();
+                            document.location = href;
+                        }
+                    });
+
             // registers for the location changed event in order to validated the
             // location changes for async execution then sets the async flag in the
             // current body in order duplicated registration
@@ -116,7 +151,7 @@
                         // tries to runthe async link logic and in case it goes through
                         // cancels the current event returning an invalid value, so that
                         // the default location setting logic does not run
-                        var result = jQuery.ulinkasync(location, false, false);
+                        var result = jQuery.ulinkasync(location, false);
                         return !result;
                     });
             _body.data("async", true);
@@ -142,7 +177,7 @@
                 // async login must be run
                 if (event.state != null || document.location == initial) {
                     var href = document.location;
-                    jQuery.ulinkasync(href, true, true);
+                    jQuery.ulinkasync(href, true);
                 }
 
                 // in case the initial location value is not set this is the
@@ -151,143 +186,15 @@
                     initial = document.location;
                 }
             };
-        }
+        };
+
+        var setDataHandler = function() {
+        };
 
         // runs the initial registration logic enabling the current matched
         // object with the async logic and execution
         _registerHandlers();
         _setPopHandler();
-    };
-})(jQuery);
-
-(function(jQuery) {
-    /**
-     * The regular expression that is going to be used for the verification of
-     * the same host policy, required for the async based links.
-     */
-    var HOST_REGEX = new RegExp(location.host);
-
-    jQuery.ulinkasync = function(href, force, verify) {
-        // in case the provided link value is invalid, not set
-        // or empty there's no panel to be changed and everything
-        // shuold remain the same (no update)
-        if (!href) {
-            return true;
-        }
-
-        // in case this is an internal link the panel change must be
-        // avoided and the top handler should take this into account
-        if (href[0] == "#") {
-            return false;
-        }
-
-        // resolves the provided link so that were able to find out the
-        // absolute url out of it and set it as the location to be retrieved
-        // using an asynchronous approach (ajax)
-        href = jQuery.uxresolve(href);
-
-        // runs the regular expression that will verify if the current link
-        // is local and in case it's not returns immediately with the error
-        // flag set indicating that no processing has been done
-        var isLocal = HOST_REGEX.test(href)
-        if (!isLocal) {
-            return false;
-        }
-
-        // in case the force flag is not set and the location is the same as
-        // the current one no change is taken, page remains the same
-        if (!force && href == document.location) {
-            return true;
-        }
-
-        // retrieves the localized version of the loading message so that it
-        // may be used in the notification to be shown
-        var loading = jQuery.uxlocale("Loading");
-
-        // retrieves the reference to the notifications container element
-        // and removes any message that is contained in it, avoiding any
-        // duplicatd message display
-        var container = jQuery(".header-notifications-container");
-        container.empty();
-
-        // creates the notification message that will indicate the loading
-        // of the new panel and adds it to the notifications container
-        var notification = jQuery("<div class=\"header-notification warning\"><strong>"
-                + loading + "</strong></div>");
-        container.append(notification);
-
-        // runs the remove async call that will retrieve the partial contents
-        // that will be used to change and re-populate the current dom, note
-        // the extra async data parameter sent indicating that this is meant
-        // to be handled differently (notably the redirection process)
-        jQuery.ajax({
-                    url : href,
-                    dataType : "html",
-                    data : {
-                        async : 1
-                    },
-                    success : function(data, status, request) {
-                        // verifies if the current result if of type (async) redirect, this
-                        // is a special case and the redirection must be performed using a
-                        // special strateg by retrieving the new location and setting it as
-                        // new async contents to be loaded
-                        var isRedirect = request.status == 280;
-                        if (isRedirect) {
-                            var hrefR = request.getResponseHeader("Location");
-                            hrefR = jQuery.uxresolve(hrefR, href);
-                            jQuery.ulinkasync(hrefR, true, false);
-                            return;
-                        }
-
-                        // removes the loading notification, as the request has been
-                        // completed with success (no need to display it anymore)
-                        notification.remove();
-
-                        // in case this is a verified operation the assync operations
-                        // may pile up and so we must verify if the document location
-                        // in the current document is the same as the document we're
-                        // trying to retrieve, if it's not return immediately (ignore)
-                        if (verify && document.location != href) {
-                            return;
-                        }
-
-                        // in case this is not a verified operation the current state
-                        // must be pushed into the history stack, so that we're able
-                        // to rollback to it latter
-                        !verify && window.history.pushState(href, href, href);
-
-                        try {
-                            // replaces the image source references in the requested
-                            // data so that no extra images are loaded then loads the
-                            // data as the base object structure
-                            data = data.replace(/src=/ig, "aux-src=");
-                            var base = jQuery(data);
-
-                            // tries to verify if the current page is a layout page
-                            // by checking the top bar existence, in case it's not
-                            // a layout page raises an invalid layout exception
-                            var hasTopBar = jQuery(".top-bar").length > 0
-                                    && base.filter(".top-bar").length > 0;
-                            var hasSideLeft = jQuery(".sidebar-left").length > 0
-                                    && jQuery(".sidebar-left", base).length > 0;
-                            var isLayout = hasTopBar && hasSideLeft;
-                            if (!isLayout) {
-                                throw "Invalid layout or layout not found";
-                            }
-
-                            updateComplete(base);
-
-                        } catch (exception) {
-                            window.history.back();
-                            document.location = href;
-                        }
-                    },
-                    error : function() {
-                        document.location = href;
-                    }
-                });
-
-        return true;
     };
 
     var updateComplete = function(base) {
@@ -503,6 +410,106 @@
         meta_.html(metaHtml);
         meta_.uxapply();
         _body.uconfigurations();
+    };
+})(jQuery);
+
+(function(jQuery) {
+    /**
+     * The regular expression that is going to be used for the verification of
+     * the same host policy, required for the async based links.
+     */
+    var HOST_REGEX = new RegExp(location.host);
+
+    jQuery.ulinkasync = function(href, verify) {
+        // in case the provided link value is invalid, not set
+        // or empty there's no panel to be changed and everything
+        // shuold remain the same (no update)
+        if (!href) {
+            return true;
+        }
+
+        // in case this is an internal link the panel change must be
+        // avoided and the top handler should take this into account
+        if (href[0] == "#") {
+            return false;
+        }
+
+        // resolves the provided link so that were able to find out the
+        // absolute url out of it and set it as the location to be retrieved
+        // using an asynchronous approach (ajax)
+        href = jQuery.uxresolve(href);
+
+        // runs the regular expression that will verify if the current link
+        // is local and in case it's not returns immediately with the error
+        // flag set indicating that no processing has been done
+        var isLocal = HOST_REGEX.test(href)
+        if (!isLocal) {
+            return false;
+        }
+
+        // retrieves the localized version of the loading message so that it
+        // may be used in the notification to be shown
+        var loading = jQuery.uxlocale("Loading");
+
+        // retrieves the reference to the notifications container element
+        // and removes any message that is contained in it, avoiding any
+        // duplicatd message display
+        var container = jQuery(".header-notifications-container");
+        container.empty();
+
+        // creates the notification message that will indicate the loading
+        // of the new panel and adds it to the notifications container
+        var notification = jQuery("<div class=\"header-notification warning\"><strong>"
+                + loading + "</strong></div>");
+        container.append(notification);
+
+        // runs the remove async call that will retrieve the partial contents
+        // that will be used to change and re-populate the current dom, note
+        // the extra async data parameter sent indicating that this is meant
+        // to be handled differently (notably the redirection process)
+        jQuery.ajax({
+                    url : href,
+                    dataType : "html",
+                    data : {
+                        async : 1
+                    },
+                    success : function(data, status, request) {
+                        // verifies if the current result if of type (async) redirect, this
+                        // is a special case and the redirection must be performed using a
+                        // special strateg by retrieving the new location and setting it as
+                        // new async contents to be loaded
+                        var isRedirect = request.status == 280;
+                        if (isRedirect) {
+                            var hrefR = request.getResponseHeader("Location");
+                            hrefR = jQuery.uxresolve(hrefR, href);
+                            jQuery.ulinkasync(hrefR, false);
+                            return;
+                        }
+
+                        // removes the loading notification, as the request has been
+                        // completed with success (no need to display it anymore)
+                        notification.remove();
+
+                        // in case this is a verified operation the assync operations
+                        // may pile up and so we must verify if the document location
+                        // in the current document is the same as the document we're
+                        // trying to retrieve, if it's not return immediately (ignore)
+                        if (verify && document.location != href) {
+                            return;
+                        }
+
+                        // retrieves the body element and uses it to trigger the data
+                        // event indicating that new panel data is available and that
+                        // the current layout must be updated (async fashion)
+                        var _body = jQuery("body");
+                        _body.triggerHandler("data", [data, href, !verify]);
+                    },
+                    error : function() {
+                        document.location = href;
+                    }
+                });
+
+        return true;
     };
 })(jQuery);
 
