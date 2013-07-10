@@ -60,19 +60,33 @@
                             data = data.replace(/src=/ig, "aux-src=");
                             var base = jQuery(data);
 
-                            // tries to verify if the current page is a layout page
-                            // by checking the top bar existence, in case it's not
-                            // a layout page raises an invalid layout exception
-                            var hasTopBar = jQuery(".top-bar").length > 0
-                                    && base.filter(".top-bar").length > 0;
-                            var hasSideLeft = jQuery(".sidebar-left").length > 0
-                                    && jQuery(".sidebar-left", base).length > 0;
-                            var isLayout = hasTopBar && hasSideLeft;
-                            if (!isLayout) {
+                            // retrieves the information on the current layout state and
+                            // on the current base element state, so that options may be
+                            // taken on the kind of transforms to apply
+                            var _isFull = isFull();
+                            var _isSimple = isSimple();
+                            var _isBaseFull = isBaseFull(base);
+                            var _isBaseSimple = isBaseSimple(base);
+
+                            // verifies if the current layout and the target layout for
+                            // loadinf are valid for layout change in case they're not
+                            // raises an exception indicating the problem
+                            var isValid = (_isFull || _isBaseSimple)
+                                    && (_isBaseFull || _isBaseSimple);
+                            if (!isValid) {
                                 throw "Invalid layout or layout not found";
                             }
 
-                            updateFull(base);
+                            // verifies if the kind of layout update to be performed is
+                            // full or not and then executes the proper logic depending
+                            // on the kind of update operation to be performed
+                            var isUpdateFull = _isFull && _isBaseFull;
+                            if (isUpdateFull) {
+                                updateFull(base);
+                            } else {
+                                updateSimple(base);
+                            }
+
                         } catch (exception) {
                             window.history.back();
                             document.location = href;
@@ -167,15 +181,46 @@
         return true;
     };
 
+    var isBaseFull = function(base) {
+        var hasTopBar = base.filter(".top-bar");
+        if (!hasTopBar) {
+            return false;
+        }
+
+        var hasSideLeft = jQuery(".sidebar-left", base).length > 0
+        if (!hasSideLeft) {
+            return false;
+        }
+
+        var hasSideRight = jQuery(".sidebar-right", base).length > 0
+        if (!hasSideRight) {
+            return false;
+        }
+
+        return true;
+    };
+
+    var isBaseSimple = function(base) {
+        var contentWrapper = base.filter(".content-wrapper");
+        var childCount = contentWrapper.children().length;
+
+        if (childCount != 1) {
+            return false;
+        }
+
+        return true;
+    };
+
     var updateFull = function(base) {
         updateIcon(base);
         updateResources(base);
-        updateContent(base);
-        updateFooter(base);
-        updateWindow(base);
+        updateLocale(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
+        updateContent(base);
+        updateFooter(base);
+        updateWindow(base);
         updateNavigationList(base);
         updateChat(base);
         updateSidebarRight(base);
@@ -186,12 +231,13 @@
     var updateSimple = function(base) {
         updateIcon(base);
         updateResources(base);
-        updateContent(base);
-        updateFooter(base);
-        updateWindow(base);
+        updateLocale(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
+        updateContentFull(base);
+        updateFooter(base);
+        updateWindow(base);
         updateOverlaySearch(base);
         updateMeta(base);
     };
@@ -247,7 +293,7 @@
                 + "resources/js/main.js\"></script>");
     };
 
-    var updateContent = function(base) {
+    var updateLocale = function(base) {
         // retrieves the currently set locale from the base
         // structure and uses it to update the data locale
         // attribute of the current content (locale change)
@@ -255,7 +301,39 @@
         var locale_ = jQuery("[data-locale]");
         var language = locale.html().replace("_", "-");
         locale_.attr("data-locale", language);
+    };
 
+    var updateHeaderImage = function(base) {
+        var topBar = base.filter(".top-bar");
+        var headerImage = jQuery(".header-logo-area", topBar);
+        var headerImage_ = jQuery(".top-bar .header-logo-area");
+        var headerImageLink = headerImage.attr("href");
+        headerImage_.attr("href", headerImageLink);
+    };
+
+    var updateSecondLeft = function(base) {
+        var topBar = base.filter(".top-bar");
+        var secondLeft = jQuery(".left:nth-child(2)", topBar);
+        var secondLeft_ = jQuery(".top-bar .left:nth-child(2)");
+        var secondLeftHtml = secondLeft.html();
+        secondLeftHtml = secondLeftHtml.replace(/aux-src=/ig, "src=");
+        secondLeft_.html(secondLeftHtml);
+        secondLeft_.uxapply();
+    };
+
+    var updateMenu = function(base) {
+        var topBar = base.filter(".top-bar");
+        var menu = jQuery(".menu", topBar);
+        var menu_ = jQuery(".top-bar .menu");
+        var menuHtml = menu.html();
+        menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
+        menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml
+                + "</div>");
+        menu_ = jQuery(".top-bar .menu");
+        menu_.uxapply();
+    };
+
+    var updateContent = function(base) {
         var content = jQuery(".content", base);
         var content_ = jQuery(".content");
         var contentClass = content.attr("class")
@@ -265,6 +343,17 @@
         content_.attr("class", contentClass);
         content_.uxapply();
         content_.uxshortcuts();
+    };
+
+    var updateContentFull = function(base) {
+        var content = base.filter(".content-wrapper");
+        var content_ = jQuery("body > .content-wrapper");
+        var contentClass = content.attr("class")
+        var contentHtml = content.html();
+        contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
+        content_.html(contentHtml);
+        content_.attr("class", contentClass);
+        content_.uxapply();
     };
 
     var updateFooter = function(base) {
@@ -303,36 +392,6 @@
         // applies the current logic to the placeholder section
         placeholder.append(window);
         placeholder.uxapply();
-    };
-
-    var updateHeaderImage = function(base) {
-        var topBar = base.filter(".top-bar");
-        var headerImage = jQuery(".header-logo-area", topBar);
-        var headerImage_ = jQuery(".top-bar .header-logo-area");
-        var headerImageLink = headerImage.attr("href");
-        headerImage_.attr("href", headerImageLink);
-    };
-
-    var updateSecondLeft = function(base) {
-        var topBar = base.filter(".top-bar");
-        var secondLeft = jQuery(".left:nth-child(2)", topBar);
-        var secondLeft_ = jQuery(".top-bar .left:nth-child(2)");
-        var secondLeftHtml = secondLeft.html();
-        secondLeftHtml = secondLeftHtml.replace(/aux-src=/ig, "src=");
-        secondLeft_.html(secondLeftHtml);
-        secondLeft_.uxapply();
-    };
-
-    var updateMenu = function(base) {
-        var topBar = base.filter(".top-bar");
-        var menu = jQuery(".menu", topBar);
-        var menu_ = jQuery(".top-bar .menu");
-        var menuHtml = menu.html();
-        menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
-        menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml
-                + "</div>");
-        menu_ = jQuery(".top-bar .menu");
-        menu_.uxapply();
     };
 
     var updateNavigationList = function(base) {
