@@ -60,6 +60,14 @@
                             data = data.replace(/src=/ig, "aux-src=");
                             var base = jQuery(data);
 
+                            // extracts the special body associated data from the data
+                            // value escapes it with a special value and then creates
+                            // the logical element representation for it
+                            var bodyData = data.match(/<body.*>/)[0]
+                                    + "</body>";
+                            bodyData = bodyData.replace("body", "body_");
+                            var body = jQuery(bodyData);
+
                             // retrieves the information on the current layout state and
                             // on the current base element state, so that options may be
                             // taken on the kind of transforms to apply
@@ -82,9 +90,9 @@
                             // on the kind of update operation to be performed
                             var isUpdateFull = _isFull && _isBaseFull;
                             if (isUpdateFull) {
-                                updateFull(base);
+                                updateFull(base, body);
                             } else {
-                                updateSimple(base);
+                                updateSimple(base, body);
                             }
 
                         } catch (exception) {
@@ -211,7 +219,8 @@
         return true;
     };
 
-    var updateFull = function(base) {
+    var updateFull = function(base, body) {
+        updateBody(body);
         updateIcon(base);
         updateResources(base);
         updateLocale(base);
@@ -228,7 +237,8 @@
         updateMeta(base);
     };
 
-    var updateSimple = function(base) {
+    var updateSimple = function(base, body) {
+        updateBody(body);
         updateIcon(base);
         updateResources(base);
         updateLocale(base);
@@ -240,6 +250,12 @@
         updateWindow(base);
         updateOverlaySearch(base);
         updateMeta(base);
+    };
+
+    var updateBody = function(body) {
+        var _body = jQeury("body");
+        var bodyClass = body.attr("class");
+        _body.attr("class", bodyClass);
     };
 
     var updateIcon = function(base) {
