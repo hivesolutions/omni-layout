@@ -505,11 +505,7 @@
             content_.after(sidebarRight);
         }
 
-        if (sidebarRight.length == 0) {
-            return;
-        }
-
-        var sidebarRightHtml = sidebarRight.html();
+        var sidebarRightHtml = sidebarRight.html() || "";
         sidebarRightHtml = sidebarRightHtml.replace(/aux-src=/ig, "src=");
         sidebarRight_.html(sidebarRightHtml);
         sidebarRight_.uxapply();
