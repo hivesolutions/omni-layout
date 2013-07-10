@@ -81,7 +81,6 @@
                     // triggers the hide event on the overlay panel to initate
                     // the process of hidding the panel
                     overlayPanel.triggerHandler("hide");
-                    element.uxreset();
                 });
     };
 })(jQuery);
