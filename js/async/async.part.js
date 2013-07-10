@@ -94,7 +94,6 @@
                             } else {
                                 updateSimple(base, body);
                             }
-
                         } catch (exception) {
                             window.history.back();
                             document.location = href;
@@ -170,11 +169,6 @@
             return false;
         }
 
-        var hasSideRight = jQuery(".sidebar-right").length > 0
-        if (!hasSideRight) {
-            return false;
-        }
-
         return true;
     };
 
@@ -197,11 +191,6 @@
 
         var hasSideLeft = jQuery(".sidebar-left", base).length > 0
         if (!hasSideLeft) {
-            return false;
-        }
-
-        var hasSideRight = jQuery(".sidebar-right", base).length > 0
-        if (!hasSideRight) {
             return false;
         }
 
@@ -440,6 +429,10 @@
     var updateSidebarRight = function(base) {
         var sidebarRight = jQuery(".sidebar-right", base);
         var sidebarRight_ = jQuery(".sidebar-right");
+        if (sidebarRight_.length == 0) {
+            return;
+        }
+
         var sidebarRightHtml = sidebarRight.html();
         sidebarRightHtml = sidebarRightHtml.replace(/aux-src=/ig, "src=");
         sidebarRight_.html(sidebarRightHtml);
