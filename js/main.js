@@ -148,7 +148,7 @@
                             // verifies if the current layout and the target layout for
                             // loadinf are valid for layout change in case they're not
                             // raises an exception indicating the problem
-                            var isValid = (_isFull || _isBaseSimple)
+                            var isValid = (_isFull || _isSimple)
                                     && (_isBaseFull || _isBaseSimple);
                             if (!isValid) {
                                 throw "Invalid layout or layout not found";
