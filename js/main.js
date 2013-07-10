@@ -461,7 +461,7 @@
         // widows currently set the body element
         var windowOuter = base.filter(".window")
         var windowInner = jQuery(".window", base);
-        var window = windowOuter.after(windowInner);
+        var window = windowOuter.add(windowInner);
         var window_ = jQuery(".window");
 
         // tries to find the window placeholder section in the current
