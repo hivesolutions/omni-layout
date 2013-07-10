@@ -4,7 +4,10 @@
         var matchedObject = this;
 
         var _validate = function() {
-            return window.FormData ? true : false;
+            var _isFull = isFull();
+            var _isSimple = isSimple();
+            var isValid = _isFull || _isSimple;
+            return window.FormData ? isValid : false;
         };
 
         var _registerHandlers = function() {
