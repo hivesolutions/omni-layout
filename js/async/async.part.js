@@ -157,7 +157,7 @@
     };
 
     var isSimple = function() {
-        var contentWrapper = jQuery(".content-wrapper");
+        var contentWrapper = jQuery("body > .content-wrapper");
         var childCount = contentWrapper.children().length;
 
         if (childCount != 1) {
