@@ -499,7 +499,13 @@
     var updateSidebarRight = function(base) {
         var sidebarRight = jQuery(".sidebar-right", base);
         var sidebarRight_ = jQuery(".sidebar-right");
+
         if (sidebarRight_.length == 0) {
+            var content_ = jQuery(".content");
+            content_.after(sidebarRight);
+        }
+
+        if (sidebarRight.length == 0) {
             return;
         }
 
