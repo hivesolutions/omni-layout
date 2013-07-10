@@ -106,6 +106,8 @@
                     }
                 });
 
+        // returns valid as the link execution has been started
+        // with success (async request sent)
         return true;
     };
 })(jQuery);
