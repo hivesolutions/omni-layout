@@ -4,13 +4,14 @@ chat.uchat();var eureka=jQuery(".eureka",matchedObject);eureka.ueureka();var rep
 var element=jQuery(this);var href=element.attr("href");var result=jQuery.ulinkasync(href,false);result&&event.preventDefault();});var async=_body.data("async")||false;if(async){return;}
 _body.bind("data",function(event,data,href,push){push&&window.history.pushState(href,href,href);try{data=data.replace(/src=/ig,"aux-src=");var base=jQuery(data);var bodyData=data.match(/<body.*>/)[0]
 +"</body>";bodyData=bodyData.replace("body","body_");var body=jQuery(bodyData);var _isFull=isFull();var _isSimple=isSimple();var _isBaseFull=isBaseFull(base);var _isBaseSimple=isBaseSimple(base);var isValid=(_isFull||_isSimple)&&(_isBaseFull||_isBaseSimple);if(!isValid){throw"Invalid layout or layout not found";}
-var isUpdateFull=_isFull&&_isBaseFull;if(isUpdateFull){updateFull(base,body);}else{updateSimple(base,body);}}catch(exception){window.history.back();document.location=href;}});_body.bind("async",function(){var _isFull=isFull();var _isSimple=isSimple();return isFull||isSimple;});_body.bind("location",function(event,location){var result=jQuery.ulinkasync(location,false);return!result;});_body.data("async",true);};var _setPopHandler=function(){if(window.onpopstate!=null){return;}
+var isUpdateFull=_isFull&&_isBaseFull;if(isUpdateFull){updateFull(base,body);}else{updateSimple(base,body);}}catch(exception){window.history.back();document.location=href;}});_body.bind("async",function(){var _isFull=isFull();var _isSimple=isSimple();return _isFull||_isSimple;});_body.bind("location",function(event,location){var result=jQuery.ulinkasync(location,false);return!result;});_body.data("async",true);};var _setPopHandler=function(){if(window.onpopstate!=null){return;}
 var initial=null;var loaded=false;window.onpopstate=function(event){if(event.state!=null||document.location==initial){var href=document.location;jQuery.ulinkasync(href,true);}
 if(initial==null){initial=document.location;}};};var result=_validate();if(!result){return;}
 _registerHandlers();_setPopHandler();};var isFull=function(){var hasTopBar=jQuery(".top-bar").length>0;if(!hasTopBar){return false;}
 var hasSideLeft=jQuery(".sidebar-left").length>0
 if(!hasSideLeft){return false;}
-return true;};var isSimple=function(){var contentWrapper=jQuery("body > .content-wrapper");var childCount=contentWrapper.children().length;if(childCount!=1){return false;}
+return true;};var isSimple=function(){var hasTopBar=jQuery(".top-bar").length>0;if(!hasTopBar){return false;}
+var contentWrapper=jQuery("body > .content-wrapper");var childCount=contentWrapper.children().length;if(childCount!=1){return false;}
 return true;};var isBaseFull=function(base){var hasTopBar=base.filter(".top-bar");if(!hasTopBar){return false;}
 var hasSideLeft=jQuery(".sidebar-left",base).length>0
 if(!hasSideLeft){return false;}

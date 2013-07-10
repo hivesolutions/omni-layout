@@ -108,7 +108,7 @@
             _body.bind("async", function() {
                         var _isFull = isFull();
                         var _isSimple = isSimple();
-                        return isFull || isSimple;
+                        return _isFull || _isSimple;
                     });
 
             // registers for the location changed event in order to validated the
@@ -184,6 +184,11 @@
     };
 
     var isSimple = function() {
+        var hasTopBar = jQuery(".top-bar").length > 0;
+        if (!hasTopBar) {
+            return false;
+        }
+
         var contentWrapper = jQuery("body > .content-wrapper");
         var childCount = contentWrapper.children().length;
 
