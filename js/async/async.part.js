@@ -253,7 +253,7 @@
     };
 
     var updateBody = function(body) {
-        var _body = jQeury("body");
+        var _body = jQuery("body");
         var bodyClass = body.attr("class");
         _body.attr("class", bodyClass);
     };
