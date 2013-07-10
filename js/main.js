@@ -249,7 +249,7 @@
 
     var isSimple = function() {
         var contentWrapper = jQuery("body > .content-wrapper");
-        var childCount = contentWrapper.children().length;
+        var childCount = contentWrapper.children(":not(.window-placeholder)").length;
 
         if (childCount != 1) {
             return false;
@@ -279,7 +279,7 @@
 
     var isBaseSimple = function(base) {
         var contentWrapper = base.filter(".content-wrapper");
-        var childCount = contentWrapper.children().length;
+        var childCount = contentWrapper.children(":not(.window-placeholder)").length;
 
         if (childCount != 1) {
             return false;
