@@ -1731,8 +1731,11 @@
                     var overlayPanel = element.parents(".overlay-panel");
 
                     // triggers the hide event on the overlay panel to initate
-                    // the process of hidding the panel
+                    // the process of hidding the panel and then disables the
+                    // text field for the current panel to avoid any other
+                    // modification as we're in the middle of processing
                     overlayPanel.triggerHandler("hide");
+                    textField.uxdisable();
                 });
     };
 })(jQuery);
