@@ -180,7 +180,7 @@
 
     var isSimple = function() {
         var contentWrapper = jQuery("body > .content-wrapper");
-        var childCount = contentWrapper.children(":not(.window-placeholder)").length;
+        var childCount = contentWrapper.children().length;
 
         if (childCount != 1) {
             return false;
@@ -210,7 +210,7 @@
 
     var isBaseSimple = function(base) {
         var contentWrapper = base.filter(".content-wrapper");
-        var childCount = contentWrapper.children(":not(.window-placeholder)").length;
+        var childCount = contentWrapper.children().length;
 
         if (childCount != 1) {
             return false;
@@ -224,12 +224,12 @@
         updateIcon(base);
         updateResources(base);
         updateLocale(base);
+        updateWindow(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
         updateContent(base);
         updateFooter(base);
-        updateWindow(base);
         updateNavigationList(base);
         updateChat(base);
         updateSidebarRight(base);
@@ -242,12 +242,12 @@
         updateIcon(base);
         updateResources(base);
         updateLocale(base);
+        updateWindow(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
         updateContentFull(base);
         updateFooter(base);
-        updateWindow(base);
         updateOverlaySearch(base);
         updateMeta(base);
     };
@@ -384,18 +384,20 @@
     var updateWindow = function(base) {
         // retrieves the complete set of windows available in the
         // base element to be processed and then retrieves the
-        // widows currently set in the content wrapper's body
-        var window = jQuery(".window", base);
-        var window_ = jQuery("body > .content-wrapper .window");
+        // widows currently set the body element
+        var windowOuter = base.filter(".window")
+        var windowInner = jQuery(".window", base);
+        var window = windowOuter.after(windowInner);
+        var window_ = jQuery(".window");
 
         // tries to find the window placeholder section in the current
         // element in case it's not fond creates a new placeholder and
         // sets it in the content wrapper section of the body
         var placeholder = jQuery(".window-placeholder");
         if (placeholder.length == 0) {
-            var contentWrapper = jQuery("body > .content-wrapper");
+            var _body = jQuery("body");
             placeholder = jQuery("<div class=\"window-placeholder\"></div>");
-            contentWrapper.append(placeholder);
+            _body.append(placeholder);
         }
 
         // removes the complete set of windows that exist in the
