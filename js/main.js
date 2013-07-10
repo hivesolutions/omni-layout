@@ -170,6 +170,16 @@
                         }
                     });
 
+            // registers for the async envent that should be triggered
+            // as a validator for the asyncronous execution of calls, plugins
+            // like the form should use this event to validate their
+            // own behavior, and react to the result of this event
+            _body.bind("async", function() {
+                        var _isFull = isFull();
+                        var _isSimple = isSimple();
+                        return isFull || isSimple;
+                    });
+
             // registers for the location changed event in order to validated the
             // location changes for async execution then sets the async flag in the
             // current body in order duplicated registration
