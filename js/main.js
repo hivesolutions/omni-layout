@@ -340,8 +340,8 @@
         var _body = jQuery("body");
 
         var section = jQuery("#section", base);
+        var basePath = jQuery("#base-path", base);
         var section_ = jQuery(".meta > #section");
-        var basePath = jQuery(".meta > #base-path");
 
         var sectionValue = section.html();
         var sectionValue_ = section_.html();
