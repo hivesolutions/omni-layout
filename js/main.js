@@ -141,7 +141,7 @@
                                 throw "Invalid layout or layout not found";
                             }
 
-                            updateComplete(base);
+                            updateFull(base);
                         } catch (exception) {
                             window.history.back();
                             document.location = href;
@@ -206,7 +206,37 @@
         _setPopHandler();
     };
 
-    var updateComplete = function(base) {
+    var isFull = function() {
+        var hasTopBar = jQuery(".top-bar").length > 0;
+        if (!hasTopBar) {
+            return false;
+        }
+
+        var hasSideLeft = jQuery(".sidebar-left").length > 0
+        if (!hasSideLeft) {
+            return false;
+        }
+
+        var hasSideRight = jQuery(".sidebar-right").length > 0
+        if (!hasSideRight) {
+            return false;
+        }
+
+        return true;
+    };
+
+    var isSimple = function() {
+        var contentWrapper = jQuery(".content-wrapper");
+        var childCount = contentWrapper.children().length;
+
+        if (childCount != 1) {
+            return false;
+        }
+
+        return true;
+    };
+
+    var updateFull = function(base) {
         updateIcon(base);
         updateResources(base);
         updateContent(base);
@@ -530,6 +560,8 @@
                     }
                 });
 
+        // returns valid as the link execution has been started
+        // with success (async request sent)
         return true;
     };
 })(jQuery);
