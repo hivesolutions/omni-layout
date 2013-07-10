@@ -302,6 +302,7 @@
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
+        updateNotification(base);
         updateContent(base);
         updateFooter(base);
         updateNavigationList(base);
@@ -320,6 +321,7 @@
         updateHeaderImage(base);
         updateSecondLeft(base);
         updateMenu(base);
+        updateNotification(base);
         updateContentFull(base);
         updateFooter(base);
         updateOverlaySearch(base);
@@ -421,6 +423,13 @@
                 + "</div>");
         menu_ = jQuery(".top-bar .menu");
         menu_.uxapply();
+    };
+
+    var updateNotification = function(base) {
+        var container = jQuery(".header-notifications-container");
+        var notifications = jQuery(".header-notification", base);
+        container.append(notifications);
+        container.uxapply();
     };
 
     var updateContent = function(base) {
