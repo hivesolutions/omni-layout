@@ -425,8 +425,16 @@
     var updateChat = function(base) {
         var chat = jQuery(".sidebar-left > .chat", base);
         var chat_ = jQuery(".sidebar-left > .chat");
-        var url = chat.attr("data-url");
-        chat_.attr("data-url", url);
+        var exists = chat_.length > 0;
+
+        if (exists) {
+            var url = chat.attr("data-url");
+            chat_.attr("data-url", url);
+        } else {
+            var sideLeft = jQuery(".sidebar-left");
+            sideLeft.append(chat);
+            chat.uchat();
+        }
     };
 
     var updateSidebarRight = function(base) {
