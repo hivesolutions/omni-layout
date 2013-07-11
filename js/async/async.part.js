@@ -263,7 +263,7 @@
         _base.attr("href", hbase);
     };
 
-    var updateId = function(uuid) {
+    var updateGuid = function(uuid) {
         var _body = jQuery("body");
         _body.attr("uuid", uuid);
     };
