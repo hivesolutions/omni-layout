@@ -70,6 +70,8 @@
             container.append(notification);
         }
 
+        // tries to retrieve the current top loader element, in case it's
+        // not found inserts it in the correct position in the top bar
         var topLoader = jQuery(".top-loader");
         if (topLoader.length == 0) {
             var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
@@ -78,6 +80,8 @@
             rightPanel.after(topLoader);
         }
 
+        // sets the top loader to the initial position then shows it in the
+        // the current screen and runs the initial animation in it
         topLoader.width(0);
         topLoader.show();
         topLoader.animate({
@@ -107,7 +111,8 @@
                             return;
                         }
 
-                        // runs the final part of the loading animation with the
+                        // runs the final part of the loading animation, moving the loading
+                        // bar to the final part of the contents and fading it afterwards
                         topLoader.animate({
                                     width : 566
                                 }, 150, function() {

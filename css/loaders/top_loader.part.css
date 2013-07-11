@@ -1,0 +1,15 @@
+.omni-style .top-loader {
+    background: transparent url(../images/loaders/top-loader.png) no-repeat right top;
+    height: 6px;
+    margin-left: 177px;
+    margin-top: 48px;
+    padding-right: 6px; ;
+    padding-top: 2px;
+    position: absolute;
+}
+
+.omni-style .top-loader > .loader-background {
+    background-color: #5abbe6;
+    height: 2px;
+    width: 100%;
+}
