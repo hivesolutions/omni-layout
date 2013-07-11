@@ -7,7 +7,7 @@ push&&window.history.pushState(state,null,href);try{data=data.replace(/src=/ig,"
 +"</body>";bodyData=bodyData.replace("body","body_");var body=jQuery(bodyData);var _isFull=isFull();var _isSimple=isSimple();var _isBaseFull=isBaseFull(base);var _isBaseSimple=isBaseSimple(base);var isValid=(_isFull||_isSimple)&&(_isBaseFull||_isBaseSimple);if(!isValid){throw"Invalid layout or layout not found";}
 updateBase(hbase);var isUpdateFull=_isFull&&_isBaseFull;if(isUpdateFull){updateFull(base,body);}else{updateSimple(base,body);}
 updateGuid(uuid);}catch(exception){window.history.back();document.location=href;}});_body.bind("async",function(){var _isFull=isFull();var _isSimple=isSimple();return _isFull||_isSimple;});_body.bind("location",function(event,location){var result=jQuery.ulinkasync(location,false);return!result;});_body.data("async",true);};var _setPopHandler=function(){if(window.onpopstate!=null){return;}
-var initial=null;window.onpopstate=function(event){var isValid=event.state==null||event.state.href==document.URL;if(event.state!=null||document.location==initial){var href=document.location;isValid&&jQuery.ulinkasync(href,true,event.state.uuid);}
+var initial=null;window.onpopstate=function(event){var isValid=event.state==null||event.state.href==document.URL;var uuid=event.state?event.state.uuid:null;if(event.state!=null||document.location==initial){var href=document.location;isValid&&jQuery.ulinkasync(href,true,uuid);}
 if(initial==null){initial=document.location;}};};var result=_validate();if(!result){return;}
 _registerHandlers();_setPopHandler();};var isFull=function(){var hasTopBar=jQuery(".top-bar").length>0;if(!hasTopBar){return false;}
 var hasSideLeft=jQuery(".sidebar-left").length>0

@@ -168,12 +168,16 @@
                 var isValid = event.state == null
                         || event.state.href == document.URL;
 
+                // retrieves the proper uuid value to be used in the trigger
+                // of the link action, taking into account the current state
+                var uuid = event.state ? event.state.uuid : null;
+
                 // in case the event raised contains no state (not pushed)
                 // and the location or the location is the initial one the
                 // async login must be run
                 if (event.state != null || document.location == initial) {
                     var href = document.location;
-                    isValid && jQuery.ulinkasync(href, true, event.state.uuid);
+                    isValid && jQuery.ulinkasync(href, true, uuid);
                 }
 
                 // in case the initial location value is not set this is the
