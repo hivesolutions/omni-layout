@@ -116,10 +116,11 @@
             // registers for the data changed event so that if there's new panel
             // data available the layour is update in acordance, so that the async
             // requests are reflected in a layout change
-            _body.bind("data", function(event, data, href, method, push) {
-                        // resolves the provided link indicating the http method that generated
-                        // it for additional resolution information
-                        href = _resolve(href, method);
+            _body.bind("data",
+                    function(event, data, href, method, push, hbase) {
+                        // retrieves the default hiperlink base value as the target link value
+                        // this value may be used to customize the url versus link resolution
+                        hbase = hbase || href;
 
                         // in case this is not a verified operation the current state
                         // must be pushed into the history stack, so that we're able
@@ -157,6 +158,11 @@
                             if (!isValid) {
                                 throw "Invalid layout or layout not found";
                             }
+
+                            // updates the base (resolution) tag in the document header
+                            // so that it reflects the proper link resolution, expected
+                            // for the current document state
+                            updateBase(hbase);
 
                             // verifies if the kind of layout update to be performed is
                             // full or not and then executes the proper logic depending
@@ -236,30 +242,6 @@
             };
         };
 
-        var _resolve = function(href, method) {
-            // in case the method that generated the data from the provided
-            // href is of type get nothing should happen and the link value
-            // should be returned immediately
-            if (method == "get") {
-                return href;
-            }
-
-            // should the method that generated the link change be the post
-            // some transforms must be applied taking into account the current
-            // document location as a reference
-            if (method == "post") {
-                var url = document.URL;
-                var parts = href.split("/")
-                var parts_ = url.split("/");
-                var isValid = parts.length == parts_.lenfth;
-                return isValid ? url : href;
-            }
-
-            // returns the provided link value, this is considered the default
-            // fallback behaviour for the function
-            return href;
-        };
-
         // validates if the current system has support for the asyn
         // behavior in case it does not returns immediately avoiding
         // any async behavior to be applied
@@ -327,6 +309,16 @@
         }
 
         return true;
+    };
+
+    var updateBase = function(hbase) {
+        var _base = jQuery("head base");
+        if (_base.length == 0) {
+            var _head = jQuery("head");
+            var _base = jQuery("<base></base>");
+            _head.append(_base);
+        }
+        _base.attr("href", hbase);
     };
 
     var updateFull = function(base, body) {
