@@ -218,20 +218,18 @@
             // registers the pop state changed handler function so that
             // it's possible to restore the state using an async approach
             window.onpopstate = function(event) {
-                // in case the state of the event that has been "popped"
-                // indicates that the event represents a post operation
-                // the history should go back one more time (avoids state)
-                if (event.state == "post") {
-                    window.history.back();
-                    return;
-                }
+                // sets the old loaded flag with the current content of
+                // the loaded flag and then updates the loaded flag with
+                // a valud indicating that the setup is loaded
+                var loadedOld = loaded || event.state != null;
+                loaded = true;
 
                 // in case the event raised contains no state (not pushed)
                 // and the location or the location is the initial one the
                 // async login must be run
                 if (event.state != null || document.location == initial) {
                     var href = document.location;
-                    jQuery.ulinkasync(href, true);
+                    loadedOld && jQuery.ulinkasync(href, true);
                 }
 
                 // in case the initial location value is not set this is the
@@ -666,7 +664,7 @@
                         if (isRedirect) {
                             var hrefR = request.getResponseHeader("Location");
                             hrefR = jQuery.uxresolve(hrefR, href);
-                            jQuery.ulinkasync(hrefR, false);
+                            jQuery.uxlocation(hrefR);
                             return;
                         }
 

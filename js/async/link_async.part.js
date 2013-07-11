@@ -79,7 +79,7 @@
                         if (isRedirect) {
                             var hrefR = request.getResponseHeader("Location");
                             hrefR = jQuery.uxresolve(hrefR, href);
-                            jQuery.ulinkasync(hrefR, false);
+                            jQuery.uxlocation(hrefR);
                             return;
                         }
 
