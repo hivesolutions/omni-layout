@@ -1,4 +1,4 @@
-(function(jQuery){jQuery.fn.uapply=function(options){var matchedObject=this;matchedObject.uasync();matchedObject.uconfigurations();matchedObject.utopbar();matchedObject.uscan();var menu=jQuery(".menu")
+(function(jQuery){jQuery.fn.uapply=function(options){var matchedObject=this;matchedObject.uasync();matchedObject.uconfigurations();matchedObject.utopbar();matchedObject.uscan();var menu=jQuery(".system-menu")
 menu.umenu();var chat=jQuery(".chat",matchedObject)
 chat.uchat();var eureka=jQuery(".eureka",matchedObject);eureka.ueureka();var report=jQuery(".report",matchedObject);report.ureport();};})(jQuery);(function(jQuery){jQuery.fn.uasync=function(){var SHOW_NOTIFICATION=false;var matchedObject=this;var _validate=function(){return window.FormData?true:false;};var _registerHandlers=function(){var _body=jQuery("body");var links=jQuery("a[href], .link[href]",matchedObject);links.click(function(event){if(event.which==2||event.which==3){return;}
 var element=jQuery(this);var href=element.attr("href");var result=jQuery.ulinkasync(href,false);result&&event.preventDefault();});var async=_body.data("async")||false;if(async){return;}
