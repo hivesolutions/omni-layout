@@ -77,6 +77,10 @@ body.omni-style.no-selection {
     -webkit-user-select: none;
 }
 
+body.omni-style.opensans {
+    font-family: "Open Sans", Arial, sans-serif;
+}
+
 .omni-style .visible {
     display: block;
 }
@@ -897,8 +901,10 @@ body.omni-style.no-selection {
 
 .omni-style .system-menu .menu-button {
     background: transparent url(../images/arrow-blue.png) no-repeat right center;
+    height: 24px;
+    line-height: 24px;
     margin-top: 4px;
-    padding: 8px 20px 8px 8px;
+    padding: 4px 20px 4px 8px;
 }
 
 .omni-style .system-menu.active .menu-button {

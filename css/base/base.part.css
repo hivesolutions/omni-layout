@@ -77,6 +77,10 @@ body.omni-style.no-selection {
     -webkit-user-select: none;
 }
 
+body.omni-style.opensans {
+    font-family: "Open Sans", Arial, sans-serif;
+}
+
 .omni-style .visible {
     display: block;
 }
