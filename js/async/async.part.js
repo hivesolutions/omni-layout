@@ -471,13 +471,13 @@
 
     var updateMenu = function(base) {
         var topBar = base.filter(".top-bar");
-        var menu = jQuery(".menu", topBar);
-        var menu_ = jQuery(".top-bar .menu");
+        var menu = jQuery(".system-menu", topBar);
+        var menu_ = jQuery(".top-bar .system-menu");
         var menuHtml = menu.html();
         menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
         menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml
                 + "</div>");
-        menu_ = jQuery(".top-bar .menu");
+        menu_ = jQuery(".top-bar .system-menu");
         menu_.uxapply();
     };
 
