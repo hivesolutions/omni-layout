@@ -5,12 +5,6 @@
      */
     var HOST_REGEX = new RegExp(location.host);
 
-    /**
-     * Flag that controls if a notification should be presented to the user
-     * about the loading of the new contents.
-     */
-    var SHOW_NOTIFICATION = false;
-
     jQuery.ulinkasync = function(href, verify, uuid) {
         // retrievs the reference to the body element to be used
         // for async verification
@@ -50,43 +44,16 @@
             return false;
         }
 
-        // in case the show notification flag is set the notification must
-        // be created and show in the correct place
-        if (SHOW_NOTIFICATION) {
-            // retrieves the localized version of the loading message so that it
-            // may be used in the notification to be shown
-            var loading = jQuery.uxlocale("Loading");
+        // trigers the async operation start handler indicating that an
+        // asyncronous request is going to start, this trigger should
+        // enable all the visuals so that the user is notified about the
+        // remote communication that is going to occur
+        _body.triggerHandler("async_start");
 
-            // retrieves the reference to the notifications container element
-            // and removes any message that is contained in it, avoiding any
-            // duplicatd message display
-            var container = jQuery(".header-notifications-container");
-            container.empty();
-
-            // creates the notification message that will indicate the loading
-            // of the new panel and adds it to the notifications container
-            var notification = jQuery("<div class=\"header-notification warning\"><strong>"
-                    + loading + "</strong></div>");
-            container.append(notification);
-        }
-
-        // tries to retrieve the current top loader element, in case it's
-        // not found inserts it in the correct position in the top bar
-        var topLoader = jQuery(".top-loader");
-        if (topLoader.length == 0) {
-            var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
-            var topLoader = jQuery("<div class=\"top-loader\">"
-                    + "<div class=\"loader-background\"></div>" + "</div>");
-            rightPanel.after(topLoader);
-        }
-
-        // sets the top loader to the initial position then shows it in the
-        // the current screen and runs the initial animation in it
-        topLoader.width(0);
-        topLoader.show();
-        topLoader.animate({
-                    width : 60
-                }, 100);
+        // updates the async state of the current document so
+        // that the system "knows" the current request that is
+        // being processed in an async fashion
+        _body.data("async_state", href);
 
         // runs the remove async call that will retrieve the partial contents
         // that will be used to change and re-populate the current dom, note
@@ -111,19 +78,23 @@
                             return;
                         }
 
-                        // runs the final part of the loading animation, moving the loading
-                        // bar to the final part of the contents and fading it afterwards
-                        topLoader.animate({
-                                    width : 566
-                                }, 150, function() {
-                                    topLoader.fadeOut(150);
-                                });
+                        // retrieves the reference to the body element to be used in the
+                        // current reponse handler for a series of operations
+                        var _body = jQuery("body");
 
-                        // removes the loading notification, as the request has been
-                        // completed with success (no need to display it anymore)
-                        SHOW_NOTIFICATION && notification.remove();
+                        // retrieves the current async state that is in processing in case
+                        // it's not the same as the current link returns immediately as the
+                        // current process has been canceled "by a newer one"
+                        var state = _body.data("async_state");
+                        if (state != href) {
+                            return;
+                        }
 
-                        // in case this is a verified operation the assync operations
+                        // trigger the async end(ed) event that notifies the current
+                        // structures that no more remote communication is taking place
+                        _body.triggerHandler("async_end");
+
+                        // in case this is a verified operation the async operations
                         // may pile up and so we must verify if the document location
                         // in the current document is the same as the document we're
                         // trying to retrieve, if it's not return immediately (ignore)
@@ -134,7 +105,6 @@
                         // retrieves the body element and uses it to trigger the data
                         // event indicating that new panel data is available and that
                         // the current layout must be updated (async fashion)
-                        var _body = jQuery("body");
                         _body.triggerHandler("data",
                                 [data, href, uuid, !verify]);
                     },

@@ -1,5 +1,11 @@
 (function(jQuery) {
     jQuery.fn.uasync = function() {
+        /**
+         * Flag that controls if a notification should be presented to the user
+         * about the loading of the new contents.
+         */
+        var SHOW_NOTIFICATION = false;
+
         // sets the jquery matched object
         var matchedObject = this;
 
@@ -134,6 +140,77 @@
                         var _isSimple = isSimple();
                         return _isFull || _isSimple;
                     });
+
+            // registers for the async start event that marks the
+            // the start of a remote asycn call with the intension
+            // of chaming the current layout
+            _body.bind("async_start", function() {
+                // in case the show notification flag is set the notification must
+                // be created and show in the correct place
+                if (SHOW_NOTIFICATION) {
+                    // retrieves the localized version of the loading message so that it
+                    // may be used in the notification to be shown
+                    var loading = jQuery.uxlocale("Loading");
+
+                    // retrieves the reference to the notifications container element
+                    // and removes any message that is contained in it, avoiding any
+                    // duplicatd message display
+                    var container = jQuery(".header-notifications-container");
+                    container.empty();
+
+                    // creates the notification message that will indicate the loading
+                    // of the new panel and adds it to the notifications container
+                    var notification = jQuery("<div class=\"header-notification warning\"><strong>"
+                            + loading + "</strong></div>");
+                    container.append(notification);
+                }
+
+                // tries to retrieve the current top loader element, in case it's
+                // not found inserts it in the correct position in the top bar
+                var topLoader = jQuery(".top-loader");
+                if (topLoader.length == 0) {
+                    var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
+                    var topLoader = jQuery("<div class=\"top-loader\">"
+                            + "<div class=\"loader-background\"></div>"
+                            + "</div>");
+                    rightPanel.after(topLoader);
+                }
+
+                // sets the top loader to the initial position then shows it in the
+                // the current screen and runs the initial animation in it
+                topLoader.width(0);
+                topLoader.show();
+                topLoader.animate({
+                            width : 60
+                        }, 100);
+            });
+
+            // registers for the async end event that marks the end of the remote
+            // call that performs an async operation with the intesion of chaging
+            // the current layout to remote the current loading structures
+            _body.bind("async_end", function() {
+                // in case the show nofication flag is set the notification must
+                // be hidden so that the layout gets back to normal
+                if (SHOW_NOTIFICATION) {
+                    // retrieves the current notifications container and uses it to
+                    // retrieve the current visible notification
+                    var container = jQuery(".header-notifications-container");
+                    var notification = jQuery(".header-notification", container);
+
+                    // removes the loading notification, as the request has been
+                    // completed with success (no need to display it anymore)
+                    notification.remove();
+                }
+
+                // runs the final part of the loading animation, moving the loading
+                // bar to the final part of the contents and fading it afterwards
+                var topLoader = jQuery(".top-loader");
+                topLoader.animate({
+                            width : 566
+                        }, 150, function() {
+                            topLoader.fadeOut(150);
+                        });
+            });
 
             // registers for the location changed event in order to validated the
             // location changes for async execution then sets the async flag in the
