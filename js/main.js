@@ -612,6 +612,12 @@
      */
     var HOST_REGEX = new RegExp(location.host);
 
+    /**
+     * Flag that controls if a notification should be presented to the user
+     * about the loading of the new contents.
+     */
+    var SHOW_NOTIFICATION = false;
+
     jQuery.ulinkasync = function(href, verify, uuid) {
         // retrievs the reference to the body element to be used
         // for async verification
@@ -651,21 +657,39 @@
             return false;
         }
 
-        // retrieves the localized version of the loading message so that it
-        // may be used in the notification to be shown
-        var loading = jQuery.uxlocale("Loading");
+        // in case the show notification flag is set the notification must
+        // be created and show in the correct place
+        if (SHOW_NOTIFICATION) {
+            // retrieves the localized version of the loading message so that it
+            // may be used in the notification to be shown
+            var loading = jQuery.uxlocale("Loading");
 
-        // retrieves the reference to the notifications container element
-        // and removes any message that is contained in it, avoiding any
-        // duplicatd message display
-        var container = jQuery(".header-notifications-container");
-        container.empty();
+            // retrieves the reference to the notifications container element
+            // and removes any message that is contained in it, avoiding any
+            // duplicatd message display
+            var container = jQuery(".header-notifications-container");
+            container.empty();
 
-        // creates the notification message that will indicate the loading
-        // of the new panel and adds it to the notifications container
-        var notification = jQuery("<div class=\"header-notification warning\"><strong>"
-                + loading + "</strong></div>");
-        container.append(notification);
+            // creates the notification message that will indicate the loading
+            // of the new panel and adds it to the notifications container
+            var notification = jQuery("<div class=\"header-notification warning\"><strong>"
+                    + loading + "</strong></div>");
+            container.append(notification);
+        }
+
+        var topLoader = jQuery(".top-loader");
+        if (topLoader.length == 0) {
+            var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
+            var topLoader = jQuery("<div class=\"top-loader\">"
+                    + "<div class=\"loader-background\"></div>" + "</div>");
+            rightPanel.after(topLoader);
+        }
+
+        topLoader.width(0);
+        topLoader.show();
+        topLoader.animate({
+                    width : 60
+                }, 100);
 
         // runs the remove async call that will retrieve the partial contents
         // that will be used to change and re-populate the current dom, note
@@ -690,9 +714,16 @@
                             return;
                         }
 
+                        // runs the final part of the loading animation with the
+                        topLoader.animate({
+                                    width : 566
+                                }, 150, function() {
+                                    topLoader.fadeOut(150);
+                                });
+
                         // removes the loading notification, as the request has been
                         // completed with success (no need to display it anymore)
-                        notification.remove();
+                        SHOW_NOTIFICATION && notification.remove();
 
                         // in case this is a verified operation the assync operations
                         // may pile up and so we must verify if the document location
