@@ -2111,7 +2111,6 @@ body.omni-print-style.receipt {
     float: left;
     font-size: 13px;
     line-height: 22px;
-    min-height: auto;
 }
 
 .omni-style .entity-details-list > li .list-sub-label.replacer,

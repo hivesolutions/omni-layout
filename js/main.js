@@ -116,11 +116,15 @@
             // registers for the data changed event so that if there's new panel
             // data available the layour is update in acordance, so that the async
             // requests are reflected in a layout change
-            _body.bind("data", function(event, data, href, push) {
+            _body.bind("data", function(event, data, href, method, push) {
+                        // resolves the provided link indicating the http method that generated
+                        // it for additional resolution information
+                        href = _resolve(href, method);
+
                         // in case this is not a verified operation the current state
                         // must be pushed into the history stack, so that we're able
                         // to rollback to it latter
-                        push && window.history.pushState(href, href, href);
+                        push && window.history.pushState(method, null, href);
 
                         try {
                             // replaces the image source references in the requested
@@ -208,6 +212,14 @@
             // registers the pop state changed handler function so that
             // it's possible to restore the state using an async approach
             window.onpopstate = function(event) {
+                // in case the state of the event that has been "popped"
+                // indicates that the event represents a post operation
+                // the history should go back one more time (avoids state)
+                if (event.state == "post") {
+                    window.history.back();
+                    return;
+                }
+
                 // in case the event raised contains no state (not pushed)
                 // and the location or the location is the initial one the
                 // async login must be run
@@ -222,6 +234,30 @@
                     initial = document.location;
                 }
             };
+        };
+
+        var _resolve = function(href, method) {
+            // in case the method that generated the data from the provided
+            // href is of type get nothing should happen and the link value
+            // should be returned immediately
+            if (method == "get") {
+                return href;
+            }
+
+            // should the method that generated the link change be the post
+            // some transforms must be applied taking into account the current
+            // document location as a reference
+            if (method == "post") {
+                var url = document.URL;
+                var parts = href.split("/")
+                var parts_ = url.split("/");
+                var isValid = parts.length == parts_.lenfth;
+                return isValid ? url : href;
+            }
+
+            // returns the provided link value, this is considered the default
+            // fallback behaviour for the function
+            return href;
         };
 
         // validates if the current system has support for the asyn
@@ -658,7 +694,8 @@
                         // event indicating that new panel data is available and that
                         // the current layout must be updated (async fashion)
                         var _body = jQuery("body");
-                        _body.triggerHandler("data", [data, href, !verify]);
+                        _body.triggerHandler("data", [data, href, "get",
+                                        !verify]);
                     },
                     error : function() {
                         document.location = href;

@@ -99,7 +99,8 @@
                         // event indicating that new panel data is available and that
                         // the current layout must be updated (async fashion)
                         var _body = jQuery("body");
-                        _body.triggerHandler("data", [data, href, !verify]);
+                        _body.triggerHandler("data", [data, href, "get",
+                                        !verify]);
                     },
                     error : function() {
                         document.location = href;
