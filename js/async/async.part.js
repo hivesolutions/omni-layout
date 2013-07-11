@@ -47,16 +47,26 @@
             // registers for the data changed event so that if there's new panel
             // data available the layour is update in acordance, so that the async
             // requests are reflected in a layout change
-            _body.bind("data",
-                    function(event, data, href, method, push, hbase) {
+            _body.bind("data", function(event, data, href, uuid, push, hbase) {
+                        // in case no unique identifier for the state exists generates a new
+                        // on in order to identify the current layout state
+                        uuid = uuid || jQuery.uxguid();
+
                         // retrieves the default hiperlink base value as the target link value
                         // this value may be used to customize the url versus link resolution
                         hbase = hbase || href;
 
+                        // creates the object that describes the current state with both the
+                        // unique identifier of the state and the link that generated it
+                        var state = {
+                            uuid : uuid,
+                            href : href
+                        }
+
                         // in case this is not a verified operation the current state
                         // must be pushed into the history stack, so that we're able
                         // to rollback to it latter
-                        push && window.history.pushState(method, null, href);
+                        push && window.history.pushState(state, null, href);
 
                         try {
                             // replaces the image source references in the requested
@@ -105,6 +115,10 @@
                                 updateSimple(base, body);
                             }
 
+                            // updates the globally unique identifier representation for
+                            // the current state in the current structures
+                            updateGuid(uuid);
+
                         } catch (exception) {
                             window.history.back();
                             document.location = href;
@@ -144,23 +158,22 @@
             // sets the initial and loded variables so that they will
             // be used by the pop state function handler as a clojure
             var initial = null;
-            var loaded = false;
 
             // registers the pop state changed handler function so that
             // it's possible to restore the state using an async approach
             window.onpopstate = function(event) {
-                // sets the old loaded flag with the current content of
-                // the loaded flag and then updates the loaded flag with
-                // a valud indicating that the setup is loaded
-                var loadedOld = loaded || event.state != null;
-                loaded = true;
+                // verifies if the current state is valid by checking the current
+                // document url agains the link defined in the state in case it's
+                // the same or no state exists it's considered valid
+                var isValid = event.state == null
+                        || event.state.href == document.URL;
 
                 // in case the event raised contains no state (not pushed)
                 // and the location or the location is the initial one the
                 // async login must be run
                 if (event.state != null || document.location == initial) {
                     var href = document.location;
-                    loadedOld && jQuery.ulinkasync(href, true);
+                    isValid && jQuery.ulinkasync(href, true, event.state.uuid);
                 }
 
                 // in case the initial location value is not set this is the
@@ -248,6 +261,11 @@
             _head.append(_base);
         }
         _base.attr("href", hbase);
+    };
+
+    var updateId = function(uuid) {
+        var _body = jQuery("body");
+        _body.attr("uuid", uuid);
     };
 
     var updateFull = function(base, body) {

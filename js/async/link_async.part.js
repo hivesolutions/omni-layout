@@ -5,7 +5,7 @@
      */
     var HOST_REGEX = new RegExp(location.host);
 
-    jQuery.ulinkasync = function(href, verify) {
+    jQuery.ulinkasync = function(href, verify, uuid) {
         // retrievs the reference to the body element to be used
         // for async verification
         var _body = jQuery("body");
@@ -99,8 +99,8 @@
                         // event indicating that new panel data is available and that
                         // the current layout must be updated (async fashion)
                         var _body = jQuery("body");
-                        _body.triggerHandler("data", [data, href, "get",
-                                        !verify]);
+                        _body.triggerHandler("data",
+                                [data, href, uuid, !verify]);
                     },
                     error : function() {
                         document.location = href;
