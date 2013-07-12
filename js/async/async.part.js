@@ -10,7 +10,9 @@
         var matchedObject = this;
 
         var _validate = function() {
-            return window.FormData ? true : false;
+            var _body = jQuery("body");
+            var async = !_body.hasClass("noajax");
+            return window.FormData ? async : false;
         };
 
         var _registerHandlers = function() {
@@ -265,11 +267,14 @@
             };
         };
 
-        // validates if the current system has support for the asyn
+        // validates if the current system has support for the async
         // behavior in case it does not returns immediately avoiding
-        // any async behavior to be applied
+        // any async behavior to be applied, but first it unsets the
+        // async flag in the current body to avoid async behavior
         var result = _validate();
         if (!result) {
+            var _body = jQuery("body");
+            _body.data("async", false);
             return;
         }
 
