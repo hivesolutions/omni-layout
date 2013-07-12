@@ -40,6 +40,12 @@
     -webkit-border-radius: 4px 4px 4px 4px;
 }
 
+.omni-style.round .system-menu .menu-contents-left > img {
+    border-radius: 32px 32px 32px 32px;
+    -moz-border-radius: 32px 32px 32px 32px;
+    -webkit-border-radius: 32px 32px 32px 32px;
+}
+
 .omni-style .system-menu .menu-contents-right {
     display: inline-block;
     min-width: 200px;
@@ -78,4 +84,10 @@
     border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
+}
+
+.omni-style.round .system-menu .menu-contents .image > img {
+    border-radius: 25px 25px 25px 25px;
+    -moz-border-radius: 25px 25px 25px 25px;
+    -webkit-border-radius: 25px 25px 25px 25px;
 }

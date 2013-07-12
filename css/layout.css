@@ -937,6 +937,12 @@ body.omni-style.opensans {
     -webkit-border-radius: 4px 4px 4px 4px;
 }
 
+.omni-style.round .system-menu .menu-contents-left > img {
+    border-radius: 32px 32px 32px 32px;
+    -moz-border-radius: 32px 32px 32px 32px;
+    -webkit-border-radius: 32px 32px 32px 32px;
+}
+
 .omni-style .system-menu .menu-contents-right {
     display: inline-block;
     min-width: 200px;
@@ -975,6 +981,12 @@ body.omni-style.opensans {
     border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
+}
+
+.omni-style.round .system-menu .menu-contents .image > img {
+    border-radius: 25px 25px 25px 25px;
+    -moz-border-radius: 25px 25px 25px 25px;
+    -webkit-border-radius: 25px 25px 25px 25px;
 }
 
 .omni-style .list.buddy-list {
@@ -2055,6 +2067,12 @@ body.omni-print-style.receipt {
     width: 50px;
 }
 
+.omni-style.round .entity-picture {
+    border-radius: 25px 25px 25px 25px;
+    -moz-border-radius: 25px 25px 25px 25px;
+    -webkit-border-radius: 25px 25px 25px 25px;
+}
+
 .omni-style .entity-big-picture {
     height: 64px;
     margin-left: 19px;
@@ -2068,12 +2086,24 @@ body.omni-print-style.receipt {
     -webkit-border-radius: 4px 4px 4px 4px;
 }
 
+.omni-style.round .entity-big-picture > img {
+    border-radius: 32px 32px 32px 32px;
+    -moz-border-radius: 32px 32px 32px 32px;
+    -webkit-border-radius: 32px 32px 32px 32px;
+}
+
 .omni-style .entity-huge-picture {
     border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
     height: 96px;
     width: 96px;
+}
+
+.omni-style.round .entity-huge-picture {
+    border-radius: 48px 48px 48px 48px;
+    -moz-border-radius: 48px 48px 48px 48px;
+    -webkit-border-radius: 48px 48px 48px 48px;
 }
 
 .omni-style .entity-id {
@@ -2107,8 +2137,12 @@ body.omni-print-style.receipt {
 
 .omni-style .entity-details-inner-container .entity-description {
     color: #777777;
-    line-height: 18px;
+    line-height: 20px;
     margin: 0px 0px 0px 0px;
+}
+
+.omni-style.opensans .entity-details-inner-container .entity-description {
+    line-height: 22px;
 }
 
 .omni-style .entity-details-container {
