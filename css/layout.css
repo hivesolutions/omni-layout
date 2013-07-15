@@ -732,6 +732,63 @@ body.omni-style.opensans {
     text-align: center;
 }
 
+.omni-style ul.notifications-list {
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style ul.notifications-list li {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+    color: #4d4d4d;
+    cursor: pointer;
+    font-size: 12px;
+    height: 50px;
+    line-height: 22px;
+    padding: 8px 8px 8px 8px;
+}
+
+.omni-style ul.notifications-list li:last-child {
+    border-bottom: none;
+}
+
+.omni-style ul.notifications-list li:hover {
+    background-color: #f4f4f4;
+}
+
+
+.omni-style ul.notifications-list li > img {
+    float: left;
+}
+
+.omni-style ul.notifications-list li > .contents {
+    float: left;
+    padding: 3px 0px 4px 0px;';
+}
+
+.omni-style ul.notifications-list li > .contents > .title {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style ul.notifications-list li > .contents > .subject {
+    color: #666666;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style ul.notifications-list li > .time {
+    color: #aaaaaa;
+    font-size: 10px;
+    margin-left: -18px;
+    margin-top: 4px;
+    position: absolute;
+    text-align: right;
+    text-transform: uppercase;
+    width: 342px;
+}
+
 .omni-style .list.welcome-list {
     background: transparent url(../images/lists/welcome-list-ruller.png) repeat-y 25px top;
     float: right;
@@ -895,6 +952,49 @@ body.omni-style.opensans {
 
 .omni-style .filter.entities-list li.selected.first .context {
     display: block;
+}
+
+.omni-style .notifications-menu {
+    margin-left: -30px;
+    margin-top: 4px;
+    position: absolute;
+}
+
+.omni-style .notifications-container {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0px 1px 4px #eeeeee;
+    -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -webkit-box-shadow: 0px 1px 4px #eeeeee;
+    display: none;
+    position: absolute;
+    width: 342px;
+}
+
+.omni-style .notifications {
+    background: transparent url(../images/menus/notifications.png) no-repeat left 1px;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: bold;
+    height: 32px;
+    text-align: center;
+    width: 30px;
+}
+
+.omni-style .notifications.pending {
+    background-position: left -31px;
+}
+
+.omni-style .notifications:hover {
+    background-color: #ffffff;
+}
+
+.omni-style .notifications.click {
+    background-color: #ffffff;
+}
+
+.omni-style .notifications.active {
+    background-color: #ffffff;
 }
 
 .omni-style .system-menu .switch-panel {
@@ -1152,6 +1252,7 @@ body.omni-style.opensans {
     color: #2d2d2d;
     font-size: 13px;
     height: 16px;
+    line-height: 16px;
     padding: 6px 6px 5px 6px;
     width: 228px;
 }

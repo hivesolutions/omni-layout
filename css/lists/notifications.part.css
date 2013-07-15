@@ -1,0 +1,56 @@
+.omni-style ul.notifications-list {
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style ul.notifications-list li {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+    color: #4d4d4d;
+    cursor: pointer;
+    font-size: 12px;
+    height: 50px;
+    line-height: 22px;
+    padding: 8px 8px 8px 8px;
+}
+
+.omni-style ul.notifications-list li:last-child {
+    border-bottom: none;
+}
+
+.omni-style ul.notifications-list li:hover {
+    background-color: #f4f4f4;
+}
+
+
+.omni-style ul.notifications-list li > img {
+    float: left;
+}
+
+.omni-style ul.notifications-list li > .contents {
+    float: left;
+    padding: 3px 0px 4px 0px;';
+}
+
+.omni-style ul.notifications-list li > .contents > .title {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style ul.notifications-list li > .contents > .subject {
+    color: #666666;
+    margin: 0px 0px 0px 0px;
+}
+
+.omni-style ul.notifications-list li > .time {
+    color: #aaaaaa;
+    font-size: 10px;
+    margin-left: -18px;
+    margin-top: 4px;
+    position: absolute;
+    text-align: right;
+    text-transform: uppercase;
+    width: 342px;
+}
