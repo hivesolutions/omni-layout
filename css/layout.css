@@ -985,14 +985,6 @@ body.omni-style.opensans {
     background-position: left -31px;
 }
 
-.omni-style .notifications:hover {
-    background-color: #ffffff;
-}
-
-.omni-style .notifications.click {
-    background-color: #ffffff;
-}
-
 .omni-style .notifications.active {
     background-color: #ffffff;
 }
