@@ -109,7 +109,7 @@
                         // runs the async link execution with no force flag set
                         // and in case it run through avoids the default link
                         // behavior (avoid duplicated execution)
-                        var result = jQuery.ulinkasync(href, false);
+                        var result = jQuery.uxlinkasync(href, false);
                         result && event.preventDefault();
                     });
 
@@ -290,7 +290,7 @@
                         // tries to runthe async link logic and in case it goes through
                         // cancels the current event returning an invalid value, so that
                         // the default location setting logic does not run
-                        var result = jQuery.ulinkasync(location, false);
+                        var result = jQuery.uxlinkasync(location, false);
                         return !result;
                     });
             _body.data("async", true);
@@ -325,7 +325,7 @@
                 // async login must be run
                 if (event.state != null || document.location == initial) {
                     var href = document.location;
-                    isValid && jQuery.ulinkasync(href, true, uuid);
+                    isValid && jQuery.uxlinkasync(href, true, uuid);
                 }
 
                 // in case the initial location value is not set this is the
@@ -694,7 +694,7 @@
      */
     var HOST_REGEX = new RegExp(location.host);
 
-    jQuery.ulinkasync = function(href, verify, uuid) {
+    jQuery.uxlinkasync = function(href, verify, uuid) {
         // retrievs the reference to the body element to be used
         // for async verification
         var _body = jQuery("body");
