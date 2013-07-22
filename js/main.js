@@ -94,6 +94,12 @@
             // that exist in the object, so that they can be handled in
             // an async fashion if thats the case
             links.click(function(event) {
+                        // in case the control key is pressed the event operation is
+                        // not meant to be overriden and should be ignored
+                        if (event.ctrlKey) {
+                            return;
+                        }
+
                         // in case the click used the right or center button the
                         // event should be ignored not bean to be overriden
                         if (event.which == 2 || event.which == 3) {
