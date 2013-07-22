@@ -96,7 +96,7 @@
             links.click(function(event) {
                         // in case the control key is pressed the event operation is
                         // not meant to be overriden and should be ignored
-                        if (event.ctrlKey) {
+                        if (event.metaKey || event.ctrlKey) {
                             return;
                         }
 
