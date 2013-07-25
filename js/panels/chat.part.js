@@ -171,13 +171,14 @@
             // updates the user structure information so that
             // it contains the latest version of the information
             // provided by the server data source
-            var userStatus = matchedObject.data("user_status");
+            var userStatus = matchedObject.data("user_status") || {};
             var userS = userStatus[_username] || {};
             userS["status"] = status;
             userS["object_id"] = objectId;
             userS["username"] = _username;
             userS["representation"] = representation;
             userStatus[_username] = userS;
+            matchedObject.data("user_status", userStatus);
 
             // switches over the status contained in the evelope to
             // correctly handle the received message and act on that
@@ -269,7 +270,7 @@
                             });
 
                     pushi.bind("message", function(event, data, channel) {
-                                alert(data);
+                                dataProcessor(data);
                             });
 
                     pushi.bind("member_added",
@@ -298,7 +299,7 @@
 
                     // saves the current pushi object reference for
                     // latter usage, in the current instance
-                    _element.attr("pushi", pushi);
+                    _element.data("pushi", pushi);
 
                     // retrieves the value of the sound ti be played (the
                     // url to the sound to be played)
@@ -336,6 +337,10 @@
     jQuery.fn.uchatpanel = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
+
+        // retrieves the refernce to the top level element
+        // body element to be able to operate globally
+        var _body = jQuery("body");
 
         // retrives the various options to be used in the
         // creation of the chat panel
@@ -518,6 +523,19 @@
                         return;
                     }
 
+                    // retrieves the username associated with the current
+                    // instance and uses it together with the current panel
+                    // user id to create the list of names to be used in the
+                    // channel (for channel composition)
+                    var username = _body.data("username");
+                    var channelNames = [username, userId];
+
+                    // sorts the list that contains the partial names
+                    // to be used in the channel naming and the joins
+                    // them with the appropriate separator
+                    channelNames.sort();
+                    var channel = channelNames.join("_");
+
                     // adds a new chat line to the chat panel with
                     // the contents of the text area
                     chatPanel.uchatline({
@@ -529,7 +547,8 @@
                     // the data of the target user and the message
                     // extraceterd from the current text area
                     var data = JSON.stringify({
-                                type : "chat",
+                                type : "message",
+                                sender : username,
                                 receiver : userId,
                                 message : textArea.val()
                             });
@@ -538,8 +557,7 @@
                     // uses it to send a message to the peer channel
                     // associated with the pair
                     var pushi = owner.data("pushi");
-                    pushi.sendChannel("message", data,
-                            "peer-status:joamag_jrolim");
+                    pushi.sendChannel("message", data, "peer-status:" + channel);
 
                     // unsets the value from the text area, this should
                     // be considered a clenaup operation
@@ -573,9 +591,22 @@
 })(jQuery);
 
 (function(jQuery) {
+
+    /**
+     * The regular expression to be used in the matching of url expression to be
+     * substituted with link based elements.
+     */
+    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+
     jQuery.fn.uchatline = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
+
+        // retrieves the current body reference and uses it to retrieve
+        // the base mvc path associated with it to be able to correctly
+        // compute that paths to the relative resources
+        var _body = jQuery("body");
+        var mvcPath = _body.data("mvc_path");
 
         // retrieves the current attributes to be used
         // for the filling of the line
@@ -587,17 +618,14 @@
         // is replaces by the break line tag (html correspondent)
         message = message.replace("\n", "<br/>");
 
-        //var exp = /(\b(https?|ftp|file):\/\/(www.)?youtube.com[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;;
-
-        //message += "<iframe class=\"youtube-player\" type=\"text/html\" src=\"http://www.youtube.com/embed/W-Q7RMpINVo\" frameborder=\"0\" allowFullScreen></iframe>"
-
-        var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-        message = message.replace(exp,
+        // runs the regex based replacement in the values so that
+        // the correct component is displayed in the chat line
+        message = message.replace(URL_REGEX,
                 "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
 
-        var _body = jQuery("body");
-        var mvcPath = _body.data("mvc_path");
-
+        // retrieves the correct object id for the current message owner
+        // and uses it to create the image url of the user that
+        // created the current chat line
         objectId = name == "me" ? _body.data("object_id") : objectId;
         var imageUrl = mvcPath + "omni_web_adm/users/" + objectId
                 + "/image?size=32";
