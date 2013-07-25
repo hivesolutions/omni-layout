@@ -1234,6 +1234,8 @@
             var jsonData = isString ? jQuery.parseJSON(data) : data;
             var type = jsonData["type"];
 
+            // switches over the type of data that was received
+            // handling the different data types accordingly
             switch (type) {
                 case "message" :
                     messageProcessor(jsonData);
@@ -1249,36 +1251,62 @@
         };
 
         var messageProcessor = function(envelope) {
+            // retrieves the current body element and uses it to retrieve
+            // the currently loaded username
+            var _body = jQuery("body");
+            var username = _body.data("username");
+
             // retrieves the main attributes from the
             // message to be used in the processing
             var message = envelope["message"];
             var sender = envelope["sender"];
+            var receiver = envelope["receiver"];
+
+            // defaults the sender to the appropriate value taking into
+            // account if the sender is the current user for that case the
+            // username should be the receiver
+            var owner = sender == username ? receiver : sender
+
+            // retrieves the user status map from the currently matched
+            // object and retrieves the reference to the sender from it
+            // in case it's not available returns immediately as it's not
+            // going to be handled by the message processor
+            var userStatus = matchedObject.data("user_status");
+            var userS = userStatus[owner];
+            if (!userS) {
+                return;
+            }
 
             // tries to retrieve the panel associated with the
             // sender in case no panel is found creates a new
             // one to display the initial message
-            var panel = jQuery(".chat-panel[data-user_id=" + sender + "]",
+            var panel = jQuery(".chat-panel[data-user_id=" + owner + "]",
                     matchedObject);
             if (panel.length == 0) {
-                var userStatus = matchedObject.data("user_status");
-                var userS = userStatus[sender];
-
+                // retrieves both the object id and the representation from the
+                // user structure and uses them to create a new chat panel for
+                // the corresponding user conversation
                 var objectId = userS["object_id"];
                 var representation = userS["representation"];
-
                 panel = matchedObject.uchatpanel({
                             owner : matchedObject,
                             name : representation,
-                            user_id : sender,
+                            user_id : owner,
                             object_id : objectId
                         });
             }
+
+            // retrieves the correct name value to be used as the representation
+            // of the current line this value should be coherent with the sender
+            // username relation, defaulting to me in case it's the same
+            var name = sender == username ? "me" : representation;
 
             // triggers the restore event to show up the panel
             // and then adds a chat line to the panel containing
             // the message that was just received
             panel.trigger("restore");
             panel.uchatline({
+                        name : name,
                         message : message
                     });
 
@@ -1304,12 +1332,6 @@
             var _username = envelope["username"];
             var representation = envelope["representation"];
 
-            // in case the current status update refers the current
-            // users, must return immediately
-            if (username == _username) {
-                return;
-            }
-
             // updates the user structure information so that
             // it contains the latest version of the information
             // provided by the server data source
@@ -1321,6 +1343,12 @@
             userS["representation"] = representation;
             userStatus[_username] = userS;
             matchedObject.data("user_status", userStatus);
+
+            // in case the current status update refers the current
+            // users, must return immediately
+            if (username == _username) {
+                return;
+            }
 
             // switches over the status contained in the evelope to
             // correctly handle the received message and act on that
