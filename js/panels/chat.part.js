@@ -46,34 +46,6 @@
             }
         };
 
-        var updateStatus = function(matchedObject) {
-            // retrieves the "global" reference to the body element
-            // to be used for the communication
-            var _body = jQuery("body");
-
-            // retrieves the url value to be used for the chat
-            // communication
-            var username = _body.data("username");
-            var url = matchedObject.attr("data-url");
-            jQuery.ajax({
-                        type : "get",
-                        url : url + "/chat/status.json",
-                        success : function(data) {
-                            for (var _username in data) {
-                                if (_username == username) {
-                                    continue;
-                                }
-
-                                var userS = data[_username];
-                                userS["username"] = _username;
-                                createItem(matchedObject, userS);
-                            }
-
-                            matchedObject.data("user_status", data);
-                        }
-                    });
-        };
-
         var createItem = function(matchedObject, data) {
             // retrieves the budy list for the current
             // chat instance for which the item is going
@@ -116,7 +88,8 @@
         var dataProcessor = function(data) {
             // parses the data retrieving the json
             // then unpacks the various attributes from it
-            var jsonData = jQuery.parseJSON(data);
+            var isString = typeof data == "string";
+            var jsonData = isString ? jQuery.parseJSON(data) : data;
             var type = jsonData["type"];
 
             switch (type) {
@@ -159,6 +132,9 @@
                         });
             }
 
+            // triggers the restore event to show up the panel
+            // and then adds a chat line to the panel containing
+            // the message that was just received
             panel.trigger("restore");
             panel.uchatline({
                         message : message
@@ -203,6 +179,9 @@
             userS["representation"] = representation;
             userStatus[_username] = userS;
 
+            // switches over the status contained in the evelope to
+            // correctly handle the received message and act on that
+            // to change the current layout
             switch (status) {
                 case "offline" :
                     var item = jQuery(".buddy-list > li[data-user_id="
@@ -227,80 +206,109 @@
         // iterateas over each of the matched object to add the sound
         // element to be used in notification
         matchedObject.each(function(index, element) {
-            // retrieves the reference to the current element in
-            // iteration
-            var _element = jQuery(this);
+                    // retrieves the reference to the current element in
+                    // iteration
+                    var _element = jQuery(this);
 
-            // checks if the current element is already connection registered
-            // in case it is avoid the current logic (skips registration)
-            var isRegistered = _element.data("registered") || false;
-            if (isRegistered) {
-                return;
-            }
+                    // checks if the current element is already connection registered
+                    // in case it is avoid the current logic (skips registration)
+                    var isRegistered = _element.data("registered") || false;
+                    if (isRegistered) {
+                        return;
+                    }
 
-            // sets the current element as registered avoiding any extra
-            // registration in the current context (could cause problems)
-            _element.data("registered", true);
+                    // sets the current element as registered avoiding any extra
+                    // registration in the current context (could cause problems)
+                    _element.data("registered", true);
 
-            // retrieves the "global" reference to the body element
-            // to be used for the communication
-            var _body = jQuery("body");
+                    // retrieves the "global" reference to the body element
+                    // to be used for the communication
+                    var _body = jQuery("body");
 
-            // retrieves the reference to the variable containing
-            var username = _body.data("username");
+                    // retrieves the reference to the variable containing
+                    var username = _body.data("username");
 
-            // retrieves the url value to be used for the chat
-            // communication, and then creates the full absolute ur
-            // from the base url and the communication suffix
-            var url = _element.attr("data-url");
-            var absolueUrl = jQuery.uxresolve(url + "/communication");
+                    // retrieves the url value to be used for the chat
+                    // communication, and then creates the full absolute ur
+                    // from the base url and the communication suffix
+                    var url = _element.attr("data-url");
+                    var absolueUrl = jQuery.uxresolve(url + "/pushi");
 
-            // starts the communication infra-structure with a
-            // simple timeout and the default callback operations
-            _element.communication("default", {
-                        url : absolueUrl,
-                        channels : ["chat/" + username],
-                        timeout : 500,
-                        callbacks : [dataProcessor]
-                    });
+                    // retrieves the app key value to be used for the establishement
+                    // of the pushi connection, then uses it as the first argument
+                    // in the construction of the proxy object
+                    var key = _element.attr("data-key");
+                    var pushi = new Pushi(key, {
+                                authEndpoint : absolueUrl
+                            });
 
-            // registers for the communication connected event so
-            // that the user is notified about the new connection
-            _element.bind("stream_connected", function() {
-                    });
+                    // registers for the connect event in the pushi connection in
+                    // or to be able to register for the channels
+                    pushi.bind("connect", function(event) {
+                                this.subscribe("global");
+                                this.subscribe("presence-status");
+                            });
 
-            // registers for the communication disconnected event so
-            // that the user is notified about the closing of the connection
-            _element.bind("stream_disconnected", function() {
-                _body.uxinfo(
-                        "The server communication has been disconnected.\\n"
-                                + "Please contact your system administrator using [geral@hive.pt].",
-                        "Warning", "warning");
-            });
+                    pushi.bind("subscribe", function(event, channel, data) {
+                                if (channel != "presence-status") {
+                                    return;
+                                }
 
-            // registers for the communication error event so
-            // that the user is notified about the error
-            _element.bind("stream_error", function() {
-                _body.uxinfo(
-                        "There was an error communicating with the server.\\n"
-                                + "Please contact your system administrator using [geral@hive.pt].",
-                        "Warning", "warning");
-            });
+                                var members = data.members || {};
+                                for (var key in members) {
+                                    var member = members[key];
+                                    var envelope = {
+                                        type : "status",
+                                        status : "online",
+                                        object_id : member.object_id,
+                                        username : member.username,
+                                        representation : member.representation
+                                    };
+                                    dataProcessor(envelope);
+                                }
+                            });
 
-            // retrieves the value of the sound ti be played (the
-            // url to the sound to be played)
-            var sound = _element.attr("data-sound");
-            var audio = jQuery("<audio src=\"" + sound
-                    + "\" preload=\"none\"></audio>");
+                    pushi.bind("message", function(event, data, channel) {
+                                alert(data);
+                            });
 
-            // adds the audio element to the matched object
-            matchedObject.append(audio);
+                    pushi.bind("member_added",
+                            function(event, channel, member) {
+                                var envelope = {
+                                    type : "status",
+                                    status : "online",
+                                    object_id : member.object_id,
+                                    username : member.username,
+                                    representation : member.representation
+                                };
+                                dataProcessor(envelope);
+                            });
 
-            // updates the status information for the current
-            // element this should run a remote query to retrieve
-            // the most up to date information on all "buddies"
-            updateStatus(_element);
-        });
+                    pushi.bind("member_removed",
+                            function(event, channel, member) {
+                                var envelope = {
+                                    type : "status",
+                                    status : "offline",
+                                    object_id : member.object_id,
+                                    username : member.username,
+                                    representation : member.representation
+                                };
+                                dataProcessor(envelope);
+                            });
+
+                    // saves the current pushi object reference for
+                    // latter usage, in the current instance
+                    _element.attr("pushi", pushi);
+
+                    // retrieves the value of the sound ti be played (the
+                    // url to the sound to be played)
+                    var sound = _element.attr("data-sound");
+                    var audio = jQuery("<audio src=\"" + sound
+                            + "\" preload=\"none\"></audio>");
+
+                    // adds the audio element to the matched object
+                    matchedObject.append(audio);
+                });
 
         // registers for the event triggered when a new chat
         // is reqeusted this shoud create a new chat panel
@@ -517,15 +525,21 @@
                                 message : textArea.val()
                             });
 
-                    // uses the communication channel to send the
-                    // chat data to the other end
-                    owner.communication("data", {
-                                data : JSON.stringify({
-                                            type : "chat",
-                                            receiver : userId,
-                                            message : textArea.val()
-                                        })
+                    // creates the envelope structure containing
+                    // the data of the target user and the message
+                    // extraceterd from the current text area
+                    var data = JSON.stringify({
+                                type : "chat",
+                                receiver : userId,
+                                message : textArea.val()
                             });
+
+                    // retrieves the current pushi object reference and
+                    // uses it to send a message to the peer channel
+                    // associated with the pair
+                    var pushi = owner.data("pushi");
+                    pushi.sendChannel("message", data,
+                            "peer-status:joamag_jrolim");
 
                     // unsets the value from the text area, this should
                     // be considered a clenaup operation
