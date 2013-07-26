@@ -1777,6 +1777,11 @@
         // compute that paths to the relative resources
         var _body = jQuery("body");
         var mvcPath = _body.data("mvc_path");
+        var alias = _body.data("alias") || {};
+
+        // uses the alias map to try to resolve the current adm link
+        // into the concrete url for the adm section
+        var admSection = alias["omni_web_adm"] || "omni_web_adm";
 
         // retrieves the current attributes to be used
         // for the filling of the line
@@ -1797,7 +1802,7 @@
         // and uses it to create the image url of the user that
         // created the current chat line
         objectId = name == "me" ? _body.data("object_id") : objectId;
-        var imageUrl = mvcPath + "omni_web_adm/users/" + objectId
+        var imageUrl = mvcPath + admSection + "/users/" + objectId
                 + "/image?size=32";
 
         // retrieves the chat contents for the matched object (chat panel)
