@@ -101,7 +101,6 @@
 
 .omni-style .report .table tbody tr {
     cursor: pointer;
-    height: 35px;
 }
 
 .omni-style .report .table tbody tr:nth-child(even) {
@@ -115,7 +114,8 @@
 .omni-style .report .table td {
     border-bottom: 1px solid #e8e8e8;
     border-left: 1px solid #e8e8e8;
-    padding: 0px 12px 0px 12px;
+    line-height: 20px;
+    padding: 6px 12px 6px 12px;
 }
 
 .omni-style .report .table td:last-child {
