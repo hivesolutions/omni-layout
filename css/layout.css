@@ -38,7 +38,7 @@
 
 @font-face {
     font-family: "Open Sans";
-    src: local("Open Sans"), local("OpenSans"), url(../fonts/OpenSans-Regular.ttf);
+    src: local("Open Sans"), local("OpenSans-Regular"), url(../fonts/OpenSans-Regular.ttf);
     font-style: normal;
     font-weight: 400;
 }
