@@ -35,6 +35,11 @@
         var eureka = jQuery(".eureka", matchedObject);
         eureka.ueureka();
 
+        // retrieves the summary as the summary and
+        // then starts the summary logic on it
+        var summary = jQuery(".summary", matchedObject);
+        summary.usummary();
+
         // retrieves the report as the report and
         // then starts the report logic on it
         var report = jQuery(".report", matchedObject);

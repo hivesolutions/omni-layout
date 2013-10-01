@@ -60,6 +60,11 @@
         var eureka = jQuery(".eureka", matchedObject);
         eureka.ueureka();
 
+        // retrieves the summary as the summary and
+        // then starts the summary logic on it
+        var summary = jQuery(".summary", matchedObject);
+        summary.usummary();
+
         // retrieves the report as the report and
         // then starts the report logic on it
         var report = jQuery(".report", matchedObject);
@@ -1936,6 +1941,23 @@
                     // the process of hidding the panel
                     overlayPanel.triggerHandler("hide");
                 });
+    };
+})(jQuery);
+
+(function(jQuery) {
+    jQuery.fn.usummary = function(options) {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        // in case the matched object is not defined
+        // or in case it's an empty list must return
+        // immediatly initialization is not meant to
+        // be run (corruption may occur)
+        if (!matchedObject || matchedObject.length == 0) {
+            return;
+        }
+
+
     };
 })(jQuery);
 
