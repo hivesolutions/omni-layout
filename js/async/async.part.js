@@ -377,6 +377,7 @@
         updateSidebarRight(base);
         updateOverlaySearch(base);
         updateMeta(base);
+        updateNotifications(base);
     };
 
     var updateSimple = function(base, body) {
@@ -393,6 +394,7 @@
         updateFooter(base);
         updateOverlaySearch(base);
         updateMeta(base);
+        updateNotifications(base);
     };
 
     var updateBody = function(body) {
@@ -490,6 +492,12 @@
                 + "</div>");
         menu_ = jQuery(".top-bar .system-menu");
         menu_.uxapply();
+    };
+
+    var updateNotifications = function(base) {
+        var notitifications = jQuery(".top-bar .notifications-menu");
+        notitifications.triggerHandler("refresh");
+        notitifications.triggerHandler("hide");
     };
 
     var updateNotification = function(base) {
