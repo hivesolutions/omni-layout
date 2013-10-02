@@ -5,7 +5,8 @@
                 "extras/menu.part.js", "extras/scan.part.js",
                 "panels/chat.part.js", "panels/eureka.part.js",
                 "panels/summary.part.js", "panels/top_bar.part.js",
-                "parts/report.part.js", "footer.part.js"]
+                "parts/report.part.js", "visuals/chart.part.js",
+                "footer.part.js"]
     },
     "main-min.js" : {
         "files" : ["header.part.js", "apply.part.js", "async/async.part.js",
@@ -13,7 +14,8 @@
                 "extras/menu.part.js", "extras/scan.part.js",
                 "panels/chat.part.js", "panels/eureka.part.js",
                 "panels/summary.part.js", "panels/top_bar.part.js",
-                "parts/report.part.js", "footer.part.js"],
+                "parts/report.part.js", "visuals/chart.part.js",
+                "footer.part.js"],
         "minify" : "javascript"
     }
 }
