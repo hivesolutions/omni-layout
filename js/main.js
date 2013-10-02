@@ -2011,6 +2011,10 @@
                                 message = message.replace("{{", "<b>");
                                 message = message.replace("}}", "</b>");
 
+                                // adds a new notification item to the list of
+                                // notifications, this notification should have
+                                // the pre-defined username, message and time as
+                                // defined in the received data
                                 list.prepend("<li>"
                                         + "<img class=\"entity-picture\" src=\""
                                         + imageUrl + "\">"
