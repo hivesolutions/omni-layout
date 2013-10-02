@@ -30,6 +30,11 @@
         var chat = jQuery(".chat", matchedObject)
         chat.uchat();
 
+        // retrieves the notifications (menu) as the notifications
+        // (panel) and then starts the notifications logic on it
+        var notifications = jQuery(".notifications-menu", matchedObject);
+        notifications.unotifications();
+
         // retrieves the eureka as the eureka and
         // then starts the eureka logic on it
         var eureka = jQuery(".eureka", matchedObject);
