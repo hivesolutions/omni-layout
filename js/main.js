@@ -573,15 +573,10 @@
         menu_.uxapply();
     };
 
-    var updateNotifications = function(base) {
-        var notitifications = jQuery(".top-bar .notifications-menu");
-        notitifications.triggerHandler("refresh");
-        notitifications.triggerHandler("hide");
-    };
-
     var updateNotification = function(base) {
         var container = jQuery(".header-notifications-container");
         var notifications = jQuery(".header-notification", base);
+        container.empty();
         container.append(notifications);
         container.uxapply();
     };
@@ -708,6 +703,12 @@
         meta_.html(metaHtml);
         meta_.uxapply();
         _body.uconfigurations();
+    };
+
+    var updateNotifications = function(base) {
+        var notitifications = jQuery(".top-bar .notifications-menu");
+        notitifications.triggerHandler("refresh");
+        notitifications.triggerHandler("hide");
     };
 })(jQuery);
 
