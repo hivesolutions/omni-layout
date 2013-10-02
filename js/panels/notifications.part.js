@@ -3,6 +3,10 @@
         // sets the jquery matched object
         var matchedObject = this;
 
+        // retrieves the reference to the body element
+        // so that it may be used latter for reference
+        var _body = jQuery("body");
+
         // iterates over each of the notifications containers
         // to initialize their structures and start the remote
         // connections for notification interaction
@@ -31,6 +35,14 @@
                                 authEndpoint : absolueUrl
                             });
 
+                    // registers for the click event in the list, so that
+                    // any click in an item hides the menu immediately while
+                    // it also redirect the user to the target page
+                    list.click(function() {
+                                _element.triggerHandler("hide");
+
+                            });
+
                     // registers for the connect event so that at the end of
                     // the connection the base channels are subscribed
                     pushi.bind("connect", function(event) {
@@ -47,16 +59,39 @@
                                 var isString = typeof data == "string";
                                 data = isString ? jQuery.parseJSON(data) : data;
 
-                                /// @TODO: TENHO DE UPDATAR A MESSAGE STRING DE TEMPOS
-                                // A TEMPOS
+                                // @TODO para enviar notifições utilizar !!!
+                                // jQuery("body").uxnotification({"title" : "asdad", "message" : "Adasd" });
 
-                                var imageUrl = "";
+                                /// @TODO: TENHO DE UPDATAR A TIME STRING DE TEMPOS
+                                // A TEMPOS (para que ela va envelechendo)
+
+                                // retrieves the mvc path and the class id url
+                                // map for the current page
+                                var mvcPath = _body.data("mvc_path");
+                                var classIdUrl = _body.data("class_id_url");
+
+                                // unpacks both the object id and the cid (class id)
+                                // from the current data strcucture
+                                var objectId = data.entity.object_id;
+                                var cid = data.cid;
+
+                                // constructs the url using the base mvc path and
+                                // appending the url to the requested class
+                                var baseUrl = mvcPath + classIdUrl[cid];
+
+                                // creates the final url value to be used in the
+                                // contruction of the various relative urls
+                                var url = baseUrl + objectId;
+
+                                // creates the various items that are going to be used
+                                // in the notification, this is important to maintain
+                                // the notification as useful as possible
+                                var imageUrl = url + "/image?size=50";
                                 var userName = data.create_user.representation;
                                 var message = data.notification_string;
                                 var time = "moments ago";
 
-                                // @TODO MUST BE ABSTRACTED
-
+                                // @TODO MUST BE ABSTRACTED INTO A PROPER TEMPLATE ENGINE
                                 message = message.replace("{{", "<b>");
                                 message = message.replace("}}", "</b>");
 
@@ -64,8 +99,10 @@
                                 // notifications, this notification should have
                                 // the pre-defined username, message and time as
                                 // defined in the received data
-                                list.prepend("<li>"
-                                        + "<img class=\"entity-picture\" src=\""
+                                var notification = jQuery("<li data-link=\""
+                                        + url
+                                        + "\">"
+                                        + "<img class=\"entity-picture button\" src=\""
                                         + imageUrl + "\">"
                                         + "<div class=\"contents\">"
                                         + "<p class=\"title\">" + userName
@@ -75,6 +112,8 @@
                                         + "</div>"
                                         + "<div class=\"break\"></div>"
                                         + "</li>");
+                                list.prepend(notification);
+                                notification.uxbutton();
 
                                 // adds the pending class to the link so that it
                                 // notifies that there are notifications pending
