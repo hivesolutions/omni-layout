@@ -317,6 +317,18 @@ body.omni-style.opensans {
     width: 414px;
 }
 
+.omni-style .list-code-area {
+    font-family: Consolas, monospace;
+    height: 200px;
+    line-height: 18px;
+    margin-top: 8px;
+    width: 414px;
+}
+
+.omni-style.opensans .list-code-area {
+    font-family: Consolas, monospace;
+}
+
 .omni-style .list-medium-drop-input {
     width: 428px;
 }
@@ -502,6 +514,14 @@ body.omni-style.opensans {
     width: 428px;
 }
 
+.omni-style .list-code-label {
+    color: #4d4d4d;
+    font-size: 13px;
+    white-space: pre;
+    width: 428px;
+    word-wrap: break-word;
+}
+
 .omni-style .list-window-label {
     color: #777777;
     font-size: 14px;
@@ -516,6 +536,19 @@ body.omni-style.opensans {
     line-height: 48px;
     text-align: center;
     width: 28px;
+}
+
+.omni-style .list-code {
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
+    color: #2d2d2d;
+    font-family: Consola, monospace;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 12px 12px 12px 12px;
+    white-space: pre;
+    width: 506px;
+    word-wrap: break-word;
 }
 
 .omni-style .list-divider {
@@ -2360,6 +2393,11 @@ body.omni-print-style.receipt {
     float: left;
     font-size: 13px;
     line-height: 22px;
+}
+
+.omni-style .entity-details-list > li div,
+.omni-style .entity-details-list .panel-more > div > li div  {
+    float: left;
 }
 
 .omni-style .entity-details-list > li .list-sub-label.replacer,
