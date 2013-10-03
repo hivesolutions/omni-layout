@@ -110,11 +110,6 @@
     line-height: 22px;
 }
 
-.omni-style .entity-details-list > li div,
-.omni-style .entity-details-list .panel-more > div > li div  {
-    float: left;
-}
-
 .omni-style .entity-details-list > li .list-sub-label.replacer,
 .omni-style .entity-details-list > li .list-sub-label.uploader,
 .omni-style .entity-details-list .panel-more > div > li .list-sub-label.replacer,
