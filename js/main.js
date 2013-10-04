@@ -1160,6 +1160,32 @@
 })(jQuery);
 
 (function(jQuery) {
+    var BUNDLE_EN_US = {
+        "payment_method:cash" : "Cash",
+        "payment_method:card" : "Card",
+        "payment_method:check" : "Check",
+        "payment_method:credit_note" : "Credit Note",
+        "payment_method:easypay" : "Easypay",
+        "payment_method:paypal" : "Paypal"
+    }
+
+    jQuery.uxloadbundle(BUNDLE_EN_US, "en-us")
+})(jQuery);
+
+(function(jQuery) {
+    var BUNDLE_PT_PT = {
+        "payment_method:cash" : "Dinheiro",
+        "payment_method:card" : "Cartão",
+        "payment_method:check" : "Cheque",
+        "payment_method:credit_note" : "Nota de Crédito",
+        "payment_method:easypay" : "Easypay",
+        "payment_method:paypal" : "Paypal"
+    }
+
+    jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")
+})(jQuery);
+
+(function(jQuery) {
     jQuery.fn.uchat = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
