@@ -134,9 +134,9 @@
                         var message = data.notification_string;
                         var time = "moments ago";
 
-                        // @TODO MUST BE ABSTRACTED INTO A PROPER TEMPLATE ENGINE
-                        message = message.replace("{{", "<b>");
-                        message = message.replace("}}", "</b>");
+                        // runs the template (replacer) infra-structure in the message
+                        // so the message is correctly displayed with the right style
+                        message = jQuery.utemplate(message);
 
                         // adds a new notification item to the list of
                         // notifications, this notification should have
