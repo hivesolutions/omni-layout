@@ -2000,6 +2000,18 @@
         // so that it may be used latter for reference
         var _body = jQuery("body");
 
+        // adds the various inner elements of the notifications
+        // container to the notification activator icon
+        var link = jQuery("<div class=\"button menu-button menu-link notifications\"></div>")
+        var container = jQuery("<div class=\"menu-contents notifications-container\">"
+                + "<ul class=\"notifications-list\"></ul>" + "</div>");
+        matchedObject.append(link)
+        matchedObject.append(container);
+
+        // starts the menu link with the proper structures to be
+        // able to open the associated panel
+        link.uxmenulink();
+
         // iterates over each of the notifications containers
         // to initialize their structures and start the remote
         // connections for notification interaction
@@ -2589,8 +2601,8 @@
 
 (function(jQuery) {
     jQuery.utemplate = function(value) {
-        value = value.replace("{{", "<b>");
-        value = value.replace("}}", "</b>");
+        value = value.replace(/{{/g, "<b>");
+        value = value.replace(/}}/g, "</b>");
         return value;
     };
 })(jQuery);

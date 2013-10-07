@@ -843,8 +843,8 @@ body.omni-style.opensans {
     color: #4d4d4d;
     cursor: pointer;
     font-size: 12px;
-    height: 50px;
     line-height: 22px;
+    min-height: 50px;
     padding: 8px 8px 8px 8px;
 }
 
@@ -863,6 +863,7 @@ body.omni-style.opensans {
 .omni-style ul.notifications-list li > .contents {
     float: left;
     padding: 3px 0px 4px 0px;
+    width: 262px;
 }
 
 .omni-style ul.notifications-list li > .contents > .title {
@@ -885,6 +886,10 @@ body.omni-style.opensans {
     text-align: right;
     text-transform: uppercase;
     width: 342px;
+}
+
+.omni-style ul.notifications-list li > .break {
+    clear: both;
 }
 
 .omni-style .sidebar-list {
