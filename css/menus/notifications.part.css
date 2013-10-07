@@ -18,11 +18,14 @@
 .omni-style .notifications {
     background: transparent url(../images/menus/notifications.png) no-repeat left 1px;
     color: #ffffff;
-    cursor: pointer;
     font-weight: bold;
     height: 32px;
     text-align: center;
     width: 30px;
+}
+
+.omni-style .notifications.disabled {
+    opacity: 0.2;
 }
 
 .omni-style .notifications.pending {

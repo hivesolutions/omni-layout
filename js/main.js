@@ -2053,6 +2053,17 @@
                         var mvcPath = _body.data("mvc_path");
                         var classIdUrl = _body.data("class_id_url");
 
+                        // retrieves the current number of notifications (items
+                        // size) and in case the number is zero disables the current
+                        // link, reverting it to a non action state, otherwise enables
+                        // it so that it becomes actionable (reverse operation)
+                        var itemsSize = items.length;
+                        if (itemsSize == 0) {
+                            link.uxdisable();
+                        } else {
+                            link.uxenable();
+                        }
+
                         // iterates over each of the items to be able to update
                         // their like associations to the apropriate values
                         items.each(function(index, element) {
@@ -2078,6 +2089,20 @@
                                     _element.attr("data-link", url);
                                     _element.data("link", url);
                                 });
+                    });
+
+            // registers for the hide event so that the pending
+            // class may be removed from the notification container
+            // and for the various pending notifications
+            _element.bind("hidden", function() {
+                        // retrieves the complete set of list items for the
+                        // current list so that they may be marked as read
+                        var items = jQuery("li", list);
+
+                        // removes the pending class from all of the
+                        // currently available items
+                        items.removeClass("pending");
+                        link.removeClass("pending");
                     });
 
             // registers for the click event in the list, so that
@@ -2178,8 +2203,18 @@
                 // adds the pending class to the link so that it
                 // notifies that there are notifications pending
                 // to be read in the current environment
+                notification.addClass("pending");
                 link.addClass("pending");
+
+                // runs a refresh operation in the current element
+                // so that it's status becomes updated
+                _element.triggerHandler("refresh");
             });
+
+            // triggers the initial refresh in the notification elements
+            // this will run the initial update and initialize the
+            // various components (startup process)
+            matchedObject.triggerHandler("refresh");
         });
     };
 })(jQuery);
