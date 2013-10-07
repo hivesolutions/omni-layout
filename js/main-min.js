@@ -91,26 +91,15 @@ matchedObject.triggerHandler("new_chat",[]);return chatPanel;};})(jQuery);(funct
 var prefix=name!=_name?"<strong>"+name+": </strong>":"";var chatLine=jQuery("<div class=\"chat-line\">"+prefix+message
 +"</div>");paragraph.append(chatLine);chatLine.uxapply();var scrollHeight=contents[0].scrollHeight;contents.scrollTop(scrollHeight);};})(jQuery);(function(jQuery){jQuery.fn.ueureka=function(options){var matchedObject=this;if(!matchedObject||matchedObject.length==0){return;}
 var _body=jQuery("body");var textField=jQuery(".text-field",matchedObject);textField.keydown(function(event){var element=jQuery(this);var overlayPanel=element.parents(".overlay-panel");var key=overlayPanel.attr("data-key");key=key?parseInt(key):key;var eventKeyCode=event.keyCode?event.keyCode:event.which;if(eventKeyCode==27||eventKeyCode==key){return;}
-event.stopPropagation();event.stopImmediatePropagation();});matchedObject.bind("item",function(event,item){var mvcPath=_body.data("mvc_path");var classIdUrl=_body.data("class_id_url");var objectId=item["object_id"];var cid=item["cid"];var baseUrl=mvcPath+classIdUrl[cid];var link=baseUrl+objectId;item["link"]=link;});matchedObject.bind("value_select",function(event,value,valueLogic,item){var element=jQuery(this);var overlayPanel=element.parents(".overlay-panel");overlayPanel.triggerHandler("hide");});};})(jQuery);(function(jQuery){jQuery.fn.unotifications=function(options){var matchedObject=this;var _body=jQuery("body");matchedObject.each(function(index,element){var _element=jQuery(this);var link=jQuery(".menu-link",_element);var list=jQuery(".notifications-list",_element);var url=_element.attr("data-url");var absolueUrl=jQuery.uxresolve(url+"/pushi");var key=_element.attr("data-key");var pushi=new Pushi(key,{authEndpoint:absolueUrl});_element.bind("refresh",function(){var items=jQuery("li",list);var mvcPath=_body.data("mvc_path");var classIdUrl=_body.data("class_id_url");items.each(function(index,element){var _element=jQuery(this);var data=_element.data("data");if(!data){return;}
+event.stopPropagation();event.stopImmediatePropagation();});matchedObject.bind("item",function(event,item){var mvcPath=_body.data("mvc_path");var classIdUrl=_body.data("class_id_url");var objectId=item["object_id"];var cid=item["cid"];var baseUrl=mvcPath+classIdUrl[cid];var link=baseUrl+objectId;item["link"]=link;});matchedObject.bind("value_select",function(event,value,valueLogic,item){var element=jQuery(this);var overlayPanel=element.parents(".overlay-panel");overlayPanel.triggerHandler("hide");});};})(jQuery);(function(jQuery){jQuery.fn.unotifications=function(options){var MAXIMUM_NOTIFICATIONS=5;var matchedObject=this;var _body=jQuery("body");matchedObject.each(function(index,element){var _element=jQuery(this);var link=jQuery(".menu-link",_element);var list=jQuery(".notifications-list",_element);var url=_element.attr("data-url");var absolueUrl=jQuery.uxresolve(url+"/pushi");var key=_element.attr("data-key");var pushi=new Pushi(key,{authEndpoint:absolueUrl});_element.bind("refresh",function(){var items=jQuery("li",list);var mvcPath=_body.data("mvc_path");var classIdUrl=_body.data("class_id_url");items.each(function(index,element){var _element=jQuery(this);var data=_element.data("data");if(!data){return;}
 var objectId=data.entity.object_id;var cid=data.cid;var baseUrl=mvcPath+classIdUrl[cid];var url=baseUrl+objectId;_element.attr("data-link",url);_element.data("link",url);});});list.click(function(){_element.triggerHandler("hide");});pushi.bind("connect",function(event){this.subscribe("global");});pushi.bind("notification",function(event,data,channel){var isString=typeof data=="string";data=isString?jQuery.parseJSON(data):data;var mvcPath=_body.data("mvc_path");var classIdUrl=_body.data("class_id_url");var objectId=data.entity.object_id;var uobjectId=data.create_user.object_id;var cid=data.cid;var ucid=data.u_cid;var baseUrl=mvcPath+classIdUrl[cid];var baseUrlU=mvcPath+classIdUrl[ucid];var url=baseUrl+objectId;var urlU=baseUrlU+uobjectId;var imageUrl=urlU+"/image?size=50";var userName=data.create_user.representation;var message=data.notification_string;var time="moments ago";message=jQuery.utemplate(message);var notification=jQuery("<li class=\"button\" data-link=\""
-+url
-+"\">"
-+"<img class=\"entity-picture\" src=\""
-+imageUrl
-+"\">"
-+"<div class=\"contents\">"
-+"<p class=\"title\">"
-+userName
-+"</p>"
-+"<p class=\"subject\">"
-+message
-+"</p>"
-+"</div>"
-+"<div class=\"time\">"
-+time
-+"</div>"
-+"<div class=\"break\"></div>"
-+"</li>");list.prepend(notification);notification.uxbutton();notification.data("data",data)
++url+"\">"+"<img class=\"entity-picture\" src=\""
++imageUrl+"\">"+"<div class=\"contents\">"
++"<p class=\"title\">"+userName+"</p>"
++"<p class=\"subject\">"+message+"</p>"+"</div>"
++"<div class=\"time\">"+time+"</div>"
++"<div class=\"break\"></div>"+"</li>");list.prepend(notification);notification.uxbutton();var items=jQuery("> li",list);var size=items.length;while(size>5){var index=size-1;var element=jQuery("> li:nth-child("+index+")",list);element.remove();size--;}
+notification.data("data",data)
 link.addClass("pending");});});};})(jQuery);(function(jQuery){jQuery.fn.usummary=function(options){var VALUES=["count","sum","average"];var VALUES_LOCALE=jQuery.uxlocale(VALUES);var matchedObject=this;if(!matchedObject||matchedObject.length==0){return;}
 matchedObject.each(function(index,element){var _element=jQuery(this);var reference=_element.attr("data-reference");var element=jQuery(reference);var sidebarList=jQuery("<ul class=\"sidebar-list\"></ul>");for(var index=0;index<VALUES.length;index++){var value=VALUES[index];var valueL=VALUES_LOCALE[index];var item=jQuery("<li class=\""+value+"\">"
 +"<span class=\"key\">"+valueL+"</span>"

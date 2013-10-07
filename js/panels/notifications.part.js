@@ -1,5 +1,12 @@
 (function(jQuery) {
     jQuery.fn.unotifications = function(options) {
+        /**
+         * The maximum number of notifications that are allowed to stay at a
+         * given notification panel. This value should be overriden by the
+         * underlying function to allow some control.
+         */
+        var MAXIMUM_NOTIFICATIONS = 5;
+
         // sets the jquery matched object
         var matchedObject = this;
 
@@ -92,87 +99,89 @@
             // present the notification to the end user using the
             // notifications list container
             pushi.bind("notification", function(event, data, channel) {
-                        // verifies if the data type of the provided data is string
-                        // in case it's parses it as a json string "saving" it in
-                        // place of the current data element
-                        var isString = typeof data == "string";
-                        data = isString ? jQuery.parseJSON(data) : data;
+                // verifies if the data type of the provided data is string
+                // in case it's parses it as a json string "saving" it in
+                // place of the current data element
+                var isString = typeof data == "string";
+                data = isString ? jQuery.parseJSON(data) : data;
 
-                        // @TODO para enviar notifições utilizar !!!
-                        // jQuery("body").uxnotification({"title" : "asdad", "message" : "Adasd" });
+                // @TODO para enviar notifições utilizar !!!
+                // jQuery("body").uxnotification({"title" : "asdad", "message" : "Adasd" });
 
-                        /// @TODO: TENHO DE UPDATAR A TIME STRING DE TEMPOS
-                        // A TEMPOS (para que ela va envelechendo)
+                /// @TODO: TENHO DE UPDATAR A TIME STRING DE TEMPOS
+                // A TEMPOS (para que ela va envelechendo)
 
-                        // retrieves the mvc path and the class id url
-                        // map for the current page
-                        var mvcPath = _body.data("mvc_path");
-                        var classIdUrl = _body.data("class_id_url");
+                // retrieves the mvc path and the class id url
+                // map for the current page
+                var mvcPath = _body.data("mvc_path");
+                var classIdUrl = _body.data("class_id_url");
 
-                        // unpacks both the object id and the cid (class id)
-                        // from the current data strcucture
-                        var objectId = data.entity.object_id;
-                        var uobjectId = data.create_user.object_id;
-                        var cid = data.cid;
-                        var ucid = data.u_cid;
+                // unpacks both the object id and the cid (class id)
+                // from the current data strcucture
+                var objectId = data.entity.object_id;
+                var uobjectId = data.create_user.object_id;
+                var cid = data.cid;
+                var ucid = data.u_cid;
 
-                        // constructs the url using the base mvc path and
-                        // appending the url to the requested class
-                        var baseUrl = mvcPath + classIdUrl[cid];
-                        var baseUrlU = mvcPath + classIdUrl[ucid];
+                // constructs the url using the base mvc path and
+                // appending the url to the requested class
+                var baseUrl = mvcPath + classIdUrl[cid];
+                var baseUrlU = mvcPath + classIdUrl[ucid];
 
-                        // creates the final url value to be used in the
-                        // contruction of the various relative urls
-                        var url = baseUrl + objectId;
-                        var urlU = baseUrlU + uobjectId;
+                // creates the final url value to be used in the
+                // contruction of the various relative urls
+                var url = baseUrl + objectId;
+                var urlU = baseUrlU + uobjectId;
 
-                        // creates the various items that are going to be used
-                        // in the notification, this is important to maintain
-                        // the notification as useful as possible
-                        var imageUrl = urlU + "/image?size=50";
-                        var userName = data.create_user.representation;
-                        var message = data.notification_string;
-                        var time = "moments ago";
+                // creates the various items that are going to be used
+                // in the notification, this is important to maintain
+                // the notification as useful as possible
+                var imageUrl = urlU + "/image?size=50";
+                var userName = data.create_user.representation;
+                var message = data.notification_string;
+                var time = "moments ago";
 
-                        // runs the template (replacer) infra-structure in the message
-                        // so the message is correctly displayed with the right style
-                        message = jQuery.utemplate(message);
+                // runs the template (replacer) infra-structure in the message
+                // so the message is correctly displayed with the right style
+                message = jQuery.utemplate(message);
 
-                        // adds a new notification item to the list of
-                        // notifications, this notification should have
-                        // the pre-defined username, message and time as
-                        // defined in the received data
-                        var notification = jQuery("<li class=\"button\" data-link=\""
-                                + url
-                                + "\">"
-                                + "<img class=\"entity-picture\" src=\""
-                                + imageUrl
-                                + "\">"
-                                + "<div class=\"contents\">"
-                                + "<p class=\"title\">"
-                                + userName
-                                + "</p>"
-                                + "<p class=\"subject\">"
-                                + message
-                                + "</p>"
-                                + "</div>"
-                                + "<div class=\"time\">"
-                                + time
-                                + "</div>"
-                                + "<div class=\"break\"></div>"
-                                + "</li>");
-                        list.prepend(notification);
-                        notification.uxbutton();
+                // adds a new notification item to the list of
+                // notifications, this notification should have
+                // the pre-defined username, message and time as
+                // defined in the received data
+                var notification = jQuery("<li class=\"button\" data-link=\""
+                        + url + "\">" + "<img class=\"entity-picture\" src=\""
+                        + imageUrl + "\">" + "<div class=\"contents\">"
+                        + "<p class=\"title\">" + userName + "</p>"
+                        + "<p class=\"subject\">" + message + "</p>" + "</div>"
+                        + "<div class=\"time\">" + time + "</div>"
+                        + "<div class=\"break\"></div>" + "</li>");
+                list.prepend(notification);
+                notification.uxbutton();
 
-                        // sets the data in the notification so that it's
-                        // possible to update the notification latter on
-                        notification.data("data", data)
+                // retrieves the current set of items in the list of notification
+                // and then counts them so that the overflow elements may be removed
+                var items = jQuery("> li", list);
+                var size = items.length;
 
-                        // adds the pending class to the link so that it
-                        // notifies that there are notifications pending
-                        // to be read in the current environment
-                        link.addClass("pending");
-                    });
+                // iterates while the number is above the maximum allowed by the current
+                // rules to remove the items that "overflow" that number
+                while (size > 5) {
+                    var index = size - 1;
+                    var element = jQuery("> li:nth-child(" + index + ")", list);
+                    element.remove();
+                    size--;
+                }
+
+                // sets the data in the notification so that it's
+                // possible to update the notification latter on
+                notification.data("data", data)
+
+                // adds the pending class to the link so that it
+                // notifies that there are notifications pending
+                // to be read in the current environment
+                link.addClass("pending");
+            });
         });
     };
 })(jQuery);

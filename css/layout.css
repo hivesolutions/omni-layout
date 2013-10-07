@@ -400,9 +400,6 @@ body.omni-style.opensans {
     width: 136px;
 }
 
-.omni-style .section-input {
-}
-
 .omni-style .section-input .filter-input {
     box-shadow: none;
     -moz-box-shadow: none;
@@ -858,7 +855,6 @@ body.omni-style.opensans {
 .omni-style ul.notifications-list li:hover {
     background-color: #f4f4f4;
 }
-
 
 .omni-style ul.notifications-list li > img {
     float: left;
