@@ -2024,6 +2024,7 @@
             // with the notifications contqainer and to the list that
             // contains the notifications
             var link = jQuery(".menu-link", _element);
+            var contents = jQuery(".menu-contents", _element);
             var list = jQuery(".notifications-list", _element);
 
             // retrieves the url value to be used for the chat
@@ -2094,7 +2095,7 @@
             // registers for the hide event so that the pending
             // class may be removed from the notification container
             // and for the various pending notifications
-            _element.bind("hidden", function() {
+            contents.bind("hidden", function() {
                         // retrieves the complete set of list items for the
                         // current list so that they may be marked as read
                         var items = jQuery("li", list);

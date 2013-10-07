@@ -23,6 +23,10 @@
     background-color: #f4f4f4;
 }
 
+.omni-style ul.notifications-list li.pending {
+    background-color: #f4f4f4;
+}
+
 .omni-style ul.notifications-list li > img {
     float: left;
 }
