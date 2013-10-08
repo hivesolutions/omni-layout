@@ -106,6 +106,15 @@
                                 });
                     });
 
+            // registers for the show event so that the reading
+            // class may be added to the link indicating that the
+            // notifications panel is being "read"
+            contents.bind("shown", function() {
+                        // adds the reading class to the link, marking it as
+                        // reading for latter usage
+                        link.addClass("reading");
+                    });
+
             // registers for the hide event so that the pending
             // class may be removed from the notification container
             // and for the various pending notifications
@@ -113,6 +122,18 @@
                         // retrieves the complete set of list items for the
                         // current list so that they may be marked as read
                         var items = jQuery("li", list);
+
+                        // verifies if the user is currently reading the
+                        // contents of the menu link in case it's not returns
+                        // immediately as it's not possible to unmark it
+                        var isReading = link.hasClass("reading");
+                        if (!isReading) {
+                            return;
+                        }
+
+                        // removes the reading class from the link because
+                        // with the hide event there's no more reading
+                        link.removeClass("reading");
 
                         // removes the pending class from all of the
                         // currently available items
