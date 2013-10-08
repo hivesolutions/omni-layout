@@ -373,11 +373,11 @@
         updateContent(base);
         updateFooter(base);
         updateNavigationList(base);
-        updateChat(base);
         updateSidebarRight(base);
         updateOverlaySearch(base);
         updateMeta(base);
         updateNotifications(base);
+        updateChat(base);
     };
 
     var updateSimple = function(base, body) {
@@ -575,21 +575,6 @@
         navigationList_.uxlist();
     };
 
-    var updateChat = function(base) {
-        var chat = jQuery(".sidebar-left > .chat", base);
-        var chat_ = jQuery(".sidebar-left > .chat");
-        var exists = chat_.length > 0;
-
-        if (exists) {
-            var url = chat.attr("data-url");
-            chat_.attr("data-url", url);
-        } else {
-            var sideLeft = jQuery(".sidebar-left");
-            sideLeft.append(chat);
-            chat.uchat();
-        }
-    };
-
     var updateSidebarRight = function(base) {
         var sidebarRight = jQuery(".sidebar-right", base);
         var sidebarRight_ = jQuery(".sidebar-right");
@@ -630,5 +615,21 @@
         var notitifications = jQuery(".top-bar .notifications-menu");
         notitifications.triggerHandler("refresh");
         notitifications.triggerHandler("hide");
+    };
+
+    var updateChat = function(base) {
+        var chat = jQuery(".sidebar-left > .chat", base);
+        var chat_ = jQuery(".sidebar-left > .chat");
+        var exists = chat_.length > 0;
+
+        if (exists) {
+            var url = chat.attr("data-url");
+            chat_.attr("data-url", url);
+            chat_.triggerHandler("refresh");
+        } else {
+            var sideLeft = jQuery(".sidebar-left");
+            sideLeft.append(chat);
+            chat.uchat();
+        }
     };
 })(jQuery);

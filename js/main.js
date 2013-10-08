@@ -452,11 +452,11 @@
         updateContent(base);
         updateFooter(base);
         updateNavigationList(base);
-        updateChat(base);
         updateSidebarRight(base);
         updateOverlaySearch(base);
         updateMeta(base);
         updateNotifications(base);
+        updateChat(base);
     };
 
     var updateSimple = function(base, body) {
@@ -654,21 +654,6 @@
         navigationList_.uxlist();
     };
 
-    var updateChat = function(base) {
-        var chat = jQuery(".sidebar-left > .chat", base);
-        var chat_ = jQuery(".sidebar-left > .chat");
-        var exists = chat_.length > 0;
-
-        if (exists) {
-            var url = chat.attr("data-url");
-            chat_.attr("data-url", url);
-        } else {
-            var sideLeft = jQuery(".sidebar-left");
-            sideLeft.append(chat);
-            chat.uchat();
-        }
-    };
-
     var updateSidebarRight = function(base) {
         var sidebarRight = jQuery(".sidebar-right", base);
         var sidebarRight_ = jQuery(".sidebar-right");
@@ -709,6 +694,22 @@
         var notitifications = jQuery(".top-bar .notifications-menu");
         notitifications.triggerHandler("refresh");
         notitifications.triggerHandler("hide");
+    };
+
+    var updateChat = function(base) {
+        var chat = jQuery(".sidebar-left > .chat", base);
+        var chat_ = jQuery(".sidebar-left > .chat");
+        var exists = chat_.length > 0;
+
+        if (exists) {
+            var url = chat.attr("data-url");
+            chat_.attr("data-url", url);
+            chat_.triggerHandler("refresh");
+        } else {
+            var sideLeft = jQuery(".sidebar-left");
+            sideLeft.append(chat);
+            chat.uchat();
+        }
     };
 })(jQuery);
 
@@ -1444,6 +1445,10 @@
                     // retrieves the reference to the variable containing
                     var username = _body.data("username");
 
+                    // updates the username set in the current account to
+                    // match the one considered to be the new one
+                    _element.data("username", username);
+
                     // retrieves the url value to be used for the chat
                     // communication, and then creates the full absolute ur
                     // from the base url and the communication suffix
@@ -1539,6 +1544,44 @@
         matchedObject.bind("delete_chat", function() {
                     var panels = matchedObject.data("panels") || {};
                     placePanels(panels);
+                });
+
+        // registers for the refresh event for the chat panel
+        // this event should try to find out any modification
+        // in the current global status and act on that
+        matchedObject.bind("refresh", function() {
+                    // retrieves the reference to both the current element and the
+                    // top level body element
+                    var element = jQuery(this);
+                    var _body = jQuery("body");
+
+                    // retrieves the name of the currently signed in user
+                    // and the name of the user registered in the chat in
+                    // case they do not match there's an incoherence and
+                    // the chat panel must be updated
+                    var username = _body.data("username");
+                    var _username = element.data("username");
+                    if (username == _username) {
+                        return;
+                    }
+
+                    // updates the chat panel data with the new username
+                    // so that it may be used latter
+                    element.data("username", username);
+
+                    // retrieves the reference to the complete set of chat
+                    // panels of the current chat panel and then removes
+                    // them from the layout (not going to be used anymore)
+                    var panels = matchedObject.data("panels") || {};
+                    panels.remove();
+                    matchedObject.data("panels", {})
+
+                    // retrieves the reference to the current pushi object
+                    // and triggers the registration for the global and
+                    // presence status channels (this is a re-registration)
+                    var pushi = element.data("pushi");
+                    pushi.subscribe("global");
+                    pushi.subscribe("presence-status");
                 });
 
         _window.resize(function() {
