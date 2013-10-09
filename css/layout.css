@@ -1220,6 +1220,43 @@ body.omni-style.opensans {
     -webkit-border-radius: 25px 25px 25px 25px;
 }
 
+.omni-style .chat > .loading,
+.omni-style .chat > .disconnected {
+    color: #777777;
+    line-height: 22px;
+    padding: 48px 12px 48px 12px;
+    text-align: center;
+}
+
+.omni-style .chat > .loading {
+    background: transparent url(../images/chat-loader.gif) no-repeat center 22px;
+}
+
+.omni-style .chat > .disconnected {
+    display: none;
+}
+
+.omni-style .chat > .buddy-list {
+    display: none;
+}
+
+.omni-style .chat.connected > .loading,
+.omni-style .chat.disconnected > .loading {
+    display: none;
+}
+
+.omni-style .chat.disconnected > .disconnected {
+    display: block;
+}
+
+.omni-style .chat.connected > .buddy-list {
+    display: block;
+}
+
+.omni-style .chat.disconnected > .buddy-list {
+    display: none;
+}
+
 .omni-style .list.buddy-list {
     margin: 12px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
