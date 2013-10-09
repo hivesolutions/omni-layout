@@ -625,6 +625,7 @@
         if (exists) {
             var url = chat.attr("data-url");
             chat_.attr("data-url", url);
+            chat_.triggerHandler("init");
             chat_.triggerHandler("refresh");
         } else {
             var sideLeft = jQuery(".sidebar-left");
