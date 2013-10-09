@@ -6,8 +6,8 @@ var element=jQuery(this);var href=element.attr("href");var result=jQuery.uxlinka
 _body.bind("data",function(event,data,href,uuid,push,hbase){uuid=uuid||jQuery.uxguid();hbase=hbase||href;var state={uuid:uuid,href:href}
 push&&window.history.pushState(state,null,href);try{data=data.replace(/src=/ig,"aux-src=");var base=jQuery(data);var bodyData=data.match(/<body.*>/)[0]
 +"</body>";bodyData=bodyData.replace("body","body_");var body=jQuery(bodyData);var _isFull=isFull();var _isSimple=isSimple();var _isBaseFull=isBaseFull(base);var _isBaseSimple=isBaseSimple(base);var isValid=(_isFull||_isSimple)&&(_isBaseFull||_isBaseSimple);if(!isValid){throw"Invalid layout or layout not found";}
-updateBase(hbase);var isUpdateFull=_isFull&&_isBaseFull;if(isUpdateFull){updateFull(base,body);}else{updateSimple(base,body);}
-updateGuid(uuid);}catch(exception){window.history.back();document.location=href;}});_body.bind("async",function(){var _isFull=isFull();var _isSimple=isSimple();return _isFull||_isSimple;});_body.bind("async_start",function(){if(SHOW_NOTIFICATION){var loading=jQuery.uxlocale("Loading");var container=jQuery(".header-notifications-container");container.empty();var notification=jQuery("<div class=\"header-notification warning\"><strong>"
+updateBase(hbase);_body.hide();var isUpdateFull=_isFull&&_isBaseFull;if(isUpdateFull){updateFull(base,body);}else{updateSimple(base,body);}
+_body.show();updateGuid(uuid);}catch(exception){window.history.back();document.location=href;}});_body.bind("async",function(){var _isFull=isFull();var _isSimple=isSimple();return _isFull||_isSimple;});_body.bind("async_start",function(){if(SHOW_NOTIFICATION){var loading=jQuery.uxlocale("Loading");var container=jQuery(".header-notifications-container");container.empty();var notification=jQuery("<div class=\"header-notification warning\"><strong>"
 +loading+"</strong></div>");container.append(notification);}
 var topLoader=jQuery(".top-loader");if(topLoader.length==0){var rightPanel=jQuery(".top-bar > .content-wrapper > .right");var topLoader=jQuery("<div class=\"top-loader\">"
 +"<div class=\"loader-background\"></div>"

@@ -198,6 +198,11 @@
                             // for the current document state
                             updateBase(hbase);
 
+                            // hides the current body reference so that all of the update
+                            // operations occur with the ui disabled (faster performance)
+                            // and the user experience is not broken
+                            _body.hide();
+
                             // verifies if the kind of layout update to be performed is
                             // full or not and then executes the proper logic depending
                             // on the kind of update operation to be performed
@@ -207,6 +212,10 @@
                             } else {
                                 updateSimple(base, body);
                             }
+
+                            // restores the display of the body so that the elements of
+                            // it are restored to the user
+                            _body.show();
 
                             // updates the globally unique identifier representation for
                             // the current state in the current structures
