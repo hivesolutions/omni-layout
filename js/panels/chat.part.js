@@ -216,6 +216,14 @@
                     var item = jQuery(".buddy-list > li[data-user_id="
                                     + _username + "]", matchedObject)
                     item.remove();
+
+                    // retrieves the complete set of panels and tries
+                    // to find the one for the user to be logged out
+                    // and in case it exists disables it
+                    var panels = matchedObject.data("panels") || {};
+                    var panel = panels[representation];
+                    panel && panel.triggerHandler("disable");
+
                     break;
 
                 default :
@@ -228,6 +236,14 @@
                     item.removeClass("budy-busy");
                     item.removeClass("budy-unavailable");
                     item.addClass("budy-" + status);
+
+                    // retrieves the complete set of panels and tries
+                    // to find the one for the user to be logged in
+                    // and in case it exists enables it
+                    var panels = matchedObject.data("panels") || {};
+                    var panel = panels[representation];
+                    panel && panel.triggerHandler("enable");
+
                     break;
             }
         };
@@ -276,10 +292,33 @@
                             });
 
                     // registers for the connect event in the pushi connection in
-                    // or to be able to register for the channels
+                    // or to be able to register for the channels and to re-enable
+                    // all the visuals to the default situation
                     pushi.bind("connect", function(event) {
+                                // runs the initial subscription of the channels related with
+                                // the current chat operations
                                 this.subscribe("global");
                                 this.subscribe("presence-status");
+
+                                // updates the main status class so the layout may
+                                // be update according to the status rules
+                                matchedObject.removeClass("disconnected");
+                                matchedObject.addClass("connected");
+                            });
+
+                    pushi.bind("disconnect", function(even) {
+                                // updates the main status class so the layout may
+                                // be update according to the status rules
+                                matchedObject.removeClass("connected");
+                                matchedObject.addClass("disconnected");
+
+                                // gathers all of the panels for the chat and disables them
+                                // as no communication is allowed for them anymore
+                                var panels = matchedObject.data("panels") || {};
+                                for (var key in panels) {
+                                    var panel = panels[key];
+                                    panel.triggerHandler("disable");
+                                }
                             });
 
                     pushi.bind("subscribe", function(event, channel, data) {
@@ -343,6 +382,51 @@
                     matchedObject.append(audio);
                 });
 
+        // registers for the init event that should initialize
+        // the chat with the correct values, support for "safe"
+        // re-initialization is available and should be used
+        matchedObject.bind("init", function() {
+                    // retrieves the reference to the current elment
+                    // that its going to be initialized
+                    var element = jQuery(this);
+
+                    // retrieves the reference to the body element and then
+                    // uses it to retrieves the currently logged  username
+                    var _body = jQuery("body");
+                    var username = _body.data("username");
+
+                    // localizes the various strings so that they are presented
+                    // in the correct locale language
+                    var signinS = jQuery.uxlocale("Signing in to chat server");
+                    var disconnectedS = jQuery.uxlocale("You've been disconnected");
+                    var retryingS = jQuery.uxlocale("retrying ...");
+
+                    // retrieves the various components of the chat panel so that
+                    // they may be updated if thats the case
+                    var buddyList = jQuery("> .buddy-list", element);
+                    var loading = jQuery("> .loading", element);
+                    var disconnected = jQuery("> .disconnected", element);
+
+                    // checks if there's alrady a buddy list for the current chat
+                    // panel (retrieval list greater than zero)
+                    var hasBuddyList = buddyList.length > 0;
+
+                    // removes the various localizable components, so that new ones
+                    // may be added with the new locale information
+                    loading.remove();
+                    disconnected.remove();
+
+                    // adds the various parts of the chat component with their strings
+                    // already correctly localized according to the specification
+                    !hasBuddyList
+                            && element.append("<ul class=\"list buddy-list\"></ul>");
+                    element.append("<div class=\"loading\">" + signinS
+                            + "<br /><b>" + username + "</b></div>");
+                    element.append("<div class=\"disconnected\">"
+                            + disconnectedS + "<br /><b>" + retryingS
+                            + "</b></div>");
+                });
+
         // registers for the event triggered when a new chat
         // is reqeusted this shoud create a new chat panel
         matchedObject.bind("new_chat", function() {
@@ -400,6 +484,8 @@
                     var panels = matchedObject.data("panels") || {};
                     placePanels(panels);
                 });
+
+        matchedObject.triggerHandler("init");
     };
 })(jQuery);
 
@@ -460,6 +546,33 @@
         var buttonClose = jQuery(".chat-close", chatPanel);
         var buttonMinimize = jQuery(".chat-minimize", chatPanel);
         var textArea = jQuery(".chat-message > .text-area", chatPanel);
+
+        // registers for the enable operation, this should re-enable
+        // the interaction with the chat panel (text area)
+        chatPanel.bind("enable", function() {
+                    // retrieves the reference to the current element
+                    // to be used in the enable operation
+                    var element = jQuery(this);
+
+                    // retrieves the text area of the chat panel and the
+                    // re-enable it for interaction
+                    var textArea = jQuery(".chat-message > .text-area", element);
+                    textArea.uxenable();
+                });
+
+        // registers for the disable operation, this operation should
+        // disallow any further interaction with the chat panel
+        chatPanel.bind("disable", function() {
+                    // retrieves the reference to the current element
+                    // to be used in the disable operation
+                    var element = jQuery(this);
+
+                    // retrieves the text area component for the current
+                    // element and then disables it (no more interaction
+                    // is allowed fot the chat panel)
+                    var textArea = jQuery(".chat-message > .text-area", element);
+                    textArea.uxdisable();
+                });
 
         // binds the chat panel to the minimize operation in order
         // to be able to minimize the contents of it
