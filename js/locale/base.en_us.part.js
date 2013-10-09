@@ -5,7 +5,10 @@
         "payment_method:check" : "Check",
         "payment_method:credit_note" : "Credit Note",
         "payment_method:easypay" : "Easypay",
-        "payment_method:paypal" : "Paypal"
+        "payment_method:paypal" : "Paypal",
+        "Signing in to chat server" : "Signing in to chat server",
+        "You've been disconnected" : "You've been disconnected",
+        "retrying ..." : "retrying ..."
     }
 
     jQuery.uxloadbundle(BUNDLE_EN_US, "en-us")
