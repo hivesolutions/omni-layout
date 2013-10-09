@@ -132,7 +132,6 @@
                             // updates the globally unique identifier representation for
                             // the current state in the current structures
                             updateGuid(uuid);
-
                         } catch (exception) {
                             window.history.back();
                             document.location = href;
@@ -395,6 +394,7 @@
         updateOverlaySearch(base);
         updateMeta(base);
         updateNotifications(base);
+        updateChat(base);
     };
 
     var updateBody = function(body) {
@@ -515,9 +515,18 @@
     };
 
     var updateContentFull = function(base) {
+        // retrieves the reference to both the new content structures
+        // that are going to be used in the replace operation and to
+        // the already existing content in the dom
         var content = base.filter(".content-wrapper");
         var content_ = jQuery("body > .content-wrapper");
-        var contentClass = content.attr("class")
+
+        // fixes the content using the provided base value, this
+        // should manipulate the base html structure so that only
+        // the relevant nodes are left (the others are removed)
+        fixContent(base, content);
+
+        var contentClass = content.attr("class");
         var contentHtml = content.html();
         contentHtml = contentHtml.replace(/aux-src=/ig, "src=");
         content_.html(contentHtml);
@@ -618,11 +627,24 @@
     };
 
     var updateChat = function(base) {
-        var chat = jQuery(".sidebar-left > .chat", base);
-        var chat_ = jQuery(".sidebar-left > .chat");
+        var chat = jQuery(".chat", base);
+        var chat_ = jQuery(".chat");
         var exists = chat_.length > 0;
 
         if (exists) {
+            var sideLeft = jQuery(".sidebar-left");
+            var chatParent = jQuery(".chat-parent");
+
+            if (sideLeft.length > 0) {
+                chat_.removeClass("invisible");
+                var parent = chat_.parent(".sidebar-left")
+                parent.length == 0 && sideLeft.append(chat_);
+            } else {
+                chat_.addClass("invisible");
+                var parent = chat_.parent(".chat-parent")
+                parent.length == 0 && chatParent.append(chat_);
+            }
+
             var url = chat.attr("data-url");
             chat_.attr("data-url", url);
             chat_.triggerHandler("init");
@@ -632,5 +654,19 @@
             sideLeft.append(chat);
             chat.uchat();
         }
+    };
+
+    var fixContent = function(base, content) {
+        fixChat(base, content);
+    };
+
+    var fixChat = function(base, content) {
+        var _body = jQuery("body");
+        var chat = jQuery(".chat");
+        if (chat.length > 0) {
+            var _chat = jQuery(".chat", content);
+            _chat.remove();
+        }
+        _body.append(chat);
     };
 })(jQuery);

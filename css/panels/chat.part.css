@@ -35,6 +35,12 @@
     display: none;
 }
 
+.omni-style .chat.invisible > .buddy-list,
+.omni-style .chat.invisible > .loading,
+.omni-style .chat.invisible > .disconnected {
+    display: none;
+}
+
 .omni-style .list.buddy-list {
     margin: 12px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
