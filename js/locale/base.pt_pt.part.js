@@ -9,7 +9,7 @@
         "Signing in to chat server" : "Ligando a servidor de chat",
         "You've been disconnected" : "Ligação a servidor perdida",
         "retrying ..." : "tentando de novo ...",
-        "diz ..." : "diz ..."
+        "says ..." : "diz ..."
     }
 
     jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")
