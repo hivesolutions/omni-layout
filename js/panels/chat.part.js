@@ -399,7 +399,7 @@
                     // or invisible, this is done by checking it agains the proper
                     // side bar existence (or not)
                     var isVisible = element.parent(".sidebar");
-                    if(isVisible.length > 0) {
+                    if (isVisible.length > 0) {
                         element.removeClass("invisible");
                     } else {
                         element.addClass("invisible");
@@ -531,10 +531,12 @@
         // indexed by their "key name" and default to a new
         // map in case it does not exists then tries to retrieve
         // the chat panel with the current name and in case it
-        // already exists returns immediately
+        // already exists returns immediately, but retoring it
+        // to the front so that it can be used right away
         var panels = matchedObject.data("panels") || {};
         var chatPanel = panels[name];
         if (chatPanel) {
+            chatPanel.triggerHandler("restore");
             return;
         }
 
