@@ -2616,18 +2616,14 @@
 
                     var isUp = element.hasClass("up");
                     if (isUp) {
-                        contentBar.hide();
-                        contentBar.css("overflow", "hidden");
-
-                        contentMargin.css("height", "8px");
-                        slider.css("margin-top", "0px");
+                        contentBar.removeClass("visible");
+                        contentMargin.removeClass("visible");
+                        slider.removeClass("visible");
                         element.removeClass("up");
                     } else {
-                        contentBar.show();
-                        contentBar.css("overflow", "visible");
-
-                        contentMargin.css("height", "60px");
-                        slider.css("margin-top", "52px");
+                        contentBar.addClass("visible");
+                        contentMargin.addClass("visible");
+                        slider.addClass("visible");
                         element.addClass("up");
                     }
                 });
