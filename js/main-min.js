@@ -81,8 +81,9 @@ var members=data.members||{};for(var key in members){var member=members[key];var
 +"<br /><b>"+username+"</b></div>");element.append("<div class=\"disconnected\">"
 +disconnectedS+"<br /><b>"+retryingS
 +"</b></div>");});matchedObject.bind("new_chat",function(){var panels=matchedObject.data("panels")||{};placePanels(panels);});matchedObject.bind("delete_chat",function(){var panels=matchedObject.data("panels")||{};placePanels(panels);});matchedObject.bind("refresh",function(){var element=jQuery(this);var _body=jQuery("body");var username=_body.data("username");var _username=element.data("username");if(username==_username){return;}
-element.data("username",username);var panels=matchedObject.data("panels")||{};panels.remove();matchedObject.data("panels",{})
-var pushi=element.data("pushi");pushi.subscribe("global");pushi.subscribe("presence-status");});_window.resize(function(){var panels=matchedObject.data("panels")||{};placePanels(panels);});matchedObject.triggerHandler("init");};})(jQuery);(function(jQuery){jQuery.fn.uchatpanel=function(options){var matchedObject=this;var _body=jQuery("body");var owner=options["owner"];var name=options["name"];var userId=options["user_id"];var objectId=options["object_id"];var ownerId=options["owner_id"];var panels=matchedObject.data("panels")||{};var chatPanel=panels[name];if(chatPanel){return;}
+var buddyList=jQuery("> .buddy-list",element);buddyList.empty();element.data("username",username);var panels=element.data("panels")||{};for(var key in panels){var panel=panels[key];panel.remove();}
+element.data("panels",{})
+var pushi=element.data("pushi");pushi.invalidate("global");pushi.invalidate("presence-status");pushi.subscribe("global");pushi.subscribe("presence-status");});_window.resize(function(){var panels=matchedObject.data("panels")||{};placePanels(panels);});matchedObject.triggerHandler("init");};})(jQuery);(function(jQuery){jQuery.fn.uchatpanel=function(options){var matchedObject=this;var _body=jQuery("body");var owner=options["owner"];var name=options["name"];var userId=options["user_id"];var objectId=options["object_id"];var ownerId=options["owner_id"];var panels=matchedObject.data("panels")||{};var chatPanel=panels[name];if(chatPanel){return;}
 chatPanel=jQuery("<div class=\"chat-panel budy-available\">"
 +"<div class=\"chat-header\">"+name
 +"<div class=\"chat-buttons\">"

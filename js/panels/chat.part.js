@@ -461,6 +461,12 @@
                         return;
                     }
 
+                    // retrieves the reference to the buddy list in for the
+                    // current chat element and empties it so that the list
+                    // gets populated by the next subscriptions
+                    var buddyList = jQuery("> .buddy-list", element);
+                    buddyList.empty();
+
                     // updates the chat panel data with the new username
                     // so that it may be used latter
                     element.data("username", username);
@@ -468,14 +474,19 @@
                     // retrieves the reference to the complete set of chat
                     // panels of the current chat panel and then removes
                     // them from the layout (not going to be used anymore)
-                    var panels = matchedObject.data("panels") || {};
-                    panels.remove();
-                    matchedObject.data("panels", {})
+                    var panels = element.data("panels") || {};
+                    for (var key in panels) {
+                        var panel = panels[key];
+                        panel.remove();
+                    }
+                    element.data("panels", {})
 
                     // retrieves the reference to the current pushi object
                     // and triggers the registration for the global and
                     // presence status channels (this is a re-registration)
                     var pushi = element.data("pushi");
+                    pushi.invalidate("global");
+                    pushi.invalidate("presence-status");
                     pushi.subscribe("global");
                     pushi.subscribe("presence-status");
                 });
