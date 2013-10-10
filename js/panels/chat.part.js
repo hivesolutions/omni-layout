@@ -395,6 +395,16 @@
                     var _body = jQuery("body");
                     var username = _body.data("username");
 
+                    // verifies if the chat panel is meant to be set as visible
+                    // or invisible, this is done by checking it agains the proper
+                    // side bar existence (or not)
+                    var isVisible = element.parent(".sidebar");
+                    if(isVisible.length > 0) {
+                        element.removeClass("invisible");
+                    } else {
+                        element.addClass("invisible");
+                    }
+
                     // localizes the various strings so that they are presented
                     // in the correct locale language
                     var signinS = jQuery.uxlocale("Signing in to chat server");
