@@ -496,7 +496,7 @@
                     var panels = element.data("panels") || {};
                     for (var key in panels) {
                         var panel = panels[key];
-                        panel.remove();
+                        panel.triggerHandler("close");
                     }
                     element.data("panels", {})
 
