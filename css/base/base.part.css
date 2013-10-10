@@ -267,6 +267,19 @@ body.omni-style.opensans {
     width: 960px;
 }
 
+.omni-style.full .content-bar.visible {
+    display: block;
+    overflow: visible;
+}
+
+.omni-style.full .top-bar-slider.visible {
+    margin-top: 52px;
+}
+
+.omni-style.full .content-margin.visible {
+    height: 60px;
+}
+
 .omni-style .top-bar {
     width: 100%;
     z-index: 12;
