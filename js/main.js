@@ -1836,6 +1836,10 @@
                     // to be used in the enable operation
                     var element = jQuery(this);
 
+                    // removes the disabled class from the element as
+                    // the interaction should be enabled in the element
+                    element.removeClass("disabled");
+
                     // retrieves the text area of the chat panel and the
                     // re-enable it for interaction
                     var textArea = jQuery(".chat-message > .text-area", element);
@@ -1849,11 +1853,19 @@
                     // to be used in the disable operation
                     var element = jQuery(this);
 
+                    // adds the disabled class to the current element so
+                    // that the proper style is set in the panel
+                    element.addClass("disabled");
+
                     // retrieves the text area component for the current
                     // element and then disables it (no more interaction
                     // is allowed fot the chat panel)
                     var textArea = jQuery(".chat-message > .text-area", element);
                     textArea.uxdisable();
+
+                    // triggers the unblick event because a disabled panel
+                    // is not able to blink (no interaction)
+                    element.triggerHandler("unblink");
                 });
 
         // binds the chat panel to the minimize operation in order

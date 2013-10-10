@@ -1331,6 +1331,10 @@ body.omni-style.opensans {
     padding: 6px 0px 6px 22px;
 }
 
+.omni-style .chat-panel.disabled > .chat-header {
+    background-color: #666666;
+}
+
 .omni-style .chat-panel.blink > .chat-header {
     background-color: #5b8638;
 }
