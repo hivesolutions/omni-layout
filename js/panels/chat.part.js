@@ -7,6 +7,10 @@
         // object to be used for calculus
         var _window = jQuery(window);
 
+        // retrieves the global body element that is going
+        // to be used for some event registration
+        var _body = jQuery("body");
+
         var placePanels = function(panels) {
             // retrieves the window dimensions, both the
             // height and the width
@@ -510,9 +514,56 @@
                     pushi.subscribe("presence-status");
                 });
 
-        _window.resize(function() {
-                    var panels = matchedObject.data("panels") || {};
-                    placePanels(panels);
+        matchedObject.bind("push", function() {
+                    var element = jQuery(this);
+                    var panels = element.data("panels") || {};
+                    for (var key in panels) {
+                        var panel = panels[key];
+                        panel.triggerHandler("push");
+                    }
+                });
+
+        matchedObject.bind("pop", function() {
+                    var element = jQuery(this);
+                    var panels = element.data("panels") || {};
+                    for (var key in panels) {
+                        var panel = panels[key];
+                        panel.triggerHandler("pop");
+                    }
+                });
+
+        // registers for the resize operation in the window to position
+        // all of the currently defined panels in the correct place, note
+        // that after the chat destruction the registration is disabled
+        matchedObject.length > 0 && _window.resize(onResize = function() {
+            var panels = matchedObject.data("panels") || {};
+            placePanels(panels);
+        });
+        matchedObject.bind("destroyed", function() {
+                    _window.unbind("resize", onResize);
+                });
+
+        // registers for the pre async event in order to push the
+        // current state of the chat elements so that the state
+        // may be restored (pop operation) in the post async
+        matchedObject.length > 0
+                && _body.bind("pre_async", onPreAsync = function() {
+                            matchedObject.triggerHandler("push");
+                        });
+        matchedObject.bind("destroyed", function() {
+                    _body.unbind("pre_async", onPreAsync);
+                });
+
+        // enables the post async event listening to be able to
+        // restore the state of the chat element back to the original
+        // values before the async operation, note that this registration
+        // is reverted when the chat panel is removed from dom
+        matchedObject.length > 0
+                && _body.bind("post_async", onPostAsync = function() {
+                            matchedObject.triggerHandler("pop");
+                        });
+        matchedObject.bind("destroyed", function() {
+                    _body.unbind("post_async", onPostAsync);
                 });
 
         matchedObject.triggerHandler("init");
@@ -802,6 +853,51 @@
                     matchedObject.triggerHandler("delete_chat", []);
                 });
 
+        // registers for the push operation that "saves" the current
+        // chat panel state to be latter restored
+        chatPanel.bind("push", function() {
+                    // retrieves the current element and uses it to rerive
+                    // the various components that are going to be used in
+                    // the push operation of the chat panel
+                    var element = jQuery(this);
+                    var contents = jQuery(".chat-contents", element);
+
+                    // retrieves the various value that are going to
+                    // be part of the state from the various elements
+                    // that compose the chat panel
+                    var scrollTop = contents.scrollTop();
+
+                    // creates the state structure and then stores it
+                    // under the current chat panel
+                    var state = {
+                        scrollTop : scrollTop
+                    };
+                    element.data("state", state);
+                });
+
+        // registers for the pop operation that restores the
+        // state of the chat panel from the currently saved one
+        chatPanel.bind("pop", function() {
+                    // retrieves the current element and uses it to rerive
+                    // the various components that are going to be used in
+                    // the pop operation of the chat panel
+                    var element = jQuery(this);
+                    var contents = jQuery(".chat-contents", element);
+
+                    // retrieves the current state from the element and
+                    // in case it's not valid returns immediately
+                    var state = element.data("state");
+                    if (!state) {
+                        return;
+                    }
+
+                    // updates the various components according to the
+                    // currently defined state in the chat panel and then
+                    // invalidates the state (restore complete)
+                    contents.scrollTop(state.scrollTop);
+                    element.data("state", null);
+                });
+
         // registers for the click event in the close button to
         // trigger the removal of the chat panel
         buttonClose.click(function(event) {
@@ -854,7 +950,15 @@
 
         // registers for the focus on the text area so that the
         // blink operation may be canceled
-        textArea.focus(function(event) {
+        textArea.focus(function() {
+                    var element = jQuery(this);
+                    var chatPanel = element.parents(".chat-panel");
+                    chatPanel.triggerHandler("unblink");
+                });
+
+        // registers for the click event on the contents as this
+        // click will also disable the blinking
+        contents.click(function() {
                     var element = jQuery(this);
                     var chatPanel = element.parents(".chat-panel");
                     chatPanel.triggerHandler("unblink");

@@ -114,15 +114,20 @@
                                 throw "Invalid layout or layout not found";
                             }
 
-                            // updates the base (resolution) tag in the document header
-                            // so that it reflects the proper link resolution, expected
-                            // for the current document state
-                            updateBase(hbase);
+                            // triggers the pre async event to notify the listening handlers
+                            // that the async modification operations are going to be
+                            // started and that the dom is going to be modified
+                            _body.triggerHandler("pre_async");
 
                             // hides the current body reference so that all of the update
                             // operations occur with the ui disabled (faster performance)
                             // and the user experience is not broken
                             _body.hide();
+
+                            // updates the base (resolution) tag in the document header
+                            // so that it reflects the proper link resolution, expected
+                            // for the current document state
+                            updateBase(hbase);
 
                             // verifies if the kind of layout update to be performed is
                             // full or not and then executes the proper logic depending
@@ -134,13 +139,18 @@
                                 updateSimple(base, body);
                             }
 
+                            // updates the globally unique identifier representation for
+                            // the current state in the current structures
+                            updateGuid(uuid);
+
                             // restores the display of the body so that the elements of
                             // it are restored to the user
                             _body.show();
 
-                            // updates the globally unique identifier representation for
-                            // the current state in the current structures
-                            updateGuid(uuid);
+                            // triggers the post async event to notify the listening
+                            // handlers about the end of the dom modification operations
+                            // so that many operations may be resumed
+                            _body.triggerHandler("post_async");
                         } catch (exception) {
                             window.history.back();
                             document.location = href;
