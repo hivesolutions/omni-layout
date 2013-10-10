@@ -724,11 +724,9 @@
             var chatParent = jQuery(".chat-parent");
 
             if (sideLeft.length > 0) {
-                chat_.removeClass("invisible");
                 var parent = chat_.parent(".sidebar-left")
                 parent.length == 0 && sideLeft.append(chat_);
             } else {
-                chat_.addClass("invisible");
                 var parent = chat_.parent(".chat-parent")
                 parent.length == 0 && chatParent.append(chat_);
             }
