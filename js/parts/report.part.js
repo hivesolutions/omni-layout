@@ -92,7 +92,8 @@
 
         // registers for the key down event on the document in order
         // to provide easy of use shortcut for navigation
-        _document.keydown(function(event) {
+        matchedObject.length > 0
+                && _document.keydown(onKeyDown = function(event) {
                     // sets the report as the matched object, provides
                     // a compatability layer
                     var report = matchedObject;
@@ -127,6 +128,9 @@
                             // breaks the switch
                             break;
                     }
+                });
+        matchedObject.bind("destroyed", function() {
+                    _document.unbind("keydown", onKeyDown);
                 });
 
         // registers for the click even on the previous

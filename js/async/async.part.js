@@ -224,7 +224,15 @@
                 topLoader.animate({
                             width : 566
                         }, 150, function() {
-                            topLoader.fadeOut(150);
+                            // verifies if the top loader is currently visible if that's
+                            // the case fades it out (ux effect) otherwise hides it immediately
+                            // to avoid problems with the fading effect
+                            var isVisible = topLoader.is(":visible");
+                            if (isVisible) {
+                                topLoader.fadeOut(150);
+                            } else {
+                                topLoader.hide();
+                            }
                         });
             });
 
