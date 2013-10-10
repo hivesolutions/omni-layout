@@ -1258,8 +1258,13 @@
 
 (function(jQuery) {
     jQuery.fn.uchat = function(options) {
-        // sets the jquery matched object
+        // sets the jquery matched object and validates
+        // that the current size of it is valid otherwise
+        // returns immediately to avoid extra computation
         var matchedObject = this;
+        if (matchedObject.length == 0) {
+            return;
+        }
 
         // retrieves the reference to the "global" window
         // object to be used for calculus
@@ -1650,7 +1655,10 @@
                             + "\" preload=\"none\"></audio>");
 
                     // adds the audio element to the matched object
+                    // then retrieves the underlying audio element
+                    // and loads it from the server side
                     matchedObject.append(audio);
+                    audio[0].load()
                 });
 
         // registers for the init event that should initialize
@@ -2395,6 +2403,7 @@
         contents.scrollTop(scrollHeight);
     };
 })(jQuery);
+
 (function(jQuery) {
     jQuery.fn.ueureka = function(options) {
         // sets the jquery matched object
