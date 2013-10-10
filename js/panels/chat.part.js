@@ -80,7 +80,8 @@
                                     owner : matchedObject,
                                     name : name,
                                     user_id : userId,
-                                    object_id : objectId
+                                    object_id : objectId,
+                                    focus : true
                                 });
                     });
         };
@@ -135,17 +136,19 @@
                 return;
             }
 
+            // unpacks some information from the user information structure
+            // to be used for the creation of some chat components
+            var objectId = userS["object_id"];
+            var representation = userS["representation"];
+
             // tries to retrieve the panel associated with the
             // sender in case no panel is found creates a new
             // one to display the initial message
             var panel = jQuery(".chat-panel[data-user_id=" + owner + "]",
                     matchedObject);
             if (panel.length == 0) {
-                // retrieves both the object id and the representation from the
-                // user structure and uses them to create a new chat panel for
-                // the corresponding user conversation
-                var objectId = userS["object_id"];
-                var representation = userS["representation"];
+                // create a new chat panel for to be used to the conversation
+                // that is going to be started from this (received message)
                 panel = matchedObject.uchatpanel({
                             owner : matchedObject,
                             name : representation,
@@ -159,6 +162,11 @@
             // username relation, defaulting to me in case it's the same
             var name = sender == username ? "me" : representation;
 
+            // creates the localized version of the message for the blink effect
+            // using the anme of the peer as the base for the message
+            var title = jQuery.uxlocale("says ...");
+            title = name + " " + title;
+
             // triggers the restore event to show up the panel
             // and then adds a chat line to the panel containing
             // the message that was just received
@@ -167,6 +175,7 @@
                         name : name,
                         message : message
                     });
+            panel.triggerHandler("blink", [title]);
 
             // retrieves the reference to the audio object
             // of the current object and plays it
@@ -526,6 +535,7 @@
         var userId = options["user_id"];
         var objectId = options["object_id"];
         var ownerId = options["owner_id"];
+        var focus = options["focus"];
 
         // retrieves the current map containin the panels
         // indexed by their "key name" and default to a new
@@ -537,7 +547,7 @@
         var chatPanel = panels[name];
         if (chatPanel) {
             chatPanel.triggerHandler("restore");
-            return;
+            return chatPanel;
         }
 
         // creates the chat panel structure containing the "typical"
@@ -557,6 +567,7 @@
         chatPanel.uxapply();
         chatPanel.attr("data-user_id", userId);
         chatPanel.data("name", name);
+        chatPanel.data("owner", owner);
         chatPanel.data("user_id", userId);
         chatPanel.data("object_id", objectId);
         chatPanel.data("owner_id", ownerId);
@@ -627,9 +638,6 @@
                     // on the text area for the next tick
                     contents.show();
                     message.show();
-                    setTimeout(function() {
-                                textArea.focus();
-                            });
 
                     // triggers the layout event (reposition the window)
                     // and sets the current element as maximized
@@ -660,9 +668,117 @@
                     element.css("top", panelTop + "px");
                 });
 
-        // registers for the click event in the close button to
-        // trigger the removal of the chat panel
-        buttonClose.click(function(event) {
+        // regiters for the blink event so that the blink operation
+        // may be triggered by the blink event
+        chatPanel.bind("blink", function(event, message) {
+                    // retrieves the reference to the current element, that is
+                    // going to be used in the blink operation
+                    var element = jQuery(this);
+
+                    // retrieves the current text area and checks if it
+                    // is currently focsued in case it is returns immediately
+                    // as it's not possible to blick a focused panel
+                    var textArea = jQuery(".chat-message > .text-area", element);
+                    var isFocused = textArea.is(":focus");
+                    if (isFocused) {
+                        return;
+                    }
+
+                    // tries to retrieve a previous blink handler for the current
+                    // chat panel in case it exists returns immediately
+                    var _handler = element.data("blink");
+                    if (_handler) {
+                        return;
+                    }
+
+                    // defaults the message argument to the default string so
+                    // there's allways a value to be posted in the document title
+                    message = message || "blink";
+
+                    // retrieves the owner of the element and uses it to retrieve
+                    // the reference to the original title of the page defaulting
+                    // to the current one in case none is defined
+                    var owner = element.data("owner");
+                    var title = owner.data("title_s") || document.title;
+                    owner.data("title_s", title);
+
+                    // retrieves the existing reference to the interval set in the
+                    // owner and in case it exists cancel it (the new one takes
+                    // priority over the older ones)
+                    var _handlerT = owner.data("title");
+                    _handlerT && clearInterval(_handlerT);
+
+                    // creates the interval handler for the title changing, that
+                    // basically toggles between the current title and the provided
+                    // message value, this is a global handler
+                    var handlerT = setInterval(function() {
+                                if (document.title == title) {
+                                    document.title = message;
+                                } else {
+                                    document.title = title;
+                                }
+                            }, 1250);
+
+                    // updates the references to the title changing handlers
+                    // in both the owner od the element and the current element
+                    owner.data("title", handlerT)
+                    element.data("title", handlerT)
+
+                    // starts the various elements that are going to be used
+                    // during the blinking process
+                    element.addClass("blink");
+
+                    // creates the interval handler tha handles the blink
+                    // operation and then saves it under the current element
+                    var handler = setInterval(function() {
+                                element.toggleClass("blink");
+                            }, 1250);
+                    element.data("blink", handler)
+                });
+
+        // registers for the unblink operation that cancels the current
+        // "blinking" for the chat panel (reverse operation)
+        chatPanel.bind("unblink", function() {
+                    // retrieves the current element and uses it to retrieve the
+                    // the handler to the blink interval and the information on
+                    // the title interval also (includes handler and value)
+                    var element = jQuery(this);
+                    var handler = element.data("blink");
+                    var owner = element.data("owner");
+                    var handlerT = element.data("title");
+                    var _handlerT = owner.data("title");
+                    var title = owner.data("title_s");
+
+                    // verifies if the handler to the title changin is still the
+                    // same and in case it is clears the interval and then restores
+                    // the title to the original one and unsets the value in the
+                    // owner chat element (avoid problems)
+                    var isSame = handlerT && handlerT == _handlerT;
+                    if (isSame) {
+                        clearInterval(_handlerT);
+                        document.title = title
+                        owner.data("title", null);
+                    }
+
+                    // in case there's a valid interval cancels it so that the
+                    // handler stops from being called
+                    handler && clearInterval(handler);
+
+                    // removes the blink class from the element and then unsets
+                    // the blink handler from it also
+                    element.removeClass("blink");
+                    element.data("title", null);
+                    element.data("blink", null);
+                });
+
+        // registers for the close operation in the current panel this
+        // should be an action and not a proper event
+        chatPanel.bind("close", function() {
+                    // retrieves the reference to the current element
+                    // and uses it to triger the unblink operation in it
+                    var element = jQuery(this);
+                    element.triggerHandler("unblink");
+
                     // retrieves the list of panels from the chat controllers
                     // and removes the current panel from it
                     var panels = matchedObject.data("panels") || {};
@@ -672,6 +788,16 @@
                     // the delte chat event to redraw the other panels
                     chatPanel.remove();
                     matchedObject.triggerHandler("delete_chat", []);
+                });
+
+        // registers for the click event in the close button to
+        // trigger the removal of the chat panel
+        buttonClose.click(function(event) {
+                    // retrieves the current element then uses it to retrieve
+                    // the parent chat panel and then closes it
+                    var element = jQuery(this);
+                    var chatPanel = element.parents(".chat-panel");
+                    chatPanel.triggerHandler("close");
 
                     // prevents the default event behaviour and
                     // stops the propagation of it in order to
@@ -712,6 +838,14 @@
                     } else {
                         chatPanel.triggerHandler("minimize", []);
                     }
+                });
+
+        // registers for the focus on the text area so that the
+        // blink operation may be canceled
+        textArea.focus(function(event) {
+                    var element = jQuery(this);
+                    var chatPanel = element.parents(".chat-panel");
+                    chatPanel.triggerHandler("unblink");
                 });
 
         // registers for the key down event in the text area
@@ -777,7 +911,7 @@
 
         // schedules the a focus operation in the text area
         // for the next tick in the event loop
-        setTimeout(function() {
+        focus && setTimeout(function() {
                     textArea.focus();
                 });
 

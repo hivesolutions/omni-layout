@@ -96,6 +96,10 @@
     padding: 6px 0px 6px 22px;
 }
 
+.omni-style .chat-panel.blink > .chat-header {
+    background-color: #5b8638;
+}
+
 .omni-style .chat-panel.budy-available > .chat-header {
     background-position: -3px 0px;
 }
