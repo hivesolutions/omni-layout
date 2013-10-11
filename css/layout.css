@@ -483,7 +483,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .sidebar-text {
-    color: #777777;
+    color: #666666;
     font-size: 12px;
     line-height: 20px;
 }
@@ -506,7 +506,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-label {
-    color: #777777;
+    color: #666666;
     font-size: 14px;
     padding-right: 12px;
     text-align: right;
@@ -533,7 +533,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-label {
-    color: #777777;
+    color: #666666;
     font-size: 14px;
     padding-right: 12px;
     text-align: right;
@@ -583,7 +583,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-super-label .mandatory {
-    border-bottom: 1px solid #777777;
+    border-bottom: 1px solid #666666;
     padding-bottom: 2px;
 }
 
@@ -654,7 +654,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .drop-field.entities-search .entity-details {
-    color: #777777;
+    color: #666666;
     margin: 2px 0px 0px 0px;
 }
 
@@ -735,7 +735,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list-description {
-    color: #777777;
+    color: #666666;
     margin: 10px 0px 0px 0px;
 }
 
@@ -751,7 +751,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list .activity-list-no-results span {
-    color: #777777;
+    color: #666666;
 }
 
 .omni-style  .list.navigation-list {
@@ -783,7 +783,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list > li a {
-    color: #777777;
+    color: #666666;
     cursor: pointer;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
@@ -812,7 +812,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-sub-list {
-    color: #777777;
+    color: #666666;
     display: none;
     font-size: 10px;
     list-style: none;
@@ -826,7 +826,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-sub-list > li > a {
-    color: #777777;
+    color: #666666;
 }
 
 .omni-style .list.navigation-list .link-expand {
@@ -910,7 +910,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .sidebar-list {
-    color: #777777;
+    color: #666666;
     font-size: 11px;
     line-height: 14px;
     list-style: none;
@@ -1218,7 +1218,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .system-menu .menu-contents .email {
-    color: #777777;
+    color: #666666;
 }
 
 .omni-style .system-menu .menu-contents .image > img {
@@ -1235,7 +1235,7 @@ body.omni-style.opensans {
 
 .omni-style .chat > .loading,
 .omni-style .chat > .disconnected {
-    color: #777777;
+    color: #666666;
     line-height: 22px;
     padding: 48px 12px 48px 12px;
     text-align: center;
@@ -1923,7 +1923,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .footer {
-    color: #777777;
+    color: #666666;
     font-size: 12px;
     margin: 22px auto 22px auto;
     min-width: 960px;
@@ -2403,7 +2403,7 @@ body.omni-print-style.receipt {
 }
 
 .omni-style .entity-id {
-    color: #777777;
+    color: #666666;
     margin: 0px 0px 0px 0px;
 }
 
@@ -2432,7 +2432,7 @@ body.omni-print-style.receipt {
 }
 
 .omni-style .entity-details-inner-container .entity-description {
-    color: #777777;
+    color: #666666;
     line-height: 20px;
     margin: 0px 0px 0px 0px;
 }
@@ -2528,7 +2528,7 @@ body.omni-print-style.receipt {
 }
 
 .omni-style .entity-details-box > li p.list-label {
-    color: #777777;
+    color: #666666;
     font-size: 10px;
     padding-top: 2px;
     text-align: left;
