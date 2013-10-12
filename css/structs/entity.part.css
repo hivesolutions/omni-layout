@@ -139,9 +139,6 @@
 
 .omni-style .entity-details-box > li.header-label {
     background-color: #908e8f;
-    border-radius: 5px 5px 5px 5px;
-    -moz-border-radius: 5px 5px 5px 5px;
-    -webkit-border-radius: 5px 5px 5px 5px;
     color: white;
     font-size: 10px;
     letter-spacing: 1px;
@@ -150,6 +147,12 @@
     padding: 0px 8px 0px 8px;
     position: absolute;
     text-transform: uppercase;
+}
+
+.omni-style.round .entity-details-box > li.header-label {
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
 }
 
 .omni-style .entity-details-box > li p {

@@ -400,7 +400,7 @@
                     // then retrieves the underlying audio element
                     // and loads it from the server side
                     matchedObject.append(audio);
-                    audio[0].load()
+                    audio[0].load();
                 });
 
         // registers for the init event that should initialize
