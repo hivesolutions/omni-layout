@@ -144,8 +144,10 @@
                             updateGuid(uuid);
 
                             // restores the display of the body so that the elements of
-                            // it are restored to the user
+                            // it are restored to the user, also scroll the body element
+                            // to the top so that the feel is of a new page
                             _body.show();
+                            _body.scrollTop(0);
 
                             // triggers the post async event to notify the listening
                             // handlers about the end of the dom modification operations
