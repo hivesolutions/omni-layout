@@ -1533,7 +1533,6 @@
                     // iteration and uses it to retrieve a series of parts
                     // of the element that compose it for further usage
                     var _element = jQuery(this);
-                    var buddyList = jQuery("> .buddy-list", _element);
 
                     // checks if the current element is already connection registered
                     // in case it is avoid the current logic (skips registration)
@@ -1584,6 +1583,14 @@
                                 // be update according to the status rules
                                 _element.removeClass("disconnected");
                                 _element.addClass("connected");
+
+                                // retrieves the buddy list associated with the element and
+                                // clears the current budy list so that it can get populated
+                                // with the "new" members that are part of the presence channel
+                                // these are considered to be the new subscriptions
+                                var buddyList = jQuery("> .buddy-list",
+                                        _element);
+                                buddyList.empty();
                             });
 
                     pushi.bind("disconnect", function(even) {
@@ -1612,9 +1619,12 @@
                                     return;
                                 }
 
+                                // retrieves the buddy list associated with the element and
                                 // clears the current budy list so that it can get populated
                                 // with the "new" members that are part of the presence channel
                                 // these are considered to be the new subscriptions
+                                var buddyList = jQuery("> .buddy-list",
+                                        _element);
                                 buddyList.empty();
 
                                 // retrieves the list of online members for the current channel
