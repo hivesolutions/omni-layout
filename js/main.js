@@ -1530,8 +1530,10 @@
         // element to be used in notification
         matchedObject.each(function(index, element) {
                     // retrieves the reference to the current element in
-                    // iteration
+                    // iteration and uses it to retrieve a series of parts
+                    // of the element that compose it for further usage
                     var _element = jQuery(this);
+                    var buddyList = jQuery("> .buddy-list", _element);
 
                     // checks if the current element is already connection registered
                     // in case it is avoid the current logic (skips registration)
@@ -1580,30 +1582,44 @@
 
                                 // updates the main status class so the layout may
                                 // be update according to the status rules
-                                matchedObject.removeClass("disconnected");
-                                matchedObject.addClass("connected");
+                                _element.removeClass("disconnected");
+                                _element.addClass("connected");
                             });
 
                     pushi.bind("disconnect", function(even) {
                                 // updates the main status class so the layout may
                                 // be update according to the status rules
-                                matchedObject.removeClass("connected");
-                                matchedObject.addClass("disconnected");
+                                _element.removeClass("connected");
+                                _element.addClass("disconnected");
 
                                 // gathers all of the panels for the chat and disables them
                                 // as no communication is allowed for them anymore
-                                var panels = matchedObject.data("panels") || {};
+                                var panels = _element.data("panels") || {};
                                 for (var key in panels) {
                                     var panel = panels[key];
                                     panel.triggerHandler("disable");
                                 }
                             });
 
+                    // register to the subscribe event in the current pushi
+                    // object so that its able to detect the registration
+                    // of the various channel and act on them
                     pushi.bind("subscribe", function(event, channel, data) {
+                                // in case the channel that has been registered is not
+                                // the presence status nothing is meant to be done and
+                                // so the control flow returns immediately
                                 if (channel != "presence-status") {
                                     return;
                                 }
 
+                                // clears the current budy list so that it can get populated
+                                // with the "new" members that are part of the presence channel
+                                // these are considered to be the new subscriptions
+                                buddyList.empty();
+
+                                // retrieves the list of online members for the current channel
+                                // and then iterates over them to be able to trigger the online
+                                // status changed event for each them
                                 var members = data.members || {};
                                 for (var key in members) {
                                     var member = members[key];
@@ -1659,7 +1675,7 @@
                     // adds the audio element to the matched object
                     // then retrieves the underlying audio element
                     // and loads it from the server side
-                    matchedObject.append(audio);
+                    _element.append(audio);
                     audio[0].load();
                 });
 
@@ -1751,12 +1767,6 @@
                     if (username == _username) {
                         return;
                     }
-
-                    // retrieves the reference to the buddy list in for the
-                    // current chat element and empties it so that the list
-                    // gets populated by the next subscriptions
-                    var buddyList = jQuery("> .buddy-list", element);
-                    buddyList.empty();
 
                     // updates the chat panel data with the new username
                     // so that it may be used latter
