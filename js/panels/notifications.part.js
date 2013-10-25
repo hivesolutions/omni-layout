@@ -151,7 +151,15 @@
             // registers for the connect event so that at the end of
             // the connection the base channels are subscribed
             pushi.bind("connect", function(event) {
+                        // retrieves the current username set in the global body
+                        // object to be able to create the name of the personal
+                        // channel that is going to be subscribed for notifications
+                        var username = _body.data("username");
+
+                        // subscribes to both the global (notifications channel) and
+                        // the personal (user only) channel for specific notifications
                         this.subscribe("global");
+                        this.subscribe("personal-" + username);
                     });
 
             // registers for the notification event to be able to
