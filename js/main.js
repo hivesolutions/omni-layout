@@ -2773,7 +2773,8 @@
                         // the iterates over them to create the various notification
                         // in the oposite order of arrival (correct order)
                         var events = data.events || [];
-                        for (var index = events.length - 1; index >= 0; index--) {
+                        var length = event.length > 5 ? 5 : event.length;
+                        for (var index = length - 1; index >= 0; index--) {
                             var event = events[index];
                             var data = event.data.data;
                             var _data = data ? jQuery.parseJSON(data) : data;
