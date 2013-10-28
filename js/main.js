@@ -2777,7 +2777,8 @@
                             var event = events[index];
                             var data = event.data.data;
                             var _data = data ? jQuery.parseJSON(data) : data;
-                            _element.triggerHandler("notification", _data, true);
+                            _element.triggerHandler("notification", [_data,
+                                            false]);
                         }
                     });
 
@@ -2797,7 +2798,7 @@
                         /// @TODO: TENHO DE UPDATAR A TIME STRING DE TEMPOS
                         // A TEMPOS (para que ela va envelechendo)
 
-                        _element.triggerHandler("notification", data, false);
+                        _element.triggerHandler("notification", [data, true]);
                     });
 
             // triggers the initial refresh in the notification elements
