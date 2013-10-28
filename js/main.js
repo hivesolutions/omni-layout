@@ -870,6 +870,27 @@
 })(jQuery);
 
 (function(jQuery) {
+    jQuery.udates = function(timestamp) {
+        var dateS = "n/a";
+
+        if (timestamp < 60) {
+            dateS = "moments ago"
+        } else if (timestamp < 3600) {
+            var minutes = Math.round(timestamp / 60);
+            dateS = String(minutes) + " minutes ago"
+        } else if (timestamp < 86400) {
+            var hours = Math.round(timestamp / 3600);
+            dateS = String(hours) + " hours ago"
+        } else {
+            var days = Math.round(timestamp / 86400);
+            dateS = String(days) + " hours ago"
+        }
+
+        return dateS;
+    };
+})(jQuery);
+
+(function(jQuery) {
     jQuery.uquery = function(param) {
         // retrieves the reference to the body element and uses
         // it to retrieve the currently set mvc path in case it's
@@ -2581,6 +2602,11 @@
                 var mvcPath = _body.data("mvc_path");
                 var classIdUrl = _body.data("class_id_url");
 
+                // creates a new date object and uses it to retrieve
+                // the current timestamp as defined in utf for unix
+                var date = new Date();
+                var current = date.getTime();
+
                 // unpacks both the object id and the cid (class id)
                 // from the current data strcucture
                 var objectId = data.entity.object_id;
@@ -2598,13 +2624,19 @@
                 var url = baseUrl + objectId;
                 var urlU = baseUrlU + uobjectId;
 
+                // calculates the diff by calculating the difference between
+                // the current timestamp and the create date of the notification
+                // and then converts it into the appropriate date string
+                var diff = (current / 1000.0) - data.create_date;
+                var diffS = jQuery.udates(diff);
+
                 // creates the various items that are going to be used
                 // in the notification, this is important to maintain
                 // the notification as useful as possible
                 var imageUrl = urlU + "/image?size=50";
                 var userName = data.create_user.representation;
                 var message = data.notification_string;
-                var time = "moments ago";
+                var time = diffS;
 
                 // runs the template (replacer) infra-structure in the message
                 // so the message is correctly displayed with the right style
@@ -2803,19 +2835,54 @@
                         var isString = typeof data == "string";
                         data = isString ? jQuery.parseJSON(data) : data;
 
-                        /// @TODO: TENHO DE UPDATAR A TIME STRING DE TEMPOS
-                        // A TEMPOS (para que ela va envelechendo)
-
                         // triggers the notification event in the element to display
                         // the element visual structure in the notifications list
                         _element.triggerHandler("notification", [data, true]);
                     });
 
-            // triggers the initial refresh in the notification elements
-            // this will run the initial update and initialize the
-            // various components (startup process)
-            matchedObject.triggerHandler("refresh");
+            // schedules an interval to update the current set of items so that
+            // their time range values are correctly displayed
+            setInterval(function() {
+                        // retrieves the current date and uses it to retrieve the current
+                        // timestamp value (according to the utf format)
+                        var date = new Date();
+                        var current = date.getTime();
+
+                        // retrieves the complete set of items and iterates over them
+                        // to update the time value for each of them
+                        var items = jQuery("li", list);
+                        items.each(function(index, element) {
+                                    // retrieves the current element in iteration and tries to
+                                    // retrieve the data table structure from it
+                                    var _element = jQuery(this);
+                                    var data = _element.data("data");
+                                    if (!data) {
+                                        return;
+                                    }
+
+                                    // retrieves the reference to the time element of the
+                                    // current element in iteration, this is the value that
+                                    // is going to be update with the new string value
+                                    var time = jQuery(".time", _element);
+
+                                    // calculates the diff by calculating the difference between
+                                    // the current timestamp and the create date of the notification
+                                    // and then converts it into the appropriate date string
+                                    var diff = (current / 1000.0)
+                                            - data.create_date;
+                                    var diffS = jQuery.udates(diff);
+
+                                    // updates the time element with the newly creates diff
+                                    // string that is not going to represent the element
+                                    time.html(diffS);
+                                });
+                    }, 60000);
         });
+
+        // triggers the initial refresh in the notification elements
+        // this will run the initial update and initialize the
+        // various components (startup process)
+        matchedObject.triggerHandler("refresh");
     };
 })(jQuery);
 
