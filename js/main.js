@@ -874,16 +874,16 @@
         var dateS = "n/a";
 
         if (timestamp < 60) {
-            dateS = "moments ago"
+            dateS = jQuery.uxlocale("moments ago");
         } else if (timestamp < 3600) {
             var minutes = Math.round(timestamp / 60);
-            dateS = String(minutes) + " minutes ago"
+            dateS = String(minutes) + " " + jQuery.uxlocale("minutes ago");
         } else if (timestamp < 86400) {
             var hours = Math.round(timestamp / 3600);
-            dateS = String(hours) + " hours ago"
+            dateS = String(hours) + " " + jQuery.uxlocale("hours ago");
         } else {
             var days = Math.round(timestamp / 86400);
-            dateS = String(days) + " hours ago"
+            dateS = String(days) + " " + jQuery.uxlocale("hours ago");
         }
 
         return dateS;
@@ -1256,7 +1256,11 @@
         "Signing in to chat server" : "Signing in to chat server",
         "You've been disconnected" : "You've been disconnected",
         "retrying ..." : "retrying ...",
-        "says ..." : "says ..."
+        "says ..." : "says ...",
+        "moments ago" : "moments ago",
+        "minutes ago" : "minutes ago",
+        "hours ago" : "hours ago",
+        "days ago" : "days ago"
     }
 
     jQuery.uxloadbundle(BUNDLE_EN_US, "en-us")
@@ -1273,7 +1277,11 @@
         "Signing in to chat server" : "Ligando a servidor de chat",
         "You've been disconnected" : "Ligação a servidor perdida",
         "retrying ..." : "tentando de novo ...",
-        "says ..." : "diz ..."
+        "says ..." : "diz ...",
+        "moments ago" : "momentos atrás",
+        "minutes ago" : "minutos atrás",
+        "hours ago" : "horas atrás",
+        "days ago" : "dias atrás"
     }
 
     jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")

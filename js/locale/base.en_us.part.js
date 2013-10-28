@@ -9,7 +9,11 @@
         "Signing in to chat server" : "Signing in to chat server",
         "You've been disconnected" : "You've been disconnected",
         "retrying ..." : "retrying ...",
-        "says ..." : "says ..."
+        "says ..." : "says ...",
+        "moments ago" : "moments ago",
+        "minutes ago" : "minutes ago",
+        "hours ago" : "hours ago",
+        "days ago" : "days ago"
     }
 
     jQuery.uxloadbundle(BUNDLE_EN_US, "en-us")
