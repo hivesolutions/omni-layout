@@ -2759,9 +2759,21 @@
                         this.subscribe("personal-" + username);
                     });
 
+            // registers for the subscribe event to be able to create the previously
+            // existing events from the stored (logged) ones
             pushi.bind("subscribe", function(event, channel, data) {
+                        // verifies if the cyrrent channel type is personal and in
+                        // case it's not returns immediately (nothing to be done)
+                        var isPersonal = channel.startsWith("personal-");
+                        if (!isPersonal) {
+                            return;
+                        }
+
+                        // extracts the list of event from the provided data and
+                        // the iterates over them to create the various notification
+                        // in the oposite order of arrival (correct order)
                         var events = data.events || [];
-                        for (var index = 0; index < events.length; index++) {
+                        for (var index = events.length - 1; index >= 0; index--) {
                             var event = events[index];
                             var data = event.data.data;
                             var _data = data ? jQuery.parseJSON(data) : data;
