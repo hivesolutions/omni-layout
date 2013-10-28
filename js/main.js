@@ -874,16 +874,19 @@
         var dateS = "n/a";
 
         if (timestamp < 60) {
-            dateS = jQuery.uxlocale("moments ago");
+            dateS = jQuery.uxlocale("just now");
         } else if (timestamp < 3600) {
             var minutes = Math.round(timestamp / 60);
-            dateS = String(minutes) + " " + jQuery.uxlocale("minutes ago");
+            var label = minutes == 1 ? "min ago" : "mins ago";
+            dateS = String(minutes) + " " + jQuery.uxlocale(label);
         } else if (timestamp < 86400) {
             var hours = Math.round(timestamp / 3600);
-            dateS = String(hours) + " " + jQuery.uxlocale("hours ago");
+            var label = hours == 1 ? "hour ago" : "hours ago";
+            dateS = String(hours) + " " + jQuery.uxlocale(label);
         } else {
             var days = Math.round(timestamp / 86400);
-            dateS = String(days) + " " + jQuery.uxlocale("hours ago");
+            var label = days == 1 ? "day ago" : "days ago";
+            dateS = String(days) + " " + jQuery.uxlocale(label);
         }
 
         return dateS;
@@ -1257,9 +1260,12 @@
         "You've been disconnected" : "You've been disconnected",
         "retrying ..." : "retrying ...",
         "says ..." : "says ...",
-        "moments ago" : "moments ago",
-        "minutes ago" : "minutes ago",
+        "just now" : "just now",
+        "min ago" : "min ago",
+        "mins ago" : "mins ago",
+        "hour ago" : "hour ago",
         "hours ago" : "hours ago",
+        "day ago" : "day ago",
         "days ago" : "days ago"
     }
 
@@ -1278,9 +1284,12 @@
         "You've been disconnected" : "Ligação a servidor perdida",
         "retrying ..." : "tentando de novo ...",
         "says ..." : "diz ...",
-        "moments ago" : "momentos atrás",
-        "minutes ago" : "minutos atrás",
+        "just now" : "agora mesmo",
+        "min ago" : "min atrás",
+        "mins ago" : "min atrás",
+        "hour ago" : "hora atrás",
         "hours ago" : "horas atrás",
+        "day ago" : "dia atrás",
         "days ago" : "dias atrás"
     }
 

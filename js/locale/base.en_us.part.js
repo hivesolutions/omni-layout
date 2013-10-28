@@ -10,9 +10,12 @@
         "You've been disconnected" : "You've been disconnected",
         "retrying ..." : "retrying ...",
         "says ..." : "says ...",
-        "moments ago" : "moments ago",
-        "minutes ago" : "minutes ago",
+        "just now" : "just now",
+        "min ago" : "min ago",
+        "mins ago" : "mins ago",
+        "hour ago" : "hour ago",
         "hours ago" : "hours ago",
+        "day ago" : "day ago",
         "days ago" : "days ago"
     }
 

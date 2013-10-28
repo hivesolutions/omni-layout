@@ -10,9 +10,12 @@
         "You've been disconnected" : "Ligação a servidor perdida",
         "retrying ..." : "tentando de novo ...",
         "says ..." : "diz ...",
-        "moments ago" : "momentos atrás",
-        "minutes ago" : "minutos atrás",
+        "just now" : "agora mesmo",
+        "min ago" : "min atrás",
+        "mins ago" : "min atrás",
+        "hour ago" : "hora atrás",
         "hours ago" : "horas atrás",
+        "day ago" : "dia atrás",
         "days ago" : "dias atrás"
     }
 
