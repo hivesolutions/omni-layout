@@ -133,6 +133,16 @@
                 isNew && notification.addClass("pending");
                 isNew && link.addClass("pending");
 
+                // in case the current notification is new creates
+                // a new notification box for the current notification
+                // so that the user gets an immediate visual effect
+                isNew && _body.uxnotification({
+                            "title" : userName,
+                            "message" : message,
+                            "link" : jQuery.uxresolve(url),
+                            "timeout" : 10000
+                        });
+
                 // runs a refresh operation in the current element
                 // so that it's status becomes updated
                 _element.triggerHandler("refresh");
@@ -182,7 +192,7 @@
                                     var baseUrl = mvcPath + classIdUrl[cid];
                                     var url = baseUrl + objectId;
 
-                                    // updates the link informtion in the notification list item
+                                    // updates the link information in the notification list item
                                     // so that a new click is properly changed
                                     _element.attr("data-link", url);
                                     _element.data("link", url);
@@ -277,9 +287,6 @@
                         // place of the current data element
                         var isString = typeof data == "string";
                         data = isString ? jQuery.parseJSON(data) : data;
-
-                        // @TODO para enviar notifições utilizar !!!
-                        // jQuery("body").uxnotification({"title" : "asdad", "message" : "Adasd" });
 
                         /// @TODO: TENHO DE UPDATAR A TIME STRING DE TEMPOS
                         // A TEMPOS (para que ela va envelechendo)
