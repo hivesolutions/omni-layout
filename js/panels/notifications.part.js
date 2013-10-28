@@ -284,6 +284,8 @@
                         /// @TODO: TENHO DE UPDATAR A TIME STRING DE TEMPOS
                         // A TEMPOS (para que ela va envelechendo)
 
+                        // triggers the notification event in the element to display
+                        // the element visual structure in the notifications list
                         _element.triggerHandler("notification", [data, true]);
                     });
 
