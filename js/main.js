@@ -2741,6 +2741,11 @@
                             link.uxenable();
                         }
 
+                        // retrieves the current date and uses it to retrieve the current
+                        // timestamp value (according to the utf format)
+                        var date = new Date();
+                        var current = date.getTime();
+
                         // iterates over each of the items to be able to update
                         // their like associations to the apropriate values
                         items.each(function(index, element) {
@@ -2752,6 +2757,22 @@
                                     if (!data) {
                                         return;
                                     }
+
+                                    // retrieves the reference to the time element of the
+                                    // current element in iteration, this is the value that
+                                    // is going to be update with the new string value
+                                    var time = jQuery(".time", _element);
+
+                                    // calculates the diff by calculating the difference between
+                                    // the current timestamp and the create date of the notification
+                                    // and then converts it into the appropriate date string
+                                    var diff = (current / 1000.0)
+                                            - data.create_date;
+                                    var diffS = jQuery.udates(diff);
+
+                                    // updates the time element with the newly created diff
+                                    // string that is not going to represent the element
+                                    time.html(diffS);
 
                                     // unpacks the various information from the notification
                                     // data and constructs the base url that is going to be
@@ -2917,7 +2938,7 @@
                                             - data.create_date;
                                     var diffS = jQuery.udates(diff);
 
-                                    // updates the time element with the newly creates diff
+                                    // updates the time element with the newly created diff
                                     // string that is not going to represent the element
                                     time.html(diffS);
                                 });
