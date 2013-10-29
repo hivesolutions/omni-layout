@@ -2600,6 +2600,11 @@
             var url = _element.attr("data-url");
             var absolueUrl = jQuery.uxresolve(url + "/pushi");
 
+            // retrieves the name of the currently signed in user
+            // from the body element, to be used for the current panel
+            var username = _body.data("username");
+            _element.data("username", username);
+
             // retrieves the app key value to be used for the establishement
             // of the pushi connection, then uses it as the first argument
             // in the construction of the proxy object
@@ -2761,6 +2766,29 @@
                                     _element.attr("data-link", url);
                                     _element.data("link", url);
                                 });
+
+                        // retrieves the username of the currently signed in user and the
+                        // username associated with the current element in case they
+                        // remain the same nothing else remains to be done and so the
+                        // function returns immediately (to the caller method)
+                        var username = _body.data("username");
+                        var _username = _element.data("username");
+                        if (username == _username) {
+                            return;
+                        }
+
+                        // unsubscribes from the previous personal channel and the subscribes
+                        // to the channel of the new user (for security reasons)
+                        pushi.unsubscribe("personal-" + _username);
+                        pushi.subscribe("personal-" + username);
+
+                        // disables the link by default, this value will be re-enabled in case
+                        // the new channel contain any notification values
+                        link.uxdisable();
+
+                        // changes the username associated wit the current element to the new
+                        // on, as all the changes have taken place
+                        _element.data("username", username);
                     });
 
             // registers for the show event so that the reading
@@ -2832,7 +2860,7 @@
                         // the iterates over them to create the various notification
                         // in the oposite order of arrival (correct order)
                         var events = data.events || [];
-                        var length = event.length > 5 ? 5 : event.length;
+                        var length = events.length > 5 ? 5 : events.length;
                         for (var index = length - 1; index >= 0; index--) {
                             var event = events[index];
                             var data = event.data.data;
