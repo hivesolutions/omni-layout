@@ -2865,6 +2865,10 @@
                         // subscribes to the personal channel for the user, this channeç
                         // should contain notification related infromation
                         this.subscribe("personal-" + username);
+
+                        // empties the current list so that all the elements contained
+                        // in it are removed and none is present
+                        list.empty();
                     });
 
             // registers for the subscribe event to be able to create the previously
