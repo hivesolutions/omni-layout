@@ -156,7 +156,7 @@
                             "title" : userName,
                             "message" : message,
                             "link" : jQuery.uxresolve(url),
-                            "timeout" : 10000
+                            "timeout" : 15000
                         });
 
                 // runs a refresh operation in the current element
