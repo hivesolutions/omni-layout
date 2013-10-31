@@ -570,6 +570,11 @@ body.omni-style.opensans {
     margin: 16px 0px 0px 0px;
 }
 
+.omni-style .list-divider-transparent {
+    border-bottom: none;
+    margin: 16px 0px 0px 0px;
+}
+
 .omni-style .list-separator {
     border-bottom: 1px solid transparent;
     margin: 12px 0px 12px 0px;

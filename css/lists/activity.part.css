@@ -5,21 +5,52 @@
 }
 
 .omni-style .activity-list li {
+    border-bottom: 1px solid transparent;
+     border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
     border-top: 1px solid #f2f2f2;
+    cursor: pointer;
     padding: 16px 0px 16px 0px;
 }
 
-.omni-style .activity-list li:first-child {
-    border-top: none;
+.omni-style .activity-list li.next {
+    border-top: 1px solid transparent;
+}
+
+.omni-style .activity-list li:hover {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #d8d8d8;
+    border-left: 1px solid #d8d8d8;
+    border-right: 1px solid #d8d8d8;
+    border-top: 1px solid #d8d8d8;
+    margin-left: -10px;
+    padding-bottom: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 530px;
+}
+
+.omni-style .activity-list li:last-child:hover {
+    border-bottom: 1px solid #d8d8d8;
 }
 
 .omni-style .activity-list li img {
     border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
+    float: left;
     height: 50px;
     margin: 0px 12px 0px 0px;
     width: 50px;
+}
+
+.omni-style .activity-list li .container {
+    float: left;
+    padding-top: 4px;
+}
+
+.omni-style.opensans .activity-list li .container {
+    padding-top: 2px;
 }
 
 .omni-style .activity-list-content {
