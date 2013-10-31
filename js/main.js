@@ -2619,9 +2619,10 @@
                 // retrieves the current element
                 var _element = jQuery(this);
 
-                // retrieves the mvc path and the class id url
+                // retrieves the mvc and base paths and the class id url
                 // map for the current page
                 var mvcPath = _body.data("mvc_path");
+                var basePath = _body.data("base_path");
                 var classIdUrl = _body.data("class_id_url");
 
                 // creates a new date object and uses it to retrieve
@@ -2631,6 +2632,7 @@
 
                 // unpacks both the object id and the cid (class id)
                 // from the current data strcucture
+                var uniqueId = data.unique_id;
                 var objectId = data.entity.object_id;
                 var uobjectId = data.create_user.object_id;
                 var cid = data.cid;
@@ -2659,6 +2661,15 @@
                 var userName = data.create_user.representation;
                 var message = data.notification_string;
                 var time = diffS;
+
+                // "calulates" the path to the logo url using the retrieved
+                // base path as the reference for it
+                var logoUrl = basePath
+                        + "resources_common/images/logos/front-door-not-large.png";
+
+                // creates the plain text representation of the message to be
+                // used for notification that use plain text
+                var messageT = jQuery.utext(message);
 
                 // runs the template (replacer) infra-structure in the message
                 // so the message is correctly displayed with the right style
@@ -2711,6 +2722,25 @@
                             "link" : jQuery.uxresolve(url),
                             "timeout" : 15000
                         });
+
+                // in case this is a new notification creates a desktop
+                // notification and registers the appropriate handlers to
+                // it so that the target page opens on click and the notification
+                // hides after a certain ammount of time
+                isNew && (notification = new Notification(userName, {
+                            dir : "auto",
+                            icon : jQuery.uxresolve(logoUrl),
+                            lang : "en",
+                            body : messageT,
+                            tag : uniqueId
+                        }));
+                isNew && (notification.onclick = function() {
+                    window.open(url, "_blank");
+                });
+                isNew && notification.show();
+                isNew && setTimeout(function() {
+                            notification.close();
+                        }, 15000);
 
                 // runs a refresh operation in the current element
                 // so that it's status becomes updated
@@ -3375,6 +3405,16 @@
     jQuery.utemplate = function(value) {
         value = value.replace(/{{/g, "<b>");
         value = value.replace(/}}/g, "</b>");
+        value = value.capitalize();
+        return value;
+    };
+})(jQuery);
+
+(function(jQuery) {
+    jQuery.utemplate = function(value) {
+        value = value.replace(/{{/g, "<b>");
+        value = value.replace(/}}/g, "</b>");
+        value = value.capitalize();
         return value;
     };
 })(jQuery);
