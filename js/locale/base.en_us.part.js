@@ -18,7 +18,7 @@
         "day ago" : "day ago",
         "days ago" : "days ago",
         "sold {{%s}} for {{%s}}" : "sold {{%s}} for {{%s}}",
-        "returned {{%s}} worth {{%s}} of sale {{%s}}" : "returned {{%s}} worth {{%s}} of sale {{%s}}", 
+        "returned {{%s}} worth {{%s}} of sale {{%s}}" : "returned {{%s}} worth {{%s}} of sale {{%s}}",
         "edited {{%s}}" : "edited {{%s}}"
     }
 
