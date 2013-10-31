@@ -18,6 +18,7 @@
         "day ago" : "dia atrás",
         "days ago" : "dias atrás",
         "sold {{%s}} for {{%s}}" : "vendeu {{%s}} por {{%s}}",
+        "returned {{%s}} worth {{%s}} of sale {{%s}}" : "retornou {{%s}} no valor de {{%s}} da venda {{%s}}",
         "edited {{%s}}" : "editou {{%s}}"
     }
 
