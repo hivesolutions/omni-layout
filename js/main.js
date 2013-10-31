@@ -1289,7 +1289,7 @@
 
                 // formats the current message using the provided arguments
                 // (uses dynamic function calling)
-                message = message.formatC.apply(arguments);
+                message = String.prototype.formatC.apply(message, arguments);
 
                 // performs the various transformation operations on the message
                 // so that the rendered value is html compliant
