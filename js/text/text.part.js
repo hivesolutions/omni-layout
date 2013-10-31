@@ -1,7 +1,7 @@
 (function(jQuery) {
-    jQuery.utemplate = function(value) {
-        value = value.replace(/{{/g, "<b>");
-        value = value.replace(/}}/g, "</b>");
+    jQuery.utext = function(value) {
+        value = value.replace(/{{/g, "");
+        value = value.replace(/}}/g, "");
         value = value.capitalize();
         return value;
     };
