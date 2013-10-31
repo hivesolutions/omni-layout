@@ -1293,9 +1293,7 @@
 
                 // performs the various transformation operations on the message
                 // so that the rendered value is html compliant
-                message = message.replace("{{", "<b>");
-                message = message.replace("}}", "</b>");
-                message = message.capitalize(true);
+                message = jQuery.utemplate(message);
 
                 // updates the current description message with the appropriate
                 // message after all the transformation operations are performed
