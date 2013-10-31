@@ -3,13 +3,21 @@
         // retrieve the current element as the matched object
         var matchedObject = jQuery(this);
 
+        // retrieves the reference to the body element and uses
+        // it to retrieve the mvc path and the class id url map
+        var _body = jQuery("body");
+        var mvcPath = _body.data("mvc_path");
+        var classIdUrl = _body.data("class_id_url");
+
         // iterates over all the element "inside" the currently matched
         // object to transfor them according to the specification
         matchedObject.each(function(index, element) {
             // retrieves the reference to the current element in iteration
-            // and then "gathers" the complete set of items from it
+            // and then "gathers" the complete set of items from it and the
+            // complete set of links contained in them
             var _element = jQuery(this);
             var items = jQuery("> li", _element);
+            var links = jQuery(".link", items);
 
             // iterates over all the items present in the activity list
             // to populate them with the appropriate description values
@@ -30,7 +38,21 @@
                 // then localizes the message to the target value
                 var message = dataJ["message"];
                 var arguments = dataJ["arguments"];
+                var meta = dataJ["meta"];
                 message = jQuery.uxlocale(message);
+
+                // retrieves the target as the first element of the meta attributes
+                // and then unpacks it as the cid (class id) and the object id of
+                // the target entity associated with the notification
+                var target = meta[0];
+                var cid = target[0];
+                var objectId = target[1];
+
+                // creates the base url from the mvc path and the class id url
+                // resolved using the proper map and then creates the full link value
+                // by adding the target entity object id
+                var baseUrl = mvcPath + classIdUrl[cid];
+                var link = baseUrl + objectId;
 
                 // formats the current message using the provided arguments
                 // (uses dynamic function calling)
@@ -43,6 +65,11 @@
                 // updates the current description message with the appropriate
                 // message after all the transformation operations are performed
                 description.html(message);
+
+                // sets the data link attribute in the element and then starts it
+                // as a button so that the proper click handler are created
+                _element.attr("data-link", link);
+                _element.uxbutton();
             });
 
             // registers for the mouse leave event so that
@@ -60,6 +87,12 @@
                         var next = _element.next();
                         next.removeClass("next");
                     });
-        })
+
+            // registers for the click event in the link items
+            // so that no propagation is done in the event
+            links.click(function(event) {
+                        event.stopPropagation();
+                    });
+        });
     };
 })(jQuery);

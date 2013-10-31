@@ -72,6 +72,8 @@
                 url = url.replace(result, path);
             }
 
+            // updates the class id url with the new url
+            // value for the proper class id
             classIdUrl[classId] = url;
         }
 

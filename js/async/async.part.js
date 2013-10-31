@@ -393,6 +393,7 @@
         updateIcon(base);
         updateResources(base);
         updateLocale(base);
+        updateMeta(base);
         updateWindow(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
@@ -403,7 +404,6 @@
         updateNavigationList(base);
         updateSidebarRight(base);
         updateOverlaySearch(base);
-        updateMeta(base);
         updateNotifications(base);
         updateChat(base);
     };
@@ -413,6 +413,7 @@
         updateIcon(base);
         updateResources(base);
         updateLocale(base);
+        updateMeta(base);
         updateWindow(base);
         updateHeaderImage(base);
         updateSecondLeft(base);
@@ -421,7 +422,6 @@
         updateContentFull(base);
         updateFooter(base);
         updateOverlaySearch(base);
-        updateMeta(base);
         updateNotifications(base);
         updateChat(base);
     };
@@ -441,13 +441,21 @@
     };
 
     var updateResources = function(base) {
+        // retrieves the references to the top level head
+        // and body elements to be used in the resource update
         var _head = jQuery("head");
         var _body = jQuery("body");
 
+        // retrieves the contents of the new base path and the
+        // section value to be used in section comparision
         var section = jQuery("#section", base);
         var basePath = jQuery("#base-path", base);
         var section_ = jQuery(".meta > #section");
 
+        // retrieves the complete set of contents from the sections
+        // and the base path so that it's possible to verify if the
+        // section has changed and if such change the sections list
+        // value and inlcude the proper (specific) files
         var sectionValue = section.html();
         var sectionValue_ = section_.html();
         var basePathValue = basePath.html();
@@ -491,6 +499,17 @@
         var locale_ = jQuery("[data-locale]");
         var language = locale.html().replace("_", "-");
         locale_.attr("data-locale", language);
+    };
+
+    var updateMeta = function(base) {
+        var _body = jQuery("body");
+        var meta = base.filter(".meta")
+        var meta_ = jQuery(".meta");
+        var metaHtml = meta.html();
+        metaHtml = metaHtml.replace(/aux-src=/ig, "src=");
+        meta_.html(metaHtml);
+        meta_.uxapply();
+        _body.uconfigurations();
     };
 
     var updateHeaderImage = function(base) {
@@ -636,17 +655,6 @@
         overlaySearch_.html(overlaySearchHtml);
         overlaySearch_.uxapply();
         overlaySearch_.uxoverlaysearch();
-    };
-
-    var updateMeta = function(base) {
-        var _body = jQuery("body");
-        var meta = base.filter(".meta")
-        var meta_ = jQuery(".meta");
-        var metaHtml = meta.html();
-        metaHtml = metaHtml.replace(/aux-src=/ig, "src=");
-        meta_.html(metaHtml);
-        meta_.uxapply();
-        _body.uconfigurations();
     };
 
     var updateNotifications = function(base) {
