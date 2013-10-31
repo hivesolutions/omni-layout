@@ -16,7 +16,8 @@
         "hour ago" : "hora atrás",
         "hours ago" : "horas atrás",
         "day ago" : "dia atrás",
-        "days ago" : "dias atrás"
+        "days ago" : "dias atrás",
+        "edited {{%s}}" : "editou {{%s}}"
     }
 
     jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")
