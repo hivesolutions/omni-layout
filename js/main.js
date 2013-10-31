@@ -1340,6 +1340,7 @@
         "hours ago" : "hours ago",
         "day ago" : "day ago",
         "days ago" : "days ago",
+        "sold {{%s}} for {{%s}}" : "sold {{%s}} for {{%s}}",
         "edited {{%s}}" : "edited {{%s}}"
     }
 
@@ -1365,6 +1366,7 @@
         "hours ago" : "horas atrás",
         "day ago" : "dia atrás",
         "days ago" : "dias atrás",
+        "sold {{%s}} for {{%s}}" : "vendeu {{%s}} por {{%s}}",
         "edited {{%s}}" : "editou {{%s}}"
     }
 

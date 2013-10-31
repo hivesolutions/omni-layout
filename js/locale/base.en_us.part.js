@@ -17,6 +17,7 @@
         "hours ago" : "hours ago",
         "day ago" : "day ago",
         "days ago" : "days ago",
+        "sold {{%s}} for {{%s}}" : "sold {{%s}} for {{%s}}",
         "edited {{%s}}" : "edited {{%s}}"
     }
 
