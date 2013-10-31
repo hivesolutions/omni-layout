@@ -101,18 +101,14 @@
                 var diff = (current / 1000.0) - data.create_date;
                 var diffS = jQuery.udates(diff);
 
-                // creates the various items that are going to be used
-                // in the notification, this is important to maintain
-                // the notification as useful as possible
-                var imageUrl = urlU + "/image?size=50";
-                var userName = data.create_user.representation;
-                var message = data.notification_string;
-                var time = diffS;
-
-                // "calulates" the path to the logo url using the retrieved
-                // base path as the reference for it
-                var logoUrl = basePath
-                        + "resources_common/images/logos/front-door-not-large.png";
+                // extracs the message value from the base notification structure
+                // and then retrieves the argumentss from it also, then runs the
+                // localization system on the message and formats the arguments
+                // on the provided message (according to the c standard)
+                var message = data.notification.message;
+                var arguments = data.notification.arguments;
+                message = jQuery.uxlocale(message);
+                message = String.prototype.formatC.apply(message, arguments);
 
                 // creates the plain text representation of the message to be
                 // used for notification that use plain text
@@ -122,15 +118,27 @@
                 // so the message is correctly displayed with the right style
                 message = jQuery.utemplate(message);
 
+                // creates the various items that are going to be used
+                // in the notification, this is important to maintain
+                // the notification as useful as possible
+                var imageUrl = urlU + "/image?size=50";
+                var userName = data.create_user.representation;
+                var time = diffS;
+
+                // "calulates" the path to the logo url using the retrieved
+                // base path as the reference for it
+                var logoUrl = basePath
+                        + "resources_common/images/logos/front-door-not-large.png";
+
                 // adds a new notification item to the list of
                 // notifications, this notification should have
-                // the pre-defined username, message and time as
-                // defined in the received data
+                // the pre-defined username and time as defined
+                // in the received data
                 var notification = jQuery("<li class=\"button\" data-link=\""
                         + url + "\">" + "<img class=\"entity-picture\" src=\""
                         + imageUrl + "\">" + "<div class=\"contents\">"
                         + "<p class=\"title\">" + userName + "</p>"
-                        + "<p class=\"subject\">" + message + "</p>" + "</div>"
+                        + "<p class=\"subject\"></p>" + "</div>"
                         + "<div class=\"time\">" + time + "</div>"
                         + "<div class=\"break\"></div>" + "</li>");
                 list.prepend(notification);
@@ -198,96 +206,116 @@
             // so that it's possible to refresh the links of the
             // notifications according to the current location
             _element.bind("refresh", function() {
-                        // retrieves the complete set of items currently defined
-                        // in the items (notifications) list
-                        var items = jQuery("li", list);
+                // retrieves the complete set of items currently defined
+                // in the items (notifications) list
+                var items = jQuery("li", list);
 
-                        // retrieves the mvc path and the class id url
-                        // map for the current page
-                        var mvcPath = _body.data("mvc_path");
-                        var classIdUrl = _body.data("class_id_url");
+                // retrieves the mvc path and the class id url
+                // map for the current page
+                var mvcPath = _body.data("mvc_path");
+                var classIdUrl = _body.data("class_id_url");
 
-                        // retrieves the current number of notifications (items
-                        // size) and in case the number is zero disables the current
-                        // link, reverting it to a non action state, otherwise enables
-                        // it so that it becomes actionable (reverse operation)
-                        var itemsSize = items.length;
-                        if (itemsSize == 0) {
-                            link.uxdisable();
-                        } else {
-                            link.uxenable();
-                        }
+                // retrieves the current number of notifications (items
+                // size) and in case the number is zero disables the current
+                // link, reverting it to a non action state, otherwise enables
+                // it so that it becomes actionable (reverse operation)
+                var itemsSize = items.length;
+                if (itemsSize == 0) {
+                    link.uxdisable();
+                } else {
+                    link.uxenable();
+                }
 
-                        // retrieves the current date and uses it to retrieve the current
-                        // timestamp value (according to the utf format)
-                        var date = new Date();
-                        var current = date.getTime();
+                // retrieves the current date and uses it to retrieve the current
+                // timestamp value (according to the utf format)
+                var date = new Date();
+                var current = date.getTime();
 
-                        // iterates over each of the items to be able to update
-                        // their like associations to the apropriate values
-                        items.each(function(index, element) {
-                                    // retrieves the current notification in iteration (element)
-                                    // and uses it to retrieve its data (notification data) in case
-                                    // there's no data skips the current iteration
-                                    var _element = jQuery(this);
-                                    var data = _element.data("data");
-                                    if (!data) {
-                                        return;
-                                    }
+                // iterates over each of the items to be able to update
+                // their like associations to the apropriate values
+                items.each(function(index, element) {
+                    // retrieves the current notification in iteration (element)
+                    // and uses it to retrieve its data (notification data) in case
+                    // there's no data skips the current iteration
+                    var _element = jQuery(this);
+                    var data = _element.data("data");
+                    if (!data) {
+                        return;
+                    }
 
-                                    // retrieves the reference to the time element of the
-                                    // current element in iteration, this is the value that
-                                    // is going to be update with the new string value
-                                    var time = jQuery(".time", _element);
+                    // retrieves the reference to the subject element from the
+                    // element so that it gets updated with the new locale string
+                    var subject = jQuery(".subject", _element);
 
-                                    // calculates the diff by calculating the difference between
-                                    // the current timestamp and the create date of the notification
-                                    // and then converts it into the appropriate date string
-                                    var diff = (current / 1000.0)
-                                            - data.create_date;
-                                    var diffS = jQuery.udates(diff);
+                    // retrieves the reference to the time element of the
+                    // current element in iteration, this is the value that
+                    // is going to be update with the new string value
+                    var time = jQuery(".time", _element);
 
-                                    // updates the time element with the newly created diff
-                                    // string that is not going to represent the element
-                                    time.html(diffS);
+                    // extracs the message value from the base notification structure
+                    // and then retrieves the argumentss from it also, then runs the
+                    // localization system on the message and formats the arguments
+                    // on the provided message (according to the c standard)
+                    var message = data.notification.message;
+                    var arguments = data.notification.arguments;
+                    message = jQuery.uxlocale(message);
+                    message = String.prototype.formatC.apply(message, arguments);
 
-                                    // unpacks the various information from the notification
-                                    // data and constructs the base url that is going to be
-                                    // used on the click in the notification
-                                    var objectId = data.entity.object_id;
-                                    var cid = data.cid;
-                                    var baseUrl = mvcPath + classIdUrl[cid];
-                                    var url = baseUrl + objectId;
+                    // runs the template (replacer) infra-structure in the message
+                    // so the message is correctly displayed with the right style
+                    message = jQuery.utemplate(message);
 
-                                    // updates the link information in the notification list item
-                                    // so that a new click is properly changed
-                                    _element.attr("data-link", url);
-                                    _element.data("link", url);
-                                });
+                    // updates the subject of the notification with the new localized
+                    // message value according to the new locale
+                    subject.html(message);
 
-                        // retrieves the username of the currently signed in user and the
-                        // username associated with the current element in case they
-                        // remain the same nothing else remains to be done and so the
-                        // function returns immediately (to the caller method)
-                        var username = _body.data("username");
-                        var _username = _element.data("username");
-                        if (username == _username) {
-                            return;
-                        }
+                    // calculates the diff by calculating the difference between
+                    // the current timestamp and the create date of the notification
+                    // and then converts it into the appropriate date string
+                    var diff = (current / 1000.0) - data.create_date;
+                    var diffS = jQuery.udates(diff);
 
-                        // unsubscribes from the previous personal channel and the subscribes
-                        // to the channel of the new user (for security reasons)
-                        pushi.unsubscribe("personal-" + _username);
-                        pushi.subscribe("personal-" + username);
+                    // updates the time element with the newly created diff
+                    // string that is not going to represent the element
+                    time.html(diffS);
 
-                        // disables the link by default, this value will be re-enabled in case
-                        // the new channel contain any notification values
-                        link.uxdisable();
+                    // unpacks the various information from the notification
+                    // data and constructs the base url that is going to be
+                    // used on the click in the notification
+                    var objectId = data.entity.object_id;
+                    var cid = data.cid;
+                    var baseUrl = mvcPath + classIdUrl[cid];
+                    var url = baseUrl + objectId;
 
-                        // changes the username associated wit the current element to the new
-                        // on, as all the changes have taken place
-                        _element.data("username", username);
-                    });
+                    // updates the link information in the notification list item
+                    // so that a new click is properly changed
+                    _element.attr("data-link", url);
+                    _element.data("link", url);
+                });
+
+                // retrieves the username of the currently signed in user and the
+                // username associated with the current element in case they
+                // remain the same nothing else remains to be done and so the
+                // function returns immediately (to the caller method)
+                var username = _body.data("username");
+                var _username = _element.data("username");
+                if (username == _username) {
+                    return;
+                }
+
+                // unsubscribes from the previous personal channel and the subscribes
+                // to the channel of the new user (for security reasons)
+                pushi.unsubscribe("personal-" + _username);
+                pushi.subscribe("personal-" + username);
+
+                // disables the link by default, this value will be re-enabled in case
+                // the new channel contain any notification values
+                link.uxdisable();
+
+                // changes the username associated wit the current element to the new
+                // on, as all the changes have taken place
+                _element.data("username", username);
+            });
 
             // registers for the show event so that the reading
             // class may be added to the link indicating that the

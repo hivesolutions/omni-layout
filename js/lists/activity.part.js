@@ -40,7 +40,7 @@
                 // so that the rendered value is html compliant
                 message = message.replace("{{", "<b>");
                 message = message.replace("}}", "</b>");
-                message = message.capitalize();
+                message = message.capitalize(true);
 
                 // updates the current description message with the appropriate
                 // message after all the transformation operations are performed
