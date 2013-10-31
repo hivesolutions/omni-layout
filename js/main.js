@@ -74,6 +74,11 @@
         // then starts the report logic on it
         var report = jQuery(".report", matchedObject);
         report.ureport();
+
+        // retrieves the activity (list) element and starts
+        // it with the activity logic (post processing)
+        var activty = jQuery(".activity-list", matchedObject);
+        activty.uactivity();
     };
 })(jQuery);
 
@@ -1266,7 +1271,8 @@
         "hour ago" : "hour ago",
         "hours ago" : "hours ago",
         "day ago" : "day ago",
-        "days ago" : "days ago"
+        "days ago" : "days ago",
+        "edited {{%s}}" : "edited {{%s}}"
     }
 
     jQuery.uxloadbundle(BUNDLE_EN_US, "en-us")
@@ -1290,7 +1296,8 @@
         "hour ago" : "hora atrás",
         "hours ago" : "horas atrás",
         "day ago" : "dia atrás",
-        "days ago" : "dias atrás"
+        "days ago" : "dias atrás",
+        "edited {{%s}}" : "editou {{%s}}"
     }
 
     jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")

@@ -49,5 +49,10 @@
         // then starts the report logic on it
         var report = jQuery(".report", matchedObject);
         report.ureport();
+
+        // retrieves the activity (list) element and starts
+        // it with the activity logic (post processing)
+        var activty = jQuery(".activity-list", matchedObject);
+        activty.uactivity();
     };
 })(jQuery);

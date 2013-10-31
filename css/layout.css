@@ -739,6 +739,14 @@ body.omni-style.opensans {
     margin: 10px 0px 0px 0px;
 }
 
+.omni-style .activity-list .data {
+    display: none;
+}
+
+.omni-style .activity-list .message {
+    display: none;
+}
+
 .omni-style .activity-list .activity-list-no-results {
     padding: 20px;
     text-align: center;
