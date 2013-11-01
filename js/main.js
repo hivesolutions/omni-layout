@@ -1274,6 +1274,11 @@
         var mvcPath = _body.data("mvc_path");
         var classIdUrl = _body.data("class_id_url");
 
+        // retrieves the current date and uses it to retrieve the current
+        // timestamp value (according to the utf format)
+        var date = new Date();
+        var current = date.getTime();
+
         // iterates over all the element "inside" the currently matched
         // object to transfor them according to the specification
         matchedObject.each(function(index, element) {
@@ -1291,8 +1296,23 @@
                 // to retrieve the various elements that compose it
                 var _element = jQuery(this);
                 var data = jQuery(".data", _element);
-                var message = jQuery(".message", _element);
+                var time = jQuery(".time", _element);
                 var description = jQuery(".activity-list-description", _element);
+
+                // retrieves the current string value from the time field and
+                // tries to parse it as a float value (as defined by specification)
+                var timeS = time.text();
+                var timeF = parseFloat(timeS);
+
+                // calculates the diff by calculating the difference between
+                // the current timestamp and the create date of the notification
+                // and then converts it into the appropriate date string
+                var diff = (current / 1000.0) - timeF;
+                var diffS = jQuery.udates(diff);
+
+                // updates the time element with the newly created diff
+                // string that is not going to represent the element
+                time.html(diffS);
 
                 // retrieves the text value of the data element and then parses
                 // it as json data so that a structure is created

@@ -744,6 +744,13 @@ body.omni-style.opensans {
     padding-top: 2px;
 }
 
+.omni-style .activity-list li .time {
+    color: #666666;
+    float: right;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
 .omni-style .activity-list-content {
     margin: 20px 0px 20px 0px;
 }
