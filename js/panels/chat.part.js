@@ -58,8 +58,10 @@
         var createItem = function(matchedObject, data) {
             // retrieves the budy list for the current
             // chat instance for which the item is going
-            // to be added
+            // to be added, then uses the the list to retrive
+            // the complete set of items in it
             var budyList = jQuery(".buddy-list", matchedObject);
+            var items = jQuery("li", budyList);
 
             // unpacks the data structure into the various
             // component of the user, in order to be able to
@@ -73,8 +75,35 @@
             // the user and adds it to the buddy list
             var item = jQuery("<li class=\"budy-" + status
                     + "\" data-user_id=\"" + username + "\" data-object_id=\""
-                    + objectId + "\">" + representation + "</li>")
-            budyList.append(item);
+                    + objectId + "\">" + representation + "</li>");
+
+            // starts the target element (the one after the current element)
+            // as invalid so that by default no target is used and then starts
+            // the iteration arround the complete set of items to try to uncover
+            // the proper target item to be used as pivot
+            var target = null;
+            items.each(function() {
+                        // retrieves the current element and the text representation
+                        // of it to be used in the order of the items
+                        var element = jQuery(this);
+                        var value = element.text();
+
+                        // in case the current value is the same or less than the
+                        // current representation no larger value found and so the
+                        // iteration must continue
+                        if (value <= representation) {
+                            return;
+                        }
+
+                        // in case the control flow has reached this position the
+                        // target element has been found and so it breaks the iteration
+                        target = element;
+                        return false;
+                    });
+
+            // in case the target element exists inserts the item before
+            // the target element otherwise adds the item to the budy list
+            target ? target.before(item) : budyList.append(item);
 
             // registers for the click event on the item so that
             // a new chat panel is created for the the item in
