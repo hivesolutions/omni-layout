@@ -1345,7 +1345,7 @@
 
                 // performs the various transformation operations on the message
                 // so that the rendered value is html compliant
-                message = jQuery.utemplate(message);
+                message = jQuery.utemplate(message, true);
 
                 // updates the current description message with the appropriate
                 // message after all the transformation operations are performed
@@ -2809,7 +2809,7 @@
 
                 // runs the template (replacer) infra-structure in the message
                 // so the message is correctly displayed with the right style
-                message = jQuery.utemplate(message);
+                message = jQuery.utemplate(message, true);
 
                 // creates the various items that are going to be used
                 // in the notification, this is important to maintain
@@ -2956,7 +2956,7 @@
 
                     // runs the template (replacer) infra-structure in the message
                     // so the message is correctly displayed with the right style
-                    message = jQuery.utemplate(message);
+                    message = jQuery.utemplate(message, true);
 
                     // updates the subject of the notification with the new localized
                     // message value according to the new locale
@@ -3579,9 +3579,9 @@
 })(jQuery);
 
 (function(jQuery) {
-    jQuery.utemplate = function(value) {
-        value = value.replace(/{{/g, "<b>");
-        value = value.replace(/}}/g, "</b>");
+    jQuery.utemplate = function(value, noformat) {
+        value = value.replace(/{{/g, noformat ? "" : "<b>");
+        value = value.replace(/}}/g, noformat ? "" : "</b>");
         value = value.capitalize(true);
         return value;
     };

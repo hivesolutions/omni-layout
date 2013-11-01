@@ -116,7 +116,7 @@
 
                 // runs the template (replacer) infra-structure in the message
                 // so the message is correctly displayed with the right style
-                message = jQuery.utemplate(message);
+                message = jQuery.utemplate(message, true);
 
                 // creates the various items that are going to be used
                 // in the notification, this is important to maintain
@@ -263,7 +263,7 @@
 
                     // runs the template (replacer) infra-structure in the message
                     // so the message is correctly displayed with the right style
-                    message = jQuery.utemplate(message);
+                    message = jQuery.utemplate(message, true);
 
                     // updates the subject of the notification with the new localized
                     // message value according to the new locale

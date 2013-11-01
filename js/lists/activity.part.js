@@ -80,7 +80,7 @@
 
                 // performs the various transformation operations on the message
                 // so that the rendered value is html compliant
-                message = jQuery.utemplate(message);
+                message = jQuery.utemplate(message, true);
 
                 // updates the current description message with the appropriate
                 // message after all the transformation operations are performed
