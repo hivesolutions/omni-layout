@@ -44,6 +44,12 @@
     width: 50px;
 }
 
+.omni-style.round .activity-list li img {
+    border-radius: 25px 25px 25px 25px;
+    -moz-border-radius: 25px 25px 25px 25px;
+    -webkit-border-radius: 25px 25px 25px 25px;
+}
+
 .omni-style .activity-list li .container {
     float: left;
     padding-top: 4px;
