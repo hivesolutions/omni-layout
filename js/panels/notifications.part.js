@@ -95,6 +95,10 @@
                 var url = baseUrl + objectId;
                 var urlU = baseUrlU + uobjectId;
 
+                // resolves the current url value so that it may
+                // be used independently from the current state
+                var urlR = uxresolve(url);
+
                 // calculates the diff by calculating the difference between
                 // the current timestamp and the create date of the notification
                 // and then converts it into the appropriate date string
@@ -190,7 +194,7 @@
                             tag : uniqueId
                         }));
                 isNew && (notification.onclick = function() {
-                    window.open(url, "_blank");
+                    window.open(urlR, "_blank");
                 });
                 isNew && notification.show();
                 isNew && setTimeout(function() {
