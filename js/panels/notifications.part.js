@@ -97,7 +97,7 @@
 
                 // resolves the current url value so that it may
                 // be used independently from the current state
-                var urlR = uxresolve(url);
+                var urlR = jQuery.uxresolve(url);
 
                 // calculates the diff by calculating the difference between
                 // the current timestamp and the create date of the notification
@@ -366,6 +366,10 @@
             // registers for the connect event so that at the end of
             // the connection the base channels are subscribed
             pushi.bind("connect", function(event) {
+                        // retrieves the complete set of list items for the
+                        // current list so that they may be marked as read
+                        var items = jQuery("li", list);
+
                         // empties the current list so that all the elements contained
                         // in it are removed and none is present
                         list.empty();
