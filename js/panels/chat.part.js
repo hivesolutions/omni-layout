@@ -362,6 +362,9 @@
                                 buddyList.empty();
                             });
 
+                    // registers for the disconnect event in the pushi connection
+                    // to be able to change the layout properly disabling the complete
+                    // set of panels and setting the names panel to disconnected
                     pushi.bind("disconnect", function(even) {
                                 // updates the main status class so the layout may
                                 // be update according to the status rules

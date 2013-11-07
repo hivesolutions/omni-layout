@@ -366,6 +366,16 @@
             // registers for the connect event so that at the end of
             // the connection the base channels are subscribed
             pushi.bind("connect", function(event) {
+                        // empties the current list so that all the elements contained
+                        // in it are removed and none is present
+                        list.empty();
+
+                        // removes the pending class from all of the
+                        // currently available items so that the state
+                        // is restored to the original state
+                        items.removeClass("pending");
+                        link.removeClass("pending");
+
                         // retrieves the current username set in the global body
                         // object to be able to create the name of the personal
                         // channel that is going to be subscribed for notifications
@@ -374,10 +384,6 @@
                         // subscribes to the personal channel for the user, this channeç
                         // should contain notification related infromation
                         this.subscribe("personal-" + username);
-
-                        // empties the current list so that all the elements contained
-                        // in it are removed and none is present
-                        list.empty();
                     });
 
             // registers for the subscribe event to be able to create the previously
