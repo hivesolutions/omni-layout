@@ -32,6 +32,10 @@
     background-position: left -31px;
 }
 
+.omni-style .notifications.error {
+    background-position: left -63px;
+}
+
 .omni-style .notifications.active {
     background-color: #ffffff;
 }
