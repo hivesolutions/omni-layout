@@ -54,5 +54,10 @@
         // it with the activity logic (post processing)
         var activty = jQuery(".activity-list", matchedObject);
         activty.uactivity();
+
+        // retrieves the sidebar sections as the set of side
+        // elements to be processed with the proper extension
+        var side = jQuery(".sidebar-section", matchedObject);
+        side.uside();
     };
 })(jQuery);
