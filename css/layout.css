@@ -1515,6 +1515,10 @@ body.omni-style.opensans {
     width: 228px;
 }
 
+.lightbox-trigger {
+    cursor: pointer;
+}
+
 .window.window-lightbox {
     cursor: pointer;
     line-height: 0px;

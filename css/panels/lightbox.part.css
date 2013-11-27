@@ -1,3 +1,7 @@
+.lightbox-trigger {
+    cursor: pointer;
+}
+
 .window.window-lightbox {
     cursor: pointer;
     line-height: 0px;
