@@ -20,7 +20,7 @@
 
                     // creates the new url from the base one asking for
                     // a large image to be displayed instead of the small
-                    var largeUrl = base + "?size=128";
+                    var largeUrl = base + "?size=512&fallback=1";
 
                     // shows the lightbox on the body element using the
                     // lightbox path retrieved from the image
