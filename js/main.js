@@ -84,6 +84,11 @@
         // elements to be processed with the proper extension
         var side = jQuery(".sidebar-section", matchedObject);
         side.uside();
+
+        // retrieves the reference to the various images that are
+        // going to be used as lightbox triggers
+        var image = jQuery(".entity-big-picture > img", matchedObject);
+        image.ulightbox();
     };
 })(jQuery);
 
@@ -2729,6 +2734,40 @@
 })(jQuery);
 
 (function(jQuery) {
+    jQuery.fn.ulightbox = function(options) {
+        // retrieves the currently matched object and the top
+        // level body element also for general usage
+        var matchedObject = jQuery(this);
+        var _body = jQuery("body");
+
+        // register for the click event in the matched objects
+        // to be able to extract the image
+        matchedObject.click(function() {
+                    // retrieves the current element to display the
+                    // lightbox image for it
+                    var element = jQuery(this);
+
+                    // retrieves the url from the currently selected
+                    // element ans then used it to retrieve the base
+                    // url value from it (url extraction)
+                    var url = element.attr("src");
+                    var base = url.split("?")[0];
+
+                    // creates the new url from the base one asking for
+                    // a large image to be displayed instead of the small
+                    var largeUrl = base + "?size=128";
+
+                    // shows the lightbox on the body element using the
+                    // lightbox path retrieved from the image
+                    _body.uxlightbox(largeUrl);
+                });
+
+        // returns the object
+        return this;
+    };
+})(jQuery);
+
+(function(jQuery) {
     jQuery.fn.unotifications = function(options) {
         /**
          * The maximum number of notifications that are allowed to stay at a
@@ -3240,6 +3279,7 @@
                 });
     };
 })(jQuery);
+
 (function(jQuery) {
     jQuery.fn.usummary = function(options) {
         /**

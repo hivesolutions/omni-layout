@@ -59,5 +59,10 @@
         // elements to be processed with the proper extension
         var side = jQuery(".sidebar-section", matchedObject);
         side.uside();
+
+        // retrieves the reference to the various images that are
+        // going to be used as lightbox triggers
+        var image = jQuery(".entity-big-picture > img", matchedObject);
+        image.ulightbox();
     };
 })(jQuery);
