@@ -1,7 +1,7 @@
 (function(jQuery) {
     jQuery.fn.uactivity = function(options) {
         // retrieve the current element as the matched object
-        var matchedObject = jQuery(this);
+        var matchedObject = this;
 
         // retrieves the reference to the body element and uses
         // it to retrieve the mvc path and the class id url map

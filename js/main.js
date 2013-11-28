@@ -1276,7 +1276,7 @@
 (function(jQuery) {
     jQuery.fn.uactivity = function(options) {
         // retrieve the current element as the matched object
-        var matchedObject = jQuery(this);
+        var matchedObject = this;
 
         // retrieves the reference to the body element and uses
         // it to retrieve the mvc path and the class id url map
@@ -2737,7 +2737,7 @@
     jQuery.fn.ulightbox = function(options) {
         // retrieves the currently matched object and the top
         // level body element also for general usage
-        var matchedObject = jQuery(this);
+        var matchedObject = this;
         var _body = jQuery("body");
 
         // adds the lightbox trigger class to the component

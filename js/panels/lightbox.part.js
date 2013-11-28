@@ -2,7 +2,7 @@
     jQuery.fn.ulightbox = function(options) {
         // retrieves the currently matched object and the top
         // level body element also for general usage
-        var matchedObject = jQuery(this);
+        var matchedObject = this;
         var _body = jQuery("body");
 
         // adds the lightbox trigger class to the component
