@@ -694,6 +694,12 @@
         var window = windowOuter.add(windowInner);
         var window_ = jQuery(".window");
 
+        // retrieves the reference to the current overlay panel
+        // that is used as background for the window so that it
+        // may be hidden from the current interface
+        var overlay = jQuery(".overlay");
+        overlay.hide();
+
         // tries to find the window placeholder section in the current
         // element in case it's not fond creates a new placeholder and
         // sets it in the content wrapper section of the body
