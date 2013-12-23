@@ -187,7 +187,8 @@
                 // it so that the target page opens on click and the notification
                 // hides after a certain ammount of time, note that if there's
                 // not enought permissions the show is disabled
-                if (isNew) {
+                var hasNotifications = typeof(Notification) == "undefined";
+                if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
                                 dir : "auto",
                                 icon : jQuery.uxresolve(logoUrl),
