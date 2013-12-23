@@ -155,8 +155,8 @@
 
                 // iterates while the number is above the maximum allowed by the current
                 // rules to remove the items that "overflow" that number
-                while (size > 5) {
-                    var index = size - 1;
+                while (size > MAXIMUM_NOTIFICATIONS) {
+                    var index = size;
                     var element = jQuery("> li:nth-child(" + index + ")", list);
                     element.remove();
                     size--;
@@ -404,11 +404,13 @@
                             return;
                         }
 
-                        // extracts the list of event from the provided data and
-                        // the iterates over them to create the various notification
+                        // extracts the list of events from the provided data and
+                        // the iterates over them to create the various notifications
                         // in the oposite order of arrival (correct order)
                         var events = data.events || [];
-                        var length = events.length > 5 ? 5 : events.length;
+                        var length = events.length > MAXIMUM_NOTIFICATIONS
+                                ? MAXIMUM_NOTIFICATIONS
+                                : events.length;
                         for (var index = length - 1; index >= 0; index--) {
                             var event = events[index];
                             var data = event.data.data;
