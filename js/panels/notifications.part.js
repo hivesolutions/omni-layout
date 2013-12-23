@@ -185,21 +185,24 @@
                 // in case this is a new notification creates a desktop
                 // notification and registers the appropriate handlers to
                 // it so that the target page opens on click and the notification
-                // hides after a certain ammount of time
-                isNew && (notification = new Notification(userName, {
-                            dir : "auto",
-                            icon : jQuery.uxresolve(logoUrl),
-                            lang : "en",
-                            body : messageT,
-                            tag : uniqueId
-                        }));
-                isNew && (notification.onclick = function() {
-                    window.open(urlR, "_blank");
-                });
-                isNew && notification.show();
-                isNew && setTimeout(function() {
-                            notification.close();
-                        }, 15000);
+                // hides after a certain ammount of time, note that if there's
+                // not enought permissions the show is disabled
+                if (isNew) {
+                    var _notification = new Notification(userName, {
+                                dir : "auto",
+                                icon : jQuery.uxresolve(logoUrl),
+                                lang : "en",
+                                body : messageT,
+                                tag : uniqueId
+                            });
+                    _notification.onclick = function() {
+                        window.open(urlR, "_blank");
+                    };
+                    _notification.show && _notification.show();
+                    _notification.show && setTimeout(function() {
+                                _notification.close();
+                            }, 15000);
+                }
 
                 // runs a refresh operation in the current element
                 // so that it's status becomes updated
@@ -467,6 +470,9 @@
                                 });
                     }, 60000);
         });
+
+        var buildNotification = function() {
+        };
 
         // triggers the initial refresh in the notification elements
         // this will run the initial update and initialize the
