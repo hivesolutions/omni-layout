@@ -54,6 +54,12 @@
                 var dataS = data.text();
                 var dataJ = jQuery.parseJSON(dataS);
 
+                // in case the parsed data is not valid must return immediately
+                // for the next iteration loop as nothing exists to be parsed
+                if (dataJ == null) {
+                    return;
+                }
+
                 // unpacks the various values from the json parsed data and
                 // then localizes the message to the target value
                 var message = dataJ["message"];
