@@ -796,18 +796,30 @@ body.omni-style.opensans {
     display: none;
 }
 
-.omni-style .activity-list .activity-list-no-results {
-    padding: 20px;
+.omni-style .activity-list li.activity-list-no-results {
+    cursor: auto;
+    padding: 20px 20px 20px 20px;
     text-align: center;
 }
 
-.omni-style .activity-list .activity-list-no-results p {
+.omni-style .activity-list li.activity-list-no-results:hover {
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-top: 1px solid #f2f2f2;
+    margin-left: inherit;
+    padding: 20px 20px 20px 20px;
+    width: inherit;
+}
+
+.omni-style .activity-list li.activity-list-no-results p {
     color: #484848;
     font-size: 18px;
     margin: 8px 0px 12px 0px;
 }
 
-.omni-style .activity-list .activity-list-no-results span {
+.omni-style .activity-list li.activity-list-no-results span {
     color: #666666;
 }
 
