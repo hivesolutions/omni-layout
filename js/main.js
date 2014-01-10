@@ -2672,8 +2672,14 @@
         }
 
         // retrieves the reference to the top level
-        // body element
+        // body element that is going to be used in some
+        // of the operations associated with eureka
         var _body = jQuery("body");
+
+        // retrieves the complete set of overlay panels associatd
+        // with the various provided eureka element, they are going
+        // to be used for some of the event registration
+        var overlayPanel = matchedObject.parents(".overlay-panel");
 
         // retrieves the text field associated with the drop field
         // element of the eureka element and registers for the key
@@ -2704,6 +2710,18 @@
                     // unwanted global behavior coming  from this key press
                     event.stopPropagation();
                     event.stopImmediatePropagation();
+                });
+
+        // registers for the shown event in the overlay panel associated
+        // with the eureka element so that various element of the eureka
+        // are restored to the unset original values
+        overlayPanel.bind("shown", function() {
+                    // retrieves the current element and the associated text field
+                    // and then runs the reset operation to restore it to the original
+                    // value as expected by the specification
+                    var element = jQuery(this);
+                    var textField = jQuery(".text-field", element);
+                    textField.uxreset();
                 });
 
         // registers for the (new) item event to change
