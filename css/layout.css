@@ -1180,6 +1180,10 @@ body.omni-style.opensans {
     position: absolute;
 }
 
+.omni-style .notifications-menu.active .menu-button {
+    background-color: #ffffff;
+}
+
 .omni-style .notifications-container {
     background: #ffffff;
     border: 1px solid #eaeaea;
@@ -1210,10 +1214,6 @@ body.omni-style.opensans {
 
 .omni-style .notifications.error {
     background-position: left -63px;
-}
-
-.omni-style .notifications.active {
-    background-color: #ffffff;
 }
 
 .omni-style .system-menu .switch-panel {
