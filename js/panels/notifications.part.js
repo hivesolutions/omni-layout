@@ -7,12 +7,26 @@
          */
         var MAXIMUM_NOTIFICATIONS = 5;
 
-        // sets the jquery matched object
+        // sets the jquery matched object and verifies if
+        // at least one object as been matched, in case not
+        // a single object has been matched returns immediately
+        // as there's nothing remaining to be done
         var matchedObject = this;
+        if (matchedObject.length == 0) {
+            return;
+        }
 
-        // retrieves the reference to the body element
-        // so that it may be used latter for reference
+        // retrieves the reference to the global elements
+        // that are going to be used latter for the various
+        // operations and event registration
+        var _window = jQuery(window);
         var _body = jQuery("body");
+
+        // retrieves the values for the is registered to the
+        // notifications global registration and then updates
+        // the value to a valid value
+        var isRegistered = _window.data("notifications_global");
+        _window.data("notifications_global", true);
 
         // adds the various inner elements of the notifications
         // container to the notification activator icon
@@ -203,6 +217,7 @@
                     _notification.show && setTimeout(function() {
                                 _notification.close();
                             }, 15000);
+                    _body.data("_notification", _notification);
                 }
 
                 // runs a refresh operation in the current element
@@ -324,6 +339,14 @@
                 // on, as all the changes have taken place
                 _element.data("username", username);
             });
+
+            // registers for the before unload event in the window
+            // element so that any pending native notification is
+            // closes and not left over as garbage
+            !isRegistered && _window.bind("beforeunload", function() {
+                        var _notification = _body.data("_notification")
+                        _notification && _notification.close();
+                    });
 
             // registers for the show event so that the reading
             // class may be added to the link indicating that the
