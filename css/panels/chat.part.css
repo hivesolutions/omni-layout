@@ -161,7 +161,24 @@
 }
 
 .omni-style .chat-panel > .chat-contents::-webkit-scrollbar {
+    height: 6px;
     width: 6px;
+}
+
+.omni-style .chat-panel > .chat-contents::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+}
+
+.omni-style .chat-panel > .chat-contents::-webkit-scrollbar-thumb {
+    background-color: #bfbfbf;
+}
+
+.omni-style .chat-panel > .chat-contents::-webkit-scrollbar-thumb:hover {
+    background-color: #aaaaaa;
+}
+
+.omni-style .chat-panel > .chat-contents::-webkit-scrollbar-thumb:window-inactive {
+    background-color: #cccccc;
 }
 
 .omni-style .chat-panel > .chat-contents > .chat-paragraph {
