@@ -161,7 +161,6 @@
 }
 
 .omni-style .chat-panel > .chat-contents::-webkit-scrollbar {
-    height: 6px;
     width: 6px;
 }
 
