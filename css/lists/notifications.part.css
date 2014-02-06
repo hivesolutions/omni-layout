@@ -48,12 +48,12 @@
 }
 
 .omni-style ul.notifications-list li > .contents > .subject {
-    color: #666666;
+    color: #4d4d4d;
     margin: 0px 0px 0px 0px;
 }
 
 .omni-style ul.notifications-list li > .time {
-    color: #888888;
+    color: #777777;
     font-size: 10px;
     margin-left: -18px;
     margin-top: 4px;

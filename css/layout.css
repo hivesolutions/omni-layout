@@ -422,7 +422,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-title {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -430,7 +430,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-sub-title {
-    color: #666666;
+    color: #4d4d4d;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -438,7 +438,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-paragraph-title {
-    color: #666666;
+    color: #4d4d4d;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -462,7 +462,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .sidebar-text {
-    color: #666666;
+    color: #4d4d4d;
     font-size: 12px;
     line-height: 20px;
 }
@@ -512,7 +512,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-label {
-    color: #666666;
+    color: #4d4d4d;
     font-size: 14px;
     padding-right: 12px;
     text-align: right;
@@ -567,7 +567,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-super-label .mandatory {
-    border-bottom: 1px solid #666666;
+    border-bottom: 1px solid #4d4d4d;
     padding-bottom: 2px;
 }
 
@@ -631,14 +631,14 @@ body.omni-style.opensans {
 }
 
 .omni-style .drop-field.entities-search .entity-name {
-    color: #555555;
+    color: #4d4d4d;
     font-size: 14px;
     font-weight: bold;
     margin: 2px 0px 0px 0px;
 }
 
 .omni-style .drop-field.entities-search .entity-details {
-    color: #666666;
+    color: #4d4d4d;
     margin: 2px 0px 0px 0px;
 }
 
@@ -730,7 +730,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list li .time {
-    color: #666666;
+    color: #4d4d4d;
     float: right;
     font-size: 10px;
     text-transform: uppercase;
@@ -763,7 +763,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list-description {
-    color: #666666;
+    color: #4d4d4d;
     margin: 10px 0px 0px 0px;
 }
 
@@ -799,7 +799,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list li.activity-list-no-results span {
-    color: #666666;
+    color: #4d4d4d;
 }
 
 .omni-style  .list.navigation-list {
@@ -831,7 +831,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list > li a {
-    color: #666666;
+    color: #4d4d4d;
     cursor: pointer;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
@@ -840,7 +840,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list.navigation-mini > li > a {
-    color: #5d5d5d;
+    color: #4d4d4d;
 }
 
 .omni-style .list.navigation-list > li a:hover {
@@ -860,7 +860,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-sub-list {
-    color: #666666;
+    color: #4d4d4d;
     display: none;
     font-size: 10px;
     list-style: none;
@@ -874,7 +874,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-sub-list > li > a {
-    color: #666666;
+    color: #4d4d4d;
 }
 
 .omni-style .list.navigation-list .link-expand {
@@ -942,12 +942,12 @@ body.omni-style.opensans {
 }
 
 .omni-style ul.notifications-list li > .contents > .subject {
-    color: #666666;
+    color: #4d4d4d;
     margin: 0px 0px 0px 0px;
 }
 
 .omni-style ul.notifications-list li > .time {
-    color: #888888;
+    color: #777777;
     font-size: 10px;
     margin-left: -18px;
     margin-top: 4px;
@@ -962,7 +962,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .sidebar-list {
-    color: #666666;
+    color: #4d4d4d;
     font-size: 11px;
     line-height: 14px;
     list-style: none;
@@ -1291,7 +1291,7 @@ body.omni-style.opensans {
 
 .omni-style .chat > .loading,
 .omni-style .chat > .disconnected {
-    color: #666666;
+    color: #4d4d4d;
     line-height: 22px;
     padding: 48px 12px 48px 12px;
     text-align: center;
@@ -1339,7 +1339,7 @@ body.omni-style.opensans {
 
 .omni-style .list.buddy-list > li {
     background: transparent url(../images/chat/status.png) no-repeat 2px 0px;
-    color: #666666;
+    color: #4d4d4d;
     cursor: pointer;
     list-style: none;
     margin: 0px 0px 0px 0px;

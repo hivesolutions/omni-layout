@@ -60,7 +60,7 @@
 }
 
 .omni-style .activity-list li .time {
-    color: #666666;
+    color: #4d4d4d;
     float: right;
     font-size: 10px;
     text-transform: uppercase;
@@ -93,7 +93,7 @@
 }
 
 .omni-style .activity-list-description {
-    color: #666666;
+    color: #4d4d4d;
     margin: 10px 0px 0px 0px;
 }
 
@@ -129,5 +129,5 @@
 }
 
 .omni-style .activity-list li.activity-list-no-results span {
-    color: #666666;
+    color: #4d4d4d;
 }

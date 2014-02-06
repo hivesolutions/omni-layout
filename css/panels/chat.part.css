@@ -1,6 +1,6 @@
 .omni-style .chat > .loading,
 .omni-style .chat > .disconnected {
-    color: #666666;
+    color: #4d4d4d;
     line-height: 22px;
     padding: 48px 12px 48px 12px;
     text-align: center;
@@ -48,7 +48,7 @@
 
 .omni-style .list.buddy-list > li {
     background: transparent url(../images/chat/status.png) no-repeat 2px 0px;
-    color: #666666;
+    color: #4d4d4d;
     cursor: pointer;
     list-style: none;
     margin: 0px 0px 0px 0px;
