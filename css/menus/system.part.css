@@ -72,12 +72,19 @@
 }
 
 .omni-style .system-menu .menu-contents .name {
-    color: #555555;
-    margin-bottom: 3px;
+    color: #4d4d4d;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
 }
 
 .omni-style .system-menu .menu-contents .email {
     color: #666666;
+}
+
+.omni-style .system-menu .menu-contents .contact .name {
+    font-size: 15px;
+    margin-bottom: 3px;
 }
 
 .omni-style .system-menu .menu-contents .image > img {
