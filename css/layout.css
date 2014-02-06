@@ -688,7 +688,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list li:hover {
-    background-color: #f8f8f8;
+    background-color: #f4f4f4;
     border-bottom: 1px solid #d8d8d8;
     border-left: 1px solid #d8d8d8;
     border-right: 1px solid #d8d8d8;
@@ -852,11 +852,11 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list > li:first-child > a {
-    color: #4d4d4d;
+    color: #000000;
 }
 
 .omni-style .list.navigation-list.navigation-mini > li:first-child > a {
-    color: #2d2d2d;
+    color: #000000;
 }
 
 .omni-style .list.navigation-sub-list {
@@ -2406,7 +2406,7 @@ body.omni-print-style.receipt {
 }
 
 .omni-style .contact:hover {
-    background-color: #f8f8f8;
+    background-color: #f4f4f4;
 }
 
 .omni-style .contact .contents {
