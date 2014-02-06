@@ -100,7 +100,13 @@
 .omni-style .entity-details-list > li,
 .omni-style .entity-details-list .panel-more > div > li {
     float: left;
+    margin: 8px 0px 8px 0px;
     width: 100%;
+}
+
+.omni-style .entity-details-list > li.list-divider,
+.omni-style .entity-details-list .panel-more > div > li.list-divider {
+    margin: 16px 0px 16px 0px;
 }
 
 .omni-style .entity-details-list > li p,
@@ -108,13 +114,19 @@
     float: left;
     font-size: 13px;
     line-height: 22px;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .omni-style .entity-details-list > li .list-sub-label.replacer,
 .omni-style .entity-details-list > li .list-sub-label.uploader,
 .omni-style .entity-details-list .panel-more > div > li .list-sub-label.replacer,
 .omni-style .entity-details-list .panel-more > div > li .list-sub-label.uploader {
-    line-height: 48px;
+    line-height: 32px;
+}
+
+.omni-style .entity-details-list > li .list-margin {
+    margin-top: 6px;
 }
 
 .omni-style .entity-details-box {
@@ -158,7 +170,7 @@
 .omni-style .entity-details-box > li p {
     float: left;
     line-height: 14px;
-    margin: 8px 0px 8px 0px;
+    margin: 0px 0px 0px 0px;
 }
 
 .omni-style .entity-details-box.special > li p {
@@ -170,29 +182,37 @@
     margin-bottom: 0px;
 }
 
-.omni-style .entity-details-box.special > li:last-child p {
-    margin-bottom: 8px;
-}
-
 .omni-style .entity-details-box > li p.list-label {
     color: #666666;
     font-size: 10px;
-    padding-top: 2px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 0px 0px 0px;
     text-align: left;
     text-transform: uppercase;
     width: 94px;
 }
 
 .omni-style .entity-details-box > li p.list-sub-label {
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 0px 0px 0px;
     text-align: right;
-    width: 140px;
+    width: 156px;
+}
+
+.omni-style .entity-details-box > li.strong p.list-label {
+    height: 36px;
+    line-height: 36px;
 }
 
 .omni-style .entity-details-box > li.strong p.list-sub-label {
     font-size: 16px;
     font-weight: bold;
+    height: 36px;
+    line-height: 36px;
 }
 
 .omni-style .entity-details-box.special > li p.list-sub-label {
-    width: 112px;
+    width: 124px;
 }

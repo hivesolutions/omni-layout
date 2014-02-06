@@ -287,25 +287,21 @@ body.omni-style.opensans {
 
 .omni-style .list-input {
     height: 32px;
-    margin-top: 5px;
     width: 414px;
 }
 
 .omni-style .list-drop-input > .text-field {
     height: 32px;
-    margin-top: 5px;
     width: 392px;
 }
 
 .omni-style .list-medium-input {
     height: 26px;
-    margin-top: 8px;
     width: 414px;
 }
 
 .omni-style .list-medium-area {
     height: 100px;
-    margin-top: 8px;
     width: 414px;
 }
 
@@ -313,7 +309,6 @@ body.omni-style.opensans {
     font-family: Consolas, monospace;
     height: 200px;
     line-height: 18px;
-    margin-top: 8px;
     width: 414px;
 }
 
@@ -327,24 +322,21 @@ body.omni-style.opensans {
 
 .omni-style .list-medium-drop-input > .text-field {
     height: 26px;
-    margin-top: 6px;
     width: 392px;
 }
 
 .omni-style .list-medium-tag-input > .text-field {
     height: 26px;
-    margin-top: 8px;
     width: 392px;
 }
 
 .omni-style .list-medium-check {
-    margin: 15px 0px 0px 4px;
+    margin: 7px 0px 7px 4px;
 }
 
 .omni-style .list-small-input {
     height: 26px;
     margin-left: 6px;
-    margin-top: 6px;
     width: 244px;
 }
 
@@ -363,32 +355,27 @@ body.omni-style.opensans {
 
 .omni-style .list-window-drop-input > .text-field {
     height: 26px;
-    margin-top: 6px;
     width: 292px;
 }
 
 .omni-style .list-mini-input {
     height: 26px;
-    margin-top: 6px;
     width: 150px;
 }
 
 .omni-style .list-micro-input {
     height: 26px;
     margin-left: 6px;
-    margin-top: 6px;
     width: 50px;
 }
 
 .omni-style .list-window-input {
     height: 26px;
-    margin-top: 8px;
     width: 314px;
 }
 
 .omni-style .list-window-mini-input {
     height: 26px;
-    margin-top: 8px;
     width: 136px;
 }
 
@@ -487,7 +474,11 @@ body.omni-style.opensans {
 .omni-style .list-label {
     color: #4d4d4d;
     font-size: 14px;
+    line-height: 22px;
+    margin: 0px 0px 0px 0px;
+    padding-bottom: 5px;
     padding-right: 12px;
+    padding-top: 5px;
     text-align: right;
     width: 92px;
 }
@@ -500,12 +491,20 @@ body.omni-style.opensans {
 .omni-style .list-sub-label {
     color: #2d2d2d;
     font-size: 13px;
+    line-height: 22px;
+    margin: 0px 0px 0px 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
     width: 428px;
 }
 
 .omni-style .list-code-label {
     color: #2d2d2d;
     font-size: 13px;
+    line-height: 22px;
+    margin: 0px 0px 0px 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
     white-space: pre;
     width: 428px;
     word-wrap: break-word;
@@ -514,9 +513,36 @@ body.omni-style.opensans {
 .omni-style .list-window-label {
     color: #2d2d2d;
     font-size: 14px;
+    line-height: 22px;
+    margin: 0px 0px 0px 0px;
+    padding-bottom: 5px;
     padding-right: 12px;
+    padding-top: 5px;
     text-align: right;
     width: 80px;
+}
+
+.omni-style .list-super-label {
+    color: #2d2d2d;
+    line-height: 22px;
+    margin: 0px 0px 0px 0px;
+    padding-bottom: 8px;
+    padding-right: 12px;
+    padding-top: 8px;
+    text-align: right;
+    width: 92px;
+}
+
+.omni-style .list-super-label .mandatory {
+    border-bottom: 1px solid #2d2d2d;
+    padding-bottom: 2px;
+}
+
+.omni-style .list-lower-label {
+    font-size: 10px;
+    line-height: 12px;
+    margin: 0px 0px 0px 0px;
+    text-transform: uppercase;
 }
 
 .omni-style .list-window-separator {
@@ -557,24 +583,6 @@ body.omni-style.opensans {
 .omni-style .list-separator {
     border-bottom: 1px solid transparent;
     margin: 12px 0px 12px 0px;
-}
-
-.omni-style .list-super-label {
-    color: #2d2d2d;
-    padding-right: 12px;
-    text-align: right;
-    width: 92px;
-}
-
-.omni-style .list-super-label .mandatory {
-    border-bottom: 1px solid #2d2d2d;
-    padding-bottom: 2px;
-}
-
-.omni-style .list-lower-label {
-    font-size: 10px;
-    line-height: 12px;
-    text-transform: uppercase;
 }
 
 .omni-style .faded-text {
@@ -1795,6 +1803,10 @@ body.omni-style.opensans {
     width: 399px;
 }
 
+.omni-style .content-wizard .column-right > * {
+    margin: 4px 0px 4px 0px;
+}
+
 .omni-style .content-wizard .panel-start .column-left {
     padding-right: 10px;
     padding-top: 40px;
@@ -2080,7 +2092,7 @@ body.omni-style.opensans {
 
 .omni-style .login-list {
     list-style: none;
-    margin: 0px 0px 16px 0px;
+    margin: 22px 0px 22px 0px;
     padding: 0px 0px 0px 0px;
 }
 
@@ -2096,12 +2108,16 @@ body.omni-style.opensans {
     width: 80px;
 }
 
-.omni-style .login-remember-container {
+.omni-style .login-list li {
+    margin: 12px 0px 12px 0px;
+}
+
+.omni-style .login-list li.login-remember-container {
     margin-left: 104px;
     padding-top: 12px;
 }
 
-.omni-style .login-remember {
+.omni-style .login-list .login-remember {
     color: #2d2d2d;
     font-size: 12px;
     line-height: 18px;
@@ -2541,7 +2557,13 @@ body.omni-print-style.receipt {
 .omni-style .entity-details-list > li,
 .omni-style .entity-details-list .panel-more > div > li {
     float: left;
+    margin: 8px 0px 8px 0px;
     width: 100%;
+}
+
+.omni-style .entity-details-list > li.list-divider,
+.omni-style .entity-details-list .panel-more > div > li.list-divider {
+    margin: 16px 0px 16px 0px;
 }
 
 .omni-style .entity-details-list > li p,
@@ -2549,13 +2571,19 @@ body.omni-print-style.receipt {
     float: left;
     font-size: 13px;
     line-height: 22px;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .omni-style .entity-details-list > li .list-sub-label.replacer,
 .omni-style .entity-details-list > li .list-sub-label.uploader,
 .omni-style .entity-details-list .panel-more > div > li .list-sub-label.replacer,
 .omni-style .entity-details-list .panel-more > div > li .list-sub-label.uploader {
-    line-height: 48px;
+    line-height: 32px;
+}
+
+.omni-style .entity-details-list > li .list-margin {
+    margin-top: 6px;
 }
 
 .omni-style .entity-details-box {
@@ -2599,7 +2627,7 @@ body.omni-print-style.receipt {
 .omni-style .entity-details-box > li p {
     float: left;
     line-height: 14px;
-    margin: 8px 0px 8px 0px;
+    margin: 0px 0px 0px 0px;
 }
 
 .omni-style .entity-details-box.special > li p {
@@ -2611,29 +2639,37 @@ body.omni-print-style.receipt {
     margin-bottom: 0px;
 }
 
-.omni-style .entity-details-box.special > li:last-child p {
-    margin-bottom: 8px;
-}
-
 .omni-style .entity-details-box > li p.list-label {
     color: #666666;
     font-size: 10px;
-    padding-top: 2px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 0px 0px 0px;
     text-align: left;
     text-transform: uppercase;
     width: 94px;
 }
 
 .omni-style .entity-details-box > li p.list-sub-label {
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 0px 0px 0px;
     text-align: right;
-    width: 140px;
+    width: 156px;
+}
+
+.omni-style .entity-details-box > li.strong p.list-label {
+    height: 36px;
+    line-height: 36px;
 }
 
 .omni-style .entity-details-box > li.strong p.list-sub-label {
     font-size: 16px;
     font-weight: bold;
+    height: 36px;
+    line-height: 36px;
 }
 
 .omni-style .entity-details-box.special > li p.list-sub-label {
-    width: 112px;
+    width: 124px;
 }
