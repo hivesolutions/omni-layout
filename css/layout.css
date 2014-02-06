@@ -560,14 +560,14 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-super-label {
-    color: #444444;
+    color: #2d2d2d;
     padding-right: 12px;
     text-align: right;
     width: 92px;
 }
 
 .omni-style .list-super-label .mandatory {
-    border-bottom: 1px solid #4d4d4d;
+    border-bottom: 1px solid #2d2d2d;
     padding-bottom: 2px;
 }
 
@@ -2102,7 +2102,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .login-remember {
-    color: #666666;
+    color: #2d2d2d;
     font-size: 12px;
     line-height: 18px;
     margin-left: 6px;
