@@ -92,3 +92,7 @@
 .omni-style .content-wizard .wizard-buttons > .button-finish {
     margin-left: 10px;
 }
+
+.omni-style .content-wizard .error-description {
+    padding: 0px 0px 0px 0px;
+}

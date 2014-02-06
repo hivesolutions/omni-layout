@@ -1879,6 +1879,10 @@ body.omni-style.opensans {
     margin-left: 10px;
 }
 
+.omni-style .content-wizard .error-description {
+    padding: 0px 0px 0px 0px;
+}
+
 .omni-style .display-box {
     border: 1px solid #eaeaea;
     color: #4d4d4d;
