@@ -3818,8 +3818,8 @@
         var AUXILIARY_AXIS_COLOR = "#aaaaaa";
         var VALUE_CIRCLE_COLOR = "#ffffff";
 
-        // background color for the various elementss that are
-        // part of the cahrt (may containg rgba based values)
+        // background color for the various elements that are
+        // part of the chart (may containg rgba based values)
         var BACKGROUND_COLOR = "#222222";
         var BACKGROUND_CIRCLE_COLOR = "#000000";
         var BACKGROUND_BOX_COLOR = "rgba(0, 0, 0, 1)";
@@ -3827,7 +3827,7 @@
         // the various colors that are going to be used in the
         // plot of the various chart lines
         var CHART_COLORS = ["#77a9df", "#ffd67e", "#0176ff", "#e0cf21",
-                "#22b573", "#c69c6d", "#c14f53", "#f0e7d0", "#ff78ff"]
+                "#22b573", "#c69c6d", "#c14f53", "#f0e7d0", "#ff78ff"];
 
         // the counting of the vaious elements of the chart (steps)
         // and value control for the various elements
