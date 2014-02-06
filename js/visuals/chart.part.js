@@ -18,7 +18,8 @@
         // the base values to be used in the global operation
         // for the drawing of the chart
         var BASE_COLOR = "#4d4d4d";
-        var AXIS_COLOR = "#aaaaaa";
+        var LABEL_COLOR = "#000000";
+        var AXIS_COLOR = "#888888";
         var AUXILIARY_AXIS_COLOR = "#aaaaaa";
         var VALUE_CIRCLE_COLOR = "#ffffff";
 
@@ -227,6 +228,7 @@
             // retrieves the options values
             var context = options["context"];
             var data = options["data"];
+            var labelColor = options["labelColor"];
             var axisColor = options["axisColor"];
             var labelFontRealSize = options["labelFontRealSize"];
             var horizontalAxisSize = options["horizontalAxisSize"];
@@ -252,6 +254,7 @@
             // lines that sit next to the labels (for reference)
             context.lineWidth = 1;
             context.strokeStyle = axisColor;
+            context.fillStyle = labelColor;
 
             // iterates over the range of horizontal steps
             for (var index = 0; index < horizontalSteps; index++) {
@@ -545,6 +548,9 @@
             var baseColor = options["baseColor"]
                     ? options["baseColor"]
                     : BASE_COLOR;
+            var labelColor = options["labelColor"]
+                    ? options["labelColor"]
+                    : LABEL_COLOR;
             var axisColor = options["axisColor"]
                     ? options["axisColor"]
                     : AXIS_COLOR;
@@ -649,6 +655,7 @@
             options["labelFontSize"] = labelFontSize;
             options["labelFontRealSize"] = labelFontRealSize;
             options["baseColor"] = baseColor;
+            options["labelColor"] = labelColor;
             options["axisColor"] = axisColor;
             options["auxiliaryAxisColor"] = auxiliaryAxisColor;
             options["valueCircleColor"] = valueCircleColor;
