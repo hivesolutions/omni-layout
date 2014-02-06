@@ -474,11 +474,11 @@ body.omni-style.opensans {
 .omni-style .list-label {
     color: #4d4d4d;
     font-size: 14px;
-    line-height: 22px;
+    line-height: 24px;
     margin: 0px 0px 0px 0px;
-    padding-bottom: 5px;
+    padding-bottom: 4px;
     padding-right: 12px;
-    padding-top: 5px;
+    padding-top: 4px;
     text-align: right;
     width: 92px;
 }
@@ -491,20 +491,20 @@ body.omni-style.opensans {
 .omni-style .list-sub-label {
     color: #2d2d2d;
     font-size: 13px;
-    line-height: 22px;
+    line-height: 24px;
     margin: 0px 0px 0px 0px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    padding-bottom: 4px;
+    padding-top: 4px;
     width: 428px;
 }
 
 .omni-style .list-code-label {
     color: #2d2d2d;
     font-size: 13px;
-    line-height: 22px;
+    line-height: 24px;
     margin: 0px 0px 0px 0px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    padding-bottom: 4px;
+    padding-top: 4px;
     white-space: pre;
     width: 428px;
     word-wrap: break-word;
@@ -513,11 +513,11 @@ body.omni-style.opensans {
 .omni-style .list-window-label {
     color: #2d2d2d;
     font-size: 14px;
-    line-height: 22px;
+    line-height: 24px;
     margin: 0px 0px 0px 0px;
-    padding-bottom: 5px;
+    padding-bottom: 4px;
     padding-right: 12px;
-    padding-top: 5px;
+    padding-top: 4px;
     text-align: right;
     width: 80px;
 }
@@ -2574,9 +2574,9 @@ body.omni-print-style.receipt {
 .omni-style .entity-details-list .panel-more > div > li p  {
     float: left;
     font-size: 13px;
-    line-height: 22px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    line-height: 24px;
+    padding-bottom: 4px;
+    padding-top: 4px;
 }
 
 .omni-style .entity-details-list > li .list-sub-label.replacer,
