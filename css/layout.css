@@ -485,7 +485,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-label {
-    color: #777777;
+    color: #4d4d4d;
     font-size: 14px;
     padding-right: 12px;
     text-align: right;
@@ -498,13 +498,13 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-sub-label {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 13px;
     width: 428px;
 }
 
 .omni-style .list-code-label {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 13px;
     white-space: pre;
     width: 428px;
@@ -512,7 +512,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-label {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 14px;
     padding-right: 12px;
     text-align: right;
@@ -520,7 +520,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-separator {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 14px;
     line-height: 48px;
     text-align: center;
@@ -631,7 +631,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .drop-field.entities-search .entity-name {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 14px;
     font-weight: bold;
     margin: 2px 0px 0px 0px;
@@ -901,7 +901,7 @@ body.omni-style.opensans {
 .omni-style ul.notifications-list li {
     background-color: #ffffff;
     border-bottom: 1px solid #f0f0f0;
-    color: #4d4d4d;
+    color: #2d2d2d;
     cursor: pointer;
     font-size: 12px;
     line-height: 22px;
@@ -947,7 +947,7 @@ body.omni-style.opensans {
 }
 
 .omni-style ul.notifications-list li > .time {
-    color: #777777;
+    color: #4d4d4d;
     font-size: 10px;
     margin-left: -18px;
     margin-top: 4px;
@@ -2510,7 +2510,7 @@ body.omni-print-style.receipt {
 }
 
 .omni-style .entity-details-inner-container .entity-name {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 20px;
     font-weight: bold;
     width: 380px;

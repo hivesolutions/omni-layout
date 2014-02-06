@@ -7,7 +7,7 @@
 .omni-style ul.notifications-list li {
     background-color: #ffffff;
     border-bottom: 1px solid #f0f0f0;
-    color: #4d4d4d;
+    color: #2d2d2d;
     cursor: pointer;
     font-size: 12px;
     line-height: 22px;
@@ -53,7 +53,7 @@
 }
 
 .omni-style ul.notifications-list li > .time {
-    color: #777777;
+    color: #4d4d4d;
     font-size: 10px;
     margin-left: -18px;
     margin-top: 4px;
