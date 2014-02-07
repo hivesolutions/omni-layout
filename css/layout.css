@@ -1632,7 +1632,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .content-permission .title {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 40px;
     font-weight: normal;
     line-height: 40px;
@@ -1641,7 +1641,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .content-permission .contents {
-    color: #4d4d4d;
+    color: #2d2d2d;
     line-height: 18px;
     margin: 0px 0px 0px 0px;
 }
@@ -1693,7 +1693,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .content-permission .permissions-list li h1 {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 14px;
     line-height: 14px;
     margin: 0px 0px 4px 0px;
