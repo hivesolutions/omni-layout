@@ -27,7 +27,7 @@
 }
 
 .omni-style .list.navigation-list > li a {
-    color: #4d4d4d;
+    color: #2d2d2d;
     cursor: pointer;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
@@ -36,7 +36,7 @@
 }
 
 .omni-style .list.navigation-list.navigation-mini > li > a {
-    color: #4d4d4d;
+    color: #2d2d2d;
 }
 
 .omni-style .list.navigation-list > li a:hover {
