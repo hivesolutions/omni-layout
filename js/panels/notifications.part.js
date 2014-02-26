@@ -214,7 +214,7 @@
                         window.open(urlR, "_blank");
                     };
                     _notification.show && _notification.show();
-                    _notification.show && setTimeout(function() {
+                    _notification.close && setTimeout(function() {
                                 _notification.close();
                             }, 15000);
                     _body.data("_notification", _notification);
