@@ -146,7 +146,7 @@
                 // "calulates" the path to the logo url using the retrieved
                 // base path as the reference for it
                 var logoUrl = basePath
-                        + "resources_common/images/logos/front-door-not-large.png";
+                        + "common/images/logos/front-door-not-large.png";
 
                 // adds a new notification item to the list of
                 // notifications, this notification should have
