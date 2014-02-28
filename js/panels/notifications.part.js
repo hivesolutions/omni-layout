@@ -59,7 +59,7 @@
             // communication, and then creates the full absolute ur
             // from the base url and the communication suffix
             var url = _element.attr("data-url");
-            var absolueUrl = jQuery.uxresolve(url + "/pushi");
+            var absolueUrl = jQuery.uxresolve(url + "/pushi.json");
 
             // retrieves the name of the currently signed in user
             // from the body element, to be used for the current panel
