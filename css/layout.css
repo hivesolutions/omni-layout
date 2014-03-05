@@ -2579,6 +2579,12 @@ body.omni-print-style.receipt {
     padding-top: 4px;
 }
 
+.omni-style .entity-details-list > li .list-super-label,
+.omni-style .entity-details-list .panel-more > div > li .list-super-label {
+    padding-bottom: 7px;
+    padding-top: 7px;
+}
+
 .omni-style .entity-details-list > li .list-sub-label.replacer,
 .omni-style .entity-details-list > li .list-sub-label.uploader,
 .omni-style .entity-details-list .panel-more > div > li .list-sub-label.replacer,
