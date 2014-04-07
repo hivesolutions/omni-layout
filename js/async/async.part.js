@@ -75,7 +75,7 @@
                         var state = {
                             uuid : uuid,
                             href : href
-                        }
+                        };
 
                         // in case this is not a verified operation the current state
                         // must be pushed into the history stack, so that we're able
@@ -248,7 +248,7 @@
                         });
             });
 
-            // registers for the location changed event in order to validated the
+            // registers for the location changed event in order to validate the
             // location changes for async execution then sets the async flag in the
             // current body in order duplicated registration
             _body.bind("location", function(event, location) {
