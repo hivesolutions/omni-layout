@@ -169,12 +169,7 @@
                         var state = {
                             uuid : uuid,
                             href : href
-                        }
-
-                        // in case this is not a verified operation the current state
-                        // must be pushed into the history stack, so that we're able
-                        // to rollback to it latter
-                        push && window.history.pushState(state, null, href);
+                        };
 
                         try {
                             // replaces the image source references in the requested
@@ -186,8 +181,8 @@
                             // extracts the special body associated data from the data
                             // value escapes it with a special value and then creates
                             // the logical element representation for it
-                            var bodyData = data.match(/<body.*>/)[0]
-                                    + "</body>";
+                            var bodyData = data.match(/<body.*>[^]*<\/body>/g)[0];
+                            bodyData = bodyData.replace(/aux-src=/ig, "src=");
                             bodyData = bodyData.replace("body", "body_");
                             var body = jQuery(bodyData);
 
@@ -247,8 +242,12 @@
                             // handlers about the end of the dom modification operations
                             // so that many operations may be resumed
                             _body.triggerHandler("post_async");
+
+                            // in case this is not a verified operation the current state
+                            // must be pushed into the history stack, so that we're able
+                            // to rollback to it latter
+                            push && window.history.pushState(state, null, href);
                         } catch (exception) {
-                            window.history.back();
                             document.location = href;
                         }
                     });
@@ -342,7 +341,7 @@
                         });
             });
 
-            // registers for the location changed event in order to validated the
+            // registers for the location changed event in order to validate the
             // location changes for async execution then sets the async flag in the
             // current body in order duplicated registration
             _body.bind("location", function(event, location) {

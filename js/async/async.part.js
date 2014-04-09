@@ -77,11 +77,6 @@
                             href : href
                         };
 
-                        // in case this is not a verified operation the current state
-                        // must be pushed into the history stack, so that we're able
-                        // to rollback to it latter
-                        push && window.history.pushState(state, null, href);
-
                         try {
                             // replaces the image source references in the requested
                             // data so that no extra images are loaded then loads the
@@ -153,8 +148,12 @@
                             // handlers about the end of the dom modification operations
                             // so that many operations may be resumed
                             _body.triggerHandler("post_async");
+
+                            // in case this is not a verified operation the current state
+                            // must be pushed into the history stack, so that we're able
+                            // to rollback to it latter
+                            push && window.history.pushState(state, null, href);
                         } catch (exception) {
-                            window.history.back();
                             document.location = href;
                         }
                     });
