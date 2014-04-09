@@ -92,8 +92,8 @@
                             // extracts the special body associated data from the data
                             // value escapes it with a special value and then creates
                             // the logical element representation for it
-                            var bodyData = data.match(/<body.*>/)[0]
-                                    + "</body>";
+                            var bodyData = data.match(/<body.*>[^]*<\/body>/g)[0];
+                            bodyData = bodyData.replace(/aux-src=/ig, "src=");
                             bodyData = bodyData.replace("body", "body_");
                             var body = jQuery(bodyData);
 
