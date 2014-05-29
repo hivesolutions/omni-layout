@@ -1127,7 +1127,7 @@
 
         // uses the alias map to try to resolve the current adm link
         // into the concrete url for the adm section
-        var admSection = alias["omni_web_adm"] || "omni_web_adm";
+        var admSection = alias["omni_adm"] || "omni_adm";
 
         // retrieves the current attributes to be used
         // for the filling of the line
