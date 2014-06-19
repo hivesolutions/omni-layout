@@ -344,7 +344,7 @@
             // location changes for async execution then sets the async flag in the
             // current body in order duplicated registration
             _body.bind("location", function(event, location) {
-                        // tries to runthe async link logic and in case it goes through
+                        // tries to run the async link logic and in case it goes through
                         // cancels the current event returning an invalid value, so that
                         // the default location setting logic does not run
                         var result = jQuery.uxlinkasync(location, false);
