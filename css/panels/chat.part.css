@@ -89,8 +89,8 @@
     background: #627bae url(../images/chat/status.png) no-repeat -3px 0px;
     border-bottom: 1px solid #888888;
     color: #ffffff;
-    color: #ffffff;
     cursor: pointer;
+    font-weight: bold;
     height: 16px;
     line-height: 16px;
     padding: 6px 0px 6px 22px;
