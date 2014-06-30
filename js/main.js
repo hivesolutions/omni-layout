@@ -1983,7 +1983,7 @@
                 });
 
         // registers for the event triggered when a new chat
-        // is reqeusted this shoud create a new chat panel
+        // is requested this shoud create a new chat panel
         matchedObject.bind("new_chat", function() {
                     var panels = matchedObject.data("panels") || {};
                     placePanels(panels);
