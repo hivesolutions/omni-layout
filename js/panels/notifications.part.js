@@ -326,10 +326,15 @@
                     return;
                 }
 
-                // unsubscribes from the previous personal channel and the subscribes
+                // unsubscribes from the previous personal channel and then subscribes
                 // to the channel of the new user (for security reasons)
                 pushi.unsubscribe("personal-" + _username);
                 pushi.subscribe("personal-" + username);
+
+                // clears the current list of notification because the list will
+                // be filled with new notifications once they "come" from the new
+                // subscriptions that have been created
+                list.empty();
 
                 // disables the link by default, this value will be re-enabled in case
                 // the new channel contain any notification values
@@ -342,7 +347,7 @@
 
             // registers for the before unload event in the window
             // element so that any pending native notification is
-            // closes and not left over as garbage
+            // closed and not left over as garbage
             !isRegistered && _window.bind("beforeunload", function() {
                         var _notification = _body.data("_notification");
                         _notification && _notification.close();
@@ -350,7 +355,7 @@
 
             // registers for the unload event in the window
             // element so that any pending native notification is
-            // closes and not left over as garbage
+            // closed and not left over as garbage
             !isRegistered && _window.bind("unload", function() {
                         var _notification = _body.data("_notification");
                         _notification && _notification.close();
