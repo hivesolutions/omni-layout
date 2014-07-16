@@ -522,7 +522,9 @@
         var topBar = base.filter(".top-bar");
         var headerImage = jQuery(".header-logo-area", topBar);
         var headerImage_ = jQuery(".top-bar .header-logo-area");
+        var headerImageClass = headerImage.attr("class");
         var headerImageLink = headerImage.attr("href");
+        headerImage_.attr("class", headerImageClass);
         headerImage_.attr("href", headerImageLink);
     };
 
