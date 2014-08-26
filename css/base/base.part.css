@@ -295,6 +295,11 @@ body.omni-style.opensans {
     width: 392px;
 }
 
+.omni-style .list-tag-input > .text-field {
+    height: 32px;
+    width: 392px;
+}
+
 .omni-style .list-medium-input {
     height: 26px;
     width: 414px;
