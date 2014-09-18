@@ -198,7 +198,8 @@
             // retrieves the correct name value to be used as the representation
             // of the current line this value should be coherent with the sender
             // username relation, defaulting to me in case it's the same
-            var name = sender == username ? "me" : representation;
+            var myself = sender == username;
+            var name = myself ? "me" : representation;
 
             // creates the localized version of the message for the blink effect
             // using the anme of the peer as the base for the message
@@ -213,7 +214,15 @@
                         name : name,
                         message : message
                     });
-            panel.triggerHandler("blink", [title]);
+
+            // verifies if this is a myself message or a message from somebody else
+            // and takes the proper action in terms of blinking, note that if the
+            // message is from mysqlf no blinking should occur (action taken)
+            if (myself) {
+                panel.triggerHandler("unblink");
+            } else {
+                panel.triggerHandler("blink", [title]);
+            }
 
             // retrieves the reference to the audio object
             // of the current object and plays it
