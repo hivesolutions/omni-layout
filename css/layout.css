@@ -747,6 +747,7 @@ body.omni-style.opensans {
 
 .omni-style.opensans .activity-list li .container {
     padding-top: 2px;
+    width: 468px;
 }
 
 .omni-style .activity-list li .time {
