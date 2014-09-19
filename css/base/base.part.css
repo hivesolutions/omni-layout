@@ -388,7 +388,8 @@ body.omni-style.opensans {
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
-    width: 518px;
+    padding-right: 76px;
+    width: 448px;
 }
 
 .omni-style .three-rows-label {
