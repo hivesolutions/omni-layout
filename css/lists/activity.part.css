@@ -53,11 +53,11 @@
 .omni-style .activity-list li .container {
     float: left;
     padding-top: 4px;
+    width: 468px;
 }
 
 .omni-style.opensans .activity-list li .container {
     padding-top: 2px;
-    width: 468px;
 }
 
 .omni-style .activity-list li .time {
