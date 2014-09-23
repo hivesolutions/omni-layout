@@ -1145,7 +1145,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .context-menu .menu-contents .element {
-    color: #4d4d4d;
+    color: #2d2d2d;
     cursor: pointer;
     font-size: 11px;
     line-height: 11px;
@@ -1291,14 +1291,14 @@ body.omni-style.opensans {
 }
 
 .omni-style .system-menu .menu-contents .name {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 6px;
 }
 
 .omni-style .system-menu .menu-contents .email {
-    color: #666666;
+    color: #2d2d2d;
 }
 
 .omni-style .system-menu .menu-contents .contact .name {
