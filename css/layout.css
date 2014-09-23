@@ -874,11 +874,11 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list > li:first-child > a {
-    color: #000000;
+    font-weight: bold;
 }
 
 .omni-style .list.navigation-list.navigation-mini > li:first-child > a {
-    color: #000000;
+    font-weight: bold;
 }
 
 .omni-style .list.navigation-sub-list {
