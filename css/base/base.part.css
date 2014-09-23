@@ -415,7 +415,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-title {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -423,7 +423,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-sub-title {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -431,7 +431,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-paragraph-title {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -440,13 +440,13 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-text {
-    color: #4d4d4d;
+    color: #2d2d2d;
     line-height: 20px;
 }
 
 .omni-style .sidebar-header {
     border-bottom: 1px solid #eaeaea;
-    color: #2d2d2d;
+    color: #000000;
     font-size: 12px;
     line-height: 15px;
     margin-top: 15px;
@@ -455,7 +455,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .sidebar-text {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 12px;
     line-height: 20px;
 }
@@ -478,7 +478,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-label {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 14px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -495,7 +495,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-sub-label {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 13px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -505,7 +505,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-code-label {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 13px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -517,7 +517,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-label {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 14px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -529,7 +529,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-super-label {
-    color: #2d2d2d;
+    color: #000000;
     line-height: 22px;
     margin: 0px 0px 0px 0px;
     padding-bottom: 8px;
@@ -540,7 +540,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-super-label .mandatory {
-    border-bottom: 1px solid #2d2d2d;
+    border-bottom: 1px solid #000000;
     padding-bottom: 2px;
 }
 
@@ -552,7 +552,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-separator {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 14px;
     line-height: 48px;
     text-align: center;
@@ -562,7 +562,7 @@ body.omni-style.opensans {
 .omni-style .list-code {
     background-color: #fafafa;
     border: 1px solid #eaeaea;
-    color: #2d2d2d;
+    color: #000000;
     font-family: Consola, monospace;
     font-size: 12px;
     line-height: 22px;

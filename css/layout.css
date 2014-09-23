@@ -415,7 +415,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-title {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -423,7 +423,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-sub-title {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -431,7 +431,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-paragraph-title {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 18px;
     font-weight: normal;
     line-height: 18px;
@@ -440,13 +440,13 @@ body.omni-style.opensans {
 }
 
 .omni-style .section-text {
-    color: #4d4d4d;
+    color: #2d2d2d;
     line-height: 20px;
 }
 
 .omni-style .sidebar-header {
     border-bottom: 1px solid #eaeaea;
-    color: #2d2d2d;
+    color: #000000;
     font-size: 12px;
     line-height: 15px;
     margin-top: 15px;
@@ -455,7 +455,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .sidebar-text {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 12px;
     line-height: 20px;
 }
@@ -478,7 +478,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-label {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 14px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -495,7 +495,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-sub-label {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 13px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -505,7 +505,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-code-label {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 13px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -517,7 +517,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-label {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 14px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
@@ -529,7 +529,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-super-label {
-    color: #2d2d2d;
+    color: #000000;
     line-height: 22px;
     margin: 0px 0px 0px 0px;
     padding-bottom: 8px;
@@ -540,7 +540,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-super-label .mandatory {
-    border-bottom: 1px solid #2d2d2d;
+    border-bottom: 1px solid #000000;
     padding-bottom: 2px;
 }
 
@@ -552,7 +552,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-window-separator {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 14px;
     line-height: 48px;
     text-align: center;
@@ -562,7 +562,7 @@ body.omni-style.opensans {
 .omni-style .list-code {
     background-color: #fafafa;
     border: 1px solid #eaeaea;
-    color: #2d2d2d;
+    color: #000000;
     font-family: Consola, monospace;
     font-size: 12px;
     line-height: 22px;
@@ -652,14 +652,14 @@ body.omni-style.opensans {
 }
 
 .omni-style .drop-field.entities-search .entity-name {
-    color: #2d2d2d;
+    color: #000000;
     font-size: 14px;
     font-weight: bold;
     margin: 2px 0px 0px 0px;
 }
 
 .omni-style .drop-field.entities-search .entity-details {
-    color: #4d4d4d;
+    color: #2d2d2d;
     margin: 2px 0px 0px 0px;
 }
 
@@ -752,7 +752,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list li .time {
-    color: #4d4d4d;
+    color: #2d2d2d;
     float: right;
     font-size: 10px;
     text-transform: uppercase;
@@ -785,7 +785,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .activity-list-description {
-    color: #4d4d4d;
+    color: #2d2d2d";
     margin: 10px 0px 0px 0px;
 }
 
@@ -853,7 +853,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list > li a {
-    color: #2d2d2d;
+    color: #000000;
     cursor: pointer;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
@@ -862,7 +862,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list.navigation-mini > li > a {
-    color: #2d2d2d;
+    color: #000000;
 }
 
 .omni-style .list.navigation-list > li a:hover {
@@ -882,7 +882,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-sub-list {
-    color: #4d4d4d;
+    color: #2d2d2d;
     display: none;
     font-size: 10px;
     list-style: none;
@@ -896,7 +896,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-sub-list > li > a {
-    color: #4d4d4d;
+    color: #2d2d2d;
 }
 
 .omni-style .list.navigation-list .link-expand {
@@ -923,7 +923,7 @@ body.omni-style.opensans {
 .omni-style ul.notifications-list li {
     background-color: #ffffff;
     border-bottom: 1px solid #f0f0f0;
-    color: #2d2d2d;
+    color: #000000;
     cursor: pointer;
     font-size: 12px;
     line-height: 22px;
@@ -964,12 +964,12 @@ body.omni-style.opensans {
 }
 
 .omni-style ul.notifications-list li > .contents > .subject {
-    color: #4d4d4d;
+    color: #2d2d2d;
     margin: 0px 0px 0px 0px;
 }
 
 .omni-style ul.notifications-list li > .time {
-    color: #4d4d4d;
+    color: #2d2d2d;
     font-size: 10px;
     margin-left: -18px;
     margin-top: 3px;
@@ -2036,7 +2036,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .footer {
-    color: #666666;
+    color: #2d2d2d;
     font-size: 12px;
     margin: 22px auto 22px auto;
     min-width: 960px;
@@ -2551,7 +2551,7 @@ body.omni-print-style.receipt {
 }
 
 .omni-style .entity-details-inner-container .entity-description {
-    color: #666666;
+    color: #2d2d2d;
     line-height: 20px;
     margin: 0px 0px 0px 0px;
 }
