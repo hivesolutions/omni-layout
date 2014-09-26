@@ -2165,12 +2165,17 @@
                 + "</div>" + "</div>");
         matchedObject.append(chatPanel);
         chatPanel.uxapply();
+        chatPanel.hide();
         chatPanel.attr("data-user_id", userId);
         chatPanel.data("name", name);
         chatPanel.data("owner", owner);
         chatPanel.data("user_id", userId);
         chatPanel.data("object_id", objectId);
         chatPanel.data("owner_id", ownerId);
+
+        // runs the fade in operation in the created chat panel so that
+        // it becomes visible after the animation (as expected)
+        chatPanel.fadeIn(75);
 
         // retrieves the various components (structures) from the chat pane
         // in order to be used in the operations
@@ -2397,9 +2402,14 @@
                     delete panels[name];
 
                     // removes the contents of the chat panel and triggers
-                    // the delte chat event to redraw the other panels
-                    chatPanel.remove();
-                    matchedObject.triggerHandler("delete_chat", []);
+                    // the delete chat event to redraw the other panels
+                    chatPanel.fadeOut(100, function() {
+                                chatPanel.remove();
+                                setTimeout(function() {
+                                            matchedObject.triggerHandler(
+                                                    "delete_chat", []);
+                                        }, 100);
+                            });
                 });
 
         // registers for the push operation that "saves" the current
