@@ -1693,17 +1693,21 @@
 
             // verifies if this is a myself message or a message from somebody else
             // and takes the proper action in terms of blinking, note that if the
-            // message is from mysqlf no blinking should occur (action taken)
+            // message is from myself no blinking should occur (action taken)
             if (myself) {
+                // triggers the unblink event that should remove the
+                // current blinking message from visuals
                 panel.triggerHandler("unblink");
             } else {
+                // triggers the blinking text into the current context
+                // with the message that has been created
                 panel.triggerHandler("blink", [title]);
-            }
 
-            // retrieves the reference to the audio object
-            // of the current object and plays it
-            var audio = jQuery("> audio", matchedObject);
-            audio[0].play();
+                // retrieves the reference to the audio object of the
+                // current object and plays it (audio blinking)
+                var audio = jQuery("> audio", matchedObject);
+                audio[0].play();
+            }
         };
 
         var statusProcessor = function(envelope) {
