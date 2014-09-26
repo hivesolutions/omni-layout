@@ -2403,12 +2403,12 @@
 
                     // removes the contents of the chat panel and triggers
                     // the delete chat event to redraw the other panels
-                    chatPanel.fadeOut(75, function() {
+                    chatPanel.fadeOut(50, function() {
                                 chatPanel.remove();
                                 setTimeout(function() {
                                             matchedObject.triggerHandler(
                                                     "delete_chat", []);
-                                        }, 150);
+                                        }, 125);
                             });
                 });
 
