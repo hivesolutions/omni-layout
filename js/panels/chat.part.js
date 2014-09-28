@@ -929,10 +929,7 @@
                     // the delete chat event to redraw the other panels
                     chatPanel.fadeOut(50, function() {
                                 chatPanel.remove();
-                                setTimeout(function() {
-                                            matchedObject.triggerHandler(
-                                                    "delete_chat", []);
-                                        }, 125);
+                                matchedObject.triggerHandler("delete_chat", []);
                             });
                 });
 
