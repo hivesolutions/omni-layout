@@ -100,5 +100,17 @@
                     // the process of hidding the panel
                     overlayPanel.triggerHandler("hide");
                 });
+
+        // registers for the post async event so that the overlay panel associated
+        // with the eureka structure is properly hidden and does not remains displayed
+        // in the current screen, otherwise garbage would be left (ux problems)
+        matchedObject.length > 0
+                && _body.bind("post_async", onPostAsync = function() {
+                            var overlayPanel = matchedObject.parents(".overlay-panel");
+                            overlayPanel.triggerHandler("hide");
+                        });
+        matchedObject.bind("destroyed", function() {
+                    _body.unbind("post_async", onPostAsync);
+                });
     };
 })(jQuery);
