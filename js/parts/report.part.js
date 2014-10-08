@@ -218,7 +218,8 @@
         var limits = function(matchedObject, options) {
             var items = matchedObject.data("items");
             var count = matchedObject.data("count");
-            var limit = Math.floor(items.length / count);
+            var limit = Math.ceil(items.length / count) - 1;
+            limit = limit > 0 ? limit : 0;
 
             matchedObject.data("limit", limit);
         };
