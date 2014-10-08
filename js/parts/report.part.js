@@ -218,7 +218,7 @@
         var limits = function(matchedObject, options) {
             var items = matchedObject.data("items");
             var count = matchedObject.data("count");
-            var limit = items.length / count;
+            var limit = Math.ceil(items.length / count) - 1;
             limit = parseInt(limit);
 
             matchedObject.data("limit", limit);
