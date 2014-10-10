@@ -218,10 +218,6 @@
             location.html(String(page + 1) + " / " + String(limit + 1));
         };
 
-        var loaded = function(matchedObject, options) {
-            matchedObject.removeClass("loading");
-        };
-
         var print = function() {
             // shows the print dialog window to start the print
             // procedure, only uppon the complete loading
@@ -264,11 +260,11 @@
                     matchedObject);
             matchedObject.addClass("loading");
             dataSource.uxdataquery({}, function(validItems, moreItems) {
+                        matchedObject.removeClass("loading");
                         matchedObject.data("items", validItems);
-                        loaded(matchedObject, options);
-                        print(matchedObject, options);
                         limits(matchedObject, options);
                         update(matchedObject, options);
+                        print(matchedObject, options);
                     });
         };
 
