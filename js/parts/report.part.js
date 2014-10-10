@@ -14,7 +14,7 @@
         // to run the report initialization, global handlers
         // exist and may cause conflicts
         if (matchedObject.length == 0) {
-            return
+            return;
         }
 
         // retievs the currently set search parameters present
@@ -84,10 +84,6 @@
             header.remove();
             footer.remove();
             topBar.remove();
-
-            // shows the print dialog window to start the print
-            // procedure, only uppon the complete loading
-            window.print();
         }
 
         // registers for the key down event on the document in order
@@ -161,11 +157,12 @@
             var next = jQuery(".next", more);
 
             // retrieves the current configuration values for
-            // the report to be used
+            // the report to be used, will condition the update
             var count = matchedObject.data("count");
             var page = matchedObject.data("page");
             var limit = matchedObject.data("limit");
             var items = matchedObject.data("items");
+            var print = matchedObject.attr("data-print");
 
             // calculates the offset position from the current
             // page and sets the end value using it then calculated
@@ -214,7 +211,11 @@
 
             // updates the location string/label value with the new page
             // that has been selected (provide visual information)
-            location.html(String(page + 1) + " / " + String(limit + 1))
+            location.html(String(page + 1) + " / " + String(limit + 1));
+
+            // shows the print dialog window to start the print
+            // procedure, only uppon the complete loading
+            print && window.print();
         };
 
         var limits = function(matchedObject, options) {
