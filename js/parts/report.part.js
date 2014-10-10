@@ -35,10 +35,15 @@
         // current report contents
         var buttons = jQuery(".report-header > .buttons", matchedObject);
         var links = jQuery("> a", buttons);
+        var loading = jQuery(".report-loading", matchedObject);
         var location = jQuery(".report-location", matchedObject);
         var more = jQuery(".report-more", matchedObject);
         var previous = jQuery(".previous", more);
         var next = jQuery(".next", more);
+
+        // prepends the loader (indicator) to the loading section of the
+        // report so that the proper animation is displayed in the screen
+        loading.prepend("<div class=\"loader\"></div>");
 
         // updates the report location contents with the unset
         // value set, indicating that no page information is available
@@ -162,7 +167,6 @@
             var page = matchedObject.data("page");
             var limit = matchedObject.data("limit");
             var items = matchedObject.data("items");
-            var print = matchedObject.attr("data-print");
 
             // calculates the offset position from the current
             // page and sets the end value using it then calculated
@@ -212,9 +216,16 @@
             // updates the location string/label value with the new page
             // that has been selected (provide visual information)
             location.html(String(page + 1) + " / " + String(limit + 1));
+        };
 
+        var loaded = function(matchedObject, options) {
+            matchedObject.removeClass("loading");
+        };
+
+        var print = function() {
             // shows the print dialog window to start the print
             // procedure, only uppon the complete loading
+            var print = matchedObject.attr("data-print");
             print && window.print();
         };
 
@@ -251,8 +262,11 @@
         var load = function(matchedObject, options) {
             var dataSource = jQuery(".report-table > .data-source",
                     matchedObject);
+            matchedObject.addClass("loading");
             dataSource.uxdataquery({}, function(validItems, moreItems) {
                         matchedObject.data("items", validItems);
+                        loaded(matchedObject, options);
+                        print(matchedObject, options);
                         limits(matchedObject, options);
                         update(matchedObject, options);
                     });

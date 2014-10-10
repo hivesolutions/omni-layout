@@ -34,6 +34,30 @@
     margin: 0px auto 0px auto;
 }
 
+.omni-style .report .report-loading {
+    display: none;
+    margin: 64px auto 42px auto;
+    text-align: center;
+    width: 280px;
+}
+
+.omni-style .report.loading .report-loading {
+    display: block;
+}
+
+.omni-style .report .report-loading > .loader {
+    background: transparent url(../images/report/report-loading.gif) no-repeat;
+    height: 15px;
+    margin: 0px auto 12px auto;
+    width: 128px;
+}
+
+.omni-style .report .report-loading > .info {
+    color: #2d2d2d;
+    font-size: 14px;
+    font-weight: bold;
+}
+
 .omni-style .report .report-location {
     color: #4d4d4d;
     font-weight: bold;
@@ -42,10 +66,18 @@
     text-align: center;
 }
 
+.omni-style .report.loading .report-location {
+    display: none;
+}
+
 .omni-style .report .report-more {
     margin: 8px auto 0px auto;
     min-width: 960px;
     text-align: center;
+}
+
+.omni-style .report.loading .report-more {
+    display: none;
 }
 
 .omni-style .report .report-more > .button {
@@ -97,6 +129,10 @@
     font-weight: bold;
     height: 35px;
     padding: 0px 12px 0px 12px;
+}
+
+.omni-style .report.loading .table tbody {
+    display: none;
 }
 
 .omni-style .report .table tbody tr {
