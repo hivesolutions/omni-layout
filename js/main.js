@@ -3656,7 +3656,7 @@
             topBar.remove();
 
             // shows the print dialog window to start the print
-            // procedure
+            // procedure, only uppon the complete loading
             window.print();
         }
 
@@ -3782,6 +3782,8 @@
                 next.uxenable();
             }
 
+            // updates the location string/label value with the new page
+            // that has been selected (provide visual information)
             location.html(String(page + 1) + " / " + String(limit + 1))
         };
 
