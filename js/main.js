@@ -3613,6 +3613,7 @@
         var options = jQuery(".options", matchedObject);
         var previous = jQuery(".previous", more);
         var next = jQuery(".next", more);
+        var iconOptions = linkOptions.prev("img");
 
         // prepends the loader (indicator) to the loading section of the
         // report so that the proper animation is displayed in the screen
@@ -3631,6 +3632,11 @@
         // update operation their status will be updated
         previous.uxdisable();
         next.uxdisable();
+
+        // in case the there're no options panel defined for the current
+        // report the options link and icons must be hidden and not displayed
+        // as no interaction would be possible/visible
+        options.length == 0 && linkOptions.hide() && iconOptions.hide();
 
         // schedules a timeout operation that is going to be
         // executed after this tick operation so that the
