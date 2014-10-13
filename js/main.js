@@ -87,7 +87,8 @@
 
         // retrieves the reference to the various images that are
         // going to be used as lightbox triggers
-        var image = jQuery(".lightbox-trigger, .entity-big-picture > img", matchedObject);
+        var image = jQuery(".lightbox-trigger, .entity-big-picture > img",
+                matchedObject);
         image.ulightbox();
     };
 })(jQuery);
@@ -3587,9 +3588,8 @@
             return;
         }
 
-        // retievs the currently set search parameters present
+        // retieves the currently set search parameters present
         // in the url string (from the window object)
-        var search = window.location.search;
         var pathname = window.location.pathname;
         var pathname_l = pathname.length;
 
@@ -3601,13 +3601,16 @@
             matchedObject.attr("data-print", 1);
         }
 
-        // retrieves the various element that componse the
-        // current report contents
+        // retrieves the various elements that componse the
+        // current report contents, they are going to be used
+        // for the various processing parts of the extension
         var buttons = jQuery(".report-header > .buttons", matchedObject);
         var links = jQuery("> a", buttons);
+        var linkOptions = jQuery("> .link-options", buttons);
         var loading = jQuery(".report-loading", matchedObject);
         var location = jQuery(".report-location", matchedObject);
         var more = jQuery(".report-more", matchedObject);
+        var options = jQuery(".options", matchedObject);
         var previous = jQuery(".previous", more);
         var next = jQuery(".next", more);
 
@@ -3625,12 +3628,19 @@
         previous.uxdisable();
         next.uxdisable();
 
-        // iterates over all the present links to update their
-        // link values to match the arguments of the current request
-        links.each(function(index, element) {
-                    var _element = jQuery(this);
-                    var href = _element.attr("href");
-                    _element.attr("href", href + search);
+        // schedules a timeout operation that is going to be
+        // executed after this tick operation so that the
+        // proper search (url) string is available for the
+        // update of url in the links of the report
+        setTimeout(function() {
+                    // iterates over all the present links to update their
+                    // link values to match the arguments of the current request
+                    links.each(function(index, element) {
+                                var _element = jQuery(this);
+                                var href = _element.attr("href");
+                                var search = window.location.search;
+                                _element.attr("href", href + search);
+                            });
                 });
 
         // retrieves the number of rows to be used in the table
@@ -3702,6 +3712,15 @@
                 });
         matchedObject.bind("destroyed", function() {
                     _document.unbind("keydown", onKeyDown);
+                });
+
+        // registers for the click operation in the options
+        // link so that the options panel visibility is toggled
+        linkOptions.click(function() {
+                    var element = jQuery(this);
+                    var report = element.parents(".report");
+                    var options = jQuery(".options", report);
+                    options.toggle();
                 });
 
         // registers for the click even on the previous
