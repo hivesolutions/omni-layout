@@ -2276,6 +2276,10 @@ body.omni-style.opensans {
     margin: 0px 12px 12px 0px;
 }
 
+.omni-style .report .options > .options-block input {
+    display: block;
+}
+
 .omni-style .report .options > .options-clear {
     clear: both;
 }
