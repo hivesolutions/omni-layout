@@ -2224,42 +2224,6 @@ body.omni-style.opensans {
     display: none;
 }
 
-.omni-style .report .report-more > .button {
-    background-color: #f2f2f2;
-    border: 1px solid #cccccc;
-    box-shadow: 0px 1px 4px #dddddd;
-    -moz-box-shadow: 0px 1px 4px #dddddd;
-    -webkit-box-shadow: 0px 1px 4px #dddddd;
-    color: #4d4d4d;
-    display: inline-block;
-    font-weight: bold;
-    margin: 8px 4px 8px 4px;
-    padding: 10px 16px 10px 16px;
-    text-align: center;
-    width: 64px;
-}
-
-.omni-style .report .report-more > .button:hover {
-    background-color: #ececec;
-}
-
-.omni-style .report .report-more > .button.click {
-    background-color: #dddddd;
-    border-color: #bbbbbb;
-    box-shadow: 0px 1px 4px #cccccc;
-    -moz-box-shadow: 0px 1px 4px #cccccc;
-    -webkit-box-shadow: 0px 1px 4px #cccccc;
-}
-
-.omni-style .report .report-more > .button.disabled {
-    background-color: #f4f4f4;
-    border-color: #dddddd;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    color: #c4c4c4;
-}
-
 .omni-style .report .options {
     border-top: 1px solid #e2e2e2;
     display: none;
@@ -2283,6 +2247,10 @@ body.omni-style.opensans {
     clear: both;
 }
 
+.omni-style .report .options > .options-button > .button {
+    margin: 0px 0px 12px 0px;
+}
+
 .omni-style .report .options .label {
     display: inline-block;
     font-size: 14px;
@@ -2292,27 +2260,6 @@ body.omni-style.opensans {
     text-transform: uppercase;
     vertical-align: top;
     width: 200px;
-}
-
-.omni-style .report .options .button {
-    background-color: #f2f2f2;
-    border: 1px solid #cccccc;
-    color: #4d4d4d;
-    display: inline-block;
-    font-weight: bold;
-    margin: 0px 0px 12px 0px;
-    padding: 10px 16px 10px 16px;
-    text-align: center;
-    width: 64px;
-}
-
-.omni-style .report .options .button:hover {
-    background-color: #ececec;
-}
-
-.omni-style .report .options .button.click {
-    background-color: #dddddd;
-    border-color: #bbbbbb;
 }
 
 .omni-style .report .table {
@@ -2355,6 +2302,33 @@ body.omni-style.opensans {
 
 .omni-style .report .table td:last-child {
     border-right: 1px solid #e8e8e8;
+}
+
+.omni-style .report .button {
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc;
+    color: #4d4d4d;
+    display: inline-block;
+    font-weight: bold;
+    margin: 8px 4px 8px 4px;
+    padding: 10px 16px 10px 16px;
+    text-align: center;
+    width: 64px;
+}
+
+.omni-style .report .button:hover {
+    background-color: #ececec;
+}
+
+.omni-style .report .button.click {
+    background-color: #dddddd;
+    border-color: #bbbbbb;
+}
+
+.omni-style .report .button.disabled {
+    background-color: #f4f4f4;
+    border-color: #dddddd;
+    color: #c4c4c4;
 }
 
 .omni-style .report.print .report-header > .buttons,
