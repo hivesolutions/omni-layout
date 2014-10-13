@@ -62,7 +62,8 @@
 
         // retrieves the reference to the various images that are
         // going to be used as lightbox triggers
-        var image = jQuery(".lightbox-trigger, .entity-big-picture > img", matchedObject);
+        var image = jQuery(".lightbox-trigger, .entity-big-picture > img",
+                matchedObject);
         image.ulightbox();
     };
 })(jQuery);
