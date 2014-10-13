@@ -3622,6 +3622,10 @@
         // value set, indicating that no page information is available
         location.html("-");
 
+        // adds the hidden optins field to the options form so that the
+        // options section is allways shown on submissions
+        options.prepend("<input type=\"hidden\" name=\"options\" value=\"show\" />");
+
         // disables both the previous and the next buttons
         // to while no actions are available, on the next
         // update operation their status will be updated
@@ -3631,8 +3635,15 @@
         // schedules a timeout operation that is going to be
         // executed after this tick operation so that the
         // proper search (url) string is available for the
-        // update of url in the links of the report
+        // update of url values in a series of elements
         setTimeout(function() {
+                    // retrieves the path name for the current location
+                    // and uses it to update the options form submit information
+                    // so that it reflects the most up-to-date values
+                    var pathname = window.location.pathname;
+                    options.attr("method", "get");
+                    options.attr("action", pathname);
+
                     // iterates over all the present links to update their
                     // link values to match the arguments of the current request
                     links.each(function(index, element) {
