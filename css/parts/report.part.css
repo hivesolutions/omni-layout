@@ -90,6 +90,10 @@
     display: block;
 }
 
+.omni-style .report.print .options {
+    display: none;
+}
+
 .omni-style .report .options > .options-block {
     float: left;
     margin: 0px 12px 12px 0px;
