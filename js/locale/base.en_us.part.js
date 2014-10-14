@@ -19,7 +19,16 @@
         "days ago" : "days ago",
         "sold {{%s}} for {{%s}}" : "sold {{%s}} for {{%s}}",
         "returned {{%s}} worth {{%s}} of sale {{%s}}" : "returned {{%s}} worth {{%s}} of sale {{%s}}",
-        "edited {{%s}}" : "edited {{%s}}"
+        "created {{%s}}" : " created {{%s}}",
+        "edited {{%s}}" : "edited {{%s}}",
+        "deleted {{%s}}" : "deleted {{%s}}",
+        "undeleted {{%s}}" : "undeleted {{%s}}",
+        "confirmed {{%s}}" : "confirmed {{%s}}",
+        "reserved {{%s}}" : "reserved {{%s}}",
+        "sent {{%s}}" : "sent {{%s}}",
+        "received {{%s}}" : "received {{%s}}",
+        "closed {{%s}}" : "closed {{%s}}",
+        "canceled {{%s}}" : "canceled {{%s}}"
     }
 
     jQuery.uxloadbundle(BUNDLE_EN_US, "en-us")

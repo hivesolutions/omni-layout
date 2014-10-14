@@ -19,7 +19,16 @@
         "days ago" : "dias atrás",
         "sold {{%s}} for {{%s}}" : "vendeu {{%s}} por {{%s}}",
         "returned {{%s}} worth {{%s}} of sale {{%s}}" : "retornou {{%s}} no valor de {{%s}} da venda {{%s}}",
-        "edited {{%s}}" : "editou {{%s}}"
+        "created {{%s}}" : "criou {{%s}}",
+        "edited {{%s}}" : "editou {{%s}}",
+        "deleted {{%s}}" : "apagou {{%s}}",
+        "undeleted {{%s}}" : "restaurou {{%s}}",
+        "confirmed {{%s}}" : "confirmou {{%s}}",
+        "reserved {{%s}}" : "reservou {{%s}}",
+        "sent {{%s}}" : "enviou {{%s}}",
+        "received {{%s}}" : "recebeu {{%s}}",
+        "closed {{%s}}" : "fechou {{%s}}",
+        "canceled {{%s}}" : "cancelou {{%s}}"
     }
 
     jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")
