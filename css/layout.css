@@ -2353,6 +2353,10 @@ body.omni-style.opensans {
     display: none;
 }
 
+.omni-style .report.print .table thead th {
+    cursor: auto;
+}
+
 @import url(//fonts.googleapis.com/css?family=Open+Sans);
 
 @page {

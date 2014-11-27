@@ -201,3 +201,7 @@
 .omni-style .report.print .report-more {
     display: none;
 }
+
+.omni-style .report.print .table thead th {
+    cursor: auto;
+}

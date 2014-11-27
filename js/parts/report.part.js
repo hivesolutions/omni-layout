@@ -121,8 +121,9 @@
 
         // registers for the click event in the table headers so that a new
         // order direction may be provided to the or the reverse applied to
-        // the contents of the current report
-        headers.click(function() {
+        // the contents of the current report, note that this registration
+        // is not applied for a print environment
+        !print && headers.click(function() {
                     var element = jQuery(this);
                     var currentOrder = matchedObject.data("order");
                     var reverse = matchedObject.data("reverse") || false;
