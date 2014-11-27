@@ -20,6 +20,11 @@
         // (this is going to be a global scan)
         matchedObject.uscan();
 
+        // filters the menu elements from the current structure
+        // structure and applies the menu logic on it
+        var menu = matchedObject.filter(".system-menu");
+        menu.umenu();
+
         // retrieves the menu elements for the the current
         // structure and applies the menu logic on it
         var menu = jQuery(".system-menu", matchedObject);
