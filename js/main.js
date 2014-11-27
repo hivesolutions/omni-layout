@@ -3625,6 +3625,8 @@
         var buttons = jQuery(".report-header > .buttons", matchedObject);
         var links = jQuery("> a", buttons);
         var linkOptions = jQuery("> .link-options", buttons);
+        var table = jQuery(".report-table > table", matchedObject);
+        var headers = jQuery("thead > tr > th", table);
         var loading = jQuery(".report-loading", matchedObject);
         var location = jQuery(".report-location", matchedObject);
         var more = jQuery(".report-more", matchedObject);
@@ -3705,6 +3707,20 @@
             footer.remove();
             topBar.remove();
         }
+
+        // registers for the click event in the table headers so that a new
+        // order direction may be provided to the or the reverse applied to
+        // the contents of the current report
+        headers.click(function() {
+                    var element = jQuery(this);
+                    var currentOrder = matchedObject.data("order");
+                    var reverse = matchedObject.data("reverse") || false;
+                    var newOrder = element.attr("data-order");
+                    reverse = newOrder != currentOrder ? true : !reverse;
+                    matchedObject.data("reverse", reverse);
+                    matchedObject.data("order", newOrder);
+                    newOrder && update(matchedObject, options);
+                });
 
         // registers for the key down event on the document in order
         // to provide easy of use shortcut for navigation
@@ -3789,8 +3805,35 @@
             // the report to be used, will condition the update
             var count = matchedObject.data("count");
             var page = matchedObject.data("page");
+            var order = matchedObject.data("order");
+            var reverse = matchedObject.data("reverse");
             var limit = matchedObject.data("limit");
             var items = matchedObject.data("items");
+
+            // creates the sorter function for the update operation
+            // taking into account the clojure around the order name
+            var sorter = function(first, second) {
+                var isNumber = typeof first == "number";
+                if (isNumber) {
+                    return first[order] - second[order];
+                } else {
+                    if (first[order] < second[order]) {
+                        return -1;
+                    }
+                    if (first[order] > second[order]) {
+                        return 1;
+                    }
+                    return 0;
+                }
+            };
+
+            // runs the sorting operation for the current set of items
+            // in cae the order value is defined (avoid extra delay)
+            // and then reverses the order of the values (if requested)
+            items = order ? items.sort(sorter) : items;
+            if (reverse) {
+                items = items.reverse();
+            }
 
             // calculates the offset position from the current
             // page and sets the end value using it then calculated
@@ -3809,7 +3852,7 @@
             // items to be added to the table body at the end
             var _items = [];
 
-            // iterates over all the item in the set to be presented
+            // iterates over all the items in the set to be presented
             // for the current report page
             for (var index = offset; index < max; index++) {
                 var current = items[index];
