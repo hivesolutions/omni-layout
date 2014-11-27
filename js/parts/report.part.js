@@ -130,6 +130,8 @@
                     reverse = newOrder != currentOrder ? true : !reverse;
                     matchedObject.data("reverse", reverse);
                     matchedObject.data("order", newOrder);
+                    headers.removeClass("sorter");
+                    element.addClass("sorter");
                     newOrder && update(matchedObject, options);
                 });
 

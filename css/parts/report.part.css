@@ -138,6 +138,10 @@
     padding: 0px 12px 0px 12px;
 }
 
+.omni-style .report .table thead th.sorter {
+    text-decoration: underline;
+}
+
 .omni-style .report.loading .table tbody {
     display: none;
 }
