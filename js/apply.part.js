@@ -22,7 +22,7 @@
 
         // retrieves the menu elements for the the current
         // structure and applies the menu logic on it
-        var menu = jQuery(".system-menu")
+        var menu = jQuery(".system-menu", matchedObject);
         menu.umenu();
 
         // retrieves the chat elements for the the current
