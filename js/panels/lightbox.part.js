@@ -22,13 +22,15 @@
                     var url = element.attr("src");
                     var base = url.split("?")[0];
 
-                    // creates the new url from the base one asking for
-                    // a large image to be displayed instead of the small
-                    var largeUrl = base + "?size=512&fallback=1";
+                    // creates the new urls from the base one asking for
+                    // a base image to be displayed instead of the small
+                    // and then a large one for the "expanded mode"
+                    var baseUrl = base + "?size=512&fallback=1";
+                    var largeUrl = base + "?size=original&fallback=1";
 
                     // shows the lightbox on the body element using the
                     // lightbox path retrieved from the image
-                    _body.uxlightbox(largeUrl);
+                    _body.uxlightbox(baseUrl, null, largeUrl);
                 });
 
         // returns the object
