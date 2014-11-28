@@ -20,7 +20,7 @@
                     // element ans then used it to retrieve the base
                     // url value from it (url extraction)
                     var url = element.attr("src");
-                    var split = url.split("?")
+                    var split = url.split("?");
                     var base = split[0];
                     var query = split.length > 1 ? split[1] : "";
 
