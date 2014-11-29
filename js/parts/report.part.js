@@ -303,7 +303,9 @@
             // unsets the dirty flag as the ordering (expensive) part of
             // the update has been correctly performed, no need to do it
             // again until the sorting order changes (performance issue)
+            // then saves the new items reference in the structure
             matchedObject.data("dirty", false);
+            matchedObject.data("items", items);
         };
 
         var print = function() {
