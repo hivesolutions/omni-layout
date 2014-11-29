@@ -131,6 +131,7 @@
                     reverse = newOrder != currentOrder ? true : !reverse;
                     matchedObject.data("reverse", reverse);
                     matchedObject.data("order", newOrder);
+                    matchedObject.data("dirty", true);
                     headers.removeClass("sorter");
                     element.addClass("sorter");
                     newOrder && update(matchedObject, options);
@@ -221,6 +222,7 @@
             var page = matchedObject.data("page");
             var order = matchedObject.data("order");
             var reverse = matchedObject.data("reverse");
+            var dirty = matchedObject.data("dirty");
             var limit = matchedObject.data("limit");
             var items = matchedObject.data("items");
 
@@ -244,7 +246,7 @@
             // runs the sorting operation for the current set of items
             // in cae the order value is defined (avoid extra delay)
             // and then reverses the order of the values (if requested)
-            items = order ? items.sort(sorter) : items;
+            items = dirty && order ? items.sort(sorter) : items;
             if (reverse) {
                 items = items.reverse();
             }
@@ -297,6 +299,11 @@
             // updates the location string/label value with the new page
             // that has been selected (provide visual information)
             location.html(String(page + 1) + " / " + String(limit + 1));
+
+            // unsets the dirty flag as the ordering (expensive) part of
+            // the update has been correctly performed, no need to do it
+            // again until the sorting order changes (performance issue)
+            matchedObject.data("dirty", false);
         };
 
         var print = function() {
