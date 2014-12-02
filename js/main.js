@@ -1844,11 +1844,14 @@
                     var url = _element.attr("data-url");
                     var absolueUrl = jQuery.uxresolve(url + "/pushi.json");
 
-                    // retrieves the app key value to be used for the establishement
-                    // of the pushi connection, then uses it as the first argument
-                    // in the construction of the proxy object
+                    // retrieves the base url and the app key values to be
+                    // used for the establishement of the pushi connection,
+                    // then uses them as the various arguments in the construction
+                    // of the proxy object
+                    var url = _element.attr("data-base_url");
                     var key = _element.attr("data-key");
                     var pushi = new Pushi(key, {
+                                baseUrl : url,
                                 authEndpoint : absolueUrl
                             });
 
@@ -2969,11 +2972,13 @@
             var username = _body.data("username");
             _element.data("username", username);
 
-            // retrieves the app key value to be used for the establishement
-            // of the pushi connection, then uses it as the first argument
-            // in the construction of the proxy object
+            // retrieves the (base) url and the app key values to be used
+            // for the establishement of the pushi connection, then uses them
+            // as the various arguments for the construction of the proxy object
+            var url = _element.attr("data-url");
             var key = _element.attr("data-key");
             var pushi = new Pushi(key, {
+                        baseUrl : url,
                         authEndpoint : absolueUrl
                     });
 
