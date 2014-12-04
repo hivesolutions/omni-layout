@@ -272,6 +272,11 @@ body.omni-style.opensans {
     width: 345px;
 }
 
+.omni-style .top-bar-input .entity-name,
+.omni-style .top-bar-input .entity-details {
+    max-width: 307px;
+}
+
 .omni-style .domain-label {
     color: #888888;
     font-size: 10px;
