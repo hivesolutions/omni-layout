@@ -2914,8 +2914,16 @@
                             lightbox);
 
                     // registers the lightbox for the show event so that the
-                    // buttons are properly animated according to their dimensions (required)
+                    // buttons are properly animated according to their dimensions
+                    // and visibility (required for compatibility issues)
                     lightbox.bind("show", function() {
+                                buttons.uxanimation();
+                            });
+
+                    // registers the lightbox for the hide event so that the
+                    // buttons are properly animated according to their dimensions
+                    // and visibility (required for compatibility issues)
+                    lightbox.bind("hide", function() {
                                 buttons.uxanimation();
                             });
 
