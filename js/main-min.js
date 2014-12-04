@@ -114,7 +114,7 @@ matchedObject.click(function(){var element=jQuery(this);var url=element.attr("sr
 valid.push(part);}
 var validQuery=valid.join("&");var baseUrl=base+"?size=512&fallback=1&"+validQuery;var largeUrl=base+"?size=original&fallback=1&"
 +validQuery;_body.uxlightbox(baseUrl,null,largeUrl);var lightbox=jQuery(".window-lightbox",_body);var marked=lightbox.data("ulightbox");if(marked){return;}
-var buttons=jQuery(".button-confirm, .button-expand",lightbox);lightbox.bind("loading",function(){buttons.uxanimation();});lightbox.bind("loaded",function(){buttons.uxanimation();});lightbox.data("ulightbox",true);});return this;};})(jQuery);(function(jQuery){jQuery.fn.unotifications=function(options){var MAXIMUM_NOTIFICATIONS=5;var matchedObject=this;if(matchedObject.length==0){return;}
+var buttons=jQuery(".button-confirm, .button-expand",lightbox);lightbox.bind("show",function(){buttons.uxanimation();});lightbox.bind("loading",function(){buttons.uxanimation();});lightbox.bind("loaded",function(){buttons.uxanimation();});lightbox.data("ulightbox",true);});return this;};})(jQuery);(function(jQuery){jQuery.fn.unotifications=function(options){var MAXIMUM_NOTIFICATIONS=5;var matchedObject=this;if(matchedObject.length==0){return;}
 var _window=jQuery(window);var _body=jQuery("body");var isRegistered=_window.data("notifications_global");_window.data("notifications_global",true);var link=jQuery("<div class=\"button menu-button menu-link notifications\"></div>")
 var container=jQuery("<div class=\"menu-contents notifications-container\">"
 +"<ul class=\"notifications-list\"></ul>"+"</div>");matchedObject.append(link)

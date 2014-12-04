@@ -73,6 +73,12 @@
                     var buttons = jQuery(".button-confirm, .button-expand",
                             lightbox);
 
+                    // registers the lightbox for the show event so that the
+                    // buttons are properly animated according to their dimensions (required)
+                    lightbox.bind("show", function() {
+                                buttons.uxanimation();
+                            });
+
                     // registers the lightbox for the loading event so that the
                     // buttons may be triggered for animation (animation start)
                     lightbox.bind("loading", function() {
