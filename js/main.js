@@ -2897,6 +2897,37 @@
                     // shows the lightbox on the body element using the
                     // lightbox path retrieved from the image
                     _body.uxlightbox(baseUrl, null, largeUrl);
+
+                    // retrieves the referece to the "possible" generated/new
+                    // lightbox an in case it's not registered/marked starts
+                    // the process of registering the proper handlers, this
+                    // strategy avoids possible double registration of handlers
+                    var lightbox = jQuery(".window-lightbox", _body);
+                    var marked = lightbox.data("ulightbox");
+                    if (marked) {
+                        return;
+                    }
+
+                    // retrieves the reference to both buttons of the ligthbox
+                    // these elements are going to be changed/prepared for animation
+                    var buttons = jQuery(".button-confirm, .button-expand",
+                            lightbox);
+
+                    // registers the lightbox for the loading event so that the
+                    // buttons may be triggered for animation (animation start)
+                    lightbox.bind("loading", function() {
+                                buttons.uxanimation();
+                            });
+
+                    // registers the lightbox for the loaded event so that the
+                    // buttons may be triggered for de-animation (animation stop)
+                    lightbox.bind("loaded", function() {
+                                buttons.uxanimation();
+                            });
+
+                    // "makrs" the lightbox element so that no more event registration
+                    // will be done for the element (avoids duplicated registration)
+                    lightbox.data("ulightbox", true);
                 });
 
         // returns the object
