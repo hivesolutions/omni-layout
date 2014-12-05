@@ -106,7 +106,7 @@
                                 buttons.uxanimation();
                             });
 
-                    // "makrs" the lightbox element so that no more event registration
+                    // "marks" the lightbox element so that no more event registration
                     // will be done for the element (avoids duplicated registration)
                     lightbox.data("ulightbox", true);
                 });
