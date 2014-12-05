@@ -59,19 +59,26 @@
                     _body.uxlightbox(baseUrl, null, largeUrl);
 
                     // retrieves the referece to the "possible" generated/new
-                    // lightbox an in case it's not registered/marked starts
-                    // the process of registering the proper handlers, this
-                    // strategy avoids possible double registration of handlers
+                    // lightbox, thie element may be either an existing element
+                    // or a new one for which handlers must be registered
                     var lightbox = jQuery(".window-lightbox", _body);
-                    var marked = lightbox.data("ulightbox");
-                    if (marked) {
-                        return;
-                    }
 
                     // retrieves the reference to both buttons of the ligthbox
                     // these elements are going to be changed/prepared for animation
                     var buttons = jQuery(".button-confirm, .button-expand",
                             lightbox);
+
+                    // runs the initial animation registration on the buttons
+                    // this is required to update their initial state
+                    buttons.uxanimation();
+
+                    // gathers the value for the marked variable, that controls
+                    // the process of registering the proper handlers, this
+                    // strategy avoids possible double registration of handlers
+                    var marked = lightbox.data("ulightbox");
+                    if (marked) {
+                        return;
+                    }
 
                     // registers the lightbox for the show event so that the
                     // buttons are properly animated according to their dimensions
