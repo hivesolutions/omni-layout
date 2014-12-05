@@ -59,11 +59,11 @@
                     _body.uxlightbox(baseUrl, null, largeUrl);
 
                     // retrieves the referece to the "possible" generated/new
-                    // lightbox, thie element may be either an existing element
+                    // lightbox, this element may be either an existing element
                     // or a new one for which handlers must be registered
                     var lightbox = jQuery(".window-lightbox", _body);
 
-                    // retrieves the reference to both buttons of the ligthbox
+                    // retrieves the reference to both buttons of the ligthbox,
                     // these elements are going to be changed/prepared for animation
                     var buttons = jQuery(".button-confirm, .button-expand",
                             lightbox);
