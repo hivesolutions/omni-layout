@@ -274,7 +274,7 @@ body.omni-style.opensans {
 
 .omni-style .top-bar-input .entity-name,
 .omni-style .top-bar-input .entity-details {
-    max-width: 307px;
+    width: 307px;
 }
 
 .omni-style .domain-label {
