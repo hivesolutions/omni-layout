@@ -703,7 +703,11 @@
             }
 
             var url = chat.attr("data-url");
+            var baseUrl = chat.attr("data-base_url");
+            var key = chat.attr("data-key");
             chat_.attr("data-url", url);
+            chat_.attr("data-base_url", baseUrl);
+            chat_.attr("data-key", key);
             chat_.triggerHandler("init");
             chat_.triggerHandler("refresh");
         } else {
