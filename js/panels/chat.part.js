@@ -586,7 +586,7 @@
                     var pushi = element.data("pushi");
                     var url = element.attr("data-base_url");
                     var key = element.attr("data-key");
-                    var isValid = url == pushi.isValid(key, url);
+                    var isValid = pushi.isValid(key, url);
 
                     // in case the current configuration is valid there's just a restart
                     // of the subscription process for the presence and the global channels
@@ -600,11 +600,10 @@
                     // then a (re-)open process must be triggered in it so that the connection
                     // is set under a valid state for the new key and (base) url values
                     else {
-                        pushi.config(key, {
+                        pushi.reconfig(key, {
                                     baseUrl : url,
                                     authEndpoint : pushi.options.authEndpoint
                                 });
-                        pushi.reopen();
                     }
                 });
 
