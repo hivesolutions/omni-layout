@@ -3316,8 +3316,8 @@
                 // and then verifies if it's still considered valid by checking
                 // the current base url and app key value assigned to the element
                 var pushi = _element.data("pushi");
-                var url = element.attr("data-base_url");
-                var key = element.attr("data-key");
+                var url = _element.attr("data-base_url");
+                var key = _element.attr("data-key");
                 var isValid = pushi.isValid(key, url);
 
                 // in case the current configuration is valid there's just a restart
