@@ -2107,7 +2107,7 @@
                         pushi.config(key, {
                                     baseUrl : url,
                                     authEndpoint : pushi.options.authEndpoint
-                                })
+                                });
                         pushi.reopen();
                     }
                 });
