@@ -2084,14 +2084,32 @@
                     }
                     element.data("panels", {})
 
-                    // retrieves the reference to the current pushi object
-                    // and triggers the registration for the global and
-                    // presence status channels (this is a re-registration)
+                    // retrieves the reference to the current pushi instance/object
+                    // and then verifies if it's still considered valid by checking
+                    // the current base url and app key value assigned to the element
                     var pushi = element.data("pushi");
-                    pushi.invalidate("global");
-                    pushi.invalidate("presence-status");
-                    pushi.subscribe("global");
-                    pushi.subscribe("presence-status");
+                    var url = element.attr("data-base_url");
+                    var key = element.attr("data-key");
+                    var isValid = url == pushi.isValid(key, url);
+
+                    // in case the current configuration is valid there's just a restart
+                    // of the subscription process for the presence and the global channels
+                    if (isValid) {
+                        pushi.invalidate("global");
+                        pushi.invalidate("presence-status");
+                        pushi.subscribe("global");
+                        pushi.subscribe("presence-status");
+                    }
+                    // otherwise the configuration must be changed in the pushi object and
+                    // then a (re-)open process must be triggered in it so that the connection
+                    // is set under a valid state for the new key and (base) url values
+                    else {
+                        pushi.config(key, {
+                                    baseUrl : url,
+                                    authEndpoint : pushi.options.authEndpoint
+                                })
+                        pushi.reopen();
+                    }
                 });
 
         matchedObject.bind("push", function() {
