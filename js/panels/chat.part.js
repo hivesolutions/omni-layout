@@ -589,7 +589,8 @@
                     var isValid = pushi.isValid(key, url);
 
                     // in case the current configuration is valid there's just a restart
-                    // of the subscription process for the presence and the global channels
+                    // of the subscription process for the presence and the global channels,
+                    // this is done mostly for security reasons (requires re-authentication)
                     if (isValid) {
                         pushi.invalidate("global");
                         pushi.invalidate("presence-status");

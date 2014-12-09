@@ -76,6 +76,10 @@
                         authEndpoint : absolueUrl
                     });
 
+            // updates the current element with the reference to the pushi
+            // element so that it may be re-used for retrieval latter
+            _element.data("pushi", pushi);
+
             // registers for the notification event in the element so
             // that a new notification element is created
             _element.bind("notification", function(event, data, isNew) {
@@ -328,10 +332,30 @@
                     return;
                 }
 
-                // unsubscribes from the previous personal channel and then subscribes
-                // to the channel of the new user (for security reasons)
-                pushi.unsubscribe("personal-" + _username);
-                pushi.subscribe("personal-" + username);
+                // retrieves the reference to the current pushi instance/object
+                // and then verifies if it's still considered valid by checking
+                // the current base url and app key value assigned to the element
+                var pushi = _element.data("pushi");
+                var url = element.attr("data-base_url");
+                var key = element.attr("data-key");
+                var isValid = pushi.isValid(key, url);
+
+                // in case the current configuration is valid there's just a restart
+                // of the subscription process for the personal channel, this is done
+                // mostly for security reasons (requires re-authentication)
+                if (isValid) {
+                    pushi.unsubscribe("personal-" + _username);
+                    pushi.subscribe("personal-" + username);
+                }
+                // otherwise the configuration must be changed in the pushi object and
+                // then a (re-)open process must be triggered in it so that the connection
+                // is set under a valid state for the new key and (base) url values
+                else {
+                    pushi.reconfig(key, {
+                                baseUrl : url,
+                                authEndpoint : pushi.options.authEndpoint
+                            });
+                }
 
                 // clears the current list of notification because the list will
                 // be filled with new notifications once they "come" from the new
