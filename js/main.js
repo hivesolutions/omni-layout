@@ -2186,6 +2186,19 @@
         var ownerId = options["owner_id"];
         var focus = options["focus"];
 
+        // retrieves the username associated with the current
+        // instance and uses it together with the current panel
+        // user id to create the list of names to be used in the
+        // channel (for channel composition)
+        var username = _body.data("username");
+        var channelNames = [username, userId];
+
+        // sorts the list that contains the partial names
+        // to be used in the channel naming and the joins
+        // them with the appropriate separator
+        channelNames.sort();
+        var channel = channelNames.join("_");
+
         // retrieves the current map containin the panels
         // indexed by their "key name" and default to a new
         // map in case it does not exists then tries to retrieve
@@ -2225,6 +2238,28 @@
         // runs the fade in operation in the created chat panel so that
         // it becomes visible after the animation (as expected)
         chatPanel.fadeIn(75);
+
+        // retrieves the reference to the pushi data structure from the owner
+        // and then tries to retrieve the latest information/messages for the
+        // current peer channelt this would populate the chat initialy
+        var pushi = owner.data("pushi");
+        pushi.latest("peer-status:" + channel, 0, 10, function(channel, data) {
+                    // retrieves the reference to the events sequence from the
+                    // provided data object, this value will be percolated (from reverse)
+                    // to be able to create the initial chat lines
+                    var events = data.events;
+                    for (var index = events.length - 1; index >= 0; index--) {
+                        var event = events[index];
+                        var _data = event.data.data;
+                        var struct = _data ? jQuery.parseJSON(_data) : _data;
+                        chatPanel.uchatline({
+                                    name : struct.sender == username
+                                            ? "me"
+                                            : struct.sender,
+                                    message : struct.message
+                                });
+                    }
+                });
 
         // retrieves the various components (structures) from the chat pane
         // in order to be used in the operations
@@ -2583,19 +2618,6 @@
                     if (keyValue != 13) {
                         return;
                     }
-
-                    // retrieves the username associated with the current
-                    // instance and uses it together with the current panel
-                    // user id to create the list of names to be used in the
-                    // channel (for channel composition)
-                    var username = _body.data("username");
-                    var channelNames = [username, userId];
-
-                    // sorts the list that contains the partial names
-                    // to be used in the channel naming and the joins
-                    // them with the appropriate separator
-                    channelNames.sort();
-                    var channel = channelNames.join("_");
 
                     // adds a new chat line to the chat panel with
                     // the contents of the text area
