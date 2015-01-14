@@ -191,7 +191,20 @@
     margin-bottom: 8px;
 }
 
+.omni-style .chat-panel > .chat-contents > .chat-paragraph > .chat-name {
+    float: left;
+    font-weight: bold;
+    line-height: 18px;
+}
+
+.omni-style .chat-panel > .chat-contents > .chat-paragraph > .chat-time {
+    float: right;
+    font-weight: bold;
+    line-height: 18px;
+}
+
 .omni-style .chat-panel > .chat-contents .chat-line {
+    clear: both;
     line-height: 14px;
     margin-bottom: 3px;
     white-space: pre-wrap;

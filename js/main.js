@@ -2252,13 +2252,15 @@
                     var events = data.events;
                     for (var index = events.length - 1; index >= 0; index--) {
                         var event = events[index];
+                        var timestamp = event.timestamp;
                         var _data = event.data.data;
                         var struct = _data ? jQuery.parseJSON(_data) : _data;
                         chatPanel.uchatline({
                                     name : struct.sender == username
                                             ? "me"
                                             : name,
-                                    message : struct.message
+                                    message : struct.message,
+                                    timestamp : timestamp
                                 });
                     }
                 });
@@ -2703,10 +2705,20 @@
         var name = options["name"] || matchedObject.data("name");
         var objectId = options["object_id"] || matchedObject.data("object_id");
         var message = options["message"];
+        var timestamp = options["timestamp"] || new Date().getTime() / 1000;
 
         // in case the provided name for the chat line is self/me
         // based it's converted in the locale representation
         var nameLocale = name == "me" ? jQuery.uxlocale(name) : name;
+
+        // creates the date object that represents the provided timestamp
+        // and thens runs the date converter using the defined format to
+        // obtain the "final" time string value to be used
+        var date = new Date(timestamp * 1000);
+        var timeString = _body.uxtimestamp("format", {
+                    date : date,
+                    format : "%H:%M"
+                });
 
         // treates the message so that any newline character found
         // is replaces by the break line tag (html correspondent)
@@ -2744,25 +2756,29 @@
 
             // creates a new paragraph element associated witht the current
             // name and adds it to the contents element
-            paragraph = jQuery("<div class=\"chat-paragraph\"></div>");
+            paragraph = jQuery("<div class=\"chat-paragraph\">"
+                    + "<div class=\"chat-name\">" + nameLocale + "</div>"
+                    + "<div class=\"chat-time\"></div>" + "</div>");
             paragraph.css("background-image", "url(" + imageUrl + ")");
             paragraph.css("background-repeat", "no-repeat");
             paragraph.data("name", name);
             contents.append(paragraph);
         }
 
-        // creates the proper perfix checking if this a first line from
-        // a paragraph or if it's an existing one
-        var prefix = name != _name
-                ? "<strong>" + nameLocale + ": </strong>"
-                : "";
+        // retrieves the reference to the time section of the paragraph
+        // and updates it with the new time value/string
+        var time = jQuery(".chat-time", paragraph);
+        time.text(timeString);
+
+        // updates the timestamp value for the paragraph so that it may
+        // be used latter to infer the current time for the paragraph
+        paragraph.data("timestamp", timestamp);
 
         // adds a new chat line to the current paragraph with the message
         // contents of the requested line, then applies the proper styling
         // to the new line to be created so that the various links and other
         // dynamic content is correctly handled
-        var chatLine = jQuery("<div class=\"chat-line\">" + prefix + message
-                + "</div>");
+        var chatLine = jQuery("<div class=\"chat-line\">" + message + "</div>");
         paragraph.append(chatLine);
         chatLine.uxapply();
 
@@ -4002,7 +4018,7 @@
             // in cae the order value is defined (avoid extra delay)
             // and then reverses the order of the values (if requested)
             items = dirty && order ? items.sort(sorter) : items;
-            items = dirty && reverse ? items.reverse(): items;
+            items = dirty && reverse ? items.reverse() : items;
 
             // calculates the offset position from the current
             // page and sets the end value using it then calculated

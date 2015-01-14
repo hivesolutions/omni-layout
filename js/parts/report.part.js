@@ -247,7 +247,7 @@
             // in cae the order value is defined (avoid extra delay)
             // and then reverses the order of the values (if requested)
             items = dirty && order ? items.sort(sorter) : items;
-            items = dirty && reverse ? items.reverse(): items;
+            items = dirty && reverse ? items.reverse() : items;
 
             // calculates the offset position from the current
             // page and sets the end value using it then calculated
