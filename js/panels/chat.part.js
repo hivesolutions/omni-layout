@@ -751,7 +751,7 @@
                         chatPanel.uchatline({
                                     name : struct.sender == username
                                             ? "me"
-                                            : struct.sender,
+                                            : name,
                                     message : struct.message
                                 });
                     }
@@ -1198,6 +1198,10 @@
         var objectId = options["object_id"] || matchedObject.data("object_id");
         var message = options["message"];
 
+        // in case the provided name for the chat line is self/me
+        // based it's converted in the locale representation
+        var nameLocale = name == "me" ? jQuery.uxlocale(name) : name;
+
         // treates the message so that any newline character found
         // is replaces by the break line tag (html correspondent)
         message = message.replace("\n", "<br/>");
@@ -1243,7 +1247,9 @@
 
         // creates the proper perfix checking if this a first line from
         // a paragraph or if it's an existing one
-        var prefix = name != _name ? "<strong>" + name + ": </strong>" : "";
+        var prefix = name != _name
+                ? "<strong>" + nameLocale + ": </strong>"
+                : "";
 
         // adds a new chat line to the current paragraph with the message
         // contents of the requested line, then applies the proper styling

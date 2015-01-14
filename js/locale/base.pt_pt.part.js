@@ -8,6 +8,7 @@
         "payment_method:paypal" : "Paypal",
         "Signing in to chat server" : "Ligando a servidor de chat",
         "You've been disconnected" : "Ligação a servidor perdida",
+        "mae" : "eu",
         "retrying ..." : "tentando de novo ...",
         "says ..." : "diz ...",
         "just now" : "agora mesmo",
