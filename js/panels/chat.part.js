@@ -124,7 +124,7 @@
                     });
         };
 
-        var dataProcessor = function(data) {
+        var dataProcessor = function(data, mid, timestamp) {
             // parses the data retrieving the json
             // then unpacks the various attributes from it
             var isString = typeof data == "string";
@@ -135,7 +135,7 @@
             // handling the different data types accordingly
             switch (type) {
                 case "message" :
-                    messageProcessor(jsonData);
+                    messageProcessor(jsonData, mid, timestamp);
                     break;
 
                 case "status" :
@@ -147,7 +147,7 @@
             }
         };
 
-        var messageProcessor = function(envelope) {
+        var messageProcessor = function(envelope, mid, timestamp) {
             // retrieves the current body element and uses it to retrieve
             // the currently loaded username
             var _body = jQuery("body");
@@ -212,7 +212,9 @@
             panel.trigger("restore");
             panel.uchatline({
                         name : name,
-                        message : message
+                        message : message,
+                        mid : mid,
+                        timestamp : timestamp
                     });
 
             // verifies if this is a myself message or a message from somebody else
@@ -432,8 +434,9 @@
                                 }
                             });
 
-                    pushi.bind("message", function(event, data, channel) {
-                                dataProcessor(data);
+                    pushi.bind("message",
+                            function(event, data, channel, mid, timestamp) {
+                                dataProcessor(data, mid, timestamp);
                             });
 
                     pushi.bind("member_added",
@@ -755,6 +758,7 @@
                     var events = data.events;
                     for (var index = events.length - 1; index >= 0; index--) {
                         var event = events[index];
+                        var mid = event.mid;
                         var timestamp = event.timestamp;
                         var _data = event.data.data;
                         var struct = _data ? jQuery.parseJSON(_data) : _data;
@@ -763,6 +767,7 @@
                                             ? "me"
                                             : name,
                                     message : struct.message,
+                                    mid : mid,
                                     timestamp : timestamp
                                 });
                     }
@@ -1208,7 +1213,18 @@
         var name = options["name"] || matchedObject.data("name");
         var objectId = options["object_id"] || matchedObject.data("object_id");
         var message = options["message"];
+        var mid = options["mid"] || "";
         var timestamp = options["timestamp"] || new Date().getTime() / 1000;
+
+        // retrieves the chat contents for the matched object (chat panel)
+        // and then uses it to try to find any previously existing and equivalent
+        // message chat line and in case it exists and the mid is set returns
+        // immediately to avoid any kind of duplicated lines
+        var contents = jQuery(".chat-contents", matchedObject);
+        var previous = jQuery(".chat-line[data-mid=\"" + mid + "\"]", contents);
+        if (mid && previous.length > 0) {
+            return;
+        }
 
         // in case the provided name for the chat line is self/me
         // based it's converted in the locale representation
@@ -1239,33 +1255,70 @@
         var imageUrl = mvcPath + admSection + "/users/" + objectId
                 + "/image?size=32";
 
-        // retrieves the chat contents for the matched object (chat panel)
-        // and then retrieves the reference to the last paragraph
-        var contents = jQuery(".chat-contents", matchedObject);
-        var paragraph = jQuery("> .chat-paragraph:last", contents);
+        // retrieves the complete set of paragraphs from the current chat
+        // panel and then runs a reverse iteration in them trying to
+        // find the best matching paragraph for the current line, the
+        // first that contains a lower timestamp than the provided one
+        var paragraphs = jQuery("> .chat-paragraph", contents);
+        var paragraph = null;
+        for (var index = paragraphs.length - 1; index >= 0; index--) {
+            var _paragraph = jQuery(paragraphs[index]);
+            var _timestamp = _paragraph.data("timestamp");
+            if (_timestamp > timestamp) {
+                continue;
+            }
+            paragraph = _paragraph;
+            break;
+        }
 
         // retrieves the name (identifier) of the current (last)
-        // paragraph to be used
-        var _name = paragraph.data("name");
+        // paragraph to be used and the timestamp of the same
+        // item to measure the "time gap between both"
+        var _name = paragraph ? paragraph.data("name") : null;
+        var _timestamp = paragraph ? paragraph.data("timestamp") : 0;
 
         // in case the name for the author of the line is different
-        // from the current name a new paragraph must be created
-        if (name != _name) {
+        // from the current name or the time gap between messages
+        // is greater than expected a new paragraph must be created
+        if (name != _name || timestamp - _timestamp > 60) {
+            // sets the initial reference value as the selected (previous)
+            // paragraph and verifies if this is a top (header) paragraph
+            // that should be inserted at the the initial part of the contents
+            var reference = paragraph;
+            var isTop = reference == null;
+
             // in case the current paragraph to be created is not the
             // first one a separator element must be created and added
             // to the contents section
             var separator = jQuery("<div class=\"chat-separator\"></div>");
-            paragraph.length > 0 && contents.append(separator);
+            if (!isTop) {
+                reference.after(separator);
+                reference = separator;
+            }
 
-            // creates a new paragraph element associated witht the current
-            // name and adds it to the contents element
+            // creates a new paragraph element associated with the current
+            // name and with the proper background (avatar) image
             paragraph = jQuery("<div class=\"chat-paragraph\">"
                     + "<div class=\"chat-name\">" + nameLocale + "</div>"
                     + "<div class=\"chat-time\"></div>" + "</div>");
             paragraph.css("background-image", "url(" + imageUrl + ")");
             paragraph.css("background-repeat", "no-repeat");
             paragraph.data("name", name);
-            contents.append(paragraph);
+
+            // verifies if the current paragraph is a top one and adds the
+            // paragraph to the proper position taking that into account
+            if (isTop) {
+                contents.prepend(paragraph);
+            } else {
+                reference.after(paragraph);
+            }
+
+            // in case the current paragraph is top and there's already more
+            // than one paragraph in the contents the separator must be added
+            // after the paragraph, to maintain visual coherence
+            if (isTop && paragraphs.length > 0) {
+                paragraph.after(separator);
+            }
         }
 
         // retrieves the reference to the time section of the paragraph
@@ -1282,6 +1335,7 @@
         // to the new line to be created so that the various links and other
         // dynamic content is correctly handled
         var chatLine = jQuery("<div class=\"chat-line\">" + message + "</div>");
+        chatLine.attr("data-mid", mid);
         paragraph.append(chatLine);
         chatLine.uxapply();
 
