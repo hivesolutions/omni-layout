@@ -86,6 +86,10 @@
     z-index: 12;
 }
 
+.omni-style .chat-panel.large {
+    height: 280px;
+}
+
 .omni-style .chat-panel > .chat-header {
     background: #627bae url(../images/chat/status.png) no-repeat -3px 0px;
     border-bottom: 1px solid #888888;
@@ -159,6 +163,10 @@
     height: 200px;
     overflow: auto;
     padding: 0px 6px 0px 6px;
+}
+
+.omni-style .chat-panel.large > .chat-contents {
+    height: 400px;
 }
 
 .omni-style .chat-panel > .chat-contents::-webkit-scrollbar {
