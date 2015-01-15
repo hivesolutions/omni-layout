@@ -87,7 +87,7 @@
 }
 
 .omni-style .chat-panel.large {
-    height: 280px;
+    width: 270px;
 }
 
 .omni-style .chat-panel > .chat-header {
@@ -166,7 +166,7 @@
 }
 
 .omni-style .chat-panel.large > .chat-contents {
-    height: 400px;
+    height: 280px;
 }
 
 .omni-style .chat-panel > .chat-contents::-webkit-scrollbar {
