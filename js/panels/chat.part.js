@@ -680,7 +680,12 @@
         var userId = options["user_id"];
         var objectId = options["object_id"];
         var ownerId = options["owner_id"];
+        var large = options["large"];
         var focus = options["focus"];
+
+        // runs the default operation on the large in case
+        // the value is not provided as expected
+        large = large === undefined ? owner.hasClass("large") : large;
 
         // retrieves the username associated with the current
         // instance and uses it together with the current panel
@@ -730,6 +735,10 @@
         chatPanel.data("user_id", userId);
         chatPanel.data("object_id", objectId);
         chatPanel.data("owner_id", ownerId);
+
+        // in case the large flag is set the large class is added
+        // to the chat panel to set it to large mode
+        large && chatPanel.addClass("large");
 
         // runs the fade in operation in the created chat panel so that
         // it becomes visible after the animation (as expected)
