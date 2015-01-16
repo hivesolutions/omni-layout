@@ -2692,13 +2692,6 @@
 })(jQuery);
 
 (function(jQuery) {
-
-    /**
-     * The regular expression to be used in the matching of url expression to be
-     * substituted with link based elements.
-     */
-    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
-
     jQuery.fn.uchatline = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -2748,11 +2741,7 @@
         // treates the message so that any newline character found
         // is replaces by the break line tag (html correspondent)
         message = message.replace("\n", "<br/>");
-
-        // runs the regex based replacement in the values so that
-        // the correct component is displayed in the chat line
-        message = message.replace(URL_REGEX,
-                "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
+        message = jQuery.uchatreplacer(message);
 
         // retrieves the correct object id for the current message owner
         // and uses it to create the image url of the user that
@@ -2849,6 +2838,65 @@
         // value to scroll the contents to the bottom position
         var scrollHeight = contents[0].scrollHeight;
         contents.scrollTop(scrollHeight);
+    };
+})(jQuery);
+
+(function(jQuery) {
+    /**
+     * The regular expression to be used in the matching of url expression to be
+     * substituted with link based elements.
+     */
+    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+
+    /**
+     * The regular expression that is going to be used to try to find/match the
+     * youtube link based relations.
+     */
+    var YOUTUBE_REGEX = new RegExp(/(\b(https?):\/\/(www\.)?youtube.com[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
+
+    jQuery.uchatreplacer = function(message) {
+        var parse = function(url) {
+            var parts = url.split("?");
+            if (parts.length < 2) {
+                return {};
+            }
+            var query = parts[1];
+            var assocs = query.split("&");
+            var result = {};
+            for (var index = 0; index < assocs.length; index++) {
+                var assoc = assocs[index];
+                var struct = assoc.split("=");
+                result[struct[0]] = struct[1];
+            }
+            return result;
+        };
+
+        var youtube = function(message) {
+            var result = message.match(YOUTUBE_REGEX);
+            if (!result) {
+                return message;
+            }
+            result = result[0];
+            result = parse(result);
+            var youtubeId = result["v"];
+            message = message.replace(YOUTUBE_REGEX,
+                    "<iframe width=\"212\" height=\"200\""
+                            + " src=\"//www.youtube.com/embed/" + youtubeId
+                            + "?controls=0\"" + " frameborder=\"0\"></iframe>");
+            return message;
+        };
+
+        var url = function(message) {
+            // runs the regex based replacement in the values so that
+            // the correct component is displayed in the chat line
+            message = message.replace(URL_REGEX,
+                    "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
+            return message;
+        };
+
+        message = youtube(message);
+        message = url(message);
+        return message;
     };
 })(jQuery);
 

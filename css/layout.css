@@ -1551,6 +1551,10 @@ body.omni-style.opensans {
     width: 180px;
 }
 
+.omni-style .chat-panel.large > .chat-contents .chat-line > * {
+    width: 212px;
+}
+
 .omni-style .chat-panel > .chat-contents .chat-line > .link {
     padding-bottom: 0px;
 }
