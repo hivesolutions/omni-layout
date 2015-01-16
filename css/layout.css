@@ -1547,15 +1547,15 @@ body.omni-style.opensans {
     margin-bottom: 0px;
 }
 
-.omni-style .chat-panel > .chat-contents .chat-line > * {
+.omni-style .chat-panel > .chat-contents .chat-line * {
     width: 180px;
 }
 
-.omni-style .chat-panel.large > .chat-contents .chat-line > * {
+.omni-style .chat-panel.large > .chat-contents .chat-line * {
     width: 212px;
 }
 
-.omni-style .chat-panel > .chat-contents .chat-line > .link {
+.omni-style .chat-panel > .chat-contents .chat-line .link {
     padding-bottom: 0px;
 }
 

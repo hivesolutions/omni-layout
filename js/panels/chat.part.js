@@ -1208,6 +1208,7 @@
         var message = options["message"];
         var mid = options["mid"] || "";
         var timestamp = options["timestamp"] || new Date().getTime() / 1000;
+        var plain = options["plain"] || false;
 
         // retrieves the chat contents for the matched object (chat panel)
         // and then uses it to try to find any previously existing and equivalent
@@ -1232,10 +1233,21 @@
                     format : "%H:%M"
                 });
 
-        // treates the message so that any newline character found
+        // treats the message so that any newline character found
         // is replaces by the break line tag (html correspondent)
         message = message.replace("\n", "<br/>");
-        message = jQuery.uchatreplacer(message);
+
+        // verifies that the type of message is not plain and if that's
+        // the case runs the chat replacer so that certain keywords
+        // are replaced with the proper image/graphical representation
+        if (plain == false) {
+            result = jQuery.uchatreplacer(message);
+            message = result[0];
+            extras = result[1];
+            options["message"] = extras;
+            options["plain"] = true;
+            extras && matchedObject.uchatline(options);
+        }
 
         // retrieves the correct object id for the current message owner
         // and uses it to create the image url of the user that
@@ -1336,11 +1348,12 @@
 })(jQuery);
 
 (function(jQuery) {
+
     /**
-     * The regular expression to be used in the matching of url expression to be
-     * substituted with link based elements.
+     * The regular expression that is going to be used to match valid image
+     * urls, note that no mime type inspection is used.
      */
-    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+    var IMAGE_REGEX = new RegExp(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*\.(png|jpg|jpeg|gif)[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
 
     /**
      * The regular expression that is going to be used to try to find/match the
@@ -1348,7 +1361,15 @@
      */
     var YOUTUBE_REGEX = new RegExp(/(\b(https?):\/\/(www\.)?youtube.com[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
 
+    /**
+     * The regular expression to be used in the matching of url expression to be
+     * substituted with link based elements.
+     */
+    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+
     jQuery.uchatreplacer = function(message) {
+        var extras = "";
+
         var parse = function(url) {
             var parts = url.split("?");
             if (parts.length < 2) {
@@ -1365,6 +1386,17 @@
             return result;
         };
 
+        var image = function(message) {
+            var result = message.match(IMAGE_REGEX);
+            if (!result) {
+                return message;
+            }
+            result = result[0];
+            extras += "<a href=\"" + result + "\" target=\"_blank\">"
+                    + "<img src=\"" + result + "\"/>" + "</a>";
+            return result == message ? "" : message;
+        };
+
         var youtube = function(message) {
             var result = message.match(YOUTUBE_REGEX);
             if (!result) {
@@ -1373,11 +1405,10 @@
             result = result[0];
             result = parse(result);
             var youtubeId = result["v"];
-            message = message.replace(YOUTUBE_REGEX,
-                    "<iframe width=\"212\" height=\"200\""
-                            + " src=\"//www.youtube.com/embed/" + youtubeId
-                            + "?controls=0\"" + " frameborder=\"0\"></iframe>");
-            return message;
+            extras += "<iframe width=\"212\" height=\"200\""
+                    + " src=\"//www.youtube.com/embed/" + youtubeId
+                    + "?controls=0\"" + " frameborder=\"0\"></iframe>";
+            return result == message ? "" : message;
         };
 
         var url = function(message) {
@@ -1388,8 +1419,9 @@
             return message;
         };
 
+        message = image(message);
         message = youtube(message);
         message = url(message);
-        return message;
+        return [message, extras];
     };
 })(jQuery);
