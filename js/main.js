@@ -822,13 +822,30 @@
     };
 
     var fixChat = function(base, content) {
+        // retrieves the references to the various elements
+        // that are going to be used in the chat fixing, note
+        // that the chat parent may not exist
         var _body = jQuery("body");
+        var chatParent = jQuery(".chat-parent");
         var chat = jQuery(".chat");
+
+        // tries to find out the correct parent for the chat
+        // verifying if there's a chat parent in the body,
+        // otherwise uses the body as the parent structure for
+        // the chat, note that if the proper parent is already
+        // in use the chat is not re-added (performance issues)
+        var parentQuery = chatParent.length > 0 ? ".chat-parent" : "body";
+        var parentTarget = jQuery(parentQuery);
+        var parent = chat.parent(parentQuery);
+        parent.length == 0 && parentTarget.append(chat);
+
+        // in case there's a chat structure already displayed
+        // in the current view must remove the chat part from
+        // the content so that it does not get duplicated
         if (chat.length > 0) {
             var _chat = jQuery(".chat", content);
             _chat.remove();
         }
-        _body.append(chat);
     };
 })(jQuery);
 
