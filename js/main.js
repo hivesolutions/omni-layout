@@ -2918,8 +2918,8 @@
                 return message;
             }
             result = result[0];
-            result = parse(result);
-            var youtubeId = result["v"];
+            var parsed = parse(result);
+            var youtubeId = parsed["v"];
             extras += "<iframe height=\"200\""
                     + " src=\"//www.youtube.com/embed/" + youtubeId
                     + "?controls=0\"" + " frameborder=\"0\"></iframe>";
