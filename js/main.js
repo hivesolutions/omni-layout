@@ -2191,6 +2191,14 @@
 })(jQuery);
 
 (function(jQuery) {
+
+    /**
+     * The minimum size in pixels to be used for the content area of the chat
+     * panel this will be used in the resizing of the text are to compensate for
+     * the extra content.
+     */
+    var MINIMUM_CONTENT_HEIGHT = 80;
+
     jQuery.fn.uchatpanel = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
@@ -2244,14 +2252,18 @@
         // structure to the matched object (chat area) and applues the
         // intializers to the structure and sets the name in it
         chatPanel = jQuery("<div class=\"chat-panel budy-available\">"
-                + "<div class=\"chat-header\">" + name
+                + "<div class=\"chat-header\">"
+                + name
                 + "<div class=\"chat-buttons\">"
                 + "<div class=\"chat-button chat-settings\"></div>"
-                + "<div class=\"chat-button chat-close\"></div>" + "</div>"
-                + "</div>" + "<div class=\"chat-contents\"></div>"
+                + "<div class=\"chat-button chat-close\"></div>"
+                + "</div>"
+                + "</div>"
+                + "<div class=\"chat-contents\"></div>"
                 + "<div class=\"chat-message\">"
                 + "<textarea type=\"text\" class=\"text-area\"></textarea>"
-                + "</div>" + "</div>");
+                + "<textarea type=\"text\" class=\"text-area hidden\"></textarea>"
+                + "</div>" + +"</div>");
         matchedObject.append(chatPanel);
         chatPanel.uxapply();
         chatPanel.hide();
@@ -2303,7 +2315,19 @@
         var message = jQuery(".chat-message", chatPanel);
         var buttonClose = jQuery(".chat-close", chatPanel);
         var buttonMinimize = jQuery(".chat-minimize", chatPanel);
-        var textArea = jQuery(".chat-message > .text-area", chatPanel);
+        var textArea = jQuery(".chat-message > .text-area:not(.hidden)",
+                chatPanel);
+        var textAreaHidden = jQuery(".chat-message > .text-area.hidden",
+                chatPanel);
+
+        // retrieves both the height of the contents section and the
+        // (current/original) scroll height of the text area, then
+        // uses them to compute the maximum scroll height to be used
+        // for the calculus of the maximum text area height
+        var contentsHeight = contents.height();
+        var currentScroll = textArea[0].scrollHeight;
+        var maxScrollHeight = currentScroll + contentsHeight
+                - MINIMUM_CONTENT_HEIGHT;
 
         // registers for the enable operation, this should re-enable
         // the interaction with the chat panel (text area)
@@ -2686,6 +2710,78 @@
                     event.preventDefault();
                     event.stopPropagation();
                 });
+
+        // registers for the value change(d) event on the
+        // text area so that a resize operation is possible
+        // to be done if required by its new contents
+        textArea.bind("value_change", function(event, value) {
+            // retrieves the reference to the current element,
+            // the text area that may be resized as a result of
+            // the changing of its internal value
+            var element = jQuery(this);
+
+            // updates the virtual/hidden text area element with
+            // the new value and then retrieves the new scroll height
+            // that will be compared with the previous one to check
+            // for any change in the requested height, note that the
+            // hidden are is show and then hidden again so that it's
+            // possible to gather it's scroll height (must be visible)
+            textAreaHidden.val(value);
+            textAreaHidden.show();
+            var scrollHeight = textAreaHidden[0].scrollHeight;
+            textAreaHidden.hide();
+
+            // "normalizes" the scroll height value taking into account
+            // the maximum scroll height value required to avoid the
+            // contents section from becoming to small/unreadable
+            scrollHeight = scrollHeight > maxScrollHeight
+                    ? maxScrollHeight
+                    : scrollHeight;
+
+            // calculates the delta (height) value from the current
+            // and the previous scroll height values from the virtual
+            // text area and verifies if there's a change, then updates
+            // the current scroll height with the new one
+            var delta = scrollHeight - currentScroll;
+            var changed = delta != 0;
+            currentScroll = scrollHeight;
+
+            // in case there's no change in the scroll height there's
+            // no need to proceed with the resizing operation
+            if (!changed) {
+                return;
+            }
+
+            // retrieves the complete set of height, scroll top and
+            // offsets from the various components to be used in the
+            // resizing, note that there's an extra calculus to determine
+            // if the contents section is currently scrolled to the bottom
+            var contentsHeight = contents.height();
+            var messageHeight = message.height();
+            var textAreaHeight = textArea.height();
+            var contentsScroll = contents.scrollTop();
+            var contentsScrollHeight = contents[0].scrollHeight;
+            var contentsOffset = contentsHeight - contentsScroll;
+            var contentsBottom = contentsScroll + contentsHeight == contentsScrollHeight;
+
+            // updates the contents, message and text area height with the
+            // incrementings/decrementings of the calculated delta value
+            contents.height(contentsHeight - delta);
+            message.height(messageHeight + delta);
+            textArea.height(textAreaHeight + delta);
+
+            // verifies if the contents section is currently scrolled to the
+            // bottom and if that's not the case returns immediately, as there's
+            // no need to re-scroll the panel to the bottom
+            if (!contentsBottom) {
+                return;
+            }
+
+            // re-runs the scrolling operation in the contents element so that
+            // the contents are restored to the bottom section (after the resize)
+            contentsScrollHeight = contents[0].scrollHeight;
+            contents.scrollTop(contentsScrollHeight);
+        });
 
         // schedules the a focus operation in the text area
         // for the next tick in the event loop
