@@ -1344,6 +1344,15 @@
         // value to scroll the contents to the bottom position
         var scrollHeight = contents[0].scrollHeight;
         contents.scrollTop(scrollHeight);
+
+        // retrieves the reference to the possible images included in the line
+        // and then registers them for the loading operation so that, the scroll
+        // is set down in the contents of the chat (as new area was created)
+        var images = jQuery("img", chatLine);
+        images.load(function() {
+                    var scrollHeight = contents[0].scrollHeight;
+                    contents.scrollTop(scrollHeight);
+                });
     };
 })(jQuery);
 
