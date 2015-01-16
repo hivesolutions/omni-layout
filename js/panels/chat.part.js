@@ -1414,7 +1414,7 @@
             result = result[0];
             result = parse(result);
             var youtubeId = result["v"];
-            extras += "<iframe width=\"212\" height=\"200\""
+            extras += "<iframe height=\"200\""
                     + " src=\"//www.youtube.com/embed/" + youtubeId
                     + "?controls=0\"" + " frameborder=\"0\"></iframe>";
             return result == message ? "" : message;
