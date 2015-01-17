@@ -2287,8 +2287,13 @@
         large && chatPanel.addClass("large");
 
         // runs the fade in operation in the created chat panel so that
-        // it becomes visible after the animation (as expected)
-        chatPanel.fadeIn(75);
+        // it becomes visible after the animation (as expected), note that
+        // this operation is delayed so that the panel is only positioned
+        // once the left and top positions are defined (by the panel placer)
+        // by the owner (chat structure) of this chat panel
+        setTimeout(function() {
+                    chatPanel.fadeIn(75);
+                });
 
         // retrieves the reference to the pushi data structure from the owner
         // and then tries to retrieve the latest information/messages for the
