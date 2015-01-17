@@ -819,7 +819,8 @@
 
                     // retrieves the text area of the chat panel and the
                     // re-enable it for interaction
-                    var textArea = jQuery(".chat-message > .text-area", element);
+                    var textArea = jQuery(
+                            ".chat-message > .text-area:not(.hidden)", element);
                     textArea.uxenable();
                 });
 
@@ -837,7 +838,8 @@
                     // retrieves the text area component for the current
                     // element and then disables it (no more interaction
                     // is allowed fot the chat panel)
-                    var textArea = jQuery(".chat-message > .text-area", element);
+                    var textArea = jQuery(
+                            ".chat-message > .text-area:not(.hidden)", element);
                     textArea.uxdisable();
 
                     // triggers the unblick event because a disabled panel
@@ -915,7 +917,8 @@
                     // retrieves the current text area and checks if it
                     // is currently focsued in case it is returns immediately
                     // as it's not possible to blick a focused panel
-                    var textArea = jQuery(".chat-message > .text-area", element);
+                    var textArea = jQuery(
+                            ".chat-message > .text-area:not(.hidden)", element);
                     var isFocused = textArea.is(":focus");
                     if (isFocused) {
                         return;
