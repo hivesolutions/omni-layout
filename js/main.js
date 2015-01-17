@@ -2271,7 +2271,7 @@
                 + "<div class=\"chat-message\">"
                 + "<textarea type=\"text\" class=\"text-area\"></textarea>"
                 + "<textarea type=\"text\" class=\"text-area hidden\"></textarea>"
-                + "</div>" + +"</div>");
+                + "</div>" + "</div>");
         matchedObject.append(chatPanel);
         chatPanel.uxapply();
         chatPanel.hide();
