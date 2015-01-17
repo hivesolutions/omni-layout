@@ -109,11 +109,16 @@
             // a new chat panel is created for the the item in
             // case it's required
             item.click(function() {
+                        // retrieves the reference to the current "clicked"
+                        // element and then gathers information from the element to
+                        // be used in the creation of the new chat panel
                         var element = jQuery(this);
                         var name = element.html();
                         var userId = element.attr("data-user_id");
                         var objectId = element.attr("data-object_id");
 
+                        // creates a new chat panel for the current matched
+                        // object (chat system) using the current context
                         matchedObject.uchatpanel({
                                     owner : matchedObject,
                                     name : name,
@@ -726,8 +731,11 @@
 
         // creates the chat panel structure containing the "typical"
         // header, contents and message structure then appends the
-        // structure to the matched object (chat area) and applues the
-        // intializers to the structure and sets the name in it
+        // structure to the matched object (chat area) and applies the
+        // initializers to the structure and sets the name in it, note
+        // that an extra hidden text area is created as it will be used
+        // to measure the height of the text contained in the (real)
+        // text area and properly act for its resize if required
         chatPanel = jQuery("<div class=\"chat-panel budy-available\">"
                 + "<div class=\"chat-header\">"
                 + name
