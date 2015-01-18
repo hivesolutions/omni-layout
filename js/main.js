@@ -2311,6 +2311,61 @@
                     - MINIMUM_CONTENT_HEIGHT;
         };
 
+        // creates the function that will be used to request more chat lines
+        // from the server side, this operation should take into account the
+        // current chat status and reduce the server communications to a minimum
+        var more = function(count, target) {
+            // runs the defaulting operation on the provided count value so
+            // that the value is allways defined according to specification
+            count = count || 20;
+
+            // in case the current chat panel still has a pending more action
+            // must ignore the current one, can only process one request at a
+            // time in order to avoid possible async issues
+            var pending = chatPanel.data("pending");
+            if (pending) {
+                return;
+            }
+            chatPanel.data("pending", true);
+
+            // retrieve the complete set of chat lines available in the current
+            // chat panel and uses the count of it as the skip of the query, this
+            // operation assumes a proper order in the chat messages receival
+            var chatLines = jQuery(".chat-line", chatPanel);
+            var skip = chatLines.length;
+
+            // retrieves the reference to the pushi data structure from the owner
+            // and then tries to retrieve the latest information/messages for the
+            // current peer channelt this would populate the chat initialy
+            var pushi = owner.data("pushi");
+            pushi.latest("peer-status:" + channel, skip, count,
+                    function(channel, data) {
+                        // retrieves the reference to the events sequence from the
+                        // provided data object, this value will be percolated (from reverse)
+                        // to be able to create the initial chat lines
+                        var events = data.events;
+                        for (var index = events.length - 1; index >= 0; index--) {
+                            var event = events[index];
+                            var mid = event.mid;
+                            var timestamp = event.timestamp;
+                            var _data = event.data.data;
+                            var struct = _data
+                                    ? jQuery.parseJSON(_data)
+                                    : _data;
+                            chatPanel.uchatline({
+                                        name : struct.sender == username
+                                                ? "me"
+                                                : name,
+                                        message : struct.message,
+                                        mid : mid,
+                                        timestamp : timestamp,
+                                        target : target
+                                    });
+                        }
+                        chatPanel.data("pending", false);
+                    });
+        };
+
         // runs the show/display operation in the created chat panel so that
         // it becomes visible after the animation (as expected), note that
         // this operation is delayed so that the panel is only positioned
@@ -2320,31 +2375,10 @@
                     show(75);
                 });
 
-        // retrieves the reference to the pushi data structure from the owner
-        // and then tries to retrieve the latest information/messages for the
-        // current peer channelt this would populate the chat initialy
-        var pushi = owner.data("pushi");
-        pushi.latest("peer-status:" + channel, 0, 10, function(channel, data) {
-                    // retrieves the reference to the events sequence from the
-                    // provided data object, this value will be percolated (from reverse)
-                    // to be able to create the initial chat lines
-                    var events = data.events;
-                    for (var index = events.length - 1; index >= 0; index--) {
-                        var event = events[index];
-                        var mid = event.mid;
-                        var timestamp = event.timestamp;
-                        var _data = event.data.data;
-                        var struct = _data ? jQuery.parseJSON(_data) : _data;
-                        chatPanel.uchatline({
-                                    name : struct.sender == username
-                                            ? "me"
-                                            : name,
-                                    message : struct.message,
-                                    mid : mid,
-                                    timestamp : timestamp
-                                });
-                    }
-                });
+        // runs the more operation for the current chat panel so that it gets
+        // pre-populated with some information from history, this way the
+        // end user gets access to some context in the new chat session
+        more();
 
         // retrieves the various components (structures) from the chat pane
         // in order to be used in the operations
@@ -2679,17 +2713,31 @@
                     }
                 });
 
-        // registers for the focus on the text area so that the
-        // blink operation may be canceled
-        textArea.focus(function() {
+        // registers for the click event on the contents as this
+        // click will also disable the blinking
+        contents.click(function() {
                     var element = jQuery(this);
                     var chatPanel = element.parents(".chat-panel");
                     chatPanel.triggerHandler("unblink");
                 });
 
-        // registers for the click event on the contents as this
-        // click will also disable the blinking
-        contents.click(function() {
+        // registers for the scroll operation in the contents
+        // area so that it's possible to provide infine scroll
+        contents.scroll(function() {
+                    var element = jQuery(this);
+                    var counter = element.data("counter") || 0;
+                    element.data("counter", counter + 1);
+                    var scroll = element.scrollTop();
+                    if (scroll != 0) {
+                        return;
+                    }
+                    var first = jQuery(":first", element);
+                    more(20, first);
+                });
+
+        // registers for the focus on the text area so that the
+        // blink operation may be canceled
+        textArea.focus(function() {
                     var element = jQuery(this);
                     var chatPanel = element.parents(".chat-panel");
                     chatPanel.triggerHandler("unblink");
@@ -2824,7 +2872,7 @@
         // sets the chat panel in the panels sequence
         // and updates it in the matched objec
         panels[name] = chatPanel;
-        matchedObject.data("panels", panels)
+        matchedObject.data("panels", panels);
 
         // triggers the new chat event in the chat object so that
         // the layout of the panels is handled
@@ -2860,6 +2908,7 @@
         var mid = options["mid"] || "";
         var timestamp = options["timestamp"] || new Date().getTime() / 1000;
         var plain = options["plain"] || false;
+        var target = options["target"] || null;
 
         // retrieves the chat contents for the matched object (chat panel)
         // and then uses it to try to find any previously existing and equivalent
@@ -2991,98 +3040,51 @@
         paragraph.append(chatLine);
         chatLine.uxapply();
 
-        // retrieves the scroll height of the contents section and used the
-        // value to scroll the contents to the bottom position
-        var scrollHeight = contents[0].scrollHeight;
-        contents.scrollTop(scrollHeight);
+        // verifies if there's a target area for the scroll result, meaning
+        // that the scroll of the chat contents should be restored to the
+        // upper position of the provided target
+        if (target) {
+            target = jQuery(target);
+            var targetMargin = parseInt(target.css("margin-top"));
+            var settings = {
+                offset : targetMargin * -1
+            };
+            var fixScroll = function() {
+                contents.uxscrollto(target, 0, settings);
+            };
+        }
+        // otherwise the default bottom contents position is used as reference
+        // meaning that the scroll position will be restored to the bottom of
+        // the chat contents area (last/newest received message)
+        else {
+            var fixScroll = function() {
+                // retrieves the scroll height of the contents section and used the
+                // value to scroll the contents to the bottom position
+                var scrollHeight = contents[0].scrollHeight;
+                contents.scrollTop(scrollHeight);
+            };
+        }
+
+        // runs the initial fix scroll operation scrolling the contents area
+        // to the requested target (default is the chat bottom)
+        fixScroll();
+
+        // retrieves the current value of the scroll counter to be able to
+        // detect if a scroll (using mouse) has been done between the loadin
+        // of the line and the final (possible) loading of the image
+        var counter = contents.data("counter") || 0;
 
         // retrieves the reference to the possible images included in the line
         // and then registers them for the loading operation so that, the scroll
         // is set down in the contents of the chat (as new area was created)
         var images = jQuery("img", chatLine);
         images.load(function() {
-                    var scrollHeight = contents[0].scrollHeight;
-                    contents.scrollTop(scrollHeight);
+                    var _counter = contents.data("counter");
+                    if (counter != _counter) {
+                        return;
+                    }
+                    fixScroll();
                 });
-    };
-})(jQuery);
-
-(function(jQuery) {
-
-    /**
-     * The regular expression that is going to be used to match valid image
-     * urls, note that no mime type inspection is used.
-     */
-    var IMAGE_REGEX = new RegExp(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*\.(png|jpg|jpeg|gif)[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
-
-    /**
-     * The regular expression that is going to be used to try to find/match the
-     * youtube link based relations.
-     */
-    var YOUTUBE_REGEX = new RegExp(/(\b(https?):\/\/(www\.)?youtube.com[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
-
-    /**
-     * The regular expression to be used in the matching of url expression to be
-     * substituted with link based elements.
-     */
-    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
-
-    jQuery.uchatreplacer = function(message) {
-        var extras = "";
-
-        var parse = function(url) {
-            var parts = url.split("?");
-            if (parts.length < 2) {
-                return {};
-            }
-            var query = parts[1];
-            var assocs = query.split("&");
-            var result = {};
-            for (var index = 0; index < assocs.length; index++) {
-                var assoc = assocs[index];
-                var struct = assoc.split("=");
-                result[struct[0]] = struct[1];
-            }
-            return result;
-        };
-
-        var image = function(message) {
-            var result = message.match(IMAGE_REGEX);
-            if (!result) {
-                return message;
-            }
-            result = result[0];
-            extras += "<a href=\"" + result + "\" target=\"_blank\">"
-                    + "<img src=\"" + result + "\"/>" + "</a>";
-            return result == message ? "" : message;
-        };
-
-        var youtube = function(message) {
-            var result = message.match(YOUTUBE_REGEX);
-            if (!result) {
-                return message;
-            }
-            result = result[0];
-            var parsed = parse(result);
-            var youtubeId = parsed["v"];
-            extras += "<iframe height=\"200\""
-                    + " src=\"//www.youtube.com/embed/" + youtubeId
-                    + "?controls=0\"" + " frameborder=\"0\"></iframe>";
-            return result == message ? "" : message;
-        };
-
-        var url = function(message) {
-            // runs the regex based replacement in the values so that
-            // the correct component is displayed in the chat line
-            message = message.replace(URL_REGEX,
-                    "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
-            return message;
-        };
-
-        message = image(message);
-        message = youtube(message);
-        message = url(message);
-        return [message, extras];
     };
 })(jQuery);
 
