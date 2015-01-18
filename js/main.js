@@ -3042,7 +3042,8 @@
 
         // verifies if there's a target area for the scroll result, meaning
         // that the scroll of the chat contents should be restored to the
-        // upper position of the provided target
+        // upper position of that same provided target, to be able to restore
+        // the scroll position the fix scroll function is created
         if (target) {
             target = jQuery(target);
             var targetMargin = parseInt(target.css("margin-top"));
