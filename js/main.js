@@ -2286,13 +2286,38 @@
         // to the chat panel to set it to large mode
         large && chatPanel.addClass("large");
 
-        // runs the fade in operation in the created chat panel so that
+        // initalizes a series of values that are going to be calculated
+        // once the panel is displayed and that will be used for the
+        // calculus of the text area height (area growing/shrinking)
+        var currentScroll = 0;
+        var maxScrollHeight = 0;
+
+        // creates the function that will be used for the display of the
+        // shat panel under the current environment, the display is performed
+        // using a fade in operation (for smoth display)
+        var show = function(timeout) {
+            // runs the fade in operation for the created chat panel, this
+            // will start showing the panel and provinding the required
+            // environment for further height measures
+            chatPanel.fadeIn(timeout);
+
+            // retrieves both the height of the contents section and the
+            // (current/original) scroll height of the text area, then
+            // uses them to compute the maximum scroll height to be used
+            // for the calculus of the maximum text area height
+            var contentsHeight = contents.height();
+            currentScroll = textArea[0].scrollHeight;
+            maxScrollHeight = currentScroll + contentsHeight
+                    - MINIMUM_CONTENT_HEIGHT;
+        };
+
+        // runs the show/display operation in the created chat panel so that
         // it becomes visible after the animation (as expected), note that
         // this operation is delayed so that the panel is only positioned
         // once the left and top positions are defined (by the panel placer)
         // by the owner (chat structure) of this chat panel
         setTimeout(function() {
-                    chatPanel.fadeIn(75);
+                    show(75);
                 });
 
         // retrieves the reference to the pushi data structure from the owner
@@ -2332,15 +2357,6 @@
                 chatPanel);
         var textAreaHidden = jQuery(".chat-message > .text-area.hidden",
                 chatPanel);
-
-        // retrieves both the height of the contents section and the
-        // (current/original) scroll height of the text area, then
-        // uses them to compute the maximum scroll height to be used
-        // for the calculus of the maximum text area height
-        var contentsHeight = contents.height();
-        var currentScroll = textArea[0].scrollHeight;
-        var maxScrollHeight = currentScroll + contentsHeight
-                - MINIMUM_CONTENT_HEIGHT;
 
         // registers for the enable operation, this should re-enable
         // the interaction with the chat panel (text area)
