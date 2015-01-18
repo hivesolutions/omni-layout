@@ -3090,6 +3090,85 @@
 })(jQuery);
 
 (function(jQuery) {
+
+    /**
+     * The regular expression that is going to be used to match valid image
+     * urls, note that no mime type inspection is used.
+     */
+    var IMAGE_REGEX = new RegExp(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*\.(png|jpg|jpeg|gif)[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
+
+    /**
+     * The regular expression that is going to be used to try to find/match the
+     * youtube link based relations.
+     */
+    var YOUTUBE_REGEX = new RegExp(/(\b(https?):\/\/(www\.)?youtube.com[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
+
+    /**
+     * The regular expression to be used in the matching of url expression to be
+     * substituted with link based elements.
+     */
+    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+
+    jQuery.uchatreplacer = function(message) {
+        var extras = "";
+
+        var parse = function(url) {
+            var parts = url.split("?");
+            if (parts.length < 2) {
+                return {};
+            }
+            var query = parts[1];
+            var assocs = query.split("&");
+            var result = {};
+            for (var index = 0; index < assocs.length; index++) {
+                var assoc = assocs[index];
+                var struct = assoc.split("=");
+                result[struct[0]] = struct[1];
+            }
+            return result;
+        };
+
+        var image = function(message) {
+            var result = message.match(IMAGE_REGEX);
+            if (!result) {
+                return message;
+            }
+            result = result[0];
+            extras += "<a href=\"" + result + "\" target=\"_blank\">"
+                    + "<img src=\"" + result + "\"/>" + "</a>";
+            return result == message ? "" : message;
+        };
+
+        var youtube = function(message) {
+            var result = message.match(YOUTUBE_REGEX);
+            if (!result) {
+                return message;
+            }
+            result = result[0];
+            var parsed = parse(result);
+            var youtubeId = parsed["v"];
+            extras += "<iframe height=\"200\""
+                    + " src=\"//www.youtube.com/embed/" + youtubeId
+                    + "?controls=0\"" + " frameborder=\"0\"></iframe>";
+            return result == message ? "" : message;
+        };
+
+        var url = function(message) {
+            // runs the regex based replacement in the values so that
+            // the correct component is displayed in the chat line
+            message = message.replace(URL_REGEX,
+                    "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
+            return message;
+        };
+
+        message = image(message);
+        message = youtube(message);
+        message = url(message);
+        return [message, extras];
+    };
+})(jQuery);
+
+(function(jQuery) {
     jQuery.fn.ueureka = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
