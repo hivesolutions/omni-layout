@@ -2237,7 +2237,7 @@
         // to be used in the channel naming and the joins
         // them with the appropriate separator
         channelNames.sort();
-        var channel = channelNames.join("_");
+        var channel = channelNames.join("&");
 
         // retrieves the current map containin the panels
         // indexed by their "key name" and default to a new
