@@ -801,6 +801,9 @@
             // time in order to avoid possible async issues
             var pending = chatPanel.data("pending");
             if (pending) {
+                setTimeout(function() {
+                            more(count, target);
+                        }, 100);
                 return;
             }
             chatPanel.data("pending", true);
@@ -1208,8 +1211,8 @@
                     if (scroll != 0) {
                         return;
                     }
-                    var first = jQuery(":first", element);
-                    more(20, first);
+                    var first = jQuery("> :nth-child(2)", element);
+                    more(14, first);
                 });
 
         // registers for the focus on the text area so that the
@@ -1401,15 +1404,6 @@
         // based it's converted in the locale representation
         var nameLocale = name == "me" ? jQuery.uxlocale(name) : name;
 
-        // creates the date object that represents the provided timestamp
-        // and thens runs the date converter using the defined format to
-        // obtain the "final" time string value to be used
-        var date = new Date(timestamp * 1000);
-        var timeString = _body.uxtimestamp("format", {
-                    date : date,
-                    format : "%H:%M"
-                });
-
         // treats the message so that any newline character found
         // is replaces by the break line tag (html correspondent)
         message = message.replace("\n", "<br/>");
@@ -1441,8 +1435,12 @@
         var paragraph = null;
         for (var index = paragraphs.length - 1; index >= 0; index--) {
             var _paragraph = jQuery(paragraphs[index]);
+            var _name = _paragraph.data("name");
             var _timestamp = _paragraph.data("timestamp");
-            if (_timestamp > timestamp) {
+            var isSection = _timestamp <= timestamp;
+            var isBuble = _name == name
+                    && Math.abs(timestamp - _timestamp) <= 60;
+            if (!isSection && !isBuble) {
                 continue;
             }
             paragraph = _paragraph;
@@ -1458,12 +1456,40 @@
         // in case the name for the author of the line is different
         // from the current name or the time gap between messages
         // is greater than expected a new paragraph must be created
-        if (name != _name || timestamp - _timestamp > 60) {
+        if (name != _name || Math.abs(timestamp - _timestamp) > 60) {
             // sets the initial reference value as the selected (previous)
             // paragraph and verifies if this is a top (header) paragraph
             // that should be inserted at the the initial part of the contents
             var reference = paragraph;
             var isTop = reference == null;
+
+            // creates the date object that represents the provided timestamp
+            // and thens runs the date converter using the defined format to
+            // obtain the "final" time string value to be used
+            var date = new Date(timestamp * 1000);
+            var timeString = _body.uxtimestamp("format", {
+                        date : date,
+                        format : "%d/%m %H:%M"
+                    });
+            var dayString = _body.uxtimestamp("format", {
+                        date : date,
+                        format : "%d %B %Y"
+                    });
+
+            // "construct" the chat day stucture that is going to be used
+            // in the presentation of the initial part of a day in chat
+            var day = jQuery("<div class=\"chat-day\">" + dayString + "</div>");
+            day.attr("data-string", dayString);
+            day.data("timestamp", timestamp);
+
+            // tries to retrieve any previously existing day starting line and in
+            // case the element is considered outdated it's removed and the add
+            // day flag is set so that it's added latter on the process
+            var previousDay = jQuery("[data-string=\"" + dayString + "\"]",
+                    contents);
+            var previousTimestamp = previousDay.data("timestamp");
+            var addDay = !previousTimestamp || previousTimestamp >= timestamp;
+            addDay && previousDay.remove();
 
             // in case the current paragraph to be created is not the
             // first one a separator element must be created and added
@@ -1478,17 +1504,21 @@
             // name and with the proper background (avatar) image
             paragraph = jQuery("<div class=\"chat-paragraph\">"
                     + "<div class=\"chat-name\">" + nameLocale + "</div>"
-                    + "<div class=\"chat-time\"></div>" + "</div>");
+                    + "<div class=\"chat-time\">" + timeString + "</div>"
+                    + "</div>");
             paragraph.css("background-image", "url(" + imageUrl + ")");
             paragraph.css("background-repeat", "no-repeat");
             paragraph.data("name", name);
 
             // verifies if the current paragraph is a top one and adds the
-            // paragraph to the proper position taking that into account
+            // paragraph to the proper position taking that into account,
+            // note that the day line is also added if required
             if (isTop) {
                 contents.prepend(paragraph);
+                addDay && contents.prepend(day);
             } else {
                 reference.after(paragraph);
+                addDay && reference.after(day);
             }
 
             // in case the current paragraph is top and there's already more
@@ -1498,11 +1528,6 @@
                 paragraph.after(separator);
             }
         }
-
-        // retrieves the reference to the time section of the paragraph
-        // and updates it with the new time value/string
-        var time = jQuery(".chat-time", paragraph);
-        time.text(timeString);
 
         // updates the timestamp value for the paragraph so that it may
         // be used latter to infer the current time for the paragraph
@@ -1524,6 +1549,7 @@
         if (target) {
             target = jQuery(target);
             var targetMargin = parseInt(target.css("margin-top"));
+            targetMargin = isNaN(targetMargin) ? 0 : targetMargin;
             var settings = {
                 offset : targetMargin * -1
             };
