@@ -207,6 +207,7 @@
 
 .omni-style .chat-panel > .chat-contents > .chat-paragraph > .chat-time {
     float: right;
+    font-size: 10px;
     font-weight: bold;
     line-height: 18px;
 }
