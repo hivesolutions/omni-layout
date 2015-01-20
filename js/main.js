@@ -2761,11 +2761,28 @@
                         return;
                     }
 
+                    // in case the shift key is pressed the event
+                    // processing is ignored (assumes newline)
+                    if (event.shiftKey) {
+                        return;
+                    }
+
+                    // retrieves the proper message value from the text
+                    // area and in case the value is empty ignores it as
+                    // empty messages are not allowed
+                    var message = textArea.val();
+                    message = message.trim();
+                    if (message == "") {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+
                     // adds a new chat line to the chat panel with
                     // the contents of the text area
                     chatPanel.uchatline({
                                 name : "me",
-                                message : textArea.val()
+                                message : message
                             });
 
                     // creates the envelope structure containing
@@ -2775,7 +2792,7 @@
                                 type : "message",
                                 sender : username,
                                 receiver : userId,
-                                message : textArea.val()
+                                message : message
                             });
 
                     // retrieves the current pushi object reference and
@@ -3052,18 +3069,43 @@
             }
         }
 
-        // updates the timestamp value for the paragraph so that it may
-        // be used latter to infer the current time for the paragraph
-        paragraph.data("timestamp", timestamp);
-
-        // adds a new chat line to the current paragraph with the message
-        // contents of the requested line, then applies the proper styling
-        // to the new line to be created so that the various links and other
-        // dynamic content is correctly handled
+        // creates the chat line structure with the message that has been received
+        // and then sets the mid (message identifer) attribute and the timestamp
+        // of the received message so that it may be used latter for reference
         var chatLine = jQuery("<div class=\"chat-line\">" + message + "</div>");
         chatLine.attr("data-mid", mid);
-        paragraph.append(chatLine);
+        chatLine.attr("timestamp", String(timestamp));
+        chatLine.data("timestamp", timestamp);
+
+        // retrieves the complete set of previously existing chat line in the paragraph
+        // so that it's possible to determine the target position fo line insertion,
+        // the default/initial value for the target is the chat line element
+        var chatLines = jQuery(".chat-line", paragraph);
+        var position = jQuery(".chat-time", paragraph);
+
+        // iterates over the complete set of chat lines in the paragraph to discover
+        // the line that is going to be considered to the "target position" for insertion
+        for (var index = 0; index < chatLines.length; index++) {
+            var _chatLine = jQuery(chatLines[index]);
+            var _timestamp = _chatLine.data("timestamp");
+            if (_timestamp > timestamp) {
+                break;
+            }
+            position = _chatLine;
+        }
+
+        // inserts the newly created chat line after the target position and then
+        // runs the apply operation on the chat line so that it becomes ready
+        // for interaction according to the uxf rules (action ready)
+        position.after(chatLine);
         chatLine.uxapply();
+
+        // updates the timestamp value for the paragraph so that it may
+        // be used latter to infer the current time for the paragraph
+        // the new value should be the oldest timestamp value
+        var lastLine = jQuery(".chat-line:first", paragraph);
+        var lastTimestamp = paragraph.data("timestamp");
+        paragraph.data("timestamp", timestamp);
 
         // verifies if there's a target area for the scroll result, meaning
         // that the scroll of the chat contents should be restored to the
