@@ -1539,7 +1539,7 @@
         // to be used for some event registration
         var _body = jQuery("body");
 
-        var placePanels = function(panels) {
+        var placePanels = function(panels, animate) {
             // retrieves the window dimensions, both the
             // height and the width
             var windowHeight = _window.height();
@@ -1556,21 +1556,36 @@
                 // in ieteration
                 var panel = panels[key];
 
-                // retrieves the panel height and width from the
-                // current (chat) panel in iteration
+                // retrieves the panel height, width and offset
+                // from the current (chat) panel in iteration
                 var panelHeight = panel.outerHeight(true);
                 var panelWidth = panel.outerWidth(true);
+                var panelOffset = panel.data("offset") || 0;
 
                 // "calculates" the top and left positions for the
                 // panel from the panel dimensions and the current
                 // visible window dimensions
-                var chatTop = windowHeight - panelHeight;
+                var chatTop = windowHeight - panelHeight + panelOffset;
                 var chatLeft = windowWidth - panelWidth - extraMargin;
+
+                if (!animate) {
+                    panel.css("transition", "none");
+                    panel.css("-o-transition", "none");
+                    panel.css("-moz-transition", "none");
+                    panel.css("-webkit-transition", "none");
+                }
 
                 // sets the top and left positions of the panel, by
                 // setting their respective css attributes
                 panel.css("top", chatTop + "px");
                 panel.css("left", chatLeft + "px");
+
+                setTimeout(function() {
+                            panel.css("transition", "");
+                            panel.css("-o-transition", "");
+                            panel.css("-moz-transition", "");
+                            panel.css("-webkit-transition", "");
+                        });
 
                 // updates the "extra" margin value, using the chat
                 // width and the padding value
@@ -2067,7 +2082,7 @@
         // is requested this shoud create a new chat panel
         matchedObject.bind("new_chat", function() {
                     var panels = matchedObject.data("panels") || {};
-                    placePanels(panels);
+                    placePanels(panels, true);
                 });
 
         // registers for the event triggered when a chat is
@@ -2075,7 +2090,7 @@
         // should remove the associated panel
         matchedObject.bind("delete_chat", function() {
                     var panels = matchedObject.data("panels") || {};
-                    placePanels(panels);
+                    placePanels(panels, true);
                 });
 
         // registers for the refresh event for the chat panel
@@ -2162,7 +2177,7 @@
         // that after the chat destruction the registration is disabled
         matchedObject.length > 0 && _window.resize(onResize = function() {
             var panels = matchedObject.data("panels") || {};
-            placePanels(panels);
+            placePanels(panels, false);
         });
         matchedObject.bind("destroyed", function() {
                     _window.unbind("resize", onResize);
@@ -2440,13 +2455,43 @@
         // to be able to minimize the contents of it
         chatPanel.bind("minimize", function() {
                     // retrieves the reference to the current element
-                    // to be used in the minimize operation
+                    // to be used in the restore operation ad verifies
+                    // if the kind of animation to be used is discrete
                     var element = jQuery(this);
+                    var discrete = element.data("discrete") || false;
 
-                    // hides the contents and the message parts of
-                    // the current chat panel
-                    contents.hide();
-                    message.hide();
+                    // verifies if the minimize operation is meant to be
+                    // performed in a discrete manner or not, meaning that
+                    // an offset position should be used or not
+                    if (discrete) {
+                        // hides the contents and the message parts of
+                        // the current chat panel
+                        contents.hide();
+                        message.hide();
+                    } else {
+                        // tries to retrieve a possible border in the
+                        // bottom of the chat panel and parsed the value
+                        // as an integer to get its width
+                        var borderBottom = element.css("border-bottom");
+                        borderBottom = borderBottom
+                                || element.css("border-bottom-width");
+                        var borderWidth = parseInt(borderBottom);
+                        borderWidth = borderWidth || 0;
+
+                        // retrieves the height of both the contents and
+                        // message areas and then calculates the final
+                        // offset from their height values and a possible
+                        // extra border value from the chat panels
+                        var contentsHeight = contents.outerHeight(true);
+                        var messageHeight = message.outerHeight(true);
+                        var offset = contentsHeight + messageHeight
+                                + borderWidth;
+
+                        // updates the element's offset value so that
+                        // any new layout operation will take that into
+                        // account and move the chat panel down
+                        element.data("offset", offset);
+                    }
 
                     // triggers the layout event (reposition the window)
                     // and sets the current element as minimized
@@ -2458,14 +2503,25 @@
         // to be able to "restore" the contents of it
         chatPanel.bind("restore", function() {
                     // retrieves the reference to the current element
-                    // to be used in the restore operation
+                    // to be used in the restore operation ad verifies
+                    // if the kind of animation to be used is discrete
                     var element = jQuery(this);
+                    var discrete = element.data("discrete") || false;
 
-                    // shows the contents and the message parts of
-                    // the current chat panel and schedules the focus
-                    // on the text area for the next tick
-                    contents.show();
-                    message.show();
+                    // verifies if the restore operation is meant to be
+                    // performed in a discrete manner or not, meaning that
+                    // an offset position should be used or not
+                    if (discrete) {
+                        // shows the contents and the message parts of
+                        // the current chat panel and schedules the focus
+                        // on the text area for the next tick
+                        contents.show();
+                        message.show();
+                    } else {
+                        // restores the offset of the current element to
+                        // the original (zero value) brings it to top
+                        element.data("offset", 0);
+                    }
 
                     // triggers the layout event (reposition the window)
                     // and sets the current element as maximized
@@ -2477,8 +2533,10 @@
         // to be able to "draw" the contents of it correctly
         chatPanel.bind("layout", function() {
                     // retrieves the reference to the current element
-                    // to be used in the layout operation
+                    // to be used in the layout operation and the value
+                    // of it's current offset for top value calculus
                     var element = jQuery(this);
+                    var offset = element.data("offset") || 0;
 
                     // retrieves the reference to the "global" window
                     // element to be used in the positioning
@@ -2489,7 +2547,7 @@
                     // position for the panel
                     var windowHeight = _window.height();
                     var panelHeight = element.outerHeight(true);
-                    var panelTop = windowHeight - panelHeight;
+                    var panelTop = windowHeight - panelHeight + offset;
 
                     // sets the top position of the element as the "calculated"
                     // value for the panel top
