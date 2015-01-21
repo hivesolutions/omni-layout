@@ -1582,7 +1582,7 @@
                 extraMargin += panelWidth + 8;
 
                 // schedules a delayed operation to restore the css based
-                // animations for the current panel
+                // animations for the current panel (in case it's required)
                 setTimeout(function() {
                             !animate && panel.uxanimation("enable");
                         });
