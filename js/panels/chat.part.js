@@ -45,28 +45,24 @@
                 var chatTop = windowHeight - panelHeight + panelOffset;
                 var chatLeft = windowWidth - panelWidth - extraMargin;
 
-                if (!animate) {
-                    panel.css("transition", "none");
-                    panel.css("-o-transition", "none");
-                    panel.css("-moz-transition", "none");
-                    panel.css("-webkit-transition", "none");
-                }
+                // in case the animation mode is disabled must disable
+                // the css animations for the current panel
+                !animate && panel.uxanimation("disable");
 
                 // sets the top and left positions of the panel, by
                 // setting their respective css attributes
                 panel.css("top", chatTop + "px");
                 panel.css("left", chatLeft + "px");
 
-                setTimeout(function() {
-                            panel.css("transition", "");
-                            panel.css("-o-transition", "");
-                            panel.css("-moz-transition", "");
-                            panel.css("-webkit-transition", "");
-                        });
-
                 // updates the "extra" margin value, using the chat
                 // width and the padding value
                 extraMargin += panelWidth + 8;
+
+                // schedules a delayed operation to restore the css based
+                // animations for the current panel
+                setTimeout(function() {
+                            !animate && panel.uxanimation("enable");
+                        });
             }
         };
 
