@@ -1468,7 +1468,7 @@
         var contents = jQuery(".chat-contents", matchedObject);
         var previous = jQuery(".chat-line[data-mid=\"" + mid + "\"]", contents);
         if (mid && previous.length > 0) {
-            return;
+            return previous;
         }
 
         // in case the provided name for the chat line is self/me
@@ -1666,8 +1666,14 @@
         }
 
         // runs the initial fix scroll operation scrolling the contents area
-        // to the requested target (default is the chat bottom)
-        fixScroll();
+        // to the requested target (default is the chat bottom), note that in
+        // case the contents are is not visible (delayed rendering) the fixing
+        // of the scroll is delayed so that the scroll height is measurable
+        var isVisible = contents.is(":visible");
+        isVisible && fixScroll();
+        !isVisible && setTimeout(function() {
+                    fixScroll();
+                });
 
         // retrieves the current value of the scroll counter to be able to
         // detect if a scroll (using mouse) has been done between the loadin
@@ -1685,6 +1691,10 @@
                     }
                     fixScroll();
                 });
+
+        // returns the final created chat line to the caller function so
+        // it able to run extra logic on top of it
+        return chatLine;
     };
 })(jQuery);
 
