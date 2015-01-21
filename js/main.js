@@ -3157,8 +3157,8 @@
         // updates the timestamp value for the paragraph so that it may
         // be used latter to infer the current time for the paragraph
         // the new value should be the oldest timestamp value
-        var lastLine = jQuery(".chat-line:first", paragraph);
-        var lastTimestamp = paragraph.data("timestamp");
+        var lastLine = jQuery(".chat-line:last", paragraph);
+        var lastTimestamp = lastLine.data("timestamp");
         paragraph.data("timestamp", timestamp);
 
         // verifies if there's a target area for the scroll result, meaning
