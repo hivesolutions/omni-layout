@@ -19,6 +19,7 @@
         "day ago" : "dia atrás",
         "days ago" : "dias atrás",
         "sold {{%s}} for {{%s}}" : "vendeu {{%s}} por {{%s}}",
+        "consigned {{%s}} for {{%s}}" : "consignou {{%s}} por {{%s}}",
         "returned {{%s}} worth {{%s}} of sale {{%s}}" : "retornou {{%s}} no valor de {{%s}} da venda {{%s}}",
         "created {{%s}}" : "criou {{%s}}",
         "edited {{%s}}" : "editou {{%s}}",
