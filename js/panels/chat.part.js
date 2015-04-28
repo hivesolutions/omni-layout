@@ -747,7 +747,7 @@
         // that an extra hidden text area is created as it will be used
         // to measure the height of the text contained in the (real)
         // text area and properly act for its resize if required
-        chatPanel = jQuery("<div class=\"chat-panel chat-empty budy-available\">"
+        chatPanel = jQuery("<div class=\"chat-panel empty budy-available\">"
                 + "<div class=\"chat-header\">"
                 + name
                 + "<div class=\"chat-buttons\">"
@@ -1692,10 +1692,10 @@
                     fixScroll();
                 });
 
-        // removes the chat-empty flag/class from the currently matched object
+        // removes the (chat) empty flag/class from the currently matched object
         // chat panel as the current panel is no longer considered empty as at
         // least one chat line has been placed under it (as expected)
-        matchedObject.removeClass("chat-empty");
+        matchedObject.removeClass("empty");
 
         // returns the final created chat line to the caller function so
         // it able to run extra logic on top of it

@@ -168,6 +168,10 @@
     height: 277px;
 }
 
+.omni-style .chat-panel.empty > .chat-contents {
+    background: transparent url(../images/chat/empty.png) no-repeat center center;
+}
+
 .omni-style .chat-panel > .chat-contents::-webkit-scrollbar {
     width: 6px;
 }
