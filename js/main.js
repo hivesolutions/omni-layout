@@ -3433,7 +3433,7 @@
 
         // adds the lightbox trigger class to the component
         // so that proper classes may be used
-        matchedObject.addClass("lightbox-trigger")
+        matchedObject.addClass("lightbox-trigger");
 
         // register for the click event in the matched objects
         // to be able to extract the image
