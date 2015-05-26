@@ -179,11 +179,16 @@ body.omni-style.opensans {
 }
 
 .omni-style .link-item-list {
-    min-width: 112px;
+    font-size: 0px;
+    margin-top: 12px;
+    width: 224px;
 }
 
 .omni-style .link-item {
-    margin: 8px 0px 8px 0px;
+    display: inline-block;
+    font-size: 13px;
+    margin: 0px 0px 8px 0px;
+    min-width: 112px;
 }
 
 .omni-style .link-item .link.link-blue.selected {
