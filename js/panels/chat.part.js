@@ -230,7 +230,8 @@
                         name : name,
                         message : message,
                         mid : mid,
-                        timestamp : timestamp
+                        timestamp : timestamp,
+                        bottom : true
                     });
 
             // verifies if this is a myself message or a message from somebody else
@@ -827,7 +828,7 @@
 
             // retrieves the reference to the pushi data structure from the owner
             // and then tries to retrieve the latest information/messages for the
-            // current peer channelt this would populate the chat initialy
+            // current peer channel this would populate the chat initialy
             var pushi = owner.data("pushi");
             pushi.latest("peer-status:" + channel, skip, count,
                     function(channel, data) {
@@ -1313,7 +1314,8 @@
                     // the contents of the text area
                     chatPanel.uchatline({
                                 name : "me",
-                                message : message
+                                message : message,
+                                bottom : true
                             });
 
                     // creates the envelope structure containing
@@ -1460,6 +1462,7 @@
         var timestamp = options["timestamp"] || new Date().getTime() / 1000;
         var plain = options["plain"] || false;
         var target = options["target"] || null;
+        var bottom = options["bottom"] || false;
 
         // retrieves the chat contents for the matched object (chat panel)
         // and then uses it to try to find any previously existing and equivalent
@@ -1521,7 +1524,7 @@
             var isSection = _timestamp <= timestamp;
             var isBuble = _name == name
                     && Math.abs(timestamp - _timestamp) <= 60;
-            if (!isSection && !isBuble) {
+            if (!isSection && !isBuble && !bottom) {
                 continue;
             }
 
