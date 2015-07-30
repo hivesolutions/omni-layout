@@ -1309,14 +1309,6 @@
                         return;
                     }
 
-                    // adds a new chat line to the chat panel with
-                    // the contents of the text area
-                    chatPanel.uchatline({
-                                name : "me",
-                                message : message,
-                                bottom : true
-                            });
-
                     // creates the envelope structure containing
                     // the data of the target user and the message
                     // extraceterd from the current text area
@@ -1329,9 +1321,10 @@
 
                     // retrieves the current pushi object reference and
                     // uses it to send a message to the peer channel
-                    // associated with the pair
+                    // associated with the pair (echo is enabled)
                     var pushi = owner.data("pushi");
-                    pushi.sendChannel("message", data, "peer-status:" + channel);
+                    pushi.sendChannel("message", data,
+                            "peer-status:" + channel, true);
 
                     // unsets the value from the text area, this should
                     // be considered a clenaup operation
