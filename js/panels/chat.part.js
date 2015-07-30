@@ -833,10 +833,10 @@
             pushi.latest("peer-status:" + channel, skip, count,
                     function(channel, data) {
                         // retrieves the reference to the events sequence from the
-                        // provided data object, this value will be percolated (from reverse)
+                        // provided data object, this value will be percolated
                         // to be able to create the initial chat lines
                         var events = data.events;
-                        for (var index = events.length - 1; index >= 0; index--) {
+                        for (var index = 0; index < events.length; index++) {
                             var event = events[index];
                             var mid = event.mid;
                             var timestamp = event.timestamp;
@@ -1521,18 +1521,25 @@
             // for it, these values are going to be used in determining
             // if it's a good fit for the current line operation
             var _paragraph = jQuery(paragraphs[index]);
+            var _previous = jQuery(paragraphs[index - 1]);
             var _name = _paragraph.data("name");
-            var _timestamp = _paragraph.data("timestamp");
             var _dateS = _paragraph.data("date");
+            var _timestamp = _previous.data("timestamp") || 0;
 
             // determines if this is the a valid section (correct
             // timestamp) and if it's the target buble if both of
             // the values are invalid the iteration continues,
             // otherwise in case at least one of the values is valid
             // the current paragraph is selected
-            var isSection = _timestamp <= timestamp;
-            var isBuble = _name == name && _dateS == dateS;
-            if (!isSection && !isBuble && !bottom) {
+
+            // determines if this is the proper buble for which the
+            // newline value should be added, for that a proper
+            // verification on the name of the paragraph, string
+            // data of it and the timestamp of the next (up paragraph)
+            // is going to be performed and verified
+            var isBuble = _name == name && _dateS == dateS
+                    && _timestamp < timestamp;
+            if (!isBuble && !bottom) {
                 continue;
             }
 
