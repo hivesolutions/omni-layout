@@ -2989,6 +2989,14 @@
         var target = options["target"] || null;
         var bottom = options["bottom"] || false;
 
+        // creates the date value for the current line and
+        // the associated string value of it
+        var date = new Date(timestamp * 1000);
+        var dateS = _body.uxtimestamp("format", {
+                    date : date,
+                    format : "%d/%m %H:%M"
+                });
+
         // retrieves the chat contents for the matched object (chat panel)
         // and then uses it to try to find any previously existing and equivalent
         // message chat line and in case it exists and the mid is set returns
@@ -3040,6 +3048,7 @@
             var _paragraph = jQuery(paragraphs[index]);
             var _name = _paragraph.data("name");
             var _timestamp = _paragraph.data("timestamp");
+            var _dateS = _paragraph.data("date");
 
             // determines if this is the a valid section (correct
             // timestamp) and if it's the target buble if both of
@@ -3047,8 +3056,7 @@
             // otherwise in case at least one of the values is valid
             // the current paragraph is selected
             var isSection = _timestamp <= timestamp;
-            var isBuble = _name == name
-                    && Math.abs(timestamp - _timestamp) <= 60;
+            var isBuble = _name == name && _dateS == dateS;
             if (!isSection && !isBuble && !bottom) {
                 continue;
             }
@@ -3064,11 +3072,12 @@
         // item to measure the "time gap between both"
         var _name = paragraph ? paragraph.data("name") : null;
         var _timestamp = paragraph ? paragraph.data("timestamp") : 0;
+        var _dateS = paragraph ? paragraph.data("date") : "";
 
         // in case the name for the author of the line is different
         // from the current name or the time gap between messages
         // is greater than expected a new paragraph must be created
-        if (name != _name || Math.abs(timestamp - _timestamp) > 60) {
+        if (name != _name || dateS != _dateS) {
             // sets the initial reference value as the selected (previous)
             // paragraph and verifies if this is a top (header) paragraph
             // that should be inserted at the the initial part of the contents
@@ -3120,6 +3129,8 @@
                     + "</div>");
             paragraph.css("background-image", "url(" + imageUrl + ")");
             paragraph.css("background-repeat", "no-repeat");
+            paragraph.attr("data-date", timeString);
+            paragraph.data("data-date", timeString);
             paragraph.data("name", name);
 
             // verifies if the current paragraph is a top one and adds the
@@ -3147,7 +3158,9 @@
         var chatLine = jQuery("<div class=\"chat-line\">" + message + "</div>");
         chatLine.attr("data-mid", mid);
         chatLine.attr("timestamp", String(timestamp));
+        chatLine.attr("date", dateS);
         chatLine.data("timestamp", timestamp);
+        chatLine.data("date", dateS);
 
         // retrieves the complete set of previously existing chat line in the paragraph
         // so that it's possible to determine the target position fo line insertion,
@@ -3178,6 +3191,7 @@
         var lastLine = jQuery(".chat-line:last", paragraph);
         var lastTimestamp = lastLine.data("timestamp");
         paragraph.data("timestamp", timestamp);
+        paragraph.attr("timestamp", timestamp);
 
         // verifies if there's a target area for the scroll result, meaning
         // that the scroll of the chat contents should be restored to the
