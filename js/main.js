@@ -1755,8 +1755,7 @@
                         name : name,
                         message : message,
                         mid : mid,
-                        timestamp : timestamp,
-                        bottom : true
+                        timestamp : timestamp
                     });
 
             // verifies if this is a myself message or a message from somebody else
@@ -3049,13 +3048,14 @@
             var _previous = jQuery(paragraphs[index - 1]);
             var _name = _paragraph.data("name");
             var _dateS = _paragraph.data("date");
-            var _timestamp = _previous.data("timestamp") || 0;
+            var _timestamp = _paragraph.data("timestamp") || 0;
+            var _reference = _previous.data("timestamp") || 0;
 
-            // determines if this is the a valid section (correct
-            // timestamp) and if it's the target buble if both of
-            // the values are invalid the iteration continues,
-            // otherwise in case at least one of the values is valid
-            // the current paragraph is selected
+            // verifies if this is the first iteration and if that's
+            // the case a special verification is performed to make
+            // sure that the line should be introduced at the beginning
+            var isFirst = index == paragraphs.length - 1;
+            var isInitial = isFirst && _timestamp < timestamp;
 
             // determines if this is the proper buble for which the
             // newline value should be added, for that a proper
@@ -3063,8 +3063,12 @@
             // data of it and the timestamp of the next (up paragraph)
             // is going to be performed and verified
             var isBuble = _name == name && _dateS == dateS
-                    && _timestamp < timestamp;
-            if (!isBuble && !bottom) {
+                    && _reference < timestamp;
+
+            // verifies if any of the coditions (initial, buble found
+            // or forced bottom) is matched and if that's not the case
+            // continues the iteration trying to find a paragraph up
+            if (!isInitial && !isBuble && !bottom) {
                 continue;
             }
 
@@ -3262,85 +3266,6 @@
         // returns the final created chat line to the caller function so
         // it able to run extra logic on top of it
         return chatLine;
-    };
-})(jQuery);
-
-(function(jQuery) {
-
-    /**
-     * The regular expression that is going to be used to match valid image
-     * urls, note that no mime type inspection is used.
-     */
-    var IMAGE_REGEX = new RegExp(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*\.(png|jpg|jpeg|gif)[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
-
-    /**
-     * The regular expression that is going to be used to try to find/match the
-     * youtube link based relations.
-     */
-    var YOUTUBE_REGEX = new RegExp(/(\b(https?):\/\/(www\.)?youtube.com[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
-
-    /**
-     * The regular expression to be used in the matching of url expression to be
-     * substituted with link based elements.
-     */
-    var URL_REGEX = new RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
-
-    jQuery.uchatreplacer = function(message) {
-        var extras = "";
-
-        var parse = function(url) {
-            var parts = url.split("?");
-            if (parts.length < 2) {
-                return {};
-            }
-            var query = parts[1];
-            var assocs = query.split("&");
-            var result = {};
-            for (var index = 0; index < assocs.length; index++) {
-                var assoc = assocs[index];
-                var struct = assoc.split("=");
-                result[struct[0]] = struct[1];
-            }
-            return result;
-        };
-
-        var image = function(message) {
-            var result = message.match(IMAGE_REGEX);
-            if (!result) {
-                return message;
-            }
-            result = result[0];
-            extras += "<a href=\"" + result + "\" target=\"_blank\">"
-                    + "<img src=\"" + result + "\"/>" + "</a>";
-            return result == message ? "" : message;
-        };
-
-        var youtube = function(message) {
-            var result = message.match(YOUTUBE_REGEX);
-            if (!result) {
-                return message;
-            }
-            result = result[0];
-            var parsed = parse(result);
-            var youtubeId = parsed["v"];
-            extras += "<iframe height=\"200\""
-                    + " src=\"//www.youtube.com/embed/" + youtubeId
-                    + "?controls=0\"" + " frameborder=\"0\"></iframe>";
-            return result == message ? "" : message;
-        };
-
-        var url = function(message) {
-            // runs the regex based replacement in the values so that
-            // the correct component is displayed in the chat line
-            message = message.replace(URL_REGEX,
-                    "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
-            return message;
-        };
-
-        message = image(message);
-        message = youtube(message);
-        message = url(message);
-        return [message, extras];
     };
 })(jQuery);
 
