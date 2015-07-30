@@ -3030,15 +3030,28 @@
         var paragraphs = jQuery("> .chat-paragraph", contents);
         var paragraph = null;
         for (var index = paragraphs.length - 1; index >= 0; index--) {
+            // retrieves the reference to the current paragraph in
+            // iteration and then gathers the name and the timestamp
+            // for it, these values are going to be used in determining
+            // if it's a good fit for the current line operation
             var _paragraph = jQuery(paragraphs[index]);
             var _name = _paragraph.data("name");
             var _timestamp = _paragraph.data("timestamp");
+
+            // determines if this is the a valid section (correct
+            // timestamp) and if it's the target buble if both of
+            // the values are invalid the iteration continues,
+            // otherwise in case at least one of the values is valid
+            // the current paragraph is selected
             var isSection = _timestamp <= timestamp;
             var isBuble = _name == name
                     && Math.abs(timestamp - _timestamp) <= 60;
             if (!isSection && !isBuble) {
                 continue;
             }
+
+            // sets the current paragraph in iteration as the target
+            // one and then breaks the current iteration loop
             paragraph = _paragraph;
             break;
         }
