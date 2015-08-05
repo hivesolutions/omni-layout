@@ -1135,7 +1135,7 @@
                             });
                 });
 
-        return matchedObject;
+        return this;
     };
 })(jQuery);
 
@@ -4317,7 +4317,7 @@
                     }
                 });
 
-        return matchedObject;
+        return this;
     };
 })(jQuery);
 

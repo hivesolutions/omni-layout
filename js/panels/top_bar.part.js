@@ -30,6 +30,6 @@
                     }
                 });
 
-        return matchedObject;
+        return this;
     };
 })(jQuery);
