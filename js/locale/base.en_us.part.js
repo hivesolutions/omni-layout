@@ -21,7 +21,7 @@
         "sold {{%s}} for {{%s}}" : "sold {{%s}} for {{%s}}",
         "consigned {{%s}} for {{%s}}" : "consigned {{%s}} for {{%s}}",
         "returned {{%s}} worth {{%s}} of sale {{%s}}" : "returned {{%s}} worth {{%s}} of sale {{%s}}",
-        "created {{%s}}" : " created {{%s}}",
+        "created {{%s}}" : "created {{%s}}",
         "edited {{%s}}" : "edited {{%s}}",
         "deleted {{%s}}" : "deleted {{%s}}",
         "undeleted {{%s}}" : "undeleted {{%s}}",
