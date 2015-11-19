@@ -698,6 +698,13 @@ body.omni-style.opensans {
     display: block;
 }
 
+.omni-style .drop-field.entities-search .entity-reference {
+    color: #000000;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 2px 0px 0px 0px;
+}
+
 .omni-style .activity-list {
     list-style: none;
     margin: 0px 0px 0px 0px;
