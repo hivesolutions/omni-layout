@@ -703,6 +703,9 @@ body.omni-style.opensans {
     font-size: 13px;
     font-weight: bold;
     margin: 2px 0px 0px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .omni-style .activity-list {
