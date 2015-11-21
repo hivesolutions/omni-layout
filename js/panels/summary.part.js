@@ -116,8 +116,8 @@
             // registers for the update complete event on the target
             // element as that means that all of the elements have
             // been unselected as new data has been receieved
-            element.bind("update_complete", function() {
-                        _element.hide();
+            element.bind("update_complete", function(event, reset) {
+                        reset && _element.hide();
                     });
         });
     };
