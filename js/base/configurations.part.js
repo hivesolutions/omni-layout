@@ -19,10 +19,10 @@
         var objectId = jQuery("#object-id", matchedObject).html();
         var username = jQuery("#username", matchedObject).html();
         var representation = jQuery("#representation", matchedObject).html();
-        var definitions_s = jQuery("#definitions", matchedObject).html();
-        var alias_s = jQuery("#alias", matchedObject).html();
-        var definitions = jQuery.parseJSON(definitions_s) || {};
-        var alias = jQuery.parseJSON(alias_s) || {};
+        var definitionsS = jQuery("#definitions", matchedObject).html();
+        var aliasS = jQuery("#alias", matchedObject).html();
+        var definitions = definitionsS ? jQuery.parseJSON(definitionsS) : {};
+        var alias = aliasS ? jQuery.parseJSON(aliasS) : {};
         var sections = definitions["sections"] || {};
         var classIdUrl = definitions["class_id_url"] || {};
 
