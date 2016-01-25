@@ -25,38 +25,38 @@
             // that exist in the object, so that they can be handled in
             // an async fashion if thats the case
             links.click(function(event) {
-                        // in case the control key is pressed the event operation is
-                        // not meant to be overriden and should be ignored
-                        if (event.metaKey || event.ctrlKey) {
-                            return;
-                        }
+                // in case the control key is pressed the event operation is
+                // not meant to be overriden and should be ignored
+                if (event.metaKey || event.ctrlKey) {
+                    return;
+                }
 
-                        // in case the click used the right or center button the
-                        // event should be ignored not meant to be overriden
-                        if (event.which == 2 || event.which == 3) {
-                            return;
-                        }
+                // in case the click used the right or center button the
+                // event should be ignored not meant to be overriden
+                if (event.which == 2 || event.which == 3) {
+                    return;
+                }
 
-                        // retrieves the current element and the current link
-                        // associated so that it can be validated and tested in
-                        // the current async environment
-                        var element = jQuery(this);
-                        var href = element.attr("href");
+                // retrieves the current element and the current link
+                // associated so that it can be validated and tested in
+                // the current async environment
+                var element = jQuery(this);
+                var href = element.attr("href");
 
-                        // verifies if the link element contains the flag class
-                        // that prevent the typical async behavior, if that's the
-                        // case the current method returns immediately
-                        var noAsync = element.hasClass("no-async");
-                        if (noAsync) {
-                            return;
-                        }
+                // verifies if the link element contains the flag class
+                // that prevent the typical async behavior, if that's the
+                // case the current method returns immediately
+                var noAsync = element.hasClass("no-async");
+                if (noAsync) {
+                    return;
+                }
 
-                        // runs the async link execution with no force flag set
-                        // and in case it run through avoids the default link
-                        // behavior (avoid duplicated execution)
-                        var result = jQuery.uxlinkasync(href, false);
-                        result && event.preventDefault();
-                    });
+                // runs the async link execution with no force flag set
+                // and in case it run through avoids the default link
+                // behavior (avoid duplicated execution)
+                var result = jQuery.uxlinkasync(href, false);
+                result && event.preventDefault();
+            });
 
             // retrieves the current async registration flag from the body
             // elemennt in case it's currently set returns immediately to
@@ -70,110 +70,109 @@
             // data available the layour is update in acordance, so that the async
             // requests are reflected in a layout change
             _body.bind("data", function(event, data, href, uuid, push, hbase) {
-                        // in case no unique identifier for the state exists generates a new
-                        // on in order to identify the current layout state
-                        uuid = uuid || jQuery.uxguid();
+                // in case no unique identifier for the state exists generates a new
+                // on in order to identify the current layout state
+                uuid = uuid || jQuery.uxguid();
 
-                        // retrieves the default hiperlink base value as the target link value
-                        // this value may be used to customize the url versus link resolution
-                        hbase = hbase || href;
+                // retrieves the default hiperlink base value as the target link value
+                // this value may be used to customize the url versus link resolution
+                hbase = hbase || href;
 
-                        // creates the object that describes the current state with both the
-                        // unique identifier of the state and the link that generated it
-                        var state = {
-                            uuid : uuid,
-                            href : href
-                        };
+                // creates the object that describes the current state with both the
+                // unique identifier of the state and the link that generated it
+                var state = {
+                    uuid: uuid,
+                    href: href
+                };
 
-                        try {
-                            // replaces the image source references in the requested
-                            // data so that no extra images are loaded then loads the
-                            // data as the base object structure
-                            data = data.replace(/src=/ig, "aux-src=");
-                            var base = jQuery(data);
+                try {
+                    // replaces the image source references in the requested
+                    // data so that no extra images are loaded then loads the
+                    // data as the base object structure
+                    data = data.replace(/src=/ig, "aux-src=");
+                    var base = jQuery(data);
 
-                            // extracts the special body associated data from the data
-                            // value escapes it with a special value and then creates
-                            // the logical element representation for it
-                            var bodyData = data.match(/<body.*>[^\0]*<\/body>/ig)[0];
-                            bodyData = bodyData.replace("body", "body_");
-                            var body = jQuery(bodyData);
+                    // extracts the special body associated data from the data
+                    // value escapes it with a special value and then creates
+                    // the logical element representation for it
+                    var bodyData = data.match(/<body.*>[^\0]*<\/body>/ig)[0];
+                    bodyData = bodyData.replace("body", "body_");
+                    var body = jQuery(bodyData);
 
-                            // retrieves the information on the current layout state and
-                            // on the current base element state, so that options may be
-                            // taken on the kind of transforms to apply
-                            var _isFull = isFull();
-                            var _isSimple = isSimple();
-                            var _isBaseFull = isBaseFull(base);
-                            var _isBaseSimple = isBaseSimple(base);
+                    // retrieves the information on the current layout state and
+                    // on the current base element state, so that options may be
+                    // taken on the kind of transforms to apply
+                    var _isFull = isFull();
+                    var _isSimple = isSimple();
+                    var _isBaseFull = isBaseFull(base);
+                    var _isBaseSimple = isBaseSimple(base);
 
-                            // verifies if the current layout and the target layout for
-                            // loadinf are valid for layout change in case they're not
-                            // raises an exception indicating the problem
-                            var isValid = (_isFull || _isSimple)
-                                    && (_isBaseFull || _isBaseSimple);
-                            if (!isValid) {
-                                throw "Invalid layout or layout not found";
-                            }
+                    // verifies if the current layout and the target layout for
+                    // loadinf are valid for layout change in case they're not
+                    // raises an exception indicating the problem
+                    var isValid = (_isFull || _isSimple) && (_isBaseFull || _isBaseSimple);
+                    if (!isValid) {
+                        throw "Invalid layout or layout not found";
+                    }
 
-                            // triggers the pre async event to notify the listening handlers
-                            // that the async modification operations are going to be
-                            // started and that the dom is going to be modified
-                            _body.triggerHandler("pre_async");
+                    // triggers the pre async event to notify the listening handlers
+                    // that the async modification operations are going to be
+                    // started and that the dom is going to be modified
+                    _body.triggerHandler("pre_async");
 
-                            // hides the current body reference so that all of the update
-                            // operations occur with the ui disabled (faster performance)
-                            // and the user experience is not broken
-                            _body.hide();
+                    // hides the current body reference so that all of the update
+                    // operations occur with the ui disabled (faster performance)
+                    // and the user experience is not broken
+                    _body.hide();
 
-                            // updates the base (resolution) tag in the document header
-                            // so that it reflects the proper link resolution, expected
-                            // for the current document state
-                            updateBase(hbase);
+                    // updates the base (resolution) tag in the document header
+                    // so that it reflects the proper link resolution, expected
+                    // for the current document state
+                    updateBase(hbase);
 
-                            // verifies if the kind of layout update to be performed is
-                            // full or not and then executes the proper logic depending
-                            // on the kind of update operation to be performed
-                            var isUpdateFull = _isFull && _isBaseFull;
-                            if (isUpdateFull) {
-                                updateFull(base, body);
-                            } else {
-                                updateSimple(base, body);
-                            }
+                    // verifies if the kind of layout update to be performed is
+                    // full or not and then executes the proper logic depending
+                    // on the kind of update operation to be performed
+                    var isUpdateFull = _isFull && _isBaseFull;
+                    if (isUpdateFull) {
+                        updateFull(base, body);
+                    } else {
+                        updateSimple(base, body);
+                    }
 
-                            // updates the globally unique identifier representation for
-                            // the current state in the current structures
-                            updateGuid(uuid);
+                    // updates the globally unique identifier representation for
+                    // the current state in the current structures
+                    updateGuid(uuid);
 
-                            // restores the display of the body so that the elements of
-                            // it are restored to the user, also scroll the body element
-                            // to the top so that the feel is of a new page
-                            _body.show();
-                            _body.scrollTop(0);
+                    // restores the display of the body so that the elements of
+                    // it are restored to the user, also scroll the body element
+                    // to the top so that the feel is of a new page
+                    _body.show();
+                    _body.scrollTop(0);
 
-                            // triggers the post async event to notify the listening
-                            // handlers about the end of the dom modification operations
-                            // so that many operations may be resumed
-                            _body.triggerHandler("post_async");
+                    // triggers the post async event to notify the listening
+                    // handlers about the end of the dom modification operations
+                    // so that many operations may be resumed
+                    _body.triggerHandler("post_async");
 
-                            // in case this is not a verified operation the current state
-                            // must be pushed into the history stack, so that we're able
-                            // to rollback to it latter
-                            push && window.history.pushState(state, null, href);
-                        } catch (exception) {
-                            document.location = href;
-                        }
-                    });
+                    // in case this is not a verified operation the current state
+                    // must be pushed into the history stack, so that we're able
+                    // to rollback to it latter
+                    push && window.history.pushState(state, null, href);
+                } catch (exception) {
+                    document.location = href;
+                }
+            });
 
             // registers for the async envent that should be triggered
             // as a validator for the asyncronous execution of calls, plugins
             // like the form should use this event to validate their
             // own behavior, and react to the result of this event
             _body.bind("async", function() {
-                        var _isFull = isFull();
-                        var _isSimple = isSimple();
-                        return _isFull || _isSimple;
-                    });
+                var _isFull = isFull();
+                var _isSimple = isSimple();
+                return _isFull || _isSimple;
+            });
 
             // registers for the async start event that marks the
             // the start of a remote asycn call with the intension
@@ -194,8 +193,8 @@
 
                     // creates the notification message that will indicate the loading
                     // of the new panel and adds it to the notifications container
-                    var notification = jQuery("<div class=\"header-notification warning\"><strong>"
-                            + loading + "</strong></div>");
+                    var notification = jQuery("<div class=\"header-notification warning\"><strong>" +
+                        loading + "</strong></div>");
                     container.append(notification);
                 }
 
@@ -204,9 +203,8 @@
                 var topLoader = jQuery(".top-loader");
                 if (topLoader.length == 0) {
                     var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
-                    var topLoader = jQuery("<div class=\"top-loader\">"
-                            + "<div class=\"loader-background\"></div>"
-                            + "</div>");
+                    var topLoader = jQuery("<div class=\"top-loader\">" +
+                        "<div class=\"loader-background\"></div>" + "</div>");
                     rightPanel.after(topLoader);
                 }
 
@@ -215,8 +213,8 @@
                 topLoader.width(0);
                 topLoader.show();
                 topLoader.animate({
-                            width : 60
-                        }, 100);
+                    width: 60
+                }, 100);
             });
 
             // registers for the async end event that marks the end of the remote
@@ -240,30 +238,30 @@
                 // bar to the final part of the contents and fading it afterwards
                 var topLoader = jQuery(".top-loader");
                 topLoader.animate({
-                            width : 566
-                        }, 150, function() {
-                            // verifies if the top loader is currently visible if that's
-                            // the case fades it out (ux effect) otherwise hides it immediately
-                            // to avoid problems with the fading effect
-                            var isVisible = topLoader.is(":visible");
-                            if (isVisible) {
-                                topLoader.fadeOut(150);
-                            } else {
-                                topLoader.hide();
-                            }
-                        });
+                    width: 566
+                }, 150, function() {
+                    // verifies if the top loader is currently visible if that's
+                    // the case fades it out (ux effect) otherwise hides it immediately
+                    // to avoid problems with the fading effect
+                    var isVisible = topLoader.is(":visible");
+                    if (isVisible) {
+                        topLoader.fadeOut(150);
+                    } else {
+                        topLoader.hide();
+                    }
+                });
             });
 
             // registers for the location changed event in order to validate the
             // location changes for async execution then sets the async flag in the
             // current body in order duplicated registration
             _body.bind("location", function(event, location) {
-                        // tries to run the async link logic and in case it goes through
-                        // cancels the current event returning an invalid value, so that
-                        // the default location setting logic does not run
-                        var result = jQuery.uxlinkasync(location, false);
-                        return !result;
-                    });
+                // tries to run the async link logic and in case it goes through
+                // cancels the current event returning an invalid value, so that
+                // the default location setting logic does not run
+                var result = jQuery.uxlinkasync(location, false);
+                return !result;
+            });
             _body.data("async", true);
         };
 
@@ -280,8 +278,8 @@
             // compatability with the current invalid state support
             var href = document.location.href;
             var state = {
-                uuid : jQuery.uxguid(),
-                href : href
+                uuid: jQuery.uxguid(),
+                href: href
             };
             window.history.replaceState(state, null, href);
 
@@ -298,8 +296,8 @@
                 if (event.state == null) {
                     var href = document.location.href;
                     var state = {
-                        uuid : jQuery.uxguid(),
-                        href : href
+                        uuid: jQuery.uxguid(),
+                        href: href
                     };
                     window.history.replaceState(state, null, href);
                     return;
@@ -499,10 +497,10 @@
 
         // appends both the css file and the javascript logic for the
         // target section so that it's correctly loaded
-        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue
-                + "resources/css/layout.css\" type=\"text/css\" />");
-        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue
-                + "resources/js/main.js\"></script>");
+        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue +
+            "resources/css/layout.css\" type=\"text/css\" />");
+        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue +
+            "resources/js/main.js\"></script>");
     };
 
     var updateLocale = function(base) {
@@ -552,8 +550,7 @@
         var menu_ = jQuery(".top-bar .system-menu");
         var menuHtml = menu.html();
         menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
-        menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml
-                + "</div>");
+        menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml + "</div>");
         menu_ = jQuery(".top-bar .system-menu");
         menu_.uxapply();
     };

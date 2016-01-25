@@ -13,22 +13,22 @@
         // visibility of the top bar
         var handle = jQuery(".top-bar-handle", matchedObject)
         handle.click(function() {
-                    var element = jQuery(this);
-                    var slider = element.parents(".top-bar-slider");
+            var element = jQuery(this);
+            var slider = element.parents(".top-bar-slider");
 
-                    var isUp = element.hasClass("up");
-                    if (isUp) {
-                        contentBar.removeClass("visible");
-                        contentMargin.removeClass("visible");
-                        slider.removeClass("visible");
-                        element.removeClass("up");
-                    } else {
-                        contentBar.addClass("visible");
-                        contentMargin.addClass("visible");
-                        slider.addClass("visible");
-                        element.addClass("up");
-                    }
-                });
+            var isUp = element.hasClass("up");
+            if (isUp) {
+                contentBar.removeClass("visible");
+                contentMargin.removeClass("visible");
+                slider.removeClass("visible");
+                element.removeClass("up");
+            } else {
+                contentBar.addClass("visible");
+                contentMargin.addClass("visible");
+                slider.addClass("visible");
+                element.addClass("up");
+            }
+        });
 
         return this;
     };

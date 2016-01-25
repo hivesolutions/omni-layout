@@ -93,7 +93,7 @@
         // retrieves the reference to the various images that are
         // going to be used as lightbox triggers
         var image = jQuery(".lightbox-trigger, .entity-big-picture > img",
-                matchedObject);
+            matchedObject);
         image.ulightbox();
     };
 })(jQuery);
@@ -125,38 +125,38 @@
             // that exist in the object, so that they can be handled in
             // an async fashion if thats the case
             links.click(function(event) {
-                        // in case the control key is pressed the event operation is
-                        // not meant to be overriden and should be ignored
-                        if (event.metaKey || event.ctrlKey) {
-                            return;
-                        }
+                // in case the control key is pressed the event operation is
+                // not meant to be overriden and should be ignored
+                if (event.metaKey || event.ctrlKey) {
+                    return;
+                }
 
-                        // in case the click used the right or center button the
-                        // event should be ignored not meant to be overriden
-                        if (event.which == 2 || event.which == 3) {
-                            return;
-                        }
+                // in case the click used the right or center button the
+                // event should be ignored not meant to be overriden
+                if (event.which == 2 || event.which == 3) {
+                    return;
+                }
 
-                        // retrieves the current element and the current link
-                        // associated so that it can be validated and tested in
-                        // the current async environment
-                        var element = jQuery(this);
-                        var href = element.attr("href");
+                // retrieves the current element and the current link
+                // associated so that it can be validated and tested in
+                // the current async environment
+                var element = jQuery(this);
+                var href = element.attr("href");
 
-                        // verifies if the link element contains the flag class
-                        // that prevent the typical async behavior, if that's the
-                        // case the current method returns immediately
-                        var noAsync = element.hasClass("no-async");
-                        if (noAsync) {
-                            return;
-                        }
+                // verifies if the link element contains the flag class
+                // that prevent the typical async behavior, if that's the
+                // case the current method returns immediately
+                var noAsync = element.hasClass("no-async");
+                if (noAsync) {
+                    return;
+                }
 
-                        // runs the async link execution with no force flag set
-                        // and in case it run through avoids the default link
-                        // behavior (avoid duplicated execution)
-                        var result = jQuery.uxlinkasync(href, false);
-                        result && event.preventDefault();
-                    });
+                // runs the async link execution with no force flag set
+                // and in case it run through avoids the default link
+                // behavior (avoid duplicated execution)
+                var result = jQuery.uxlinkasync(href, false);
+                result && event.preventDefault();
+            });
 
             // retrieves the current async registration flag from the body
             // elemennt in case it's currently set returns immediately to
@@ -170,110 +170,109 @@
             // data available the layour is update in acordance, so that the async
             // requests are reflected in a layout change
             _body.bind("data", function(event, data, href, uuid, push, hbase) {
-                        // in case no unique identifier for the state exists generates a new
-                        // on in order to identify the current layout state
-                        uuid = uuid || jQuery.uxguid();
+                // in case no unique identifier for the state exists generates a new
+                // on in order to identify the current layout state
+                uuid = uuid || jQuery.uxguid();
 
-                        // retrieves the default hiperlink base value as the target link value
-                        // this value may be used to customize the url versus link resolution
-                        hbase = hbase || href;
+                // retrieves the default hiperlink base value as the target link value
+                // this value may be used to customize the url versus link resolution
+                hbase = hbase || href;
 
-                        // creates the object that describes the current state with both the
-                        // unique identifier of the state and the link that generated it
-                        var state = {
-                            uuid : uuid,
-                            href : href
-                        };
+                // creates the object that describes the current state with both the
+                // unique identifier of the state and the link that generated it
+                var state = {
+                    uuid: uuid,
+                    href: href
+                };
 
-                        try {
-                            // replaces the image source references in the requested
-                            // data so that no extra images are loaded then loads the
-                            // data as the base object structure
-                            data = data.replace(/src=/ig, "aux-src=");
-                            var base = jQuery(data);
+                try {
+                    // replaces the image source references in the requested
+                    // data so that no extra images are loaded then loads the
+                    // data as the base object structure
+                    data = data.replace(/src=/ig, "aux-src=");
+                    var base = jQuery(data);
 
-                            // extracts the special body associated data from the data
-                            // value escapes it with a special value and then creates
-                            // the logical element representation for it
-                            var bodyData = data.match(/<body.*>[^\0]*<\/body>/ig)[0];
-                            bodyData = bodyData.replace("body", "body_");
-                            var body = jQuery(bodyData);
+                    // extracts the special body associated data from the data
+                    // value escapes it with a special value and then creates
+                    // the logical element representation for it
+                    var bodyData = data.match(/<body.*>[^\0]*<\/body>/ig)[0];
+                    bodyData = bodyData.replace("body", "body_");
+                    var body = jQuery(bodyData);
 
-                            // retrieves the information on the current layout state and
-                            // on the current base element state, so that options may be
-                            // taken on the kind of transforms to apply
-                            var _isFull = isFull();
-                            var _isSimple = isSimple();
-                            var _isBaseFull = isBaseFull(base);
-                            var _isBaseSimple = isBaseSimple(base);
+                    // retrieves the information on the current layout state and
+                    // on the current base element state, so that options may be
+                    // taken on the kind of transforms to apply
+                    var _isFull = isFull();
+                    var _isSimple = isSimple();
+                    var _isBaseFull = isBaseFull(base);
+                    var _isBaseSimple = isBaseSimple(base);
 
-                            // verifies if the current layout and the target layout for
-                            // loadinf are valid for layout change in case they're not
-                            // raises an exception indicating the problem
-                            var isValid = (_isFull || _isSimple)
-                                    && (_isBaseFull || _isBaseSimple);
-                            if (!isValid) {
-                                throw "Invalid layout or layout not found";
-                            }
+                    // verifies if the current layout and the target layout for
+                    // loadinf are valid for layout change in case they're not
+                    // raises an exception indicating the problem
+                    var isValid = (_isFull || _isSimple) && (_isBaseFull || _isBaseSimple);
+                    if (!isValid) {
+                        throw "Invalid layout or layout not found";
+                    }
 
-                            // triggers the pre async event to notify the listening handlers
-                            // that the async modification operations are going to be
-                            // started and that the dom is going to be modified
-                            _body.triggerHandler("pre_async");
+                    // triggers the pre async event to notify the listening handlers
+                    // that the async modification operations are going to be
+                    // started and that the dom is going to be modified
+                    _body.triggerHandler("pre_async");
 
-                            // hides the current body reference so that all of the update
-                            // operations occur with the ui disabled (faster performance)
-                            // and the user experience is not broken
-                            _body.hide();
+                    // hides the current body reference so that all of the update
+                    // operations occur with the ui disabled (faster performance)
+                    // and the user experience is not broken
+                    _body.hide();
 
-                            // updates the base (resolution) tag in the document header
-                            // so that it reflects the proper link resolution, expected
-                            // for the current document state
-                            updateBase(hbase);
+                    // updates the base (resolution) tag in the document header
+                    // so that it reflects the proper link resolution, expected
+                    // for the current document state
+                    updateBase(hbase);
 
-                            // verifies if the kind of layout update to be performed is
-                            // full or not and then executes the proper logic depending
-                            // on the kind of update operation to be performed
-                            var isUpdateFull = _isFull && _isBaseFull;
-                            if (isUpdateFull) {
-                                updateFull(base, body);
-                            } else {
-                                updateSimple(base, body);
-                            }
+                    // verifies if the kind of layout update to be performed is
+                    // full or not and then executes the proper logic depending
+                    // on the kind of update operation to be performed
+                    var isUpdateFull = _isFull && _isBaseFull;
+                    if (isUpdateFull) {
+                        updateFull(base, body);
+                    } else {
+                        updateSimple(base, body);
+                    }
 
-                            // updates the globally unique identifier representation for
-                            // the current state in the current structures
-                            updateGuid(uuid);
+                    // updates the globally unique identifier representation for
+                    // the current state in the current structures
+                    updateGuid(uuid);
 
-                            // restores the display of the body so that the elements of
-                            // it are restored to the user, also scroll the body element
-                            // to the top so that the feel is of a new page
-                            _body.show();
-                            _body.scrollTop(0);
+                    // restores the display of the body so that the elements of
+                    // it are restored to the user, also scroll the body element
+                    // to the top so that the feel is of a new page
+                    _body.show();
+                    _body.scrollTop(0);
 
-                            // triggers the post async event to notify the listening
-                            // handlers about the end of the dom modification operations
-                            // so that many operations may be resumed
-                            _body.triggerHandler("post_async");
+                    // triggers the post async event to notify the listening
+                    // handlers about the end of the dom modification operations
+                    // so that many operations may be resumed
+                    _body.triggerHandler("post_async");
 
-                            // in case this is not a verified operation the current state
-                            // must be pushed into the history stack, so that we're able
-                            // to rollback to it latter
-                            push && window.history.pushState(state, null, href);
-                        } catch (exception) {
-                            document.location = href;
-                        }
-                    });
+                    // in case this is not a verified operation the current state
+                    // must be pushed into the history stack, so that we're able
+                    // to rollback to it latter
+                    push && window.history.pushState(state, null, href);
+                } catch (exception) {
+                    document.location = href;
+                }
+            });
 
             // registers for the async envent that should be triggered
             // as a validator for the asyncronous execution of calls, plugins
             // like the form should use this event to validate their
             // own behavior, and react to the result of this event
             _body.bind("async", function() {
-                        var _isFull = isFull();
-                        var _isSimple = isSimple();
-                        return _isFull || _isSimple;
-                    });
+                var _isFull = isFull();
+                var _isSimple = isSimple();
+                return _isFull || _isSimple;
+            });
 
             // registers for the async start event that marks the
             // the start of a remote asycn call with the intension
@@ -294,8 +293,8 @@
 
                     // creates the notification message that will indicate the loading
                     // of the new panel and adds it to the notifications container
-                    var notification = jQuery("<div class=\"header-notification warning\"><strong>"
-                            + loading + "</strong></div>");
+                    var notification = jQuery("<div class=\"header-notification warning\"><strong>" +
+                        loading + "</strong></div>");
                     container.append(notification);
                 }
 
@@ -304,9 +303,8 @@
                 var topLoader = jQuery(".top-loader");
                 if (topLoader.length == 0) {
                     var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
-                    var topLoader = jQuery("<div class=\"top-loader\">"
-                            + "<div class=\"loader-background\"></div>"
-                            + "</div>");
+                    var topLoader = jQuery("<div class=\"top-loader\">" +
+                        "<div class=\"loader-background\"></div>" + "</div>");
                     rightPanel.after(topLoader);
                 }
 
@@ -315,8 +313,8 @@
                 topLoader.width(0);
                 topLoader.show();
                 topLoader.animate({
-                            width : 60
-                        }, 100);
+                    width: 60
+                }, 100);
             });
 
             // registers for the async end event that marks the end of the remote
@@ -340,30 +338,30 @@
                 // bar to the final part of the contents and fading it afterwards
                 var topLoader = jQuery(".top-loader");
                 topLoader.animate({
-                            width : 566
-                        }, 150, function() {
-                            // verifies if the top loader is currently visible if that's
-                            // the case fades it out (ux effect) otherwise hides it immediately
-                            // to avoid problems with the fading effect
-                            var isVisible = topLoader.is(":visible");
-                            if (isVisible) {
-                                topLoader.fadeOut(150);
-                            } else {
-                                topLoader.hide();
-                            }
-                        });
+                    width: 566
+                }, 150, function() {
+                    // verifies if the top loader is currently visible if that's
+                    // the case fades it out (ux effect) otherwise hides it immediately
+                    // to avoid problems with the fading effect
+                    var isVisible = topLoader.is(":visible");
+                    if (isVisible) {
+                        topLoader.fadeOut(150);
+                    } else {
+                        topLoader.hide();
+                    }
+                });
             });
 
             // registers for the location changed event in order to validate the
             // location changes for async execution then sets the async flag in the
             // current body in order duplicated registration
             _body.bind("location", function(event, location) {
-                        // tries to run the async link logic and in case it goes through
-                        // cancels the current event returning an invalid value, so that
-                        // the default location setting logic does not run
-                        var result = jQuery.uxlinkasync(location, false);
-                        return !result;
-                    });
+                // tries to run the async link logic and in case it goes through
+                // cancels the current event returning an invalid value, so that
+                // the default location setting logic does not run
+                var result = jQuery.uxlinkasync(location, false);
+                return !result;
+            });
             _body.data("async", true);
         };
 
@@ -380,8 +378,8 @@
             // compatability with the current invalid state support
             var href = document.location.href;
             var state = {
-                uuid : jQuery.uxguid(),
-                href : href
+                uuid: jQuery.uxguid(),
+                href: href
             };
             window.history.replaceState(state, null, href);
 
@@ -398,8 +396,8 @@
                 if (event.state == null) {
                     var href = document.location.href;
                     var state = {
-                        uuid : jQuery.uxguid(),
-                        href : href
+                        uuid: jQuery.uxguid(),
+                        href: href
                     };
                     window.history.replaceState(state, null, href);
                     return;
@@ -599,10 +597,10 @@
 
         // appends both the css file and the javascript logic for the
         // target section so that it's correctly loaded
-        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue
-                + "resources/css/layout.css\" type=\"text/css\" />");
-        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue
-                + "resources/js/main.js\"></script>");
+        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue +
+            "resources/css/layout.css\" type=\"text/css\" />");
+        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue +
+            "resources/js/main.js\"></script>");
     };
 
     var updateLocale = function(base) {
@@ -652,8 +650,7 @@
         var menu_ = jQuery(".top-bar .system-menu");
         var menuHtml = menu.html();
         menuHtml = menuHtml.replace(/aux-src=/ig, "src=");
-        menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml
-                + "</div>");
+        menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml + "</div>");
         menu_ = jQuery(".top-bar .system-menu");
         menu_.uxapply();
     };
@@ -1015,9 +1012,7 @@
             // its components to be used to create the filter string
             var filter = filters[index];
             var name = filter[0];
-            var value = filter.length == 3
-                    ? String(filter[2])
-                    : String(filter[1]);
+            var value = filter.length == 3 ? String(filter[2]) : String(filter[1]);
             var operation = filter.length == 3 ? filter[1] : "equals";
 
             // creates the filter string from the various components of it
@@ -1036,13 +1031,13 @@
         // parameters including the composite url and the
         // transformed data object
         jQuery.ajax({
-                    type : type,
-                    url : url,
-                    data : data,
-                    complete : complete,
-                    success : success,
-                    error : error
-                });
+            type: type,
+            url: url,
+            data: data,
+            complete: complete,
+            success: success,
+            error: error
+        });
     };
 })(jQuery);
 
@@ -1054,86 +1049,86 @@
         // iterates over each of the menu elements
         // to build them accordingly
         matchedObject.each(function(index, element) {
-                    // retrieves the current element and the associated
-                    // switch and back buttons
-                    var _element = jQuery(this);
-                    var _switch = jQuery(".switch", _element);
-                    var back = jQuery(".back", _element);
+            // retrieves the current element and the associated
+            // switch and back buttons
+            var _element = jQuery(this);
+            var _switch = jQuery(".switch", _element);
+            var back = jQuery(".back", _element);
 
-                    // registers for the show event so that whenever the
-                    // menu is displayed the account panel is shown
-                    _element.bind("show", function() {
-                                // tenho de apagar o que est actualmente e mostrar o outro
-                                // ou fazer push para a stack para depois fazer pop
-                                var element = jQuery(this);
+            // registers for the show event so that whenever the
+            // menu is displayed the account panel is shown
+            _element.bind("show", function() {
+                // tenho de apagar o que est actualmente e mostrar o outro
+                // ou fazer push para a stack para depois fazer pop
+                var element = jQuery(this);
 
-                                // sets the current reference to the menu as the element
-                                // currently in iteration
-                                var menu = _element;
+                // sets the current reference to the menu as the element
+                // currently in iteration
+                var menu = _element;
 
-                                // retrieves the references for both the account and
-                                // the switch panels to be toggled
-                                var accountPanel = jQuery(".account-panel",
-                                        menu);
-                                var switchPanel = jQuery(".switch-panel", menu);
+                // retrieves the references for both the account and
+                // the switch panels to be toggled
+                var accountPanel = jQuery(".account-panel",
+                    menu);
+                var switchPanel = jQuery(".switch-panel", menu);
 
-                                // hides the switch panel and shows the account
-                                // panel (toggle of visibility)
-                                switchPanel.hide();
-                                accountPanel.show();
+                // hides the switch panel and shows the account
+                // panel (toggle of visibility)
+                switchPanel.hide();
+                accountPanel.show();
 
-                                // repositions the menu (link)
-                                element.uxmenulink("reposition");
-                            });
+                // repositions the menu (link)
+                element.uxmenulink("reposition");
+            });
 
-                    // registers for the click event on the switch button in
-                    // order to be able hide the account panel and show the
-                    // correct switch panel
-                    _switch.click(function() {
-                                // tenho de apagar o que est actualmente e mostrar o outro
-                                // ou fazer push para a stack para depois fazer pop
-                                var element = jQuery(this);
-                                var menu = element.parents(".menu");
+            // registers for the click event on the switch button in
+            // order to be able hide the account panel and show the
+            // correct switch panel
+            _switch.click(function() {
+                // tenho de apagar o que est actualmente e mostrar o outro
+                // ou fazer push para a stack para depois fazer pop
+                var element = jQuery(this);
+                var menu = element.parents(".menu");
 
-                                // retrieves the references for both the account and
-                                // the switch panels to be toggled
-                                var accountPanel = jQuery(".account-panel",
-                                        menu);
-                                var switchPanel = jQuery(".switch-panel", menu);
+                // retrieves the references for both the account and
+                // the switch panels to be toggled
+                var accountPanel = jQuery(".account-panel",
+                    menu);
+                var switchPanel = jQuery(".switch-panel", menu);
 
-                                // hides the account panel and shows the switch
-                                // panel (toggle of visibility)
-                                accountPanel.hide();
-                                switchPanel.show();
+                // hides the account panel and shows the switch
+                // panel (toggle of visibility)
+                accountPanel.hide();
+                switchPanel.show();
 
-                                // repositions the menu (link)
-                                menu.uxmenulink("reposition");
-                            });
+                // repositions the menu (link)
+                menu.uxmenulink("reposition");
+            });
 
-                    // registers for the click event on the back button in
-                    // order to be able show the account panel and hide the
-                    // correct switch panel
-                    back.click(function() {
-                                // tenho de apagar o que est actualmente e mostrar o outro
-                                // ou fazer push para a stack para depois fazer pop
-                                var element = jQuery(this);
-                                var menu = element.parents(".menu");
+            // registers for the click event on the back button in
+            // order to be able show the account panel and hide the
+            // correct switch panel
+            back.click(function() {
+                // tenho de apagar o que est actualmente e mostrar o outro
+                // ou fazer push para a stack para depois fazer pop
+                var element = jQuery(this);
+                var menu = element.parents(".menu");
 
-                                // retrieves the references for both the account and
-                                // the switch panels to be toggled
-                                var accountPanel = jQuery(".account-panel",
-                                        menu);
-                                var switchPanel = jQuery(".switch-panel", menu);
+                // retrieves the references for both the account and
+                // the switch panels to be toggled
+                var accountPanel = jQuery(".account-panel",
+                    menu);
+                var switchPanel = jQuery(".switch-panel", menu);
 
-                                // hides the account panel and shows the switch
-                                // panel (toggle of visibility)
-                                accountPanel.show();
-                                switchPanel.hide();
+                // hides the account panel and shows the switch
+                // panel (toggle of visibility)
+                accountPanel.show();
+                switchPanel.hide();
 
-                                // repositions the menu (link)
-                                menu.uxmenulink("reposition");
-                            });
-                });
+                // repositions the menu (link)
+                menu.uxmenulink("reposition");
+            });
+        });
 
         return this;
     };
@@ -1171,122 +1166,122 @@
         // registers for the scan event in the document
         // to be able to react to it
         _document.bind("scan", function(event, value) {
-                    // retrieves the current element that is the
-                    // target of the scan operation
-                    var element = jQuery(this);
+            // retrieves the current element that is the
+            // target of the scan operation
+            var element = jQuery(this);
 
-                    // retrieves the mvc path and the class id url
-                    // map for the current page
-                    var mvcPath = _body.data("mvc_path");
-                    var classIdUrl = _body.data("class_id_url");
+            // retrieves the mvc path and the class id url
+            // map for the current page
+            var mvcPath = _body.data("mvc_path");
+            var classIdUrl = _body.data("class_id_url");
 
-                    // verifies that the size of the code legnth
-                    // is of the expected size, otherwise returns
-                    // immediately not an expected code
-                    if (value.length != SCAN_CODE_LENGTH) {
-                        return;
-                    }
+            // verifies that the size of the code legnth
+            // is of the expected size, otherwise returns
+            // immediately not an expected code
+            if (value.length != SCAN_CODE_LENGTH) {
+                return;
+            }
 
-                    // retrieves the checksum for the barcode value
-                    // in order to verify it against the base buffer
-                    // converts the value into an integer value and
-                    // then converts it back to a string (removal of
-                    // left based zeros)
-                    var checksumS = value.slice(0, 4);
-                    checksumS = parseInt(checksumS);
-                    checksumS = String(checksumS);
+            // retrieves the checksum for the barcode value
+            // in order to verify it against the base buffer
+            // converts the value into an integer value and
+            // then converts it back to a string (removal of
+            // left based zeros)
+            var checksumS = value.slice(0, 4);
+            checksumS = parseInt(checksumS);
+            checksumS = String(checksumS);
 
-                    // retrieves the checksum buffer from the complete
-                    // value and then computes the checksum string for
-                    // the value and compares it with the received
-                    // checksum value in case they do not match returns
-                    // immediately in error (invalid checksum)
-                    var buffer = value.slice(4);
-                    var _checksumS = checksum(buffer);
-                    if (_checksumS != checksumS) {
-                        return;
-                    }
+            // retrieves the checksum buffer from the complete
+            // value and then computes the checksum string for
+            // the value and compares it with the received
+            // checksum value in case they do not match returns
+            // immediately in error (invalid checksum)
+            var buffer = value.slice(4);
+            var _checksumS = checksum(buffer);
+            if (_checksumS != checksumS) {
+                return;
+            }
 
-                    // retrieves the version of the barcode then
-                    // retrieves the class of the object that is
-                    // represented by the barcode and then retrieves
-                    // the identifier of the object
-                    var version = value.slice(4, 6);
-                    var classId = value.slice(6, 10);
-                    var objectId = value.slice(10);
+            // retrieves the version of the barcode then
+            // retrieves the class of the object that is
+            // represented by the barcode and then retrieves
+            // the identifier of the object
+            var version = value.slice(4, 6);
+            var classId = value.slice(6, 10);
+            var objectId = value.slice(10);
 
-                    // converts the version into an integer
-                    // to be used in the resolution and verifies that
-                    // the "generated" integer is valid
-                    var versionInt = parseInt(version);
-                    if (isNaN(versionInt)) {
-                        return;
-                    }
-                    // converts the class identifier into an integer
-                    // to be used in the resolution and verifies that
-                    // the "generated" integer is valid
-                    var classIdInt = parseInt(classId);
-                    if (isNaN(classIdInt)) {
-                        return;
-                    }
+            // converts the version into an integer
+            // to be used in the resolution and verifies that
+            // the "generated" integer is valid
+            var versionInt = parseInt(version);
+            if (isNaN(versionInt)) {
+                return;
+            }
+            // converts the class identifier into an integer
+            // to be used in the resolution and verifies that
+            // the "generated" integer is valid
+            var classIdInt = parseInt(classId);
+            if (isNaN(classIdInt)) {
+                return;
+            }
 
-                    // converts the object identifier into an integer
-                    // to be used in the resolution and verifies that
-                    // the "generated" integer is valid
-                    var objectIdInt = parseInt(objectId);
-                    if (isNaN(objectId)) {
-                        return;
-                    }
+            // converts the object identifier into an integer
+            // to be used in the resolution and verifies that
+            // the "generated" integer is valid
+            var objectIdInt = parseInt(objectId);
+            if (isNaN(objectId)) {
+                return;
+            }
 
-                    // verifies if the current integer version of the
-                    // provided scan value is compatible with the current
-                    // scan version (version is included in compatible
-                    // version set) in case it's not returns immediately
-                    var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) != -1;
-                    if (!isCompatible) {
-                        return;
-                    }
+            // verifies if the current integer version of the
+            // provided scan value is compatible with the current
+            // scan version (version is included in compatible
+            // version set) in case it's not returns immediately
+            var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) != -1;
+            if (!isCompatible) {
+                return;
+            }
 
-                    // tries to retrieve the "partial" class url for
-                    // the class with the provided identifier in case
-                    // it's not found returns immediately in error
-                    var classUrl = classIdUrl[classIdInt];
-                    if (!classUrl) {
-                        return;
-                    }
+            // tries to retrieve the "partial" class url for
+            // the class with the provided identifier in case
+            // it's not found returns immediately in error
+            var classUrl = classIdUrl[classIdInt];
+            if (!classUrl) {
+                return;
+            }
 
-                    // sets the uscan attribute in the event so that
-                    // any other handler is able to "understand" that
-                    // the event has been handled as uscan
-                    event.uscan = true;
+            // sets the uscan attribute in the event so that
+            // any other handler is able to "understand" that
+            // the event has been handled as uscan
+            event.uscan = true;
 
-                    try {
-                        // triggers the uscan handler so that any listening handler
-                        // should be able to handle the scan
-                        element.triggerHandler("uscan", [versionInt,
-                                        classIdInt, objectIdInt]);
-                    } catch (exception) {
-                        // in case an exception was throw must return
-                        // immediately as the redirectionis meant to
-                        // be avoided (exception semantics)
-                        return;
-                    }
+            try {
+                // triggers the uscan handler so that any listening handler
+                // should be able to handle the scan
+                element.triggerHandler("uscan", [versionInt,
+                    classIdInt, objectIdInt
+                ]);
+            } catch (exception) {
+                // in case an exception was throw must return
+                // immediately as the redirectionis meant to
+                // be avoided (exception semantics)
+                return;
+            }
 
-                    // constructs the url using the base mvc path and
-                    // appending the url to the requested class
-                    var baseUrl = mvcPath + classUrl;
+            // constructs the url using the base mvc path and
+            // appending the url to the requested class
+            var baseUrl = mvcPath + classUrl;
 
-                    // replaces the left padded zeros in the object
-                    // id to contruct the final object id, then uses
-                    // it to redirect the user agent to the show page
-                    objectId = objectId.replace(/^0+|\s+$/g, "");
-                    jQuery.uxlocation(baseUrl + objectId);
-                });
+            // replaces the left padded zeros in the object
+            // id to contruct the final object id, then uses
+            // it to redirect the user agent to the show page
+            objectId = objectId.replace(/^0+|\s+$/g, "");
+            jQuery.uxlocation(baseUrl + objectId);
+        });
 
         // registers for the scan erro event in the document
         // to be able to react to it
-        _document.bind("scan_error", function(event, value) {
-                });
+        _document.bind("scan_error", function(event, value) {});
 
         var checksum = function(buffer, modulus, salt) {
             // retrieves the various value for the provided
@@ -1425,61 +1420,61 @@
             // registers for the mouse leave event so that
             // the next elements have the next class added
             items.mouseenter(function() {
-                        var _element = jQuery(this);
-                        var next = _element.next();
-                        next.addClass("next");
-                    });
+                var _element = jQuery(this);
+                var next = _element.next();
+                next.addClass("next");
+            });
 
             // registers for the mouse leave event so that
             // the next elements have the next class removed
             items.mouseleave(function() {
-                        var _element = jQuery(this);
-                        var next = _element.next();
-                        next.removeClass("next");
-                    });
+                var _element = jQuery(this);
+                var next = _element.next();
+                next.removeClass("next");
+            });
 
             // registers for the click event in the link items
             // so that no propagation is done in the event
             links.click(function(event) {
-                        event.stopPropagation();
-                    });
+                event.stopPropagation();
+            });
         });
     };
 })(jQuery);
 
 (function(jQuery) {
     var BUNDLE_EN_US = {
-        "payment_method:cash" : "Cash",
-        "payment_method:card" : "Card",
-        "payment_method:check" : "Check",
-        "payment_method:credit_note" : "Credit Note",
-        "payment_method:easypay" : "Easypay",
-        "payment_method:paypal" : "Paypal",
-        "Signing in to chat server" : "Signing in to chat server",
-        "You've been disconnected" : "You've been disconnected",
-        "mae" : "me",
-        "retrying ..." : "retrying ...",
-        "says ..." : "says ...",
-        "just now" : "just now",
-        "min ago" : "min ago",
-        "mins ago" : "mins ago",
-        "hour ago" : "hour ago",
-        "hours ago" : "hours ago",
-        "day ago" : "day ago",
-        "days ago" : "days ago",
-        "sold {{%s}} for {{%s}}" : "sold {{%s}} for {{%s}}",
-        "consigned {{%s}} for {{%s}}" : "consigned {{%s}} for {{%s}}",
-        "returned {{%s}} worth {{%s}} of sale {{%s}}" : "returned {{%s}} worth {{%s}} of sale {{%s}}",
-        "created {{%s}}" : "created {{%s}}",
-        "edited {{%s}}" : "edited {{%s}}",
-        "deleted {{%s}}" : "deleted {{%s}}",
-        "undeleted {{%s}}" : "undeleted {{%s}}",
-        "confirmed {{%s}}" : "confirmed {{%s}}",
-        "reserved {{%s}}" : "reserved {{%s}}",
-        "sent {{%s}}" : "sent {{%s}}",
-        "received {{%s}}" : "received {{%s}}",
-        "closed {{%s}}" : "closed {{%s}}",
-        "canceled {{%s}}" : "canceled {{%s}}"
+        "payment_method:cash": "Cash",
+        "payment_method:card": "Card",
+        "payment_method:check": "Check",
+        "payment_method:credit_note": "Credit Note",
+        "payment_method:easypay": "Easypay",
+        "payment_method:paypal": "Paypal",
+        "Signing in to chat server": "Signing in to chat server",
+        "You've been disconnected": "You've been disconnected",
+        "mae": "me",
+        "retrying ...": "retrying ...",
+        "says ...": "says ...",
+        "just now": "just now",
+        "min ago": "min ago",
+        "mins ago": "mins ago",
+        "hour ago": "hour ago",
+        "hours ago": "hours ago",
+        "day ago": "day ago",
+        "days ago": "days ago",
+        "sold {{%s}} for {{%s}}": "sold {{%s}} for {{%s}}",
+        "consigned {{%s}} for {{%s}}": "consigned {{%s}} for {{%s}}",
+        "returned {{%s}} worth {{%s}} of sale {{%s}}": "returned {{%s}} worth {{%s}} of sale {{%s}}",
+        "created {{%s}}": "created {{%s}}",
+        "edited {{%s}}": "edited {{%s}}",
+        "deleted {{%s}}": "deleted {{%s}}",
+        "undeleted {{%s}}": "undeleted {{%s}}",
+        "confirmed {{%s}}": "confirmed {{%s}}",
+        "reserved {{%s}}": "reserved {{%s}}",
+        "sent {{%s}}": "sent {{%s}}",
+        "received {{%s}}": "received {{%s}}",
+        "closed {{%s}}": "closed {{%s}}",
+        "canceled {{%s}}": "canceled {{%s}}"
     }
 
     jQuery.uxloadbundle(BUNDLE_EN_US, "en-us")
@@ -1487,37 +1482,37 @@
 
 (function(jQuery) {
     var BUNDLE_PT_PT = {
-        "payment_method:cash" : "Dinheiro",
-        "payment_method:card" : "Cartão",
-        "payment_method:check" : "Cheque",
-        "payment_method:credit_note" : "Nota de Crédito",
-        "payment_method:easypay" : "Easypay",
-        "payment_method:paypal" : "Paypal",
-        "Signing in to chat server" : "Ligando a servidor de chat",
-        "You've been disconnected" : "Ligação a servidor perdida",
-        "mae" : "eu",
-        "retrying ..." : "tentando de novo ...",
-        "says ..." : "diz ...",
-        "just now" : "agora mesmo",
-        "min ago" : "min atrás",
-        "mins ago" : "min atrás",
-        "hour ago" : "hora atrás",
-        "hours ago" : "horas atrás",
-        "day ago" : "dia atrás",
-        "days ago" : "dias atrás",
-        "sold {{%s}} for {{%s}}" : "vendeu {{%s}} por {{%s}}",
-        "consigned {{%s}} for {{%s}}" : "consignou {{%s}} por {{%s}}",
-        "returned {{%s}} worth {{%s}} of sale {{%s}}" : "retornou {{%s}} no valor de {{%s}} da venda {{%s}}",
-        "created {{%s}}" : "criou {{%s}}",
-        "edited {{%s}}" : "editou {{%s}}",
-        "deleted {{%s}}" : "apagou {{%s}}",
-        "undeleted {{%s}}" : "restaurou {{%s}}",
-        "confirmed {{%s}}" : "confirmou {{%s}}",
-        "reserved {{%s}}" : "reservou {{%s}}",
-        "sent {{%s}}" : "enviou {{%s}}",
-        "received {{%s}}" : "recebeu {{%s}}",
-        "closed {{%s}}" : "fechou {{%s}}",
-        "canceled {{%s}}" : "cancelou {{%s}}"
+        "payment_method:cash": "Dinheiro",
+        "payment_method:card": "Cartão",
+        "payment_method:check": "Cheque",
+        "payment_method:credit_note": "Nota de Crédito",
+        "payment_method:easypay": "Easypay",
+        "payment_method:paypal": "Paypal",
+        "Signing in to chat server": "Ligando a servidor de chat",
+        "You've been disconnected": "Ligação a servidor perdida",
+        "mae": "eu",
+        "retrying ...": "tentando de novo ...",
+        "says ...": "diz ...",
+        "just now": "agora mesmo",
+        "min ago": "min atrás",
+        "mins ago": "min atrás",
+        "hour ago": "hora atrás",
+        "hours ago": "horas atrás",
+        "day ago": "dia atrás",
+        "days ago": "dias atrás",
+        "sold {{%s}} for {{%s}}": "vendeu {{%s}} por {{%s}}",
+        "consigned {{%s}} for {{%s}}": "consignou {{%s}} por {{%s}}",
+        "returned {{%s}} worth {{%s}} of sale {{%s}}": "retornou {{%s}} no valor de {{%s}} da venda {{%s}}",
+        "created {{%s}}": "criou {{%s}}",
+        "edited {{%s}}": "editou {{%s}}",
+        "deleted {{%s}}": "apagou {{%s}}",
+        "undeleted {{%s}}": "restaurou {{%s}}",
+        "confirmed {{%s}}": "confirmou {{%s}}",
+        "reserved {{%s}}": "reservou {{%s}}",
+        "sent {{%s}}": "enviou {{%s}}",
+        "received {{%s}}": "recebeu {{%s}}",
+        "closed {{%s}}": "fechou {{%s}}",
+        "canceled {{%s}}": "cancelou {{%s}}"
     }
 
     jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")
@@ -1586,8 +1581,8 @@
                 // schedules a delayed operation to restore the css based
                 // animations for the current panel (in case it's required)
                 setTimeout(function() {
-                            !animate && panel.uxanimation("enable");
-                        });
+                    !animate && panel.uxanimation("enable");
+                });
             }
         };
 
@@ -1609,9 +1604,8 @@
 
             // creates the list item (budy item) used to represent
             // the user and adds it to the buddy list
-            var item = jQuery("<li class=\"budy-" + status
-                    + "\" data-user_id=\"" + username + "\" data-object_id=\""
-                    + objectId + "\">" + representation + "</li>");
+            var item = jQuery("<li class=\"budy-" + status + "\" data-user_id=\"" + username +
+                "\" data-object_id=\"" + objectId + "\">" + representation + "</li>");
 
             // starts the target element (the one after the current element)
             // as invalid so that by default no target is used and then starts
@@ -1619,23 +1613,23 @@
             // the proper target item to be used as pivot
             var target = null;
             items.each(function() {
-                        // retrieves the current element and the text representation
-                        // of it to be used in the order of the items
-                        var element = jQuery(this);
-                        var value = element.text();
+                // retrieves the current element and the text representation
+                // of it to be used in the order of the items
+                var element = jQuery(this);
+                var value = element.text();
 
-                        // in case the current value is the same or less than the
-                        // current representation no larger value found and so the
-                        // iteration must continue
-                        if (value <= representation) {
-                            return;
-                        }
+                // in case the current value is the same or less than the
+                // current representation no larger value found and so the
+                // iteration must continue
+                if (value <= representation) {
+                    return;
+                }
 
-                        // in case the control flow has reached this position the
-                        // target element has been found and so it breaks the iteration
-                        target = element;
-                        return false;
-                    });
+                // in case the control flow has reached this position the
+                // target element has been found and so it breaks the iteration
+                target = element;
+                return false;
+            });
 
             // in case the target element exists inserts the item before
             // the target element otherwise adds the item to the budy list
@@ -1645,24 +1639,24 @@
             // a new chat panel is created for the the item in
             // case it's required
             item.click(function() {
-                        // retrieves the reference to the current "clicked"
-                        // element and then gathers information from the element to
-                        // be used in the creation of the new chat panel
-                        var element = jQuery(this);
-                        var name = element.html();
-                        var userId = element.attr("data-user_id");
-                        var objectId = element.attr("data-object_id");
+                // retrieves the reference to the current "clicked"
+                // element and then gathers information from the element to
+                // be used in the creation of the new chat panel
+                var element = jQuery(this);
+                var name = element.html();
+                var userId = element.attr("data-user_id");
+                var objectId = element.attr("data-object_id");
 
-                        // creates a new chat panel for the current matched
-                        // object (chat system) using the current context
-                        matchedObject.uchatpanel({
-                                    owner : matchedObject,
-                                    name : name,
-                                    user_id : userId,
-                                    object_id : objectId,
-                                    focus : true
-                                });
-                    });
+                // creates a new chat panel for the current matched
+                // object (chat system) using the current context
+                matchedObject.uchatpanel({
+                    owner: matchedObject,
+                    name: name,
+                    user_id: userId,
+                    object_id: objectId,
+                    focus: true
+                });
+            });
         };
 
         var dataProcessor = function(data, mid, timestamp) {
@@ -1675,15 +1669,15 @@
             // switches over the type of data that was received
             // handling the different data types accordingly
             switch (type) {
-                case "message" :
+                case "message":
                     messageProcessor(jsonData, mid, timestamp);
                     break;
 
-                case "status" :
+                case "status":
                     statusProcessor(jsonData);
                     break;
 
-                default :
+                default:
                     break;
             }
         };
@@ -1724,16 +1718,16 @@
             // sender in case no panel is found creates a new
             // one to display the initial message
             var panel = jQuery(".chat-panel[data-user_id=" + owner + "]",
-                    matchedObject);
+                matchedObject);
             if (panel.length == 0) {
                 // create a new chat panel for to be used to the conversation
                 // that is going to be started from this (received message)
                 panel = matchedObject.uchatpanel({
-                            owner : matchedObject,
-                            name : representation,
-                            user_id : owner,
-                            object_id : objectId
-                        });
+                    owner: matchedObject,
+                    name: representation,
+                    user_id: owner,
+                    object_id: objectId
+                });
             }
 
             // retrieves the correct name value to be used as the representation
@@ -1752,11 +1746,11 @@
             // the message that was just received
             panel.trigger("restore");
             panel.uchatline({
-                        name : name,
-                        message : message,
-                        mid : mid,
-                        timestamp : timestamp
-                    });
+                name: name,
+                message: message,
+                mid: mid,
+                timestamp: timestamp
+            });
 
             // verifies if this is a myself message or a message from somebody else
             // and takes the proper action in terms of blinking, note that if the
@@ -1815,9 +1809,8 @@
             // correctly handle the received message and act on that
             // to change the current layout
             switch (status) {
-                case "offline" :
-                    var item = jQuery(".buddy-list > li[data-user_id="
-                                    + _username + "]", matchedObject)
+                case "offline":
+                    var item = jQuery(".buddy-list > li[data-user_id=" + _username + "]", matchedObject)
                     item.remove();
 
                     // retrieves the complete set of panels and tries
@@ -1829,9 +1822,8 @@
 
                     break;
 
-                default :
-                    var item = jQuery(".buddy-list > li[data-user_id="
-                                    + _username + "]", matchedObject)
+                default:
+                    var item = jQuery(".buddy-list > li[data-user_id=" + _username + "]", matchedObject)
                     if (item.length == 0) {
                         createItem(matchedObject, envelope);
                     }
@@ -1854,321 +1846,318 @@
         // iterateas over each of the matched object to add the sound
         // element to be used in notification
         matchedObject.each(function(index, element) {
-                    // retrieves the reference to the current element in
-                    // iteration and uses it to retrieve a series of parts
-                    // of the element that compose it for further usage
-                    var _element = jQuery(this);
+            // retrieves the reference to the current element in
+            // iteration and uses it to retrieve a series of parts
+            // of the element that compose it for further usage
+            var _element = jQuery(this);
 
-                    // checks if the current element is already connection registered
-                    // in case it is avoid the current logic (skips registration)
-                    var isRegistered = _element.data("registered") || false;
-                    if (isRegistered) {
-                        return;
-                    }
+            // checks if the current element is already connection registered
+            // in case it is avoid the current logic (skips registration)
+            var isRegistered = _element.data("registered") || false;
+            if (isRegistered) {
+                return;
+            }
 
-                    // sets the current element as registered avoiding any extra
-                    // registration in the current context (could cause problems)
-                    _element.data("registered", true);
+            // sets the current element as registered avoiding any extra
+            // registration in the current context (could cause problems)
+            _element.data("registered", true);
 
-                    // retrieves the "global" reference to the body element
-                    // to be used for the communication
-                    var _body = jQuery("body");
+            // retrieves the "global" reference to the body element
+            // to be used for the communication
+            var _body = jQuery("body");
 
-                    // retrieves the reference to the variable containing
-                    var username = _body.data("username");
+            // retrieves the reference to the variable containing
+            var username = _body.data("username");
 
-                    // updates the username set in the current account to
-                    // match the one considered to be the new one
-                    _element.data("username", username);
+            // updates the username set in the current account to
+            // match the one considered to be the new one
+            _element.data("username", username);
 
-                    // retrieves the url value to be used for the chat
-                    // communication, and then creates the full absolute ur
-                    // from the base url and the communication suffix
-                    var url = _element.attr("data-url");
-                    var absolueUrl = jQuery.uxresolve(url + "/pushi.json");
+            // retrieves the url value to be used for the chat
+            // communication, and then creates the full absolute ur
+            // from the base url and the communication suffix
+            var url = _element.attr("data-url");
+            var absolueUrl = jQuery.uxresolve(url + "/pushi.json");
 
-                    // retrieves the base url and the app key values to be
-                    // used for the establishement of the pushi connection,
-                    // then uses them as the various arguments in the construction
-                    // of the proxy object
-                    var url = _element.attr("data-base_url");
-                    var key = _element.attr("data-key");
-                    var pushi = new Pushi(key, {
-                                baseUrl : url,
-                                authEndpoint : absolueUrl
-                            });
+            // retrieves the base url and the app key values to be
+            // used for the establishement of the pushi connection,
+            // then uses them as the various arguments in the construction
+            // of the proxy object
+            var url = _element.attr("data-base_url");
+            var key = _element.attr("data-key");
+            var pushi = new Pushi(key, {
+                baseUrl: url,
+                authEndpoint: absolueUrl
+            });
 
-                    // registers for the connect event in the pushi connection in
-                    // or to be able to register for the channels and to re-enable
-                    // all the visuals to the default situation
-                    pushi.bind("connect", function(event) {
-                                // runs the initial subscription of the channels related with
-                                // the current chat operations
-                                this.subscribe("global");
-                                this.subscribe("presence-status");
+            // registers for the connect event in the pushi connection in
+            // or to be able to register for the channels and to re-enable
+            // all the visuals to the default situation
+            pushi.bind("connect", function(event) {
+                // runs the initial subscription of the channels related with
+                // the current chat operations
+                this.subscribe("global");
+                this.subscribe("presence-status");
 
-                                // updates the main status class so the layout may
-                                // be update according to the status rules
-                                _element.removeClass("disconnected");
-                                _element.addClass("connected");
+                // updates the main status class so the layout may
+                // be update according to the status rules
+                _element.removeClass("disconnected");
+                _element.addClass("connected");
 
-                                // retrieves the buddy list associated with the element and
-                                // clears the current budy list so that it can get populated
-                                // with the "new" members that are part of the presence channel
-                                // these are considered to be the new subscriptions
-                                var buddyList = jQuery("> .buddy-list",
-                                        _element);
-                                buddyList.empty();
-                            });
+                // retrieves the buddy list associated with the element and
+                // clears the current budy list so that it can get populated
+                // with the "new" members that are part of the presence channel
+                // these are considered to be the new subscriptions
+                var buddyList = jQuery("> .buddy-list",
+                    _element);
+                buddyList.empty();
+            });
 
-                    // registers for the disconnect event in the pushi connection
-                    // to be able to change the layout properly disabling the complete
-                    // set of panels and setting the names panel to disconnected
-                    pushi.bind("disconnect", function(even) {
-                                // updates the main status class so the layout may
-                                // be update according to the status rules
-                                _element.removeClass("connected");
-                                _element.addClass("disconnected");
+            // registers for the disconnect event in the pushi connection
+            // to be able to change the layout properly disabling the complete
+            // set of panels and setting the names panel to disconnected
+            pushi.bind("disconnect", function(even) {
+                // updates the main status class so the layout may
+                // be update according to the status rules
+                _element.removeClass("connected");
+                _element.addClass("disconnected");
 
-                                // gathers all of the panels for the chat and disables them
-                                // as no communication is allowed for them anymore
-                                var panels = _element.data("panels") || {};
-                                for (var key in panels) {
-                                    var panel = panels[key];
-                                    panel.triggerHandler("disable");
-                                }
-                            });
+                // gathers all of the panels for the chat and disables them
+                // as no communication is allowed for them anymore
+                var panels = _element.data("panels") || {};
+                for (var key in panels) {
+                    var panel = panels[key];
+                    panel.triggerHandler("disable");
+                }
+            });
 
-                    // register to the subscribe event in the current pushi
-                    // object so that its able to detect the registration
-                    // of the various channel and act on them
-                    pushi.bind("subscribe", function(event, channel, data) {
-                                // in case the channel that has been registered is not
-                                // the presence status nothing is meant to be done and
-                                // so the control flow returns immediately
-                                if (channel != "presence-status") {
-                                    return;
-                                }
+            // register to the subscribe event in the current pushi
+            // object so that its able to detect the registration
+            // of the various channel and act on them
+            pushi.bind("subscribe", function(event, channel, data) {
+                // in case the channel that has been registered is not
+                // the presence status nothing is meant to be done and
+                // so the control flow returns immediately
+                if (channel != "presence-status") {
+                    return;
+                }
 
-                                // retrieves the buddy list associated with the element and
-                                // clears the current budy list so that it can get populated
-                                // with the "new" members that are part of the presence channel
-                                // these are considered to be the new subscriptions
-                                var buddyList = jQuery("> .buddy-list",
-                                        _element);
-                                buddyList.empty();
+                // retrieves the buddy list associated with the element and
+                // clears the current budy list so that it can get populated
+                // with the "new" members that are part of the presence channel
+                // these are considered to be the new subscriptions
+                var buddyList = jQuery("> .buddy-list",
+                    _element);
+                buddyList.empty();
 
-                                // retrieves the list of online members for the current channel
-                                // and then iterates over them to be able to trigger the online
-                                // status changed event for each them
-                                var members = data.members || {};
-                                for (var key in members) {
-                                    var member = members[key];
-                                    var envelope = {
-                                        type : "status",
-                                        status : "online",
-                                        object_id : member.object_id,
-                                        username : member.username,
-                                        representation : member.representation
-                                    };
-                                    dataProcessor(envelope);
-                                }
-                            });
+                // retrieves the list of online members for the current channel
+                // and then iterates over them to be able to trigger the online
+                // status changed event for each them
+                var members = data.members || {};
+                for (var key in members) {
+                    var member = members[key];
+                    var envelope = {
+                        type: "status",
+                        status: "online",
+                        object_id: member.object_id,
+                        username: member.username,
+                        representation: member.representation
+                    };
+                    dataProcessor(envelope);
+                }
+            });
 
-                    pushi.bind("message",
-                            function(event, data, channel, mid, timestamp) {
-                                dataProcessor(data, mid, timestamp);
-                            });
-
-                    pushi.bind("member_added",
-                            function(event, channel, member) {
-                                var envelope = {
-                                    type : "status",
-                                    status : "online",
-                                    object_id : member.object_id,
-                                    username : member.username,
-                                    representation : member.representation
-                                };
-                                dataProcessor(envelope);
-                            });
-
-                    pushi.bind("member_removed",
-                            function(event, channel, member) {
-                                var envelope = {
-                                    type : "status",
-                                    status : "offline",
-                                    object_id : member.object_id,
-                                    username : member.username,
-                                    representation : member.representation
-                                };
-                                dataProcessor(envelope);
-                            });
-
-                    // saves the current pushi object reference for
-                    // latter usage, in the current instance
-                    _element.data("pushi", pushi);
-
-                    // retrieves the value of the sound ti be played (the
-                    // url to the sound to be played)
-                    var sound = _element.attr("data-sound");
-                    var audio = jQuery("<audio src=\"" + sound
-                            + "\" preload=\"none\"></audio>");
-
-                    // adds the audio element to the matched object
-                    // then retrieves the underlying audio element
-                    // and loads it from the server side
-                    _element.append(audio);
-                    audio[0].load();
+            pushi.bind("message",
+                function(event, data, channel, mid, timestamp) {
+                    dataProcessor(data, mid, timestamp);
                 });
+
+            pushi.bind("member_added",
+                function(event, channel, member) {
+                    var envelope = {
+                        type: "status",
+                        status: "online",
+                        object_id: member.object_id,
+                        username: member.username,
+                        representation: member.representation
+                    };
+                    dataProcessor(envelope);
+                });
+
+            pushi.bind("member_removed",
+                function(event, channel, member) {
+                    var envelope = {
+                        type: "status",
+                        status: "offline",
+                        object_id: member.object_id,
+                        username: member.username,
+                        representation: member.representation
+                    };
+                    dataProcessor(envelope);
+                });
+
+            // saves the current pushi object reference for
+            // latter usage, in the current instance
+            _element.data("pushi", pushi);
+
+            // retrieves the value of the sound ti be played (the
+            // url to the sound to be played)
+            var sound = _element.attr("data-sound");
+            var audio = jQuery("<audio src=\"" + sound + "\" preload=\"none\"></audio>");
+
+            // adds the audio element to the matched object
+            // then retrieves the underlying audio element
+            // and loads it from the server side
+            _element.append(audio);
+            audio[0].load();
+        });
 
         // registers for the init event that should initialize
         // the chat with the correct values, support for "safe"
         // re-initialization is available and should be used
         matchedObject.bind("init", function() {
-                    // retrieves the reference to the current elment
-                    // that its going to be initialized
-                    var element = jQuery(this);
+            // retrieves the reference to the current elment
+            // that its going to be initialized
+            var element = jQuery(this);
 
-                    // retrieves the reference to the body element and then
-                    // uses it to retrieves the currently logged  username
-                    var _body = jQuery("body");
-                    var username = _body.data("username");
+            // retrieves the reference to the body element and then
+            // uses it to retrieves the currently logged  username
+            var _body = jQuery("body");
+            var username = _body.data("username");
 
-                    // verifies if the chat panel is meant to be set as visible
-                    // or invisible, this is done by checking it agains the proper
-                    // side bar existence (or not)
-                    var isVisible = element.parent(".sidebar");
-                    if (isVisible.length > 0) {
-                        element.removeClass("invisible");
-                    } else {
-                        element.addClass("invisible");
-                    }
+            // verifies if the chat panel is meant to be set as visible
+            // or invisible, this is done by checking it agains the proper
+            // side bar existence (or not)
+            var isVisible = element.parent(".sidebar");
+            if (isVisible.length > 0) {
+                element.removeClass("invisible");
+            } else {
+                element.addClass("invisible");
+            }
 
-                    // localizes the various strings so that they are presented
-                    // in the correct locale language
-                    var signinS = jQuery.uxlocale("Signing in to chat server");
-                    var disconnectedS = jQuery.uxlocale("You've been disconnected");
-                    var retryingS = jQuery.uxlocale("retrying ...");
+            // localizes the various strings so that they are presented
+            // in the correct locale language
+            var signinS = jQuery.uxlocale("Signing in to chat server");
+            var disconnectedS = jQuery.uxlocale("You've been disconnected");
+            var retryingS = jQuery.uxlocale("retrying ...");
 
-                    // retrieves the various components of the chat panel so that
-                    // they may be updated if thats the case
-                    var buddyList = jQuery("> .buddy-list", element);
-                    var loading = jQuery("> .loading", element);
-                    var disconnected = jQuery("> .disconnected", element);
+            // retrieves the various components of the chat panel so that
+            // they may be updated if thats the case
+            var buddyList = jQuery("> .buddy-list", element);
+            var loading = jQuery("> .loading", element);
+            var disconnected = jQuery("> .disconnected", element);
 
-                    // checks if there's alrady a buddy list for the current chat
-                    // panel (retrieval list greater than zero)
-                    var hasBuddyList = buddyList.length > 0;
+            // checks if there's alrady a buddy list for the current chat
+            // panel (retrieval list greater than zero)
+            var hasBuddyList = buddyList.length > 0;
 
-                    // removes the various localizable components, so that new ones
-                    // may be added with the new locale information
-                    loading.remove();
-                    disconnected.remove();
+            // removes the various localizable components, so that new ones
+            // may be added with the new locale information
+            loading.remove();
+            disconnected.remove();
 
-                    // adds the various parts of the chat component with their strings
-                    // already correctly localized according to the specification
-                    !hasBuddyList
-                            && element.append("<ul class=\"list buddy-list\"></ul>");
-                    element.append("<div class=\"loading\">" + signinS
-                            + "<br /><b>" + username + "</b></div>");
-                    element.append("<div class=\"disconnected\">"
-                            + disconnectedS + "<br /><b>" + retryingS
-                            + "</b></div>");
-                });
+            // adds the various parts of the chat component with their strings
+            // already correctly localized according to the specification
+            !hasBuddyList
+                && element.append("<ul class=\"list buddy-list\"></ul>");
+            element.append("<div class=\"loading\">" + signinS + "<br /><b>" + username + "</b></div>");
+            element.append("<div class=\"disconnected\">" + disconnectedS + "<br /><b>" + retryingS +
+                "</b></div>");
+        });
 
         // registers for the event triggered when a new chat
         // is requested this shoud create a new chat panel
         matchedObject.bind("new_chat", function() {
-                    var panels = matchedObject.data("panels") || {};
-                    placePanels(panels, true);
-                });
+            var panels = matchedObject.data("panels") || {};
+            placePanels(panels, true);
+        });
 
         // registers for the event triggered when a chat is
         // meant to be removed from the current system this
         // should remove the associated panel
         matchedObject.bind("delete_chat", function() {
-                    var panels = matchedObject.data("panels") || {};
-                    placePanels(panels, true);
-                });
+            var panels = matchedObject.data("panels") || {};
+            placePanels(panels, true);
+        });
 
         // registers for the refresh event for the chat panel
         // this event should try to find out any modification
         // in the current global status and act on that
         matchedObject.bind("refresh", function() {
-                    // retrieves the reference to both the current element and the
-                    // top level body element
-                    var element = jQuery(this);
-                    var _body = jQuery("body");
+            // retrieves the reference to both the current element and the
+            // top level body element
+            var element = jQuery(this);
+            var _body = jQuery("body");
 
-                    // retrieves the name of the currently signed in user
-                    // and the name of the user registered in the chat in
-                    // case they do not match there's an incoherence and
-                    // the chat panel must be updated
-                    var username = _body.data("username");
-                    var _username = element.data("username");
-                    if (username == _username) {
-                        return;
-                    }
+            // retrieves the name of the currently signed in user
+            // and the name of the user registered in the chat in
+            // case they do not match there's an incoherence and
+            // the chat panel must be updated
+            var username = _body.data("username");
+            var _username = element.data("username");
+            if (username == _username) {
+                return;
+            }
 
-                    // updates the chat panel data with the new username
-                    // so that it may be used latter
-                    element.data("username", username);
+            // updates the chat panel data with the new username
+            // so that it may be used latter
+            element.data("username", username);
 
-                    // retrieves the reference to the complete set of chat
-                    // panels of the current chat panel and then removes
-                    // them from the layout (not going to be used anymore)
-                    var panels = element.data("panels") || {};
-                    for (var key in panels) {
-                        var panel = panels[key];
-                        panel.triggerHandler("close");
-                    }
-                    element.data("panels", {})
+            // retrieves the reference to the complete set of chat
+            // panels of the current chat panel and then removes
+            // them from the layout (not going to be used anymore)
+            var panels = element.data("panels") || {};
+            for (var key in panels) {
+                var panel = panels[key];
+                panel.triggerHandler("close");
+            }
+            element.data("panels", {})
 
-                    // retrieves the reference to the current pushi instance/object
-                    // and then verifies if it's still considered valid by checking
-                    // the current base url and app key value assigned to the element
-                    var pushi = element.data("pushi");
-                    var url = element.attr("data-base_url");
-                    var key = element.attr("data-key");
-                    var isValid = pushi.isValid(key, url);
+            // retrieves the reference to the current pushi instance/object
+            // and then verifies if it's still considered valid by checking
+            // the current base url and app key value assigned to the element
+            var pushi = element.data("pushi");
+            var url = element.attr("data-base_url");
+            var key = element.attr("data-key");
+            var isValid = pushi.isValid(key, url);
 
-                    // in case the current configuration is valid there's just a restart
-                    // of the subscription process for the presence and the global channels,
-                    // this is done mostly for security reasons (requires re-authentication)
-                    if (isValid) {
-                        pushi.invalidate("global");
-                        pushi.invalidate("presence-status");
-                        pushi.subscribe("global");
-                        pushi.subscribe("presence-status");
-                    }
-                    // otherwise the configuration must be changed in the pushi object and
-                    // then a (re-)open process must be triggered in it so that the connection
-                    // is set under a valid state for the new key and (base) url values
-                    else {
-                        pushi.reconfig(key, {
-                                    baseUrl : url,
-                                    authEndpoint : pushi.options.authEndpoint
-                                });
-                    }
+            // in case the current configuration is valid there's just a restart
+            // of the subscription process for the presence and the global channels,
+            // this is done mostly for security reasons (requires re-authentication)
+            if (isValid) {
+                pushi.invalidate("global");
+                pushi.invalidate("presence-status");
+                pushi.subscribe("global");
+                pushi.subscribe("presence-status");
+            }
+            // otherwise the configuration must be changed in the pushi object and
+            // then a (re-)open process must be triggered in it so that the connection
+            // is set under a valid state for the new key and (base) url values
+            else {
+                pushi.reconfig(key, {
+                    baseUrl: url,
+                    authEndpoint: pushi.options.authEndpoint
                 });
+            }
+        });
 
         matchedObject.bind("push", function() {
-                    var element = jQuery(this);
-                    var panels = element.data("panels") || {};
-                    for (var key in panels) {
-                        var panel = panels[key];
-                        panel.triggerHandler("push");
-                    }
-                });
+            var element = jQuery(this);
+            var panels = element.data("panels") || {};
+            for (var key in panels) {
+                var panel = panels[key];
+                panel.triggerHandler("push");
+            }
+        });
 
         matchedObject.bind("pop", function() {
-                    var element = jQuery(this);
-                    var panels = element.data("panels") || {};
-                    for (var key in panels) {
-                        var panel = panels[key];
-                        panel.triggerHandler("pop");
-                    }
-                });
+            var element = jQuery(this);
+            var panels = element.data("panels") || {};
+            for (var key in panels) {
+                var panel = panels[key];
+                panel.triggerHandler("pop");
+            }
+        });
 
         // registers for the resize operation in the window to position
         // all of the currently defined panels in the correct place, note
@@ -2178,31 +2167,29 @@
             placePanels(panels, false);
         });
         matchedObject.bind("destroyed", function() {
-                    _window.unbind("resize", onResize);
-                });
+            _window.unbind("resize", onResize);
+        });
 
         // registers for the pre async event in order to push the
         // current state of the chat elements so that the state
         // may be restored (pop operation) in the post async
-        matchedObject.length > 0
-                && _body.bind("pre_async", onPreAsync = function() {
-                            matchedObject.triggerHandler("push");
-                        });
+        matchedObject.length > 0 && _body.bind("pre_async", onPreAsync = function() {
+            matchedObject.triggerHandler("push");
+        });
         matchedObject.bind("destroyed", function() {
-                    _body.unbind("pre_async", onPreAsync);
-                });
+            _body.unbind("pre_async", onPreAsync);
+        });
 
         // enables the post async event listening to be able to
         // restore the state of the chat element back to the original
         // values before the async operation, note that this registration
         // is reverted when the chat panel is removed from dom
-        matchedObject.length > 0
-                && _body.bind("post_async", onPostAsync = function() {
-                            matchedObject.triggerHandler("pop");
-                        });
+        matchedObject.length > 0 && _body.bind("post_async", onPostAsync = function() {
+            matchedObject.triggerHandler("pop");
+        });
         matchedObject.bind("destroyed", function() {
-                    _body.unbind("post_async", onPostAsync);
-                });
+            _body.unbind("post_async", onPostAsync);
+        });
 
         matchedObject.triggerHandler("init");
     };
@@ -2272,19 +2259,12 @@
         // that an extra hidden text area is created as it will be used
         // to measure the height of the text contained in the (real)
         // text area and properly act for its resize if required
-        chatPanel = jQuery("<div class=\"chat-panel empty budy-available\">"
-                + "<div class=\"chat-header\">"
-                + name
-                + "<div class=\"chat-buttons\">"
-                + "<div class=\"chat-button chat-settings\"></div>"
-                + "<div class=\"chat-button chat-close\"></div>"
-                + "</div>"
-                + "</div>"
-                + "<div class=\"chat-contents\"></div>"
-                + "<div class=\"chat-message\">"
-                + "<textarea type=\"text\" class=\"text-area\"></textarea>"
-                + "<textarea type=\"text\" class=\"text-area hidden\"></textarea>"
-                + "</div>" + "</div>");
+        chatPanel = jQuery("<div class=\"chat-panel empty budy-available\">" + "<div class=\"chat-header\">" +
+            name + "<div class=\"chat-buttons\">" + "<div class=\"chat-button chat-settings\"></div>" +
+            "<div class=\"chat-button chat-close\"></div>" + "</div>" + "</div>" +
+            "<div class=\"chat-contents\"></div>" + "<div class=\"chat-message\">" +
+            "<textarea type=\"text\" class=\"text-area\"></textarea>" +
+            "<textarea type=\"text\" class=\"text-area hidden\"></textarea>" + "</div>" + "</div>");
         matchedObject.append(chatPanel);
         chatPanel.uxapply();
         chatPanel.hide();
@@ -2320,8 +2300,7 @@
             // for the calculus of the maximum text area height
             var contentsHeight = contents.height();
             currentScroll = textArea[0].scrollHeight;
-            maxScrollHeight = currentScroll + contentsHeight
-                    - MINIMUM_CONTENT_HEIGHT;
+            maxScrollHeight = currentScroll + contentsHeight - MINIMUM_CONTENT_HEIGHT;
         };
 
         // creates the function that will be used to request more chat lines
@@ -2338,8 +2317,8 @@
             var pending = chatPanel.data("pending");
             if (pending) {
                 setTimeout(function() {
-                            more(count, target);
-                        }, 100);
+                    more(count, target);
+                }, 100);
                 return;
             }
             chatPanel.data("pending", true);
@@ -2355,31 +2334,27 @@
             // current peer channel this would populate the chat initialy
             var pushi = owner.data("pushi");
             pushi.latest("peer-status:" + channel, skip, count,
-                    function(channel, data) {
-                        // retrieves the reference to the events sequence from the
-                        // provided data object, this value will be percolated
-                        // to be able to create the initial chat lines
-                        var events = data.events;
-                        for (var index = 0; index < events.length; index++) {
-                            var event = events[index];
-                            var mid = event.mid;
-                            var timestamp = event.timestamp;
-                            var _data = event.data.data;
-                            var struct = _data
-                                    ? jQuery.parseJSON(_data)
-                                    : _data;
-                            chatPanel.uchatline({
-                                        name : struct.sender == username
-                                                ? "me"
-                                                : name,
-                                        message : struct.message,
-                                        mid : mid,
-                                        timestamp : timestamp,
-                                        target : target
-                                    });
-                        }
-                        chatPanel.data("pending", false);
-                    });
+                function(channel, data) {
+                    // retrieves the reference to the events sequence from the
+                    // provided data object, this value will be percolated
+                    // to be able to create the initial chat lines
+                    var events = data.events;
+                    for (var index = 0; index < events.length; index++) {
+                        var event = events[index];
+                        var mid = event.mid;
+                        var timestamp = event.timestamp;
+                        var _data = event.data.data;
+                        var struct = _data ? jQuery.parseJSON(_data) : _data;
+                        chatPanel.uchatline({
+                            name: struct.sender == username ? "me" : name,
+                            message: struct.message,
+                            mid: mid,
+                            timestamp: timestamp,
+                            target: target
+                        });
+                    }
+                    chatPanel.data("pending", false);
+                });
         };
 
         // runs the show/display operation in the created chat panel so that
@@ -2388,8 +2363,8 @@
         // once the left and top positions are defined (by the panel placer)
         // by the owner (chat structure) of this chat panel
         setTimeout(function() {
-                    show(75);
-                });
+            show(75);
+        });
 
         // runs the more operation for the current chat panel so that it gets
         // pre-populated with some information from history, this way the
@@ -2404,462 +2379,458 @@
         var buttonClose = jQuery(".chat-close", chatPanel);
         var buttonMinimize = jQuery(".chat-minimize", chatPanel);
         var textArea = jQuery(".chat-message > .text-area:not(.hidden)",
-                chatPanel);
+            chatPanel);
         var textAreaHidden = jQuery(".chat-message > .text-area.hidden",
-                chatPanel);
+            chatPanel);
 
         // registers for the enable operation, this should re-enable
         // the interaction with the chat panel (text area)
         chatPanel.bind("enable", function() {
-                    // retrieves the reference to the current element
-                    // to be used in the enable operation
-                    var element = jQuery(this);
+            // retrieves the reference to the current element
+            // to be used in the enable operation
+            var element = jQuery(this);
 
-                    // removes the disabled class from the element as
-                    // the interaction should be enabled in the element
-                    element.removeClass("disabled");
+            // removes the disabled class from the element as
+            // the interaction should be enabled in the element
+            element.removeClass("disabled");
 
-                    // retrieves the text area of the chat panel and the
-                    // re-enable it for interaction
-                    var textArea = jQuery(
-                            ".chat-message > .text-area:not(.hidden)", element);
-                    textArea.uxenable();
-                });
+            // retrieves the text area of the chat panel and the
+            // re-enable it for interaction
+            var textArea = jQuery(
+                ".chat-message > .text-area:not(.hidden)", element);
+            textArea.uxenable();
+        });
 
         // registers for the disable operation, this operation should
         // disallow any further interaction with the chat panel
         chatPanel.bind("disable", function() {
-                    // retrieves the reference to the current element
-                    // to be used in the disable operation
-                    var element = jQuery(this);
+            // retrieves the reference to the current element
+            // to be used in the disable operation
+            var element = jQuery(this);
 
-                    // adds the disabled class to the current element so
-                    // that the proper style is set in the panel
-                    element.addClass("disabled");
+            // adds the disabled class to the current element so
+            // that the proper style is set in the panel
+            element.addClass("disabled");
 
-                    // retrieves the text area component for the current
-                    // element and then disables it (no more interaction
-                    // is allowed fot the chat panel)
-                    var textArea = jQuery(
-                            ".chat-message > .text-area:not(.hidden)", element);
-                    textArea.uxdisable();
+            // retrieves the text area component for the current
+            // element and then disables it (no more interaction
+            // is allowed fot the chat panel)
+            var textArea = jQuery(
+                ".chat-message > .text-area:not(.hidden)", element);
+            textArea.uxdisable();
 
-                    // triggers the unblick event because a disabled panel
-                    // is not able to blink (no interaction)
-                    element.triggerHandler("unblink");
-                });
+            // triggers the unblick event because a disabled panel
+            // is not able to blink (no interaction)
+            element.triggerHandler("unblink");
+        });
 
         // binds the chat panel to the minimize operation in order
         // to be able to minimize the contents of it
         chatPanel.bind("minimize", function() {
-                    // retrieves the reference to the current element
-                    // to be used in the restore operation ad verifies
-                    // if the kind of animation to be used is discrete
-                    var element = jQuery(this);
-                    var discrete = element.data("discrete") || false;
+            // retrieves the reference to the current element
+            // to be used in the restore operation ad verifies
+            // if the kind of animation to be used is discrete
+            var element = jQuery(this);
+            var discrete = element.data("discrete") || false;
 
-                    // verifies if the minimize operation is meant to be
-                    // performed in a discrete manner or not, meaning that
-                    // an offset position should be used or not
-                    if (discrete) {
-                        // hides the contents and the message parts of
-                        // the current chat panel
-                        contents.hide();
-                        message.hide();
-                    } else {
-                        // tries to retrieve a possible border in the
-                        // bottom of the chat panel and parsed the value
-                        // as an integer to get its width
-                        var borderBottom = element.css("border-bottom");
-                        borderBottom = borderBottom
-                                || element.css("border-bottom-width");
-                        var borderWidth = parseInt(borderBottom);
-                        borderWidth = borderWidth || 0;
+            // verifies if the minimize operation is meant to be
+            // performed in a discrete manner or not, meaning that
+            // an offset position should be used or not
+            if (discrete) {
+                // hides the contents and the message parts of
+                // the current chat panel
+                contents.hide();
+                message.hide();
+            } else {
+                // tries to retrieve a possible border in the
+                // bottom of the chat panel and parsed the value
+                // as an integer to get its width
+                var borderBottom = element.css("border-bottom");
+                borderBottom = borderBottom || element.css("border-bottom-width");
+                var borderWidth = parseInt(borderBottom);
+                borderWidth = borderWidth || 0;
 
-                        // retrieves the height of both the contents and
-                        // message areas and then calculates the final
-                        // offset from their height values and a possible
-                        // extra border value from the chat panels
-                        var contentsHeight = contents.outerHeight(true);
-                        var messageHeight = message.outerHeight(true);
-                        var offset = contentsHeight + messageHeight
-                                + borderWidth;
+                // retrieves the height of both the contents and
+                // message areas and then calculates the final
+                // offset from their height values and a possible
+                // extra border value from the chat panels
+                var contentsHeight = contents.outerHeight(true);
+                var messageHeight = message.outerHeight(true);
+                var offset = contentsHeight + messageHeight + borderWidth;
 
-                        // updates the element's offset value so that
-                        // any new layout operation will take that into
-                        // account and move the chat panel down
-                        element.data("offset", offset);
-                    }
+                // updates the element's offset value so that
+                // any new layout operation will take that into
+                // account and move the chat panel down
+                element.data("offset", offset);
+            }
 
-                    // triggers the layout event (reposition the window)
-                    // and sets the current element as minimized
-                    element.triggerHandler("layout", []);
-                    element.data("minimized", true);
-                });
+            // triggers the layout event (reposition the window)
+            // and sets the current element as minimized
+            element.triggerHandler("layout", []);
+            element.data("minimized", true);
+        });
 
         // binds the chat panel to the restore operation in order
         // to be able to "restore" the contents of it
         chatPanel.bind("restore", function() {
-                    // retrieves the reference to the current element
-                    // to be used in the restore operation ad verifies
-                    // if the kind of animation to be used is discrete
-                    var element = jQuery(this);
-                    var discrete = element.data("discrete") || false;
+            // retrieves the reference to the current element
+            // to be used in the restore operation ad verifies
+            // if the kind of animation to be used is discrete
+            var element = jQuery(this);
+            var discrete = element.data("discrete") || false;
 
-                    // verifies if the restore operation is meant to be
-                    // performed in a discrete manner or not, meaning that
-                    // an offset position should be used or not
-                    if (discrete) {
-                        // shows the contents and the message parts of
-                        // the current chat panel and schedules the focus
-                        // on the text area for the next tick
-                        contents.show();
-                        message.show();
-                    } else {
-                        // restores the offset of the current element to
-                        // the original (zero value) brings it to top
-                        element.data("offset", 0);
-                    }
+            // verifies if the restore operation is meant to be
+            // performed in a discrete manner or not, meaning that
+            // an offset position should be used or not
+            if (discrete) {
+                // shows the contents and the message parts of
+                // the current chat panel and schedules the focus
+                // on the text area for the next tick
+                contents.show();
+                message.show();
+            } else {
+                // restores the offset of the current element to
+                // the original (zero value) brings it to top
+                element.data("offset", 0);
+            }
 
-                    // triggers the layout event (reposition the window)
-                    // and sets the current element as maximized
-                    element.triggerHandler("layout", []);
-                    element.data("minimized", false);
-                });
+            // triggers the layout event (reposition the window)
+            // and sets the current element as maximized
+            element.triggerHandler("layout", []);
+            element.data("minimized", false);
+        });
 
         // binds the chat panel to the layout operation in order
         // to be able to "draw" the contents of it correctly
         chatPanel.bind("layout", function() {
-                    // retrieves the reference to the current element
-                    // to be used in the layout operation and the value
-                    // of it's current offset for top value calculus
-                    var element = jQuery(this);
-                    var offset = element.data("offset") || 0;
+            // retrieves the reference to the current element
+            // to be used in the layout operation and the value
+            // of it's current offset for top value calculus
+            var element = jQuery(this);
+            var offset = element.data("offset") || 0;
 
-                    // retrieves the reference to the "global" window
-                    // element to be used in the positioning
-                    var _window = jQuery(window);
+            // retrieves the reference to the "global" window
+            // element to be used in the positioning
+            var _window = jQuery(window);
 
-                    // retrieves the height of both the window and the
-                    // panel and uses both values to calculate the top
-                    // position for the panel
-                    var windowHeight = _window.height();
-                    var panelHeight = element.outerHeight(true);
-                    var panelTop = windowHeight - panelHeight + offset;
+            // retrieves the height of both the window and the
+            // panel and uses both values to calculate the top
+            // position for the panel
+            var windowHeight = _window.height();
+            var panelHeight = element.outerHeight(true);
+            var panelTop = windowHeight - panelHeight + offset;
 
-                    // sets the top position of the element as the "calculated"
-                    // value for the panel top
-                    element.css("top", panelTop + "px");
-                });
+            // sets the top position of the element as the "calculated"
+            // value for the panel top
+            element.css("top", panelTop + "px");
+        });
 
         // regiters for the blink event so that the blink operation
         // may be triggered by the blink event
         chatPanel.bind("blink", function(event, message) {
-                    // retrieves the reference to the current element, that is
-                    // going to be used in the blink operation
-                    var element = jQuery(this);
+            // retrieves the reference to the current element, that is
+            // going to be used in the blink operation
+            var element = jQuery(this);
 
-                    // retrieves the current text area and checks if it
-                    // is currently focsued in case it is returns immediately
-                    // as it's not possible to blick a focused panel
-                    var textArea = jQuery(
-                            ".chat-message > .text-area:not(.hidden)", element);
-                    var isFocused = textArea.is(":focus");
-                    if (isFocused) {
-                        return;
-                    }
+            // retrieves the current text area and checks if it
+            // is currently focsued in case it is returns immediately
+            // as it's not possible to blick a focused panel
+            var textArea = jQuery(
+                ".chat-message > .text-area:not(.hidden)", element);
+            var isFocused = textArea.is(":focus");
+            if (isFocused) {
+                return;
+            }
 
-                    // tries to retrieve a previous blink handler for the current
-                    // chat panel in case it exists returns immediately
-                    var _handler = element.data("blink");
-                    if (_handler) {
-                        return;
-                    }
+            // tries to retrieve a previous blink handler for the current
+            // chat panel in case it exists returns immediately
+            var _handler = element.data("blink");
+            if (_handler) {
+                return;
+            }
 
-                    // defaults the message argument to the default string so
-                    // there's allways a value to be posted in the document title
-                    message = message || "blink";
+            // defaults the message argument to the default string so
+            // there's allways a value to be posted in the document title
+            message = message || "blink";
 
-                    // retrieves the owner of the element and uses it to retrieve
-                    // the reference to the original title of the page defaulting
-                    // to the current one in case none is defined
-                    var owner = element.data("owner");
-                    var title = owner.data("title_s") || document.title;
-                    owner.data("title_s", title);
+            // retrieves the owner of the element and uses it to retrieve
+            // the reference to the original title of the page defaulting
+            // to the current one in case none is defined
+            var owner = element.data("owner");
+            var title = owner.data("title_s") || document.title;
+            owner.data("title_s", title);
 
-                    // retrieves the existing reference to the interval set in the
-                    // owner and in case it exists cancel it (the new one takes
-                    // priority over the older ones)
-                    var _handlerT = owner.data("title");
-                    _handlerT && clearInterval(_handlerT);
+            // retrieves the existing reference to the interval set in the
+            // owner and in case it exists cancel it (the new one takes
+            // priority over the older ones)
+            var _handlerT = owner.data("title");
+            _handlerT && clearInterval(_handlerT);
 
-                    // creates the interval handler for the title changing, that
-                    // basically toggles between the current title and the provided
-                    // message value, this is a global handler
-                    var handlerT = setInterval(function() {
-                                if (document.title == title) {
-                                    document.title = message;
-                                } else {
-                                    document.title = title;
-                                }
-                            }, 1250);
+            // creates the interval handler for the title changing, that
+            // basically toggles between the current title and the provided
+            // message value, this is a global handler
+            var handlerT = setInterval(function() {
+                if (document.title == title) {
+                    document.title = message;
+                } else {
+                    document.title = title;
+                }
+            }, 1250);
 
-                    // updates the references to the title changing handlers
-                    // in both the owner od the element and the current element
-                    owner.data("title", handlerT)
-                    element.data("title", handlerT)
+            // updates the references to the title changing handlers
+            // in both the owner od the element and the current element
+            owner.data("title", handlerT)
+            element.data("title", handlerT)
 
-                    // starts the various elements that are going to be used
-                    // during the blinking process
-                    element.addClass("blink");
+            // starts the various elements that are going to be used
+            // during the blinking process
+            element.addClass("blink");
 
-                    // creates the interval handler tha handles the blink
-                    // operation and then saves it under the current element
-                    var handler = setInterval(function() {
-                                element.toggleClass("blink");
-                            }, 1250);
-                    element.data("blink", handler)
-                });
+            // creates the interval handler tha handles the blink
+            // operation and then saves it under the current element
+            var handler = setInterval(function() {
+                element.toggleClass("blink");
+            }, 1250);
+            element.data("blink", handler)
+        });
 
         // registers for the unblink operation that cancels the current
         // "blinking" for the chat panel (reverse operation)
         chatPanel.bind("unblink", function() {
-                    // retrieves the current element and uses it to retrieve the
-                    // the handler to the blink interval and the information on
-                    // the title interval also (includes handler and value)
-                    var element = jQuery(this);
-                    var handler = element.data("blink");
-                    var owner = element.data("owner");
-                    var handlerT = element.data("title");
-                    var _handlerT = owner.data("title");
-                    var title = owner.data("title_s");
+            // retrieves the current element and uses it to retrieve the
+            // the handler to the blink interval and the information on
+            // the title interval also (includes handler and value)
+            var element = jQuery(this);
+            var handler = element.data("blink");
+            var owner = element.data("owner");
+            var handlerT = element.data("title");
+            var _handlerT = owner.data("title");
+            var title = owner.data("title_s");
 
-                    // verifies if the handler to the title changin is still the
-                    // same and in case it is clears the interval and then restores
-                    // the title to the original one and unsets the value in the
-                    // owner chat element (avoid problems)
-                    var isSame = handlerT && handlerT == _handlerT;
-                    if (isSame) {
-                        clearInterval(_handlerT);
-                        document.title = title
-                        owner.data("title", null);
-                    }
+            // verifies if the handler to the title changin is still the
+            // same and in case it is clears the interval and then restores
+            // the title to the original one and unsets the value in the
+            // owner chat element (avoid problems)
+            var isSame = handlerT && handlerT == _handlerT;
+            if (isSame) {
+                clearInterval(_handlerT);
+                document.title = title
+                owner.data("title", null);
+            }
 
-                    // in case there's a valid interval cancels it so that the
-                    // handler stops from being called
-                    handler && clearInterval(handler);
+            // in case there's a valid interval cancels it so that the
+            // handler stops from being called
+            handler && clearInterval(handler);
 
-                    // removes the blink class from the element and then unsets
-                    // the blink handler from it also
-                    element.removeClass("blink");
-                    element.data("title", null);
-                    element.data("blink", null);
-                });
+            // removes the blink class from the element and then unsets
+            // the blink handler from it also
+            element.removeClass("blink");
+            element.data("title", null);
+            element.data("blink", null);
+        });
 
         // registers for the close operation in the current panel this
         // should be an action and not a proper event
         chatPanel.bind("close", function() {
-                    // retrieves the reference to the current element
-                    // and uses it to triger the unblink operation in it
-                    var element = jQuery(this);
-                    element.triggerHandler("unblink");
+            // retrieves the reference to the current element
+            // and uses it to triger the unblink operation in it
+            var element = jQuery(this);
+            element.triggerHandler("unblink");
 
-                    // retrieves the list of panels from the chat controllers
-                    // and removes the current panel from it
-                    var panels = matchedObject.data("panels") || {};
-                    delete panels[name];
+            // retrieves the list of panels from the chat controllers
+            // and removes the current panel from it
+            var panels = matchedObject.data("panels") || {};
+            delete panels[name];
 
-                    // removes the contents of the chat panel and triggers
-                    // the delete chat event to redraw the other panels
-                    chatPanel.fadeOut(50, function() {
-                                chatPanel.remove();
-                                matchedObject.triggerHandler("delete_chat", []);
-                            });
-                });
+            // removes the contents of the chat panel and triggers
+            // the delete chat event to redraw the other panels
+            chatPanel.fadeOut(50, function() {
+                chatPanel.remove();
+                matchedObject.triggerHandler("delete_chat", []);
+            });
+        });
 
         // registers for the push operation that "saves" the current
         // chat panel state to be latter restored
         chatPanel.bind("push", function() {
-                    // retrieves the current element and uses it to rerive
-                    // the various components that are going to be used in
-                    // the push operation of the chat panel
-                    var element = jQuery(this);
-                    var contents = jQuery(".chat-contents", element);
+            // retrieves the current element and uses it to rerive
+            // the various components that are going to be used in
+            // the push operation of the chat panel
+            var element = jQuery(this);
+            var contents = jQuery(".chat-contents", element);
 
-                    // retrieves the various value that are going to
-                    // be part of the state from the various elements
-                    // that compose the chat panel
-                    var scrollTop = contents.scrollTop();
+            // retrieves the various value that are going to
+            // be part of the state from the various elements
+            // that compose the chat panel
+            var scrollTop = contents.scrollTop();
 
-                    // creates the state structure and then stores it
-                    // under the current chat panel
-                    var state = {
-                        scrollTop : scrollTop
-                    };
-                    element.data("state", state);
-                });
+            // creates the state structure and then stores it
+            // under the current chat panel
+            var state = {
+                scrollTop: scrollTop
+            };
+            element.data("state", state);
+        });
 
         // registers for the pop operation that restores the
         // state of the chat panel from the currently saved one
         chatPanel.bind("pop", function() {
-                    // retrieves the current element and uses it to rerive
-                    // the various components that are going to be used in
-                    // the pop operation of the chat panel
-                    var element = jQuery(this);
-                    var contents = jQuery(".chat-contents", element);
+            // retrieves the current element and uses it to rerive
+            // the various components that are going to be used in
+            // the pop operation of the chat panel
+            var element = jQuery(this);
+            var contents = jQuery(".chat-contents", element);
 
-                    // retrieves the current state from the element and
-                    // in case it's not valid returns immediately
-                    var state = element.data("state");
-                    if (!state) {
-                        return;
-                    }
+            // retrieves the current state from the element and
+            // in case it's not valid returns immediately
+            var state = element.data("state");
+            if (!state) {
+                return;
+            }
 
-                    // updates the various components according to the
-                    // currently defined state in the chat panel and then
-                    // invalidates the state (restore complete)
-                    contents.scrollTop(state.scrollTop);
-                    element.data("state", null);
-                });
+            // updates the various components according to the
+            // currently defined state in the chat panel and then
+            // invalidates the state (restore complete)
+            contents.scrollTop(state.scrollTop);
+            element.data("state", null);
+        });
 
         // registers for the click event in the close button to
         // trigger the removal of the chat panel
         buttonClose.click(function(event) {
-                    // retrieves the current element then uses it to retrieve
-                    // the parent chat panel and then closes it
-                    var element = jQuery(this);
-                    var chatPanel = element.parents(".chat-panel");
-                    chatPanel.triggerHandler("close");
+            // retrieves the current element then uses it to retrieve
+            // the parent chat panel and then closes it
+            var element = jQuery(this);
+            var chatPanel = element.parents(".chat-panel");
+            chatPanel.triggerHandler("close");
 
-                    // prevents the default event behaviour and
-                    // stops the propagation of it in order to
-                    // avoid problems (event collision)
-                    event.preventDefault();
-                    event.stopPropagation();
-                });
+            // prevents the default event behaviour and
+            // stops the propagation of it in order to
+            // avoid problems (event collision)
+            event.preventDefault();
+            event.stopPropagation();
+        });
 
         // registers for the click event in the minimize button to
         // trigger the minimization/restore of the chat panel
         buttonMinimize.click(function(event) {
-                    // checks if the current chat panel is in the minimized
-                    // state and restores or minimizes the window according
-                    // to such state
-                    var minimized = chatPanel.data("minimized");
-                    if (minimized) {
-                        chatPanel.triggerHandler("restore", []);
-                    } else {
-                        chatPanel.triggerHandler("minimize", []);
-                    }
+            // checks if the current chat panel is in the minimized
+            // state and restores or minimizes the window according
+            // to such state
+            var minimized = chatPanel.data("minimized");
+            if (minimized) {
+                chatPanel.triggerHandler("restore", []);
+            } else {
+                chatPanel.triggerHandler("minimize", []);
+            }
 
-                    // prevents the default event behaviour and
-                    // stops the propagation of it in order to
-                    // avoid problems (event collision)
-                    event.preventDefault();
-                    event.stopPropagation();
-                });
+            // prevents the default event behaviour and
+            // stops the propagation of it in order to
+            // avoid problems (event collision)
+            event.preventDefault();
+            event.stopPropagation();
+        });
 
         // registers for the click even in the header panel of
         // the chat panel to trigger the minimization/restore of the chat panel
         header.click(function() {
-                    // checks if the current chat panel is in the minimized
-                    // state and restores or minimizes the window according
-                    // to such state
-                    var minimized = chatPanel.data("minimized");
-                    if (minimized) {
-                        chatPanel.triggerHandler("restore", []);
-                    } else {
-                        chatPanel.triggerHandler("minimize", []);
-                    }
-                });
+            // checks if the current chat panel is in the minimized
+            // state and restores or minimizes the window according
+            // to such state
+            var minimized = chatPanel.data("minimized");
+            if (minimized) {
+                chatPanel.triggerHandler("restore", []);
+            } else {
+                chatPanel.triggerHandler("minimize", []);
+            }
+        });
 
         // registers for the click event on the contents as this
         // click will also disable the blinking
         contents.click(function() {
-                    var element = jQuery(this);
-                    var chatPanel = element.parents(".chat-panel");
-                    chatPanel.triggerHandler("unblink");
-                });
+            var element = jQuery(this);
+            var chatPanel = element.parents(".chat-panel");
+            chatPanel.triggerHandler("unblink");
+        });
 
         // registers for the scroll operation in the contents
         // area so that it's possible to provide infine scroll
         contents.scroll(function() {
-                    var element = jQuery(this);
-                    var counter = element.data("counter") || 0;
-                    element.data("counter", counter + 1);
-                    var scroll = element.scrollTop();
-                    if (scroll != 0) {
-                        return;
-                    }
-                    var first = jQuery("> :nth-child(2)", element);
-                    more(14, first);
-                });
+            var element = jQuery(this);
+            var counter = element.data("counter") || 0;
+            element.data("counter", counter + 1);
+            var scroll = element.scrollTop();
+            if (scroll != 0) {
+                return;
+            }
+            var first = jQuery("> :nth-child(2)", element);
+            more(14, first);
+        });
 
         // registers for the focus on the text area so that the
         // blink operation may be canceled
         textArea.focus(function() {
-                    var element = jQuery(this);
-                    var chatPanel = element.parents(".chat-panel");
-                    chatPanel.triggerHandler("unblink");
-                });
+            var element = jQuery(this);
+            var chatPanel = element.parents(".chat-panel");
+            chatPanel.triggerHandler("unblink");
+        });
 
         // registers for the key down event in the text area
         // to detect enter key press and send the current text
         textArea.keydown(function(event) {
-                    // retrieves the key value for the current event
-                    // to be used to condition changes
-                    var keyValue = event.keyCode
-                            ? event.keyCode
-                            : event.charCode ? event.charCode : event.which;
+            // retrieves the key value for the current event
+            // to be used to condition changes
+            var keyValue = event.keyCode ? event.keyCode : event.charCode ? event.charCode : event.which;
 
-                    // in case the current key to be pressed is an
-                    // enter key must submit the data
-                    if (keyValue != 13) {
-                        return;
-                    }
+            // in case the current key to be pressed is an
+            // enter key must submit the data
+            if (keyValue != 13) {
+                return;
+            }
 
-                    // in case the shift key is pressed the event
-                    // processing is ignored (assumes newline)
-                    if (event.shiftKey) {
-                        return;
-                    }
+            // in case the shift key is pressed the event
+            // processing is ignored (assumes newline)
+            if (event.shiftKey) {
+                return;
+            }
 
-                    // retrieves the proper message value from the text
-                    // area and in case the value is empty ignores it as
-                    // empty messages are not allowed
-                    var message = textArea.val();
-                    message = message.trim();
-                    if (message == "") {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        return;
-                    }
+            // retrieves the proper message value from the text
+            // area and in case the value is empty ignores it as
+            // empty messages are not allowed
+            var message = textArea.val();
+            message = message.trim();
+            if (message == "") {
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+            }
 
-                    // creates the envelope structure containing
-                    // the data of the target user and the message
-                    // extraceterd from the current text area
-                    var data = JSON.stringify({
-                                type : "message",
-                                sender : username,
-                                receiver : userId,
-                                message : message
-                            });
+            // creates the envelope structure containing
+            // the data of the target user and the message
+            // extraceterd from the current text area
+            var data = JSON.stringify({
+                type: "message",
+                sender: username,
+                receiver: userId,
+                message: message
+            });
 
-                    // retrieves the current pushi object reference and
-                    // uses it to send a message to the peer channel
-                    // associated with the pair (echo is enabled)
-                    var pushi = owner.data("pushi");
-                    pushi.sendChannel("message", data,
-                            "peer-status:" + channel, true);
+            // retrieves the current pushi object reference and
+            // uses it to send a message to the peer channel
+            // associated with the pair (echo is enabled)
+            var pushi = owner.data("pushi");
+            pushi.sendChannel("message", data,
+                "peer-status:" + channel, true);
 
-                    // unsets the value from the text area, this should
-                    // be considered a clenaup operation
-                    textArea.val("");
+            // unsets the value from the text area, this should
+            // be considered a clenaup operation
+            textArea.val("");
 
-                    // prevents the default operations for the event
-                    // and stops the propagation of it to the top layers
-                    event.preventDefault();
-                    event.stopPropagation();
-                });
+            // prevents the default operations for the event
+            // and stops the propagation of it to the top layers
+            event.preventDefault();
+            event.stopPropagation();
+        });
 
         // registers for the value change(d) event on the
         // text area so that a resize operation is possible
@@ -2884,9 +2855,7 @@
             // "normalizes" the scroll height value taking into account
             // the maximum scroll height value required to avoid the
             // contents section from becoming to small/unreadable
-            scrollHeight = scrollHeight > maxScrollHeight
-                    ? maxScrollHeight
-                    : scrollHeight;
+            scrollHeight = scrollHeight > maxScrollHeight ? maxScrollHeight : scrollHeight;
 
             // calculates the delta (height) value from the current
             // and the previous scroll height values from the virtual
@@ -2936,8 +2905,8 @@
         // schedules the a focus operation in the text area
         // for the next tick in the event loop
         focus && setTimeout(function() {
-                    textArea.focus();
-                });
+            textArea.focus();
+        });
 
         // sets the chat panel in the panels sequence
         // and updates it in the matched objec
@@ -2985,9 +2954,9 @@
         // the associated string value of it
         var date = new Date(timestamp * 1000);
         var dateS = _body.uxtimestamp("format", {
-                    date : date,
-                    format : "%d/%m %H:%M"
-                });
+            date: date,
+            format: "%d/%m %H:%M"
+        });
 
         // retrieves the chat contents for the matched object (chat panel)
         // and then uses it to try to find any previously existing and equivalent
@@ -3023,8 +2992,7 @@
         // and uses it to create the image url of the user that
         // created the current chat line
         objectId = name == "me" ? _body.data("object_id") : objectId;
-        var imageUrl = mvcPath + admSection + "/users/" + objectId
-                + "/image?size=32";
+        var imageUrl = mvcPath + admSection + "/users/" + objectId + "/image?size=32";
 
         // retrieves the complete set of paragraphs from the current chat
         // panel and then runs a reverse iteration in them trying to
@@ -3055,8 +3023,7 @@
             // verification on the name of the paragraph, string
             // data of it and the timestamp of the next (up paragraph)
             // is going to be performed and verified
-            var isBuble = _name == name && _dateS == dateS
-                    && _reference < timestamp;
+            var isBuble = _name == name && _dateS == dateS && _reference < timestamp;
 
             // verifies if any of the coditions (initial, buble found
             // or forced bottom) is matched and if that's not the case
@@ -3093,13 +3060,13 @@
             // obtain the "final" time string value to be used
             var date = new Date(timestamp * 1000);
             var timeString = _body.uxtimestamp("format", {
-                        date : date,
-                        format : "%d/%m %H:%M"
-                    });
+                date: date,
+                format: "%d/%m %H:%M"
+            });
             var dayString = _body.uxtimestamp("format", {
-                        date : date,
-                        format : "%d %B %Y"
-                    });
+                date: date,
+                format: "%d %B %Y"
+            });
 
             // "construct" the chat day stucture that is going to be used
             // in the presentation of the initial part of a day in chat
@@ -3111,7 +3078,7 @@
             // case the element is considered outdated it's removed and the add
             // day flag is set so that it's added latter on the process
             var previousDay = jQuery("[data-string=\"" + dayString + "\"]",
-                    contents);
+                contents);
             var previousTimestamp = previousDay.data("timestamp");
             var addDay = !previousTimestamp || previousTimestamp >= timestamp;
             addDay && previousDay.remove();
@@ -3127,10 +3094,8 @@
 
             // creates a new paragraph element associated with the current
             // name and with the proper background (avatar) image
-            paragraph = jQuery("<div class=\"chat-paragraph\">"
-                    + "<div class=\"chat-name\">" + nameLocale + "</div>"
-                    + "<div class=\"chat-time\">" + timeString + "</div>"
-                    + "</div>");
+            paragraph = jQuery("<div class=\"chat-paragraph\">" + "<div class=\"chat-name\">" + nameLocale +
+                "</div>" + "<div class=\"chat-time\">" + timeString + "</div>" + "</div>");
             paragraph.css("background-image", "url(" + imageUrl + ")");
             paragraph.css("background-repeat", "no-repeat");
             paragraph.attr("data-date", timeString);
@@ -3206,7 +3171,7 @@
             var targetMargin = parseInt(target.css("margin-top"));
             targetMargin = isNaN(targetMargin) ? 0 : targetMargin;
             var settings = {
-                offset : targetMargin * -1
+                offset: targetMargin * -1
             };
             var fixScroll = function() {
                 contents.uxscrollto(target, 0, settings);
@@ -3231,8 +3196,8 @@
         var isVisible = contents.is(":visible");
         isVisible && fixScroll();
         !isVisible && setTimeout(function() {
-                    fixScroll();
-                });
+            fixScroll();
+        });
 
         // retrieves the current value of the scroll counter to be able to
         // detect if a scroll (using mouse) has been done between the loadin
@@ -3244,12 +3209,12 @@
         // is set down in the contents of the chat (as new area was created)
         var images = jQuery("img", chatLine);
         images.load(function() {
-                    var _counter = contents.data("counter");
-                    if (counter != _counter) {
-                        return;
-                    }
-                    fixScroll();
-                });
+            var _counter = contents.data("counter");
+            if (counter != _counter) {
+                return;
+            }
+            fixScroll();
+        });
 
         // removes the (chat) empty flag/class from the currently matched object
         // chat panel as the current panel is no longer considered empty as at
@@ -3268,7 +3233,8 @@
      * The regular expression that is going to be used to match valid image
      * urls, note that no mime type inspection is used.
      */
-    var IMAGE_REGEX = new RegExp(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*\.(png|jpg|jpeg|gif)[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
+    var IMAGE_REGEX = new RegExp(
+        /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*\.(png|jpg|jpeg|gif)[-A-Z0-9+&@#\/%?=~_|!:,.;]*)/ig);
 
     /**
      * The regular expression that is going to be used to try to find/match the
@@ -3307,8 +3273,8 @@
                 return message;
             }
             result = result[0];
-            extras += "<a href=\"" + result + "\" target=\"_blank\">"
-                    + "<img src=\"" + result + "\"/>" + "</a>";
+            extras += "<a href=\"" + result + "\" target=\"_blank\">" + "<img src=\"" + result + "\"/>" +
+                "</a>";
             return result == message ? "" : message;
         };
 
@@ -3320,9 +3286,8 @@
             result = result[0];
             var parsed = parse(result);
             var youtubeId = parsed["v"];
-            extras += "<iframe height=\"200\""
-                    + " src=\"//www.youtube.com/embed/" + youtubeId
-                    + "?controls=0\"" + " frameborder=\"0\"></iframe>";
+            extras += "<iframe height=\"200\"" + " src=\"//www.youtube.com/embed/" + youtubeId +
+                "?controls=0\"" + " frameborder=\"0\"></iframe>";
             return result == message ? "" : message;
         };
 
@@ -3330,7 +3295,7 @@
             // runs the regex based replacement in the values so that
             // the correct component is displayed in the chat line
             message = message.replace(URL_REGEX,
-                    "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
+                "<a href=\"$1\" target=\"_blank\" class=\"link link-blue\">$1</a>");
             return message;
         };
 
@@ -3370,91 +3335,88 @@
         // key events to have unexpected behaviour
         var textField = jQuery(".text-field", matchedObject);
         textField.keydown(function(event) {
-                    // retrievs the current element and uses it to retrieve
-                    // the associated overlay panel element
-                    var element = jQuery(this);
-                    var overlayPanel = element.parents(".overlay-panel");
+            // retrievs the current element and uses it to retrieve
+            // the associated overlay panel element
+            var element = jQuery(this);
+            var overlayPanel = element.parents(".overlay-panel");
 
-                    // retrieves the current activation key associated with
-                    // the overlay panel so that it may be "allowed"
-                    var key = overlayPanel.attr("data-key");
-                    key = key ? parseInt(key) : key;
+            // retrieves the current activation key associated with
+            // the overlay panel so that it may be "allowed"
+            var key = overlayPanel.attr("data-key");
+            key = key ? parseInt(key) : key;
 
-                    // retrieves the event key code and in case the code refers
-                    // the escape key returns immediately to avoid behavior
-                    var eventKeyCode = event.keyCode
-                            ? event.keyCode
-                            : event.which;
-                    if (eventKeyCode == 27 || eventKeyCode == key) {
-                        return;
-                    }
+            // retrieves the event key code and in case the code refers
+            // the escape key returns immediately to avoid behavior
+            var eventKeyCode = event.keyCode ? event.keyCode : event.which;
+            if (eventKeyCode == 27 || eventKeyCode == key) {
+                return;
+            }
 
-                    // stops the event propagation in order to avoid
-                    // unwanted global behavior coming  from this key press
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-                });
+            // stops the event propagation in order to avoid
+            // unwanted global behavior coming  from this key press
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        });
 
         // registers for the shown event in the overlay panel associated
         // with the eureka element so that various element of the eureka
         // are restored to the unset original values
         overlayPanel.bind("shown", function() {
-                    // retrieves the current element and the associated text field
-                    // and then runs the reset operation to restore it to the original
-                    // value as expected by the specification
-                    var element = jQuery(this);
-                    var textField = jQuery(".text-field", element);
-                    textField.uxreset();
-                });
+            // retrieves the current element and the associated text field
+            // and then runs the reset operation to restore it to the original
+            // value as expected by the specification
+            var element = jQuery(this);
+            var textField = jQuery(".text-field", element);
+            textField.uxreset();
+        });
 
         // registers for the (new) item event to change
         // the item inserting new attributes in it
         matchedObject.bind("item", function(event, item) {
-                    // retrieves the mvc path and the class id url
-                    // map for the current page
-                    var mvcPath = _body.data("mvc_path");
-                    var classIdUrl = _body.data("class_id_url");
+            // retrieves the mvc path and the class id url
+            // map for the current page
+            var mvcPath = _body.data("mvc_path");
+            var classIdUrl = _body.data("class_id_url");
 
-                    // retrieves the various attribute values from the
-                    // item to be used in the link construction
-                    var objectId = item["object_id"];
-                    var cid = item["cid"];
+            // retrieves the various attribute values from the
+            // item to be used in the link construction
+            var objectId = item["object_id"];
+            var cid = item["cid"];
 
-                    // constructs the url using the base mvc path and
-                    // appending the url to the requested class
-                    var baseUrl = mvcPath + classIdUrl[cid];
+            // constructs the url using the base mvc path and
+            // appending the url to the requested class
+            var baseUrl = mvcPath + classIdUrl[cid];
 
-                    // creates the final link value and updates the
-                    // item with it
-                    var link = baseUrl + objectId;
-                    item["link"] = link;
-                });
+            // creates the final link value and updates the
+            // item with it
+            var link = baseUrl + objectId;
+            item["link"] = link;
+        });
 
         // registers for the value selection event so that it's possible
         // to hide the panel and invalidate the current value
         matchedObject.bind("value_select",
-                function(event, value, valueLogic, item) {
-                    // retrieves the current element and uses it to retrieve
-                    // the associated overlay panel element
-                    var element = jQuery(this);
-                    var overlayPanel = element.parents(".overlay-panel");
+            function(event, value, valueLogic, item) {
+                // retrieves the current element and uses it to retrieve
+                // the associated overlay panel element
+                var element = jQuery(this);
+                var overlayPanel = element.parents(".overlay-panel");
 
-                    // triggers the hide event on the overlay panel to initate
-                    // the process of hidding the panel
-                    overlayPanel.triggerHandler("hide");
-                });
+                // triggers the hide event on the overlay panel to initate
+                // the process of hidding the panel
+                overlayPanel.triggerHandler("hide");
+            });
 
         // registers for the post async event so that the overlay panel associated
         // with the eureka structure is properly hidden and does not remains displayed
         // in the current screen, otherwise garbage would be left (ux problems)
-        matchedObject.length > 0
-                && _body.bind("post_async", onPostAsync = function() {
-                            var overlayPanel = matchedObject.parents(".overlay-panel");
-                            overlayPanel.triggerHandler("hide");
-                        });
+        matchedObject.length > 0 && _body.bind("post_async", onPostAsync = function() {
+            var overlayPanel = matchedObject.parents(".overlay-panel");
+            overlayPanel.triggerHandler("hide");
+        });
         matchedObject.bind("destroyed", function() {
-                    _body.unbind("post_async", onPostAsync);
-                });
+            _body.unbind("post_async", onPostAsync);
+        });
     };
 })(jQuery);
 
@@ -3472,104 +3434,102 @@
         // register for the click event in the matched objects
         // to be able to extract the image
         matchedObject.click(function() {
-                    // retrieves the current element to display the
-                    // lightbox image for it
-                    var element = jQuery(this);
+            // retrieves the current element to display the
+            // lightbox image for it
+            var element = jQuery(this);
 
-                    // retrieves the url from the currently selected
-                    // element ans then used it to retrieve the base
-                    // url value from it (url extraction)
-                    var url = element.attr("src");
-                    var split = url.split("?");
-                    var base = split[0];
-                    var query = split.length > 1 ? split[1] : "";
+            // retrieves the url from the currently selected
+            // element ans then used it to retrieve the base
+            // url value from it (url extraction)
+            var url = element.attr("src");
+            var split = url.split("?");
+            var base = split[0];
+            var query = split.length > 1 ? split[1] : "";
 
-                    // splits the current query string arroud its parts
-                    // and creates a new list that will hold the various
-                    // partss that are considered valid
-                    var parts = query.split("&");
-                    var valid = [];
+            // splits the current query string arroud its parts
+            // and creates a new list that will hold the various
+            // partss that are considered valid
+            var parts = query.split("&");
+            var valid = [];
 
-                    // iterates over the current query string parts to
-                    // removed the ones considered invalid
-                    for (var index = 0; index < parts.length; index++) {
-                        var part = parts[index];
-                        var invalid = part.startsWith("size=")
-                                || part.startsWith("fallback=");
-                        if (invalid) {
-                            continue;
-                        }
-                        valid.push(part);
-                    }
+            // iterates over the current query string parts to
+            // removed the ones considered invalid
+            for (var index = 0; index < parts.length; index++) {
+                var part = parts[index];
+                var invalid = part.startsWith("size=") || part.startsWith("fallback=");
+                if (invalid) {
+                    continue;
+                }
+                valid.push(part);
+            }
 
-                    // re-joins back the valid parts of the query string,
-                    // this string will be used as extra parameters for
-                    // the various images urls to be generated
-                    var validQuery = valid.join("&");
+            // re-joins back the valid parts of the query string,
+            // this string will be used as extra parameters for
+            // the various images urls to be generated
+            var validQuery = valid.join("&");
 
-                    // creates the new urls from the base one asking for
-                    // a base image to be displayed instead of the small
-                    // and then a large one for the "expanded mode"
-                    var baseUrl = base + "?size=512&fallback=1&" + validQuery;
-                    var largeUrl = base + "?size=original&fallback=1&"
-                            + validQuery;
+            // creates the new urls from the base one asking for
+            // a base image to be displayed instead of the small
+            // and then a large one for the "expanded mode"
+            var baseUrl = base + "?size=512&fallback=1&" + validQuery;
+            var largeUrl = base + "?size=original&fallback=1&" + validQuery;
 
-                    // shows the lightbox on the body element using the
-                    // lightbox path retrieved from the image
-                    _body.uxlightbox(baseUrl, null, largeUrl);
+            // shows the lightbox on the body element using the
+            // lightbox path retrieved from the image
+            _body.uxlightbox(baseUrl, null, largeUrl);
 
-                    // retrieves the referece to the "possible" generated/new
-                    // lightbox, this element may be either an existing element
-                    // or a new one for which handlers must be registered
-                    var lightbox = jQuery(".window-lightbox", _body);
+            // retrieves the referece to the "possible" generated/new
+            // lightbox, this element may be either an existing element
+            // or a new one for which handlers must be registered
+            var lightbox = jQuery(".window-lightbox", _body);
 
-                    // retrieves the reference to both buttons of the ligthbox,
-                    // these elements are going to be changed/prepared for animation
-                    var buttons = jQuery(".button-confirm, .button-expand",
-                            lightbox);
+            // retrieves the reference to both buttons of the ligthbox,
+            // these elements are going to be changed/prepared for animation
+            var buttons = jQuery(".button-confirm, .button-expand",
+                lightbox);
 
-                    // runs the initial animation registration on the buttons
-                    // this is required to update their initial state
-                    buttons.uxanimation();
+            // runs the initial animation registration on the buttons
+            // this is required to update their initial state
+            buttons.uxanimation();
 
-                    // gathers the value for the marked variable, that controls
-                    // the process of registering the proper handlers, this
-                    // strategy avoids possible double registration of handlers
-                    var marked = lightbox.data("ulightbox");
-                    if (marked) {
-                        return;
-                    }
+            // gathers the value for the marked variable, that controls
+            // the process of registering the proper handlers, this
+            // strategy avoids possible double registration of handlers
+            var marked = lightbox.data("ulightbox");
+            if (marked) {
+                return;
+            }
 
-                    // registers the lightbox for the show event so that the
-                    // buttons are properly animated according to their dimensions
-                    // and visibility (required for compatibility issues)
-                    lightbox.bind("show", function() {
-                                buttons.uxanimation();
-                            });
+            // registers the lightbox for the show event so that the
+            // buttons are properly animated according to their dimensions
+            // and visibility (required for compatibility issues)
+            lightbox.bind("show", function() {
+                buttons.uxanimation();
+            });
 
-                    // registers the lightbox for the hide event so that the
-                    // buttons are properly animated according to their dimensions
-                    // and visibility (required for compatibility issues)
-                    lightbox.bind("hide", function() {
-                                buttons.uxanimation();
-                            });
+            // registers the lightbox for the hide event so that the
+            // buttons are properly animated according to their dimensions
+            // and visibility (required for compatibility issues)
+            lightbox.bind("hide", function() {
+                buttons.uxanimation();
+            });
 
-                    // registers the lightbox for the loading event so that the
-                    // buttons may be triggered for animation (animation start)
-                    lightbox.bind("loading", function() {
-                                buttons.uxanimation();
-                            });
+            // registers the lightbox for the loading event so that the
+            // buttons may be triggered for animation (animation start)
+            lightbox.bind("loading", function() {
+                buttons.uxanimation();
+            });
 
-                    // registers the lightbox for the loaded event so that the
-                    // buttons may be triggered for de-animation (animation stop)
-                    lightbox.bind("loaded", function() {
-                                buttons.uxanimation();
-                            });
+            // registers the lightbox for the loaded event so that the
+            // buttons may be triggered for de-animation (animation stop)
+            lightbox.bind("loaded", function() {
+                buttons.uxanimation();
+            });
 
-                    // "marks" the lightbox element so that no more event registration
-                    // will be done for the element (avoids duplicated registration)
-                    lightbox.data("ulightbox", true);
-                });
+            // "marks" the lightbox element so that no more event registration
+            // will be done for the element (avoids duplicated registration)
+            lightbox.data("ulightbox", true);
+        });
 
         // returns the object
         return this;
@@ -3609,8 +3569,8 @@
         // adds the various inner elements of the notifications
         // container to the notification activator icon
         var link = jQuery("<div class=\"button menu-button menu-link notifications\"></div>")
-        var container = jQuery("<div class=\"menu-contents notifications-container\">"
-                + "<ul class=\"notifications-list\"></ul>" + "</div>");
+        var container = jQuery("<div class=\"menu-contents notifications-container\">" +
+            "<ul class=\"notifications-list\"></ul>" + "</div>");
         matchedObject.append(link)
         matchedObject.append(container);
 
@@ -3650,9 +3610,9 @@
             var url = _element.attr("data-url");
             var key = _element.attr("data-key");
             var pushi = new Pushi(key, {
-                        baseUrl : url,
-                        authEndpoint : absolueUrl
-                    });
+                baseUrl: url,
+                authEndpoint: absolueUrl
+            });
 
             // updates the current element with the reference to the pushi
             // element so that it may be re-used for retrieval latter
@@ -3729,20 +3689,17 @@
 
                 // "calulates" the path to the logo url using the retrieved
                 // base path as the reference for it
-                var logoUrl = basePath
-                        + "common/images/logos/front-door-not-large.png";
+                var logoUrl = basePath + "common/images/logos/front-door-not-large.png";
 
                 // adds a new notification item to the list of
                 // notifications, this notification should have
                 // the pre-defined username and time as defined
                 // in the received data
-                var notification = jQuery("<li class=\"button\" data-link=\""
-                        + url + "\">" + "<img class=\"entity-picture\" src=\""
-                        + imageUrl + "\">" + "<div class=\"contents\">"
-                        + "<p class=\"title\">" + userName + "</p>"
-                        + "<p class=\"subject\"></p>" + "</div>"
-                        + "<div class=\"time\">" + time + "</div>"
-                        + "<div class=\"break\"></div>" + "</li>");
+                var notification = jQuery("<li class=\"button\" data-link=\"" + url + "\">" +
+                    "<img class=\"entity-picture\" src=\"" + imageUrl + "\">" +
+                    "<div class=\"contents\">" + "<p class=\"title\">" + userName + "</p>" +
+                    "<p class=\"subject\"></p>" + "</div>" + "<div class=\"time\">" + time +
+                    "</div>" + "<div class=\"break\"></div>" + "</li>");
                 list.prepend(notification);
                 notification.uxbutton();
 
@@ -3774,11 +3731,11 @@
                 // a new notification box for the current notification
                 // so that the user gets an immediate visual effect
                 isNew && _body.uxnotification({
-                            "title" : userName,
-                            "message" : message,
-                            "link" : jQuery.uxresolve(url),
-                            "timeout" : 15000
-                        });
+                    "title": userName,
+                    "message": message,
+                    "link": jQuery.uxresolve(url),
+                    "timeout": 15000
+                });
 
                 // in case this is a new notification creates a desktop
                 // notification and registers the appropriate handlers to
@@ -3788,19 +3745,19 @@
                 var hasNotifications = typeof(Notification) != "undefined";
                 if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
-                                dir : "auto",
-                                icon : jQuery.uxresolve(logoUrl),
-                                lang : "en",
-                                body : messageT,
-                                tag : uniqueId
-                            });
+                        dir: "auto",
+                        icon: jQuery.uxresolve(logoUrl),
+                        lang: "en",
+                        body: messageT,
+                        tag: uniqueId
+                    });
                     _notification.onclick = function() {
                         window.open(urlR, "_blank");
                     };
                     _notification.show && _notification.show();
                     _notification.close && setTimeout(function() {
-                                _notification.close();
-                            }, 15000);
+                        _notification.close();
+                    }, 15000);
                     _body.data("_notification", _notification);
                 }
 
@@ -3930,9 +3887,9 @@
                 // is set under a valid state for the new key and (base) url values
                 else {
                     pushi.reconfig(key, {
-                                baseUrl : url,
-                                authEndpoint : pushi.options.authEndpoint
-                            });
+                        baseUrl: url,
+                        authEndpoint: pushi.options.authEndpoint
+                    });
                 }
 
                 // clears the current list of notification because the list will
@@ -3953,169 +3910,167 @@
             // element so that any pending native notification is
             // closed and not left over as garbage
             !isRegistered && _window.bind("beforeunload", function() {
-                        var _notification = _body.data("_notification");
-                        _notification && _notification.close();
-                    });
+                var _notification = _body.data("_notification");
+                _notification && _notification.close();
+            });
 
             // registers for the unload event in the window
             // element so that any pending native notification is
             // closed and not left over as garbage
             !isRegistered && _window.bind("unload", function() {
-                        var _notification = _body.data("_notification");
-                        _notification && _notification.close();
-                    });
+                var _notification = _body.data("_notification");
+                _notification && _notification.close();
+            });
 
             // registers for the show event so that the reading
             // class may be added to the link indicating that the
             // notifications panel is being "read"
             contents.bind("shown", function() {
-                        // adds the reading class to the link, marking it as
-                        // reading for latter usage
-                        link.addClass("reading");
-                    });
+                // adds the reading class to the link, marking it as
+                // reading for latter usage
+                link.addClass("reading");
+            });
 
             // registers for the hide event so that the pending
             // class may be removed from the notification container
             // and for the various pending notifications
             contents.bind("hidden", function() {
-                        // retrieves the complete set of list items for the
-                        // current list so that they may be marked as read
-                        var items = jQuery("li", list);
+                // retrieves the complete set of list items for the
+                // current list so that they may be marked as read
+                var items = jQuery("li", list);
 
-                        // verifies if the user is currently reading the
-                        // contents of the menu link in case it's not returns
-                        // immediately as it's not possible to unmark it
-                        var isReading = link.hasClass("reading");
-                        if (!isReading) {
-                            return;
-                        }
+                // verifies if the user is currently reading the
+                // contents of the menu link in case it's not returns
+                // immediately as it's not possible to unmark it
+                var isReading = link.hasClass("reading");
+                if (!isReading) {
+                    return;
+                }
 
-                        // removes the reading class from the link because
-                        // with the hide event there's no more reading
-                        link.removeClass("reading");
+                // removes the reading class from the link because
+                // with the hide event there's no more reading
+                link.removeClass("reading");
 
-                        // removes the pending class from all of the
-                        // currently available items
-                        items.removeClass("pending");
-                        link.removeClass("pending");
-                    });
+                // removes the pending class from all of the
+                // currently available items
+                items.removeClass("pending");
+                link.removeClass("pending");
+            });
 
             // registers for the click event in the list, so that
             // any click in an item hides the menu immediately while
             // it also redirect the user to the target page
             list.click(function() {
-                        _element.triggerHandler("hide");
-                    });
+                _element.triggerHandler("hide");
+            });
 
             // registers for the connect event so that at the end of
             // the connection the base channels are subscribed
             pushi.bind("connect", function(event) {
-                        // retrieves the complete set of list items for the
-                        // current list so that they may be marked as read
-                        var items = jQuery("li", list);
+                // retrieves the complete set of list items for the
+                // current list so that they may be marked as read
+                var items = jQuery("li", list);
 
-                        // empties the current list so that all the elements contained
-                        // in it are removed and none is present
-                        list.empty();
+                // empties the current list so that all the elements contained
+                // in it are removed and none is present
+                list.empty();
 
-                        // removes the pending class from all of the
-                        // currently available items so that the state
-                        // is restored to the original state
-                        items.removeClass("pending");
-                        link.removeClass("pending");
+                // removes the pending class from all of the
+                // currently available items so that the state
+                // is restored to the original state
+                items.removeClass("pending");
+                link.removeClass("pending");
 
-                        // retrieves the current username set in the global body
-                        // object to be able to create the name of the personal
-                        // channel that is going to be subscribed for notifications
-                        var username = _body.data("username");
+                // retrieves the current username set in the global body
+                // object to be able to create the name of the personal
+                // channel that is going to be subscribed for notifications
+                var username = _body.data("username");
 
-                        // subscribes to the personal channel for the user, this channeç
-                        // should contain notification related infromation
-                        this.subscribe("personal-" + username);
-                    });
+                // subscribes to the personal channel for the user, this channeç
+                // should contain notification related infromation
+                this.subscribe("personal-" + username);
+            });
 
             // registers for the subscribe event to be able to create the previously
             // existing events from the stored (logged) ones
             pushi.bind("subscribe", function(event, channel, data) {
-                        // verifies if the cyrrent channel type is personal and in
-                        // case it's not returns immediately (nothing to be done)
-                        var isPersonal = channel.startsWith("personal-");
-                        if (!isPersonal) {
-                            return;
-                        }
+                // verifies if the cyrrent channel type is personal and in
+                // case it's not returns immediately (nothing to be done)
+                var isPersonal = channel.startsWith("personal-");
+                if (!isPersonal) {
+                    return;
+                }
 
-                        // extracts the list of events from the provided data and
-                        // the iterates over them to create the various notifications
-                        // in the oposite order of arrival (correct order)
-                        var events = data.events || [];
-                        var length = events.length > MAXIMUM_NOTIFICATIONS
-                                ? MAXIMUM_NOTIFICATIONS
-                                : events.length;
-                        for (var index = length - 1; index >= 0; index--) {
-                            var event = events[index];
-                            var data = event.data.data;
-                            var _data = data ? jQuery.parseJSON(data) : data;
-                            _element.triggerHandler("notification", [_data,
-                                            false]);
-                        }
-                    });
+                // extracts the list of events from the provided data and
+                // the iterates over them to create the various notifications
+                // in the oposite order of arrival (correct order)
+                var events = data.events || [];
+                var length = events.length > MAXIMUM_NOTIFICATIONS ? MAXIMUM_NOTIFICATIONS :
+                    events.length;
+                for (var index = length - 1; index >= 0; index--) {
+                    var event = events[index];
+                    var data = event.data.data;
+                    var _data = data ? jQuery.parseJSON(data) : data;
+                    _element.triggerHandler("notification", [_data,
+                        false
+                    ]);
+                }
+            });
 
             // registers for the notification event to be able to
             // present the notification to the end user using the
             // notifications list container
             pushi.bind("notification", function(event, data, channel) {
-                        // verifies if the data type of the provided data is string
-                        // in case it's parses it as a json string "saving" it in
-                        // place of the current data element
-                        var isString = typeof data == "string";
-                        data = isString ? jQuery.parseJSON(data) : data;
+                // verifies if the data type of the provided data is string
+                // in case it's parses it as a json string "saving" it in
+                // place of the current data element
+                var isString = typeof data == "string";
+                data = isString ? jQuery.parseJSON(data) : data;
 
-                        // triggers the notification event in the element to display
-                        // the element visual structure in the notifications list
-                        _element.triggerHandler("notification", [data, true]);
-                    });
+                // triggers the notification event in the element to display
+                // the element visual structure in the notifications list
+                _element.triggerHandler("notification", [data, true]);
+            });
 
             // schedules an interval to update the current set of items so that
             // their time range values are correctly displayed
             setInterval(function() {
-                        // retrieves the current date and uses it to retrieve the current
-                        // timestamp value (according to the utf format)
-                        var date = new Date();
-                        var current = date.getTime();
+                // retrieves the current date and uses it to retrieve the current
+                // timestamp value (according to the utf format)
+                var date = new Date();
+                var current = date.getTime();
 
-                        // retrieves the complete set of items and iterates over them
-                        // to update the time value for each of them
-                        var items = jQuery("li", list);
-                        items.each(function(index, element) {
-                                    // retrieves the current element in iteration and tries to
-                                    // retrieve the data table structure from it
-                                    var _element = jQuery(this);
-                                    var data = _element.data("data");
-                                    if (!data) {
-                                        return;
-                                    }
+                // retrieves the complete set of items and iterates over them
+                // to update the time value for each of them
+                var items = jQuery("li", list);
+                items.each(function(index, element) {
+                    // retrieves the current element in iteration and tries to
+                    // retrieve the data table structure from it
+                    var _element = jQuery(this);
+                    var data = _element.data("data");
+                    if (!data) {
+                        return;
+                    }
 
-                                    // retrieves the reference to the time element of the
-                                    // current element in iteration, this is the value that
-                                    // is going to be update with the new string value
-                                    var time = jQuery(".time", _element);
+                    // retrieves the reference to the time element of the
+                    // current element in iteration, this is the value that
+                    // is going to be update with the new string value
+                    var time = jQuery(".time", _element);
 
-                                    // calculates the diff by calculating the difference between
-                                    // the current timestamp and the create date of the notification
-                                    // and then converts it into the appropriate date string
-                                    var diff = (current / 1000.0)
-                                            - data.create_date;
-                                    var diffS = jQuery.udates(diff);
+                    // calculates the diff by calculating the difference between
+                    // the current timestamp and the create date of the notification
+                    // and then converts it into the appropriate date string
+                    var diff = (current / 1000.0) - data.create_date;
+                    var diffS = jQuery.udates(diff);
 
-                                    // updates the time element with the newly created diff
-                                    // string that is not going to represent the element
-                                    time.html(diffS);
-                                });
-                    }, 60000);
+                    // updates the time element with the newly created diff
+                    // string that is not going to represent the element
+                    time.html(diffS);
+                });
+            }, 60000);
         });
 
-        var buildNotification = function() {
-        };
+        var buildNotification = function() {};
 
         // triggers the initial refresh in the notification elements
         // this will run the initial update and initialize the
@@ -4132,31 +4087,31 @@
         // iterates over all the side elements to correctly
         // process them so that their display is apropriate
         matchedObject.each(function(index, element) {
-                    // retrieves the current side element in iteration
-                    // that is going to be processed accordint to its links
-                    var _element = jQuery(this);
+            // retrieves the current side element in iteration
+            // that is going to be processed accordint to its links
+            var _element = jQuery(this);
 
-                    // retieves the list of links in the element and
-                    // validations if it exists in case it does not
-                    // returns immediately so that the next iteration
-                    // cycle starts and new elements are processed
-                    var linksList = jQuery(".links-list", _element);
-                    if (linksList.length == 0) {
-                        return;
-                    }
+            // retieves the list of links in the element and
+            // validations if it exists in case it does not
+            // returns immediately so that the next iteration
+            // cycle starts and new elements are processed
+            var linksList = jQuery(".links-list", _element);
+            if (linksList.length == 0) {
+                return;
+            }
 
-                    // retrieves the complete set of children of the
-                    // current links list in case at least one exists
-                    // continues the loop nothing to be done
-                    var links = linksList.children();
-                    if (links.length != 0) {
-                        return;
-                    }
+            // retrieves the complete set of children of the
+            // current links list in case at least one exists
+            // continues the loop nothing to be done
+            var links = linksList.children();
+            if (links.length != 0) {
+                return;
+            }
 
-                    // hides the current side element as there are no
-                    // links under its links list
-                    _element.hide();
-                });
+            // hides the current side element as there are no
+            // links under its links list
+            _element.hide();
+        });
     };
 })(jQuery);
 
@@ -4204,10 +4159,9 @@
             for (var index = 0; index < VALUES.length; index++) {
                 var value = VALUES[index];
                 var valueL = VALUES_LOCALE[index];
-                var item = jQuery("<li class=\"" + value + "\">"
-                        + "<span class=\"key\">" + valueL + "</span>"
-                        + "<span class=\"value\"></span>"
-                        + "<div class=\"sidebar-clear\"></div>" + "</li>");
+                var item = jQuery("<li class=\"" + value + "\">" + "<span class=\"key\">" + valueL +
+                    "</span>" + "<span class=\"value\"></span>" +
+                    "<div class=\"sidebar-clear\"></div>" + "</li>");
                 sidebarList.append(item)
             }
 
@@ -4228,59 +4182,59 @@
             // registers for the slected event in the target element
             // so that the proper values are updated for the summary
             element.bind("selected", function(event, elements) {
-                        // verifies if the summary element is meant to be shown
-                        // or hidden (set visible or not)
-                        var isVisible = elements.length > 1;
+                // verifies if the summary element is meant to be shown
+                // or hidden (set visible or not)
+                var isVisible = elements.length > 1;
 
-                        // retrieves the number of element that have been
-                        // selected and then starts the sum value to zero
-                        var count = elements.length;
-                        var sum = 0;
+                // retrieves the number of element that have been
+                // selected and then starts the sum value to zero
+                var count = elements.length;
+                var sum = 0;
 
-                        // iterates over each of the elements in order to
-                        // gather the ammount value that is going to be
-                        // used for the calculus, this uses a strategy of
-                        // finding the last number value in the target
-                        elements.each(function(index, element) {
-                                    var _element = jQuery(this);
-                                    var numbers = jQuery(".number", _element);
-                                    var length = numbers.length;
-                                    var target = jQuery(numbers[length - 1]).html();
-                                    var value = parseFloat(target);
-                                    sum += value;
-                                });
+                // iterates over each of the elements in order to
+                // gather the ammount value that is going to be
+                // used for the calculus, this uses a strategy of
+                // finding the last number value in the target
+                elements.each(function(index, element) {
+                    var _element = jQuery(this);
+                    var numbers = jQuery(".number", _element);
+                    var length = numbers.length;
+                    var target = jQuery(numbers[length - 1]).html();
+                    var value = parseFloat(target);
+                    sum += value;
+                });
 
-                        // calculates the average value by deviding the complete
-                        // sum over the total count of elements
-                        var average = sum / count;
+                // calculates the average value by deviding the complete
+                // sum over the total count of elements
+                var average = sum / count;
 
-                        // converts the various values into the appropriate string
-                        // representation for each of them
-                        var countS = count.toString();
-                        var sumS = sum.toFixed(2);
-                        var averageS = average.toFixed(2);
+                // converts the various values into the appropriate string
+                // representation for each of them
+                var countS = count.toString();
+                var sumS = sum.toFixed(2);
+                var averageS = average.toFixed(2);
 
-                        // sets the various valus in the corresponding target elements
-                        // so that the update values are set
-                        countElement.uxvalue(countS);
-                        sumElement.uxvalue(sumS);
-                        averageElement.uxvalue(averageS);
+                // sets the various valus in the corresponding target elements
+                // so that the update values are set
+                countElement.uxvalue(countS);
+                sumElement.uxvalue(sumS);
+                averageElement.uxvalue(averageS);
 
-                        // shows or hides the element according to the
-                        // pre-defined element value
-                        if (isVisible) {
-                            _element.show();
-                        } else {
-                            _element.hide();
-                        }
-                    });
+                // shows or hides the element according to the
+                // pre-defined element value
+                if (isVisible) {
+                    _element.show();
+                } else {
+                    _element.hide();
+                }
+            });
 
             // registers for the update complete event on the target
             // element as that means that all of the elements have
             // been unselected as new data has been receieved
             element.bind("update_complete", function(event, reset) {
-                        reset && _element.hide();
-                    });
+                reset && _element.hide();
+            });
         });
     };
 })(jQuery);
@@ -4300,22 +4254,22 @@
         // visibility of the top bar
         var handle = jQuery(".top-bar-handle", matchedObject)
         handle.click(function() {
-                    var element = jQuery(this);
-                    var slider = element.parents(".top-bar-slider");
+            var element = jQuery(this);
+            var slider = element.parents(".top-bar-slider");
 
-                    var isUp = element.hasClass("up");
-                    if (isUp) {
-                        contentBar.removeClass("visible");
-                        contentMargin.removeClass("visible");
-                        slider.removeClass("visible");
-                        element.removeClass("up");
-                    } else {
-                        contentBar.addClass("visible");
-                        contentMargin.addClass("visible");
-                        slider.addClass("visible");
-                        element.addClass("up");
-                    }
-                });
+            var isUp = element.hasClass("up");
+            if (isUp) {
+                contentBar.removeClass("visible");
+                contentMargin.removeClass("visible");
+                slider.removeClass("visible");
+                element.removeClass("up");
+            } else {
+                contentBar.addClass("visible");
+                contentMargin.addClass("visible");
+                slider.addClass("visible");
+                element.addClass("up");
+            }
+        });
 
         return this;
     };
@@ -4397,22 +4351,22 @@
         // proper search (url) string is available for the
         // update of url values in a series of elements
         setTimeout(function() {
-                    // retrieves the path name for the current location
-                    // and uses it to update the options form submit information
-                    // so that it reflects the most up-to-date values
-                    var pathname = window.location.pathname;
-                    options.attr("method", "get");
-                    options.attr("action", pathname);
+            // retrieves the path name for the current location
+            // and uses it to update the options form submit information
+            // so that it reflects the most up-to-date values
+            var pathname = window.location.pathname;
+            options.attr("method", "get");
+            options.attr("action", pathname);
 
-                    // iterates over all the present links to update their
-                    // link values to match the arguments of the current request
-                    links.each(function(index, element) {
-                                var _element = jQuery(this);
-                                var href = _element.attr("href");
-                                var search = window.location.search;
-                                _element.attr("href", href + search);
-                            });
-                });
+            // iterates over all the present links to update their
+            // link values to match the arguments of the current request
+            links.each(function(index, element) {
+                var _element = jQuery(this);
+                var href = _element.attr("href");
+                var search = window.location.search;
+                _element.attr("href", href + search);
+            });
+        });
 
         // retrieves the number of rows to be used in the table
         // associated with the report
@@ -4447,86 +4401,83 @@
         // the contents of the current report, note that this registration
         // is not applied for a print environment
         !print && headers.click(function() {
-                    var element = jQuery(this);
-                    var currentOrder = matchedObject.data("order");
-                    var reverse = matchedObject.data("reverse") || false;
-                    var newOrder = element.attr("data-order");
-                    reverse = newOrder != currentOrder ? true : !reverse;
-                    matchedObject.data("reverse", reverse);
-                    matchedObject.data("order", newOrder);
-                    matchedObject.data("dirty", true);
-                    headers.removeClass("sorter");
-                    element.addClass("sorter");
-                    newOrder && update(matchedObject, options);
-                });
+            var element = jQuery(this);
+            var currentOrder = matchedObject.data("order");
+            var reverse = matchedObject.data("reverse") || false;
+            var newOrder = element.attr("data-order");
+            reverse = newOrder != currentOrder ? true : !reverse;
+            matchedObject.data("reverse", reverse);
+            matchedObject.data("order", newOrder);
+            matchedObject.data("dirty", true);
+            headers.removeClass("sorter");
+            element.addClass("sorter");
+            newOrder && update(matchedObject, options);
+        });
 
         // registers for the key down event on the document in order
         // to provide easy of use shortcut for navigation
-        matchedObject.length > 0
-                && _document.keydown(onKeyDown = function(event) {
-                    // sets the report as the matched object, provides
-                    // a compatability layer
-                    var report = matchedObject;
+        matchedObject.length > 0 && _document.keydown(onKeyDown = function(event) {
+            // sets the report as the matched object, provides
+            // a compatability layer
+            var report = matchedObject;
 
-                    // retrieves the key value
-                    var keyValue = event.keyCode
-                            ? event.keyCode
-                            : event.charCode ? event.charCode : event.which;
+            // retrieves the key value
+            var keyValue = event.keyCode ? event.keyCode : event.charCode ? event.charCode : event.which;
 
-                    // switches over the key value
-                    switch (keyValue) {
-                        // in case it's one of the next keys
-                        // (the right arrow or the 'j')
-                        case 39 :
-                        case 74 :
-                            increment(report, options);
+            // switches over the key value
+            switch (keyValue) {
+                // in case it's one of the next keys
+                // (the right arrow or the 'j')
+                case 39:
+                case 74:
+                    increment(report, options);
 
-                            // breaks the switch
-                            break;
+                    // breaks the switch
+                    break;
 
-                        // in case it's one of the previous keys
-                        // (the left arrow or the 'k')
-                        case 37 :
-                        case 75 :
-                            decrement(report, options);
+                    // in case it's one of the previous keys
+                    // (the left arrow or the 'k')
+                case 37:
+                case 75:
+                    decrement(report, options);
 
-                            // breaks the switch
-                            break;
+                    // breaks the switch
+                    break;
 
-                        // in case it's default
-                        default :
-                            // breaks the switch
-                            break;
-                    }
-                });
+                    // in case it's default
+                default:
+                    // breaks the switch
+                    break;
+            }
+        });
         matchedObject.bind("destroyed", function() {
-                    _document.unbind("keydown", onKeyDown);
-                });
+            _document.unbind("keydown", onKeyDown);
+        });
 
         // registers for the click operation in the options
         // link so that the options panel visibility is toggled
         linkOptions.click(function() {
-                    var element = jQuery(this);
-                    var report = element.parents(".report");
-                    var options = jQuery(".options", report);
-                    options.toggle();
-                });
+            var element = jQuery(this);
+            var report = element.parents(".report");
+            var options = jQuery(".options", report);
+            options.toggle();
+        });
 
         // registers for the click even on the previous
         // button to decrement one page
         previous.click(function() {
-                    var element = jQuery(this);
-                    var report = element.parents(".report");
-                    decrement(report, options);
-                });
+            var element = jQuery(this);
+            var report = element.parents(".report");
+            decrement(report, options);
+        });
 
         // registers for the click even on the next
         // button to increment one page
         next.click(function() {
-                    var element = jQuery(this);
-                    var report = element.parents(".report");
-                    increment(report, options);
-                });
+            var element = jQuery(this);
+            var report = element.parents(".report");
+            increment(report, options);
+        });
 
         var update = function(matchedObject, options) {
             // retrieves the various element that componse the
@@ -4668,15 +4619,15 @@
 
         var load = function(matchedObject, options) {
             var dataSource = jQuery(".report-table > .data-source",
-                    matchedObject);
+                matchedObject);
             matchedObject.addClass("loading");
             dataSource.uxdataquery({}, function(validItems, moreItems) {
-                        matchedObject.removeClass("loading");
-                        matchedObject.data("items", validItems);
-                        limits(matchedObject, options);
-                        update(matchedObject, options);
-                        print(matchedObject, options);
-                    });
+                matchedObject.removeClass("loading");
+                matchedObject.data("items", validItems);
+                limits(matchedObject, options);
+                update(matchedObject, options);
+                print(matchedObject, options);
+            });
         };
 
         load(matchedObject, options);
@@ -4735,7 +4686,8 @@
         // the various colors that are going to be used in the
         // plot of the various chart lines
         var CHART_COLORS = ["#77a9df", "#ffd67e", "#0176ff", "#e0cf21",
-                "#22b573", "#c69c6d", "#c14f53", "#f0e7d0", "#ff78ff"];
+            "#22b573", "#c69c6d", "#c14f53", "#f0e7d0", "#ff78ff"
+        ];
 
         // the counting of the vaious elements of the chart (steps)
         // and value control for the various elements
@@ -4767,19 +4719,19 @@
         // unit map meant to be used in the conversion of very large
         // values so that they can fit in the current grid for labels.
         var UNIT_MAP = {
-            1 : "K",
-            2 : "M",
-            3 : "G",
-            4 : "T"
+            1: "K",
+            2: "M",
+            3: "G",
+            4: "T"
         };
 
         // the inital data map that is going to be used in
         // the parsing of the various value that will be part
         // of the global chart to be draw
         var DATA = {
-            labels : [],
-            horizontalLabels : [],
-            values : {}
+            labels: [],
+            horizontalLabels: [],
+            values: {}
         }
 
         // the default values for the menu
@@ -4809,14 +4761,12 @@
         /**
          * Creates the necessary html for the component.
          */
-        var _appendHtml = function() {
-        };
+        var _appendHtml = function() {};
 
         /**
          * Registers the event handlers for the created objects.
          */
-        var _registerHandlers = function() {
-        };
+        var _registerHandlers = function() {};
 
         var drawAxis = function(matchedObject, options) {
             // retrieves the options values, that are going to
@@ -4843,15 +4793,12 @@
             // draws the left vertical axis to the current context
             // note that the line function is used for the drawing
             context.line(marginLeft + verticalLabelWidth, marginTop - 1,
-                    marginLeft + verticalLabelWidth, marginTop
-                            + verticalAxisSize);
+                marginLeft + verticalLabelWidth, marginTop + verticalAxisSize);
 
             // draws the bottom horizontal axis to the current context
             // note that the line function is used for the drawing
-            context.line(marginLeft + verticalLabelWidth, marginTop
-                            + verticalAxisSize, marginLeft + verticalLabelWidth
-                            + horizontalAxisSize + 1, marginTop
-                            + verticalAxisSize);
+            context.line(marginLeft + verticalLabelWidth, marginTop + verticalAxisSize, marginLeft +
+                verticalLabelWidth + horizontalAxisSize + 1, marginTop + verticalAxisSize);
 
             // strokes and closes the path, this should flush the axis
             // into the current canvas area
@@ -4893,8 +4840,7 @@
             // iterates over the range of values
             for (var index = 0; index < horizontalSteps - 1; index++) {
                 // draws a dashed line
-                context.dashedLine(currentX, marginTop, currentX, marginTop
-                                + verticalAxisSize, [2, 3]);
+                context.dashedLine(currentX, marginTop, currentX, marginTop + verticalAxisSize, [2, 3]);
 
                 // increments the current x position with the x
                 // position increment
@@ -4911,8 +4857,8 @@
             for (var index = 0; index < verticalSteps - 1; index++) {
                 // draws a dashed line
                 context.dashedLine(marginLeft + verticalLabelWidth, currentY,
-                        marginLeft + verticalLabelWidth + horizontalAxisSize,
-                        currentY, [2, 3]);
+                    marginLeft + verticalLabelWidth + horizontalAxisSize,
+                    currentY, [2, 3]);
 
                 // decrements the current y position with the y
                 // position increment
@@ -4972,7 +4918,7 @@
 
                 // draws the current value as string
                 context.fillText(horizontalLabel, currentX - (textWidth / 2),
-                        currentY + labelOffset + labelFontRealSize);
+                    currentY + labelOffset + labelFontRealSize);
 
                 // creates the simple line that sits next to the label
                 // to create a visual reference to it
@@ -5020,7 +4966,7 @@
 
                 // draws the current value as string
                 context.fillText(valueS, currentX - labelOffset - textWidth,
-                        currentY + Math.round(labelFontRealSize / 2));
+                    currentY + Math.round(labelFontRealSize / 2));
 
                 // creates the simple line that sits next to the label
                 // to create a visual reference to it
@@ -5222,74 +5168,41 @@
 
             // sets the various option flag based values to enable
             // and disable certain features
-            var drawAxis = options["drawAxis"]
-                    ? options["drawAxis"]
-                    : DRAW_AXIS;
-            var drawAuxiliaryAxis = options["drawAuxiliaryAxis"]
-                    ? options["drawAuxiliaryAxis"]
-                    : DRAW_AUXILIARY_AXIS;
-            var drawLabels = options["drawLabels"]
-                    ? options["drawLabels"]
-                    : DRAW_LABELS;
-            var drawLines = options["drawLines"]
-                    ? options["drawLines"]
-                    : DRAW_LINES;
-            var drawLabelBox = options["drawLabelBox"]
-                    ? options["drawLabelBox"]
-                    : DRAW_LABEL_BOX;
+            var drawAxis = options["drawAxis"] ? options["drawAxis"] : DRAW_AXIS;
+            var drawAuxiliaryAxis = options["drawAuxiliaryAxis"] ? options["drawAuxiliaryAxis"] :
+                DRAW_AUXILIARY_AXIS;
+            var drawLabels = options["drawLabels"] ? options["drawLabels"] : DRAW_LABELS;
+            var drawLines = options["drawLines"] ? options["drawLines"] : DRAW_LINES;
+            var drawLabelBox = options["drawLabelBox"] ? options["drawLabelBox"] : DRAW_LABEL_BOX;
 
             // sets the ui values
-            var labelFontName = options["labelFontName"]
-                    ? options["labelFontName"]
-                    : LABEL_FONT_NAME;
-            var labelFontSize = options["labelFontSize"]
-                    ? options["labelFontSize"]
-                    : LABEL_FONT_SIZE;
-            var labelFontRealSize = options["labelFontRealSize"]
-                    ? options["labelFontRealSize"]
-                    : LABEL_FONT_REAL_SIZE;
-            var baseColor = options["baseColor"]
-                    ? options["baseColor"]
-                    : BASE_COLOR;
-            var labelColor = options["labelColor"]
-                    ? options["labelColor"]
-                    : LABEL_COLOR;
-            var axisColor = options["axisColor"]
-                    ? options["axisColor"]
-                    : AXIS_COLOR;
-            var auxiliaryAxisColor = options["auxiliaryAxisColor"]
-                    ? options["auxiliaryAxisColor"]
-                    : AUXILIARY_AXIS_COLOR;
-            var valueCircleColor = options["valueCircleColor"]
-                    ? options["valueCircleColor"]
-                    : VALUE_CIRCLE_COLOR;
-            var backgroundCircleColor = options["backgroundCircleColor"]
-                    ? options["backgroundCircleColor"]
-                    : BACKGROUND_CIRCLE_COLOR;
-            var backgroundBoxColor = options["backgroundBoxColor"]
-                    ? options["backgroundBoxColor"]
-                    : BACKGROUND_BOX_COLOR;
-            var chartColors = options["chartColors"]
-                    ? options["chartColors"]
-                    : CHART_COLORS;
+            var labelFontName = options["labelFontName"] ? options["labelFontName"] : LABEL_FONT_NAME;
+            var labelFontSize = options["labelFontSize"] ? options["labelFontSize"] : LABEL_FONT_SIZE;
+            var labelFontRealSize = options["labelFontRealSize"] ? options["labelFontRealSize"] :
+                LABEL_FONT_REAL_SIZE;
+            var baseColor = options["baseColor"] ? options["baseColor"] : BASE_COLOR;
+            var labelColor = options["labelColor"] ? options["labelColor"] : LABEL_COLOR;
+            var axisColor = options["axisColor"] ? options["axisColor"] : AXIS_COLOR;
+            var auxiliaryAxisColor = options["auxiliaryAxisColor"] ? options["auxiliaryAxisColor"] :
+                AUXILIARY_AXIS_COLOR;
+            var valueCircleColor = options["valueCircleColor"] ? options["valueCircleColor"] :
+                VALUE_CIRCLE_COLOR;
+            var backgroundCircleColor = options["backgroundCircleColor"] ? options["backgroundCircleColor"] :
+                BACKGROUND_CIRCLE_COLOR;
+            var backgroundBoxColor = options["backgroundBoxColor"] ? options["backgroundBoxColor"] :
+                BACKGROUND_BOX_COLOR;
+            var chartColors = options["chartColors"] ? options["chartColors"] : CHART_COLORS;
 
             // sets the number of steps
-            var verticalSteps = options["verticalSteps"]
-                    ? options["verticalSteps"]
-                    : VERTICAL_STEPS;
-            var horizontalSteps = options["horizontalSteps"]
-                    ? options["horizontalSteps"]
-                    : HORIZONTAL_STEPS;
+            var verticalSteps = options["verticalSteps"] ? options["verticalSteps"] : VERTICAL_STEPS;
+            var horizontalSteps = options["horizontalSteps"] ? options["horizontalSteps"] :
+                HORIZONTAL_STEPS;
 
             // sets the maximum and minimum values and calculates
             // the range value
-            var maximumValue = options["maximumValue"]
-                    ? Math.ceil(options["maximumValue"] / verticalSteps)
-                            * verticalSteps
-                    : MAXIMUM_VALUE;
-            var minimumValue = options["minimumValue"]
-                    ? options["minimumValue"]
-                    : MINIMUM_VALUE;
+            var maximumValue = options["maximumValue"] ? Math.ceil(options["maximumValue"] / verticalSteps) *
+                verticalSteps : MAXIMUM_VALUE;
+            var minimumValue = options["minimumValue"] ? options["minimumValue"] : MINIMUM_VALUE;
             var rangeValue = maximumValue - minimumValue;
 
             // the increment in each step value to be used
@@ -5297,51 +5210,33 @@
 
             // retrieves the horizontal and vertical label width
             // and height values
-            var horizontalLabelHeight = options["horizontalLabelHeight"]
-                    ? options["horizontalLabelHeight"]
-                    : HORIZONTAL_LABEL_HEIGHT;
-            var verticalLabelWidth = options["verticalLabelWidth"]
-                    ? options["verticalLabelWidth"]
-                    : VERTICAL_LABEL_WIDTH;
+            var horizontalLabelHeight = options["horizontalLabelHeight"] ? options["horizontalLabelHeight"] :
+                HORIZONTAL_LABEL_HEIGHT;
+            var verticalLabelWidth = options["verticalLabelWidth"] ? options["verticalLabelWidth"] :
+                VERTICAL_LABEL_WIDTH;
 
             // retrieves the label offset
-            var labelOffset = options["labelOffset"]
-                    ? options["labelOffset"]
-                    : LABEL_OFFSET;
+            var labelOffset = options["labelOffset"] ? options["labelOffset"] : LABEL_OFFSET;
 
             // calculates the horizontal margins
-            var marginLeft = options["marginLeft"]
-                    ? options["marginLeft"]
-                    : MARGIN_LEFT;
-            var marginRight = options["marginRight"]
-                    ? options["marginRight"]
-                    : MARGIN_RIGHT;
-            var horizontalMargin = marginLeft + marginRight
-                    + verticalLabelWidth;
+            var marginLeft = options["marginLeft"] ? options["marginLeft"] : MARGIN_LEFT;
+            var marginRight = options["marginRight"] ? options["marginRight"] : MARGIN_RIGHT;
+            var horizontalMargin = marginLeft + marginRight + verticalLabelWidth;
 
             // calculates the vertical margins
-            var marginTop = options["marginTop"]
-                    ? options["marginTop"]
-                    : MARGIN_TOP;
-            var marginBottom = options["marginBottom"]
-                    ? options["marginBottom"]
-                    : MARGIN_BOTTOM;
-            var verticalMargin = marginTop + marginBottom
-                    + horizontalLabelHeight;
+            var marginTop = options["marginTop"] ? options["marginTop"] : MARGIN_TOP;
+            var marginBottom = options["marginBottom"] ? options["marginBottom"] : MARGIN_BOTTOM;
+            var verticalMargin = marginTop + marginBottom + horizontalLabelHeight;
 
             // calculates the box margins and offsets
-            var boxMarginHorizontal = options["boxMarginHorizontal"]
-                    ? options["boxMarginHorizontal"]
-                    : BOX_MARGIN_HORIZONTAL;
-            var boxMarginVertical = options["boxMarginVertical"]
-                    ? options["boxMarginVertical"]
-                    : BOX_MARGIN_VERTICAL;
-            var boxHorizontalOffset = options["boxHorizontalOffset"]
-                    ? options["boxHorizontalOffset"]
-                    : BOX_HORIZONTAL_OFFSET;
-            var boxVerticalOffset = options["boxVerticalOffset"]
-                    ? options["boxVerticalOffset"]
-                    : BOX_VERTICAL_OFFSET;
+            var boxMarginHorizontal = options["boxMarginHorizontal"] ? options["boxMarginHorizontal"] :
+                BOX_MARGIN_HORIZONTAL;
+            var boxMarginVertical = options["boxMarginVertical"] ? options["boxMarginVertical"] :
+                BOX_MARGIN_VERTICAL;
+            var boxHorizontalOffset = options["boxHorizontalOffset"] ? options["boxHorizontalOffset"] :
+                BOX_HORIZONTAL_OFFSET;
+            var boxVerticalOffset = options["boxVerticalOffset"] ? options["boxVerticalOffset"] :
+                BOX_VERTICAL_OFFSET;
 
             // calculates the size of the axis based on the
             var horizontalAxisSize = chartWidth - horizontalMargin;
@@ -5426,9 +5321,7 @@
                 var textWidth = textMetrics.width;
 
                 // updates the largest width
-                largestWidth = textWidth > largestWidth
-                        ? textWidth
-                        : largestWidth;
+                largestWidth = textWidth > largestWidth ? textWidth : largestWidth;
 
                 // increments the value count
                 valueCount++;
@@ -5445,8 +5338,8 @@
 
             // calculates the box position with the offset and anchored
             // to the current defined position
-            var boxX = marginLeft + verticalLabelWidth + horizontalAxisSize
-                    - boxWidth - boxHorizontalOffset;
+            var boxX = marginLeft + verticalLabelWidth + horizontalAxisSize - boxWidth -
+                boxHorizontalOffset;
             var boxY = marginTop + boxVerticalOffset;
 
             // sets the background box fill color as the background box color
@@ -5487,7 +5380,7 @@
                 // position, the size of it is pre-defined
                 context.beginPath();
                 context.arc(currentX - 24, currentY - 10, 10, 0, Math.PI * 2,
-                        true);
+                    true);
                 context.fill();
                 context.closePath();
 
@@ -5604,14 +5497,14 @@
 
         // switches over the method
         switch (method) {
-            case "draw" :
+            case "draw":
                 // initializes the plugin
                 draw();
 
                 // breaks the switch
                 break;
 
-            case "default" :
+            case "default":
                 // initializes the plugin
                 initialize();
 
@@ -5625,20 +5518,20 @@
 })(jQuery);
 
 jQuery(document).ready(function() {
-            // retrieves the reference to the top level
-            // body element to apply the components in it
-            var _body = jQuery("body");
+    // retrieves the reference to the top level
+    // body element to apply the components in it
+    var _body = jQuery("body");
 
-            // applies the ui component to the body element (main
-            // element) and then applies the extra component logic
-            // from the composite extensions
-            _body.uxapply();
-            _body.uapply();
+    // applies the ui component to the body element (main
+    // element) and then applies the extra component logic
+    // from the composite extensions
+    _body.uxapply();
+    _body.uapply();
 
-            // registers for the applied event on the body to be
-            // notified of new apply operations and react to them
-            // in the sense of applying the specifics
-            _body.bind("applied", function(event, base) {
-                        base.uapply();
-                    });
-        });
+    // registers for the applied event on the body to be
+    // notified of new apply operations and react to them
+    // in the sense of applying the specifics
+    _body.bind("applied", function(event, base) {
+        base.uapply();
+    });
+});

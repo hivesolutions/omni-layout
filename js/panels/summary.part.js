@@ -42,10 +42,9 @@
             for (var index = 0; index < VALUES.length; index++) {
                 var value = VALUES[index];
                 var valueL = VALUES_LOCALE[index];
-                var item = jQuery("<li class=\"" + value + "\">"
-                        + "<span class=\"key\">" + valueL + "</span>"
-                        + "<span class=\"value\"></span>"
-                        + "<div class=\"sidebar-clear\"></div>" + "</li>");
+                var item = jQuery("<li class=\"" + value + "\">" + "<span class=\"key\">" + valueL +
+                    "</span>" + "<span class=\"value\"></span>" +
+                    "<div class=\"sidebar-clear\"></div>" + "</li>");
                 sidebarList.append(item)
             }
 
@@ -66,59 +65,59 @@
             // registers for the slected event in the target element
             // so that the proper values are updated for the summary
             element.bind("selected", function(event, elements) {
-                        // verifies if the summary element is meant to be shown
-                        // or hidden (set visible or not)
-                        var isVisible = elements.length > 1;
+                // verifies if the summary element is meant to be shown
+                // or hidden (set visible or not)
+                var isVisible = elements.length > 1;
 
-                        // retrieves the number of element that have been
-                        // selected and then starts the sum value to zero
-                        var count = elements.length;
-                        var sum = 0;
+                // retrieves the number of element that have been
+                // selected and then starts the sum value to zero
+                var count = elements.length;
+                var sum = 0;
 
-                        // iterates over each of the elements in order to
-                        // gather the ammount value that is going to be
-                        // used for the calculus, this uses a strategy of
-                        // finding the last number value in the target
-                        elements.each(function(index, element) {
-                                    var _element = jQuery(this);
-                                    var numbers = jQuery(".number", _element);
-                                    var length = numbers.length;
-                                    var target = jQuery(numbers[length - 1]).html();
-                                    var value = parseFloat(target);
-                                    sum += value;
-                                });
+                // iterates over each of the elements in order to
+                // gather the ammount value that is going to be
+                // used for the calculus, this uses a strategy of
+                // finding the last number value in the target
+                elements.each(function(index, element) {
+                    var _element = jQuery(this);
+                    var numbers = jQuery(".number", _element);
+                    var length = numbers.length;
+                    var target = jQuery(numbers[length - 1]).html();
+                    var value = parseFloat(target);
+                    sum += value;
+                });
 
-                        // calculates the average value by deviding the complete
-                        // sum over the total count of elements
-                        var average = sum / count;
+                // calculates the average value by deviding the complete
+                // sum over the total count of elements
+                var average = sum / count;
 
-                        // converts the various values into the appropriate string
-                        // representation for each of them
-                        var countS = count.toString();
-                        var sumS = sum.toFixed(2);
-                        var averageS = average.toFixed(2);
+                // converts the various values into the appropriate string
+                // representation for each of them
+                var countS = count.toString();
+                var sumS = sum.toFixed(2);
+                var averageS = average.toFixed(2);
 
-                        // sets the various valus in the corresponding target elements
-                        // so that the update values are set
-                        countElement.uxvalue(countS);
-                        sumElement.uxvalue(sumS);
-                        averageElement.uxvalue(averageS);
+                // sets the various valus in the corresponding target elements
+                // so that the update values are set
+                countElement.uxvalue(countS);
+                sumElement.uxvalue(sumS);
+                averageElement.uxvalue(averageS);
 
-                        // shows or hides the element according to the
-                        // pre-defined element value
-                        if (isVisible) {
-                            _element.show();
-                        } else {
-                            _element.hide();
-                        }
-                    });
+                // shows or hides the element according to the
+                // pre-defined element value
+                if (isVisible) {
+                    _element.show();
+                } else {
+                    _element.hide();
+                }
+            });
 
             // registers for the update complete event on the target
             // element as that means that all of the elements have
             // been unselected as new data has been receieved
             element.bind("update_complete", function(event, reset) {
-                        reset && _element.hide();
-                    });
+                reset && _element.hide();
+            });
         });
     };
 })(jQuery);

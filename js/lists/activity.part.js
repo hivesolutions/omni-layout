@@ -101,24 +101,24 @@
             // registers for the mouse leave event so that
             // the next elements have the next class added
             items.mouseenter(function() {
-                        var _element = jQuery(this);
-                        var next = _element.next();
-                        next.addClass("next");
-                    });
+                var _element = jQuery(this);
+                var next = _element.next();
+                next.addClass("next");
+            });
 
             // registers for the mouse leave event so that
             // the next elements have the next class removed
             items.mouseleave(function() {
-                        var _element = jQuery(this);
-                        var next = _element.next();
-                        next.removeClass("next");
-                    });
+                var _element = jQuery(this);
+                var next = _element.next();
+                next.removeClass("next");
+            });
 
             // registers for the click event in the link items
             // so that no propagation is done in the event
             links.click(function(event) {
-                        event.stopPropagation();
-                    });
+                event.stopPropagation();
+            });
         });
     };
 })(jQuery);

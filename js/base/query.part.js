@@ -46,9 +46,7 @@
             // its components to be used to create the filter string
             var filter = filters[index];
             var name = filter[0];
-            var value = filter.length == 3
-                    ? String(filter[2])
-                    : String(filter[1]);
+            var value = filter.length == 3 ? String(filter[2]) : String(filter[1]);
             var operation = filter.length == 3 ? filter[1] : "equals";
 
             // creates the filter string from the various components of it
@@ -67,12 +65,12 @@
         // parameters including the composite url and the
         // transformed data object
         jQuery.ajax({
-                    type : type,
-                    url : url,
-                    data : data,
-                    complete : complete,
-                    success : success,
-                    error : error
-                });
+            type: type,
+            url: url,
+            data: data,
+            complete: complete,
+            success: success,
+            error: error
+        });
     };
 })(jQuery);

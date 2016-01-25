@@ -31,8 +31,8 @@
         // adds the various inner elements of the notifications
         // container to the notification activator icon
         var link = jQuery("<div class=\"button menu-button menu-link notifications\"></div>")
-        var container = jQuery("<div class=\"menu-contents notifications-container\">"
-                + "<ul class=\"notifications-list\"></ul>" + "</div>");
+        var container = jQuery("<div class=\"menu-contents notifications-container\">" +
+            "<ul class=\"notifications-list\"></ul>" + "</div>");
         matchedObject.append(link)
         matchedObject.append(container);
 
@@ -72,9 +72,9 @@
             var url = _element.attr("data-url");
             var key = _element.attr("data-key");
             var pushi = new Pushi(key, {
-                        baseUrl : url,
-                        authEndpoint : absolueUrl
-                    });
+                baseUrl: url,
+                authEndpoint: absolueUrl
+            });
 
             // updates the current element with the reference to the pushi
             // element so that it may be re-used for retrieval latter
@@ -151,20 +151,17 @@
 
                 // "calulates" the path to the logo url using the retrieved
                 // base path as the reference for it
-                var logoUrl = basePath
-                        + "common/images/logos/front-door-not-large.png";
+                var logoUrl = basePath + "common/images/logos/front-door-not-large.png";
 
                 // adds a new notification item to the list of
                 // notifications, this notification should have
                 // the pre-defined username and time as defined
                 // in the received data
-                var notification = jQuery("<li class=\"button\" data-link=\""
-                        + url + "\">" + "<img class=\"entity-picture\" src=\""
-                        + imageUrl + "\">" + "<div class=\"contents\">"
-                        + "<p class=\"title\">" + userName + "</p>"
-                        + "<p class=\"subject\"></p>" + "</div>"
-                        + "<div class=\"time\">" + time + "</div>"
-                        + "<div class=\"break\"></div>" + "</li>");
+                var notification = jQuery("<li class=\"button\" data-link=\"" + url + "\">" +
+                    "<img class=\"entity-picture\" src=\"" + imageUrl + "\">" +
+                    "<div class=\"contents\">" + "<p class=\"title\">" + userName + "</p>" +
+                    "<p class=\"subject\"></p>" + "</div>" + "<div class=\"time\">" + time +
+                    "</div>" + "<div class=\"break\"></div>" + "</li>");
                 list.prepend(notification);
                 notification.uxbutton();
 
@@ -196,11 +193,11 @@
                 // a new notification box for the current notification
                 // so that the user gets an immediate visual effect
                 isNew && _body.uxnotification({
-                            "title" : userName,
-                            "message" : message,
-                            "link" : jQuery.uxresolve(url),
-                            "timeout" : 15000
-                        });
+                    "title": userName,
+                    "message": message,
+                    "link": jQuery.uxresolve(url),
+                    "timeout": 15000
+                });
 
                 // in case this is a new notification creates a desktop
                 // notification and registers the appropriate handlers to
@@ -210,19 +207,19 @@
                 var hasNotifications = typeof(Notification) != "undefined";
                 if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
-                                dir : "auto",
-                                icon : jQuery.uxresolve(logoUrl),
-                                lang : "en",
-                                body : messageT,
-                                tag : uniqueId
-                            });
+                        dir: "auto",
+                        icon: jQuery.uxresolve(logoUrl),
+                        lang: "en",
+                        body: messageT,
+                        tag: uniqueId
+                    });
                     _notification.onclick = function() {
                         window.open(urlR, "_blank");
                     };
                     _notification.show && _notification.show();
                     _notification.close && setTimeout(function() {
-                                _notification.close();
-                            }, 15000);
+                        _notification.close();
+                    }, 15000);
                     _body.data("_notification", _notification);
                 }
 
@@ -352,9 +349,9 @@
                 // is set under a valid state for the new key and (base) url values
                 else {
                     pushi.reconfig(key, {
-                                baseUrl : url,
-                                authEndpoint : pushi.options.authEndpoint
-                            });
+                        baseUrl: url,
+                        authEndpoint: pushi.options.authEndpoint
+                    });
                 }
 
                 // clears the current list of notification because the list will
@@ -375,169 +372,167 @@
             // element so that any pending native notification is
             // closed and not left over as garbage
             !isRegistered && _window.bind("beforeunload", function() {
-                        var _notification = _body.data("_notification");
-                        _notification && _notification.close();
-                    });
+                var _notification = _body.data("_notification");
+                _notification && _notification.close();
+            });
 
             // registers for the unload event in the window
             // element so that any pending native notification is
             // closed and not left over as garbage
             !isRegistered && _window.bind("unload", function() {
-                        var _notification = _body.data("_notification");
-                        _notification && _notification.close();
-                    });
+                var _notification = _body.data("_notification");
+                _notification && _notification.close();
+            });
 
             // registers for the show event so that the reading
             // class may be added to the link indicating that the
             // notifications panel is being "read"
             contents.bind("shown", function() {
-                        // adds the reading class to the link, marking it as
-                        // reading for latter usage
-                        link.addClass("reading");
-                    });
+                // adds the reading class to the link, marking it as
+                // reading for latter usage
+                link.addClass("reading");
+            });
 
             // registers for the hide event so that the pending
             // class may be removed from the notification container
             // and for the various pending notifications
             contents.bind("hidden", function() {
-                        // retrieves the complete set of list items for the
-                        // current list so that they may be marked as read
-                        var items = jQuery("li", list);
+                // retrieves the complete set of list items for the
+                // current list so that they may be marked as read
+                var items = jQuery("li", list);
 
-                        // verifies if the user is currently reading the
-                        // contents of the menu link in case it's not returns
-                        // immediately as it's not possible to unmark it
-                        var isReading = link.hasClass("reading");
-                        if (!isReading) {
-                            return;
-                        }
+                // verifies if the user is currently reading the
+                // contents of the menu link in case it's not returns
+                // immediately as it's not possible to unmark it
+                var isReading = link.hasClass("reading");
+                if (!isReading) {
+                    return;
+                }
 
-                        // removes the reading class from the link because
-                        // with the hide event there's no more reading
-                        link.removeClass("reading");
+                // removes the reading class from the link because
+                // with the hide event there's no more reading
+                link.removeClass("reading");
 
-                        // removes the pending class from all of the
-                        // currently available items
-                        items.removeClass("pending");
-                        link.removeClass("pending");
-                    });
+                // removes the pending class from all of the
+                // currently available items
+                items.removeClass("pending");
+                link.removeClass("pending");
+            });
 
             // registers for the click event in the list, so that
             // any click in an item hides the menu immediately while
             // it also redirect the user to the target page
             list.click(function() {
-                        _element.triggerHandler("hide");
-                    });
+                _element.triggerHandler("hide");
+            });
 
             // registers for the connect event so that at the end of
             // the connection the base channels are subscribed
             pushi.bind("connect", function(event) {
-                        // retrieves the complete set of list items for the
-                        // current list so that they may be marked as read
-                        var items = jQuery("li", list);
+                // retrieves the complete set of list items for the
+                // current list so that they may be marked as read
+                var items = jQuery("li", list);
 
-                        // empties the current list so that all the elements contained
-                        // in it are removed and none is present
-                        list.empty();
+                // empties the current list so that all the elements contained
+                // in it are removed and none is present
+                list.empty();
 
-                        // removes the pending class from all of the
-                        // currently available items so that the state
-                        // is restored to the original state
-                        items.removeClass("pending");
-                        link.removeClass("pending");
+                // removes the pending class from all of the
+                // currently available items so that the state
+                // is restored to the original state
+                items.removeClass("pending");
+                link.removeClass("pending");
 
-                        // retrieves the current username set in the global body
-                        // object to be able to create the name of the personal
-                        // channel that is going to be subscribed for notifications
-                        var username = _body.data("username");
+                // retrieves the current username set in the global body
+                // object to be able to create the name of the personal
+                // channel that is going to be subscribed for notifications
+                var username = _body.data("username");
 
-                        // subscribes to the personal channel for the user, this channeç
-                        // should contain notification related infromation
-                        this.subscribe("personal-" + username);
-                    });
+                // subscribes to the personal channel for the user, this channeç
+                // should contain notification related infromation
+                this.subscribe("personal-" + username);
+            });
 
             // registers for the subscribe event to be able to create the previously
             // existing events from the stored (logged) ones
             pushi.bind("subscribe", function(event, channel, data) {
-                        // verifies if the cyrrent channel type is personal and in
-                        // case it's not returns immediately (nothing to be done)
-                        var isPersonal = channel.startsWith("personal-");
-                        if (!isPersonal) {
-                            return;
-                        }
+                // verifies if the cyrrent channel type is personal and in
+                // case it's not returns immediately (nothing to be done)
+                var isPersonal = channel.startsWith("personal-");
+                if (!isPersonal) {
+                    return;
+                }
 
-                        // extracts the list of events from the provided data and
-                        // the iterates over them to create the various notifications
-                        // in the oposite order of arrival (correct order)
-                        var events = data.events || [];
-                        var length = events.length > MAXIMUM_NOTIFICATIONS
-                                ? MAXIMUM_NOTIFICATIONS
-                                : events.length;
-                        for (var index = length - 1; index >= 0; index--) {
-                            var event = events[index];
-                            var data = event.data.data;
-                            var _data = data ? jQuery.parseJSON(data) : data;
-                            _element.triggerHandler("notification", [_data,
-                                            false]);
-                        }
-                    });
+                // extracts the list of events from the provided data and
+                // the iterates over them to create the various notifications
+                // in the oposite order of arrival (correct order)
+                var events = data.events || [];
+                var length = events.length > MAXIMUM_NOTIFICATIONS ? MAXIMUM_NOTIFICATIONS :
+                    events.length;
+                for (var index = length - 1; index >= 0; index--) {
+                    var event = events[index];
+                    var data = event.data.data;
+                    var _data = data ? jQuery.parseJSON(data) : data;
+                    _element.triggerHandler("notification", [_data,
+                        false
+                    ]);
+                }
+            });
 
             // registers for the notification event to be able to
             // present the notification to the end user using the
             // notifications list container
             pushi.bind("notification", function(event, data, channel) {
-                        // verifies if the data type of the provided data is string
-                        // in case it's parses it as a json string "saving" it in
-                        // place of the current data element
-                        var isString = typeof data == "string";
-                        data = isString ? jQuery.parseJSON(data) : data;
+                // verifies if the data type of the provided data is string
+                // in case it's parses it as a json string "saving" it in
+                // place of the current data element
+                var isString = typeof data == "string";
+                data = isString ? jQuery.parseJSON(data) : data;
 
-                        // triggers the notification event in the element to display
-                        // the element visual structure in the notifications list
-                        _element.triggerHandler("notification", [data, true]);
-                    });
+                // triggers the notification event in the element to display
+                // the element visual structure in the notifications list
+                _element.triggerHandler("notification", [data, true]);
+            });
 
             // schedules an interval to update the current set of items so that
             // their time range values are correctly displayed
             setInterval(function() {
-                        // retrieves the current date and uses it to retrieve the current
-                        // timestamp value (according to the utf format)
-                        var date = new Date();
-                        var current = date.getTime();
+                // retrieves the current date and uses it to retrieve the current
+                // timestamp value (according to the utf format)
+                var date = new Date();
+                var current = date.getTime();
 
-                        // retrieves the complete set of items and iterates over them
-                        // to update the time value for each of them
-                        var items = jQuery("li", list);
-                        items.each(function(index, element) {
-                                    // retrieves the current element in iteration and tries to
-                                    // retrieve the data table structure from it
-                                    var _element = jQuery(this);
-                                    var data = _element.data("data");
-                                    if (!data) {
-                                        return;
-                                    }
+                // retrieves the complete set of items and iterates over them
+                // to update the time value for each of them
+                var items = jQuery("li", list);
+                items.each(function(index, element) {
+                    // retrieves the current element in iteration and tries to
+                    // retrieve the data table structure from it
+                    var _element = jQuery(this);
+                    var data = _element.data("data");
+                    if (!data) {
+                        return;
+                    }
 
-                                    // retrieves the reference to the time element of the
-                                    // current element in iteration, this is the value that
-                                    // is going to be update with the new string value
-                                    var time = jQuery(".time", _element);
+                    // retrieves the reference to the time element of the
+                    // current element in iteration, this is the value that
+                    // is going to be update with the new string value
+                    var time = jQuery(".time", _element);
 
-                                    // calculates the diff by calculating the difference between
-                                    // the current timestamp and the create date of the notification
-                                    // and then converts it into the appropriate date string
-                                    var diff = (current / 1000.0)
-                                            - data.create_date;
-                                    var diffS = jQuery.udates(diff);
+                    // calculates the diff by calculating the difference between
+                    // the current timestamp and the create date of the notification
+                    // and then converts it into the appropriate date string
+                    var diff = (current / 1000.0) - data.create_date;
+                    var diffS = jQuery.udates(diff);
 
-                                    // updates the time element with the newly created diff
-                                    // string that is not going to represent the element
-                                    time.html(diffS);
-                                });
-                    }, 60000);
+                    // updates the time element with the newly created diff
+                    // string that is not going to represent the element
+                    time.html(diffS);
+                });
+            }, 60000);
         });
 
-        var buildNotification = function() {
-        };
+        var buildNotification = function() {};
 
         // triggers the initial refresh in the notification elements
         // this will run the initial update and initialize the

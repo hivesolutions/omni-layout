@@ -74,22 +74,22 @@
         // proper search (url) string is available for the
         // update of url values in a series of elements
         setTimeout(function() {
-                    // retrieves the path name for the current location
-                    // and uses it to update the options form submit information
-                    // so that it reflects the most up-to-date values
-                    var pathname = window.location.pathname;
-                    options.attr("method", "get");
-                    options.attr("action", pathname);
+            // retrieves the path name for the current location
+            // and uses it to update the options form submit information
+            // so that it reflects the most up-to-date values
+            var pathname = window.location.pathname;
+            options.attr("method", "get");
+            options.attr("action", pathname);
 
-                    // iterates over all the present links to update their
-                    // link values to match the arguments of the current request
-                    links.each(function(index, element) {
-                                var _element = jQuery(this);
-                                var href = _element.attr("href");
-                                var search = window.location.search;
-                                _element.attr("href", href + search);
-                            });
-                });
+            // iterates over all the present links to update their
+            // link values to match the arguments of the current request
+            links.each(function(index, element) {
+                var _element = jQuery(this);
+                var href = _element.attr("href");
+                var search = window.location.search;
+                _element.attr("href", href + search);
+            });
+        });
 
         // retrieves the number of rows to be used in the table
         // associated with the report
@@ -124,86 +124,83 @@
         // the contents of the current report, note that this registration
         // is not applied for a print environment
         !print && headers.click(function() {
-                    var element = jQuery(this);
-                    var currentOrder = matchedObject.data("order");
-                    var reverse = matchedObject.data("reverse") || false;
-                    var newOrder = element.attr("data-order");
-                    reverse = newOrder != currentOrder ? true : !reverse;
-                    matchedObject.data("reverse", reverse);
-                    matchedObject.data("order", newOrder);
-                    matchedObject.data("dirty", true);
-                    headers.removeClass("sorter");
-                    element.addClass("sorter");
-                    newOrder && update(matchedObject, options);
-                });
+            var element = jQuery(this);
+            var currentOrder = matchedObject.data("order");
+            var reverse = matchedObject.data("reverse") || false;
+            var newOrder = element.attr("data-order");
+            reverse = newOrder != currentOrder ? true : !reverse;
+            matchedObject.data("reverse", reverse);
+            matchedObject.data("order", newOrder);
+            matchedObject.data("dirty", true);
+            headers.removeClass("sorter");
+            element.addClass("sorter");
+            newOrder && update(matchedObject, options);
+        });
 
         // registers for the key down event on the document in order
         // to provide easy of use shortcut for navigation
-        matchedObject.length > 0
-                && _document.keydown(onKeyDown = function(event) {
-                    // sets the report as the matched object, provides
-                    // a compatability layer
-                    var report = matchedObject;
+        matchedObject.length > 0 && _document.keydown(onKeyDown = function(event) {
+            // sets the report as the matched object, provides
+            // a compatability layer
+            var report = matchedObject;
 
-                    // retrieves the key value
-                    var keyValue = event.keyCode
-                            ? event.keyCode
-                            : event.charCode ? event.charCode : event.which;
+            // retrieves the key value
+            var keyValue = event.keyCode ? event.keyCode : event.charCode ? event.charCode : event.which;
 
-                    // switches over the key value
-                    switch (keyValue) {
-                        // in case it's one of the next keys
-                        // (the right arrow or the 'j')
-                        case 39 :
-                        case 74 :
-                            increment(report, options);
+            // switches over the key value
+            switch (keyValue) {
+                // in case it's one of the next keys
+                // (the right arrow or the 'j')
+                case 39:
+                case 74:
+                    increment(report, options);
 
-                            // breaks the switch
-                            break;
+                    // breaks the switch
+                    break;
 
-                        // in case it's one of the previous keys
-                        // (the left arrow or the 'k')
-                        case 37 :
-                        case 75 :
-                            decrement(report, options);
+                    // in case it's one of the previous keys
+                    // (the left arrow or the 'k')
+                case 37:
+                case 75:
+                    decrement(report, options);
 
-                            // breaks the switch
-                            break;
+                    // breaks the switch
+                    break;
 
-                        // in case it's default
-                        default :
-                            // breaks the switch
-                            break;
-                    }
-                });
+                    // in case it's default
+                default:
+                    // breaks the switch
+                    break;
+            }
+        });
         matchedObject.bind("destroyed", function() {
-                    _document.unbind("keydown", onKeyDown);
-                });
+            _document.unbind("keydown", onKeyDown);
+        });
 
         // registers for the click operation in the options
         // link so that the options panel visibility is toggled
         linkOptions.click(function() {
-                    var element = jQuery(this);
-                    var report = element.parents(".report");
-                    var options = jQuery(".options", report);
-                    options.toggle();
-                });
+            var element = jQuery(this);
+            var report = element.parents(".report");
+            var options = jQuery(".options", report);
+            options.toggle();
+        });
 
         // registers for the click even on the previous
         // button to decrement one page
         previous.click(function() {
-                    var element = jQuery(this);
-                    var report = element.parents(".report");
-                    decrement(report, options);
-                });
+            var element = jQuery(this);
+            var report = element.parents(".report");
+            decrement(report, options);
+        });
 
         // registers for the click even on the next
         // button to increment one page
         next.click(function() {
-                    var element = jQuery(this);
-                    var report = element.parents(".report");
-                    increment(report, options);
-                });
+            var element = jQuery(this);
+            var report = element.parents(".report");
+            increment(report, options);
+        });
 
         var update = function(matchedObject, options) {
             // retrieves the various element that componse the
@@ -345,15 +342,15 @@
 
         var load = function(matchedObject, options) {
             var dataSource = jQuery(".report-table > .data-source",
-                    matchedObject);
+                matchedObject);
             matchedObject.addClass("loading");
             dataSource.uxdataquery({}, function(validItems, moreItems) {
-                        matchedObject.removeClass("loading");
-                        matchedObject.data("items", validItems);
-                        limits(matchedObject, options);
-                        update(matchedObject, options);
-                        print(matchedObject, options);
-                    });
+                matchedObject.removeClass("loading");
+                matchedObject.data("items", validItems);
+                limits(matchedObject, options);
+                update(matchedObject, options);
+                print(matchedObject, options);
+            });
         };
 
         load(matchedObject, options);
