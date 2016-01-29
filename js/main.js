@@ -542,6 +542,8 @@
         var _body = jQuery("body");
         var bodyClass = body.attr("class");
         _body.attr("class", bodyClass);
+        _body.uxbrowser();
+        _body.uxfeature();
         _body.uxmobile();
         _body.uxresponsive();
     };
