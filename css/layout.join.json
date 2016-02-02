@@ -12,10 +12,10 @@
             "panels/permission.part.css", "panels/success.part.css",
             "panels/top_bar.part.css", "panels/welcome.part.css",
             "panels/wizard.part.css", "parts/box.part.css",
-            "parts/chart.part.css", "parts/footer.part.css",
-            "parts/header.part.css", "parts/login.part.css",
-            "parts/report.part.css", "printing/base.part.css",
-            "structs/contact.part.css", "structs/entity.part.css"
+            "parts/footer.part.css", "parts/header.part.css",
+            "parts/login.part.css", "parts/report.part.css",
+            "printing/base.part.css", "structs/contact.part.css",
+            "structs/entity.part.css"
         ]
     },
     "layout-min.css": {
@@ -31,10 +31,10 @@
             "panels/permission.part.css", "panels/success.part.css",
             "panels/top_bar.part.css", "panels/welcome.part.css",
             "panels/wizard.part.css", "parts/box.part.css",
-            "parts/chart.part.css", "parts/footer.part.css",
-            "parts/header.part.css", "parts/login.part.css",
-            "parts/report.part.css", "printing/base.part.css",
-            "structs/contact.part.css", "structs/entity.part.css"
+            "parts/footer.part.css", "parts/header.part.css",
+            "parts/login.part.css", "parts/report.part.css",
+            "printing/base.part.css", "structs/contact.part.css",
+            "structs/entity.part.css"
         ],
         "minify": "css"
     }
