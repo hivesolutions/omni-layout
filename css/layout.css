@@ -2667,6 +2667,13 @@ body.omni-print-style.receipt {
     width: 100%;
 }
 
+.omni-style .entity-details-list .panel-more > div > li.list-more {
+    display: block;
+    margin-top: 7px;
+    position: absolute;
+    width: 532px;
+}
+
 .omni-style .entity-details-list > li.list-divider,
 .omni-style .entity-details-list .panel-more > div > li.list-divider {
     margin: 16px 0px 16px 0px;
