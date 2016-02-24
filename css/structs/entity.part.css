@@ -117,7 +117,7 @@
 }
 
 .omni-style .entity-details-list > li p,
-.omni-style .entity-details-list .panel-more > div > li p  {
+.omni-style .entity-details-list .panel-more > div > li p {
     float: left;
     font-size: 13px;
     line-height: 24px;
