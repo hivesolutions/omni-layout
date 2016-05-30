@@ -170,6 +170,7 @@
                         hitType: "pageview",
                         page: relative
                     });
+                    push && window.google_trackConversion && trackConversion();
                 } catch (exception) {
                     document.location = href;
                 }
@@ -758,5 +759,40 @@
             var _chat = jQuery(".chat", content);
             _chat.remove();
         }
+    };
+
+    var trackConversion = function() {
+        var meta = jQuery(".meta");
+        var conversionId = jQuery("[name=adwords-conversion-id]", meta);
+        var itemId = jQuery("[name=adwords-dynx-itemid]", meta);
+        var totalValue = jQuery("[name=adwords-dynx-totalvalue]", meta);
+        var pageType = jQuery("[name=adwords-dynx-pagetype]", meta);
+        if (!window.google_trackConversion) {
+            return;
+        }
+        if (!conversionId || conversionId.length == 0) {
+            return;
+        }
+        conversionId = parseInt(conversionId.attr("content"));
+        if (!conversionId) {
+            return;
+        }
+        totalValue = parseFloat(totalValue.attr("content"));
+        pageType = pageType.attr("content");
+        var itemIdList = [];
+        itemId.each(function(index, element) {
+            var _element = jQuery(this);
+            var elementId = _element.text();
+            itemIdList.push(elementId);
+        });
+        google_trackConversion({
+            google_conversion_id: conversionId,
+            google_custom_params: {
+                dynx_itemid: itemIdList,
+                dynx_totalvalue: totalValue,
+                dynx_pagetype: pageType
+            },
+            google_remarketing_only: true
+        });
     };
 })(jQuery);
