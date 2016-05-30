@@ -162,8 +162,9 @@
 
                     // in case this is not a verified operation the current state
                     // must be pushed into the history stack, so that we're able
-                    // to rollback to it latter, note that in case the a google
-                    // analytics reference exists a new event is triggered
+                    // to rollback to it latter, note that in case the google
+                    // analytics reference exists a new event is triggered, the
+                    // same is also performed for conversion tracking
                     push && window.history.pushState(state, null, href);
                     push && window._gaq && _gaq.push(["_trackPageview", relative]);
                     push && window.ga && ga("send", {
