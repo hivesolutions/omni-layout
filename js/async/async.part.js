@@ -145,6 +145,11 @@
                         updateSimple(base, body);
                     }
 
+                    // triggers do async event, responsible for the possible changing
+                    // of the body of the current document by any external operation
+                    // binding to the current execution logic (allows extension)
+                    _body.triggerHandler("do_async", [base, body]);
+
                     // updates the globally unique identifier representation for
                     // the current state in the current structures
                     updateGuid(uuid);
