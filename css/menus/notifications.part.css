@@ -28,6 +28,11 @@
     width: 30px;
 }
 
+.omni-style.retina-s .notifications {
+    background-image: url(../images/menus/notifications-2x.png);
+    background-size: 30px 96px;
+}
+
 .omni-style .notifications.disabled {
     opacity: 0.2;
 }

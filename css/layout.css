@@ -1224,6 +1224,11 @@ body.omni-style.opensans {
     width: 30px;
 }
 
+.omni-style.retina-s .notifications {
+    background-image: url(../images/menus/notifications-2x.png);
+    background-size: 30px 96px;
+}
+
 .omni-style .notifications.disabled {
     opacity: 0.2;
 }
@@ -2101,8 +2106,17 @@ body.omni-style.opensans {
     width: 190px;
 }
 
+.omni-style.retina-s .header-logo-area {
+    background-image: url(../images/header-logo-area-2x.png);
+    background-size: 190px 80px;
+}
+
 .omni-style .header-logo-area.warning {
     background-image: url(../images/header-logo-area-warning.png);
+}
+
+.omni-style.retina-s .header-logo-area.warning {
+    background-image: url(../images/header-logo-area-warning-2x.png);
 }
 
 .omni-style .header-logo {
