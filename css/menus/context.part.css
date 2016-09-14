@@ -15,6 +15,11 @@
     width: 18px;
 }
 
+.omni-style.retina-s .context-menu .context {
+    background-image: url(../images/context-menu-marker-2x.png);
+    background-size: 18px 60px;
+}
+
 .omni-style .context-menu .context:hover {
     background-position: center -20px;
     border-color: #c0c0c0;
@@ -63,6 +68,11 @@
     background-image: url(../images/context-menu-arrow.png);
     background-position: center right;
     background-repeat: no-repeat;
+}
+
+.omni-style.retina-s .context-menu .menu-contents .element.sub-element {
+    background-image: url(../images/context-menu-arrow-2x.png);
+    background-size: 11px 5px;
 }
 
 .omni-style .context-menu .menu-contents .separator {

@@ -39,6 +39,11 @@
     width: 8px;
 }
 
+.omni-style.retina-s .drop-field.entities-search .entity-status {
+    background-image: url(../images/entity-status-2x.png);
+    background-size: 8px 16px;
+}
+
 .omni-style .drop-field.entities-search .entity-status.enabled {
     background-position: left 0px;
 }

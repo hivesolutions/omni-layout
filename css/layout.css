@@ -679,6 +679,11 @@ body.omni-style.opensans {
     width: 8px;
 }
 
+.omni-style.retina-s .drop-field.entities-search .entity-status {
+    background-image: url(../images/entity-status-2x.png);
+    background-size: 8px 16px;
+}
+
 .omni-style .drop-field.entities-search .entity-status.enabled {
     background-position: left 0px;
 }
@@ -1155,6 +1160,11 @@ body.omni-style.opensans {
     width: 18px;
 }
 
+.omni-style.retina-s .context-menu .context {
+    background-image: url(../images/context-menu-marker-2x.png);
+    background-size: 18px 60px;
+}
+
 .omni-style .context-menu .context:hover {
     background-position: center -20px;
     border-color: #c0c0c0;
@@ -1203,6 +1213,11 @@ body.omni-style.opensans {
     background-image: url(../images/context-menu-arrow.png);
     background-position: center right;
     background-repeat: no-repeat;
+}
+
+.omni-style.retina-s .context-menu .menu-contents .element.sub-element {
+    background-image: url(../images/context-menu-arrow-2x.png);
+    background-size: 11px 5px;
 }
 
 .omni-style .context-menu .menu-contents .separator {
@@ -1926,6 +1941,11 @@ body.omni-style.opensans {
     width: 180px;
 }
 
+.omni-style.retina-s .top-bar-handle {
+    background-image: url(../images/panels/top-bar-handle-2x.png);
+    background-size: 180px 152px;
+}
+
 .omni-style .top-bar-handle:hover {
     background-position: left -38px;
 }
@@ -1942,6 +1962,11 @@ body.omni-style.opensans {
     background: transparent url(../images/panels/welcome-logo.png) no-repeat 45px bottom;
     height: 404px;
     padding: 0px 0px 0px 0px;
+}
+
+.omni-style.retina-s .welcome {
+    background-image: url(../images/panels/welcome-logo-2x.png);
+    background-size: 200px 340px;
 }
 
 .omni-style .content-wizard {
@@ -2384,6 +2409,11 @@ body.omni-style.opensans {
     font-weight: bold;
     height: 35px;
     padding: 0px 12px 0px 12px;
+}
+
+.omni-style.retina-s .report .table thead th {
+    background-image: url(../images/parts/report-header-2x.png);
+    background-size: 8px 40px;
 }
 
 .omni-style .report .table thead th.sorter {

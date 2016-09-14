@@ -17,6 +17,11 @@
     width: 180px;
 }
 
+.omni-style.retina-s .top-bar-handle {
+    background-image: url(../images/panels/top-bar-handle-2x.png);
+    background-size: 180px 152px;
+}
+
 .omni-style .top-bar-handle:hover {
     background-position: left -38px;
 }

@@ -3,3 +3,8 @@
     height: 404px;
     padding: 0px 0px 0px 0px;
 }
+
+.omni-style.retina-s .welcome {
+    background-image: url(../images/panels/welcome-logo-2x.png);
+    background-size: 200px 340px;
+}
