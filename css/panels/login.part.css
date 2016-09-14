@@ -10,6 +10,15 @@
     width: 151px;
 }
 
+.omni-style.retina-s .login-logo {
+    background-image: url(../images/logos/front-door-login-logo-2x.png);
+    background-size: 151px 79px;
+}
+
 .omni-style.dark .login-logo {
     background-image: url(../images/logos/front-door-login-logo-dark.png);
+}
+
+.omni-style.retina-s.dark .login-logo {
+    background-image: url(../images/logos/front-door-login-logo-dark-2x.png);
 }
