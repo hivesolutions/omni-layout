@@ -11,6 +11,11 @@
     min-height: 24px;
 }
 
+.omni-style.retina-s .content-login-extra .section-title {
+    background-image: url(../images/cargo_ship-logotype-2x.png);
+    background-size: 76px 24px;
+}
+
 .omni-style .content-login-extra .list-medium-input {
     width: 222px;
 }

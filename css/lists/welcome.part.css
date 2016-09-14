@@ -6,6 +6,11 @@
     width: 240px;
 }
 
+.omni-style.retina-s .list.welcome-list {
+    background-image: url(../images/lists/welcome-list-ruller-2x.png);
+    background-size: 1px 1px;
+}
+
 .omni-style .list.welcome-list li {
     list-style: none;
     margin: 0px 0px 16px 0px;
@@ -21,6 +26,11 @@
     line-height: 24px;
     margin-left: 13px;
     padding-left: 34px;
+}
+
+.omni-style.retina-s .list.welcome-list li.bullet-number {
+    background-image: url(../images/lists/welcome-list-numbers-2x.png);
+    background-size: 24px 240px;
 }
 
 .omni-style .list.welcome-list li .bullet-number.number-1 {
@@ -69,4 +79,9 @@
     line-height: 50px;
     margin-bottom: 0px;
     padding-left: 60px;
+}
+
+.omni-style.retina-s .list.welcome-list li.sign {
+    background-image: url(../images/lists/welcome-list-sign-2x.png);
+    background-size: 51px 51px;
 }

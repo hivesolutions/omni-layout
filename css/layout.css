@@ -1036,6 +1036,11 @@ body.omni-style.opensans {
     width: 240px;
 }
 
+.omni-style.retina-s .list.welcome-list {
+    background-image: url(../images/lists/welcome-list-ruller-2x.png);
+    background-size: 1px 1px;
+}
+
 .omni-style .list.welcome-list li {
     list-style: none;
     margin: 0px 0px 16px 0px;
@@ -1051,6 +1056,11 @@ body.omni-style.opensans {
     line-height: 24px;
     margin-left: 13px;
     padding-left: 34px;
+}
+
+.omni-style.retina-s .list.welcome-list li.bullet-number {
+    background-image: url(../images/lists/welcome-list-numbers-2x.png);
+    background-size: 24px 240px;
 }
 
 .omni-style .list.welcome-list li .bullet-number.number-1 {
@@ -1101,6 +1111,11 @@ body.omni-style.opensans {
     padding-left: 60px;
 }
 
+.omni-style.retina-s .list.welcome-list li.sign {
+    background-image: url(../images/lists/welcome-list-sign-2x.png);
+    background-size: 51px 51px;
+}
+
 .omni-style .top-loader {
     background: transparent url(../images/loaders/top-loader.png) no-repeat right top;
     height: 6px;
@@ -1110,6 +1125,11 @@ body.omni-style.opensans {
     padding-top: 2px;
     position: absolute;
     z-index: -1;
+}
+
+.omni-style.retina-s .top-loader {
+    background-image: url(../images/loaders/top-loader-2x.png);
+    background-size: 6px 6px;
 }
 
 .omni-style .top-loader > .loader-background {
@@ -1251,6 +1271,11 @@ body.omni-style.opensans {
     line-height: 24px;
     margin-top: 4px;
     padding: 4px 20px 4px 8px;
+}
+
+.omni-style.retina-s .system-menu .menu-button {
+    background-image: url(../images/arrow-blue-2x.png);
+    background-size: 13px 3px;
 }
 
 .omni-style .system-menu.active .menu-button {
@@ -1399,6 +1424,11 @@ body.omni-style.opensans {
     padding: 6px 0px 6px 28px;
 }
 
+.omni-style.retina-s .list.buddy-list > li {
+    background-image: url(../images/chat/status-2x.png);
+    background-size: 28px 84px;
+}
+
 .omni-style .list.buddy-list > li:hover {
     background-color: #f4f4f4;
 }
@@ -1444,6 +1474,11 @@ body.omni-style.opensans {
     padding: 6px 0px 6px 22px;
 }
 
+.omni-style.retina-s .chat-panel > .chat-header {
+    background-image: url(../images/chat/status-2x.png);
+    background-size: 28px 84px;
+}
+
 .omni-style .chat-panel.disabled > .chat-header {
     background-color: #666666;
 }
@@ -1477,6 +1512,11 @@ body.omni-style.opensans {
     height: 22px;
     opacity: 0.75;
     width: 22px;
+}
+
+.omni-style.retina-s .chat-panel > .chat-header > .chat-buttons > .chat-button {
+    background-image: url(../images/chat/actions-2x.png);
+    background-size: 22px 88px;
 }
 
 .omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button:hover {
@@ -1514,6 +1554,11 @@ body.omni-style.opensans {
 
 .omni-style .chat-panel.empty > .chat-contents {
     background: transparent url(../images/chat/empty.png) no-repeat center center;
+}
+
+.omni-style.retina-s .chat-panel.empty > .chat-contents {
+    background-image: url(../images/chat/empty-2x.png);
+    background-size: 64px 64px;
 }
 
 .omni-style .chat-panel > .chat-contents::-webkit-scrollbar {
@@ -1639,6 +1684,11 @@ body.omni-style.opensans {
     min-height: 24px;
 }
 
+.omni-style.retina-s .content-login-extra .section-title {
+    background-image: url(../images/cargo_ship-logotype-2x.png);
+    background-size: 76px 24px;
+}
+
 .omni-style .content-login-extra .list-medium-input {
     width: 222px;
 }
@@ -1751,24 +1801,49 @@ body.omni-style.opensans {
     width: 48px;
 }
 
+.omni-style.retina-s .content-permission .permissions-list li .permission-image {
+    background-image: url(../images/tiles/tile-grey_48-2x.png);
+    background-size: 48px 48px;
+}
+
 .omni-style .content-permission .permissions-list li .permission-image.blue {
     background-image: url(../images/tiles/tile-blue_48.png);
+}
+
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.blue {
+    background-image: url(../images/tiles/tile-blue_48-2x.png);
 }
 
 .omni-style .content-permission .permissions-list li .permission-image.green {
     background-image: url(../images/tiles/tile-green_48.png);
 }
 
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.green {
+    background-image: url(../images/tiles/tile-green_48-2x.png);
+}
+
 .omni-style .content-permission .permissions-list li .permission-image.grey {
     background-image: url(../images/tiles/tile-grey_48.png);
+}
+
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.grey {
+    background-image: url(../images/tiles/tile-grey_48-2x.png);
 }
 
 .omni-style .content-permission .permissions-list li .permission-image.red {
     background-image: url(../images/tiles/tile-red_48.png);
 }
 
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.red {
+    background-image: url(../images/tiles/tile-red_48-2x.png);
+}
+
 .omni-style .content-permission .permissions-list li .permission-image.yellow {
     background-image: url(../images/tiles/tile-yellow_48.png);
+}
+
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.yellow {
+    background-image: url(../images/tiles/tile-yellow_48-2x.png);
 }
 
 .omni-style .content-permission .permissions-list li .permission-text {
@@ -2130,6 +2205,11 @@ body.omni-style.opensans {
     margin-top: -60px;
     position: absolute;
     width: 500px;
+}
+
+.omni-style.retina-s .login-image {
+    background-image: url(../images/captain-2x.png);
+    background-size: 487px 429px;
 }
 
 .omni-style .login-list {

@@ -53,24 +53,49 @@
     width: 48px;
 }
 
+.omni-style.retina-s .content-permission .permissions-list li .permission-image {
+    background-image: url(../images/tiles/tile-grey_48-2x.png);
+    background-size: 48px 48px;
+}
+
 .omni-style .content-permission .permissions-list li .permission-image.blue {
     background-image: url(../images/tiles/tile-blue_48.png);
+}
+
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.blue {
+    background-image: url(../images/tiles/tile-blue_48-2x.png);
 }
 
 .omni-style .content-permission .permissions-list li .permission-image.green {
     background-image: url(../images/tiles/tile-green_48.png);
 }
 
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.green {
+    background-image: url(../images/tiles/tile-green_48-2x.png);
+}
+
 .omni-style .content-permission .permissions-list li .permission-image.grey {
     background-image: url(../images/tiles/tile-grey_48.png);
+}
+
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.grey {
+    background-image: url(../images/tiles/tile-grey_48-2x.png);
 }
 
 .omni-style .content-permission .permissions-list li .permission-image.red {
     background-image: url(../images/tiles/tile-red_48.png);
 }
 
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.red {
+    background-image: url(../images/tiles/tile-red_48-2x.png);
+}
+
 .omni-style .content-permission .permissions-list li .permission-image.yellow {
     background-image: url(../images/tiles/tile-yellow_48.png);
+}
+
+.omni-style.retina-s .content-permission .permissions-list li .permission-image.yellow {
+    background-image: url(../images/tiles/tile-yellow_48-2x.png);
 }
 
 .omni-style .content-permission .permissions-list li .permission-text {

@@ -10,6 +10,11 @@
     padding: 4px 20px 4px 8px;
 }
 
+.omni-style.retina-s .system-menu .menu-button {
+    background-image: url(../images/arrow-blue-2x.png);
+    background-size: 13px 3px;
+}
+
 .omni-style .system-menu.active .menu-button {
     background-color: #ffffff;
 }

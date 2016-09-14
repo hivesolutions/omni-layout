@@ -55,6 +55,11 @@
     padding: 6px 0px 6px 28px;
 }
 
+.omni-style.retina-s .list.buddy-list > li {
+    background-image: url(../images/chat/status-2x.png);
+    background-size: 28px 84px;
+}
+
 .omni-style .list.buddy-list > li:hover {
     background-color: #f4f4f4;
 }
@@ -100,6 +105,11 @@
     padding: 6px 0px 6px 22px;
 }
 
+.omni-style.retina-s .chat-panel > .chat-header {
+    background-image: url(../images/chat/status-2x.png);
+    background-size: 28px 84px;
+}
+
 .omni-style .chat-panel.disabled > .chat-header {
     background-color: #666666;
 }
@@ -133,6 +143,11 @@
     height: 22px;
     opacity: 0.75;
     width: 22px;
+}
+
+.omni-style.retina-s .chat-panel > .chat-header > .chat-buttons > .chat-button {
+    background-image: url(../images/chat/actions-2x.png);
+    background-size: 22px 88px;
 }
 
 .omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button:hover {
@@ -170,6 +185,11 @@
 
 .omni-style .chat-panel.empty > .chat-contents {
     background: transparent url(../images/chat/empty.png) no-repeat center center;
+}
+
+.omni-style.retina-s .chat-panel.empty > .chat-contents {
+    background-image: url(../images/chat/empty-2x.png);
+    background-size: 64px 64px;
 }
 
 .omni-style .chat-panel > .chat-contents::-webkit-scrollbar {

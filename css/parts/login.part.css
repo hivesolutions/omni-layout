@@ -7,6 +7,11 @@
     width: 500px;
 }
 
+.omni-style.retina-s .login-image {
+    background-image: url(../images/captain-2x.png);
+    background-size: 487px 429px;
+}
+
 .omni-style .login-list {
     list-style: none;
     margin: 22px 0px 22px 0px;

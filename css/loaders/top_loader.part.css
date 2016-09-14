@@ -9,6 +9,11 @@
     z-index: -1;
 }
 
+.omni-style.retina-s .top-loader {
+    background-image: url(../images/loaders/top-loader-2x.png);
+    background-size: 6px 6px;
+}
+
 .omni-style .top-loader > .loader-background {
     background-color: #5abbe6;
     height: 2px;
