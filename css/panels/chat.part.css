@@ -43,7 +43,29 @@
 
 .omni-style .list.buddy-list {
     margin: 12px 0px 0px 0px;
+    max-height: 390px;
+    overflow: auto;
     padding: 0px 0px 0px 0px;
+}
+
+.omni-style .list.buddy-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.omni-style .list.buddy-list::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+}
+
+.omni-style .list.buddy-list::-webkit-scrollbar-thumb {
+    background-color: #bfbfbf;
+}
+
+.omni-style .list.buddy-list::-webkit-scrollbar-thumb:hover {
+    background-color: #aaaaaa;
+}
+
+.omni-style .list.buddy-list::-webkit-scrollbar-thumb:window-inactive {
+    background-color: #cccccc;
 }
 
 .omni-style .list.buddy-list > li {
