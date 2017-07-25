@@ -423,13 +423,14 @@
                 // in case the state of the event is invalid the value of the event
                 // is ignored and the current state is properly updated so that
                 // the value becomes ready and available (just as a safety measure)
-                if (event.state == null) {
+                if (event.state === null) {
                     var href = document.location.href;
                     var state = {
                         uuid: jQuery.uxguid(),
                         href: href
                     };
                     window.history.replaceState(state, null, href);
+                    updateGuid(state.uuid);
                     return;
                 }
 
