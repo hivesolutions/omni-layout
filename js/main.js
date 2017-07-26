@@ -437,7 +437,7 @@
                 // retrieves the location of the current document and uses it
                 // to run the async redirection logic already used by the link
                 // async infra-structure for the link click operations
-                var href = document.location;
+                var href = document.location.href;
                 jQuery.uxlinkasync(href, true, uuid);
             };
         };
