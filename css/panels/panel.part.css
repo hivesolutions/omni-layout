@@ -1,4 +1,9 @@
 .omni-style .content-panel {
+    animation: fade-into-rise 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-animation: fade-into-rise 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-animation: fade-into-rise 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-animation: fade-into-rise 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-animation: fade-into-rise 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     border: 1px solid #eeeeee;
     padding: 16px 16px 16px 16px;
     transition-duration: 0.5s;
