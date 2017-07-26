@@ -1237,9 +1237,18 @@ body.omni-style.opensans {
 
 .omni-style .notifications-menu.active .menu-button {
     background-color: #ffffff;
+    transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
 }
 
 .omni-style .notifications-container {
+    animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     background: #ffffff;
     border: 1px solid #eaeaea;
     box-shadow: 0px 1px 4px #eeeeee;
@@ -1295,6 +1304,10 @@ body.omni-style.opensans {
 
 .omni-style .system-menu.active .menu-button {
     background-color: #ffffff;
+    transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
 }
 
 .omni-style .system-menu .menu-link {
@@ -1302,6 +1315,11 @@ body.omni-style.opensans {
 }
 
 .omni-style .system-menu .menu-contents {
+    animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     background: #ffffff;
     border: 1px solid #eaeaea;
     box-shadow: 0px 1px 4px #eeeeee;
