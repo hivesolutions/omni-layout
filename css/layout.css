@@ -631,6 +631,13 @@ body.omni-style.opensans {
     margin-top: 10px;
 }
 
+.omni-style.animations .map {
+    transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -o-transition: border-color 0.10s ease-in, -o-box-shadow 0.10s ease-in;
+    -moz-transition: border-color 0.10s ease-in, -moz-box-shadow 0.10s ease-in;
+    -webkit-transition: border-color 0.10s ease-in, -webkit-box-shadow 0.10s ease-in;
+}
+
 .omni-style .map:hover {
     border-color: #bbbbbb;
     box-shadow: 0px 1px 4px #cecece;
