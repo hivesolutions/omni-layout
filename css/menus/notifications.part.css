@@ -6,6 +6,9 @@
 
 .omni-style .notifications-menu.active .menu-button {
     background-color: #ffffff;
+}
+
+.omni-style.animations .notifications-menu.active .menu-button {
     transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
