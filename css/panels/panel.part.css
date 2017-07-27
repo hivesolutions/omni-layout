@@ -1,15 +1,18 @@
 .omni-style .content-panel {
-    animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -o-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -moz-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -khtml-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -webkit-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     border: 1px solid #eeeeee;
     padding: 16px 16px 16px 16px;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
+}
+
+.omni-style.animations .content-panel {
+    animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
 }
 
 .omni-style .content-panel:hover {
