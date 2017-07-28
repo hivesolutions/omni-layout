@@ -12,7 +12,7 @@
         // a single object has been matched returns immediately
         // as there's nothing remaining to be done
         var matchedObject = this;
-        if (matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -204,7 +204,7 @@
                 // it so that the target page opens on click and the notification
                 // hides after a certain ammount of time, note that if there's
                 // not enought permissions the show is disabled
-                var hasNotifications = typeof(Notification) != "undefined";
+                var hasNotifications = typeof(Notification) !== "undefined";
                 if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
                         dir: "auto",
@@ -246,7 +246,7 @@
                 // link, reverting it to a non action state, otherwise enables
                 // it so that it becomes actionable (reverse operation)
                 var itemsSize = items.length;
-                if (itemsSize == 0) {
+                if (itemsSize === 0) {
                     link.uxdisable();
                 } else {
                     link.uxenable();
@@ -325,7 +325,7 @@
                 // function returns immediately (to the caller method)
                 var username = _body.data("username");
                 var _username = _element.data("username");
-                if (username == _username) {
+                if (username === _username) {
                     return;
                 }
 
@@ -486,7 +486,7 @@
                 // verifies if the data type of the provided data is string
                 // in case it's parses it as a json string "saving" it in
                 // place of the current data element
-                var isString = typeof data == "string";
+                var isString = typeof data === "string";
                 data = isString ? jQuery.parseJSON(data) : data;
 
                 // triggers the notification event in the element to display

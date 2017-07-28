@@ -46,8 +46,8 @@
             // its components to be used to create the filter string
             var filter = filters[index];
             var name = filter[0];
-            var value = filter.length == 3 ? String(filter[2]) : String(filter[1]);
-            var operation = filter.length == 3 ? filter[1] : "equals";
+            var value = filter.length === 3 ? String(filter[2]) : String(filter[1]);
+            var operation = filter.length === 3 ? filter[1] : "equals";
 
             // creates the filter string from the various components of it
             // adds it to the list that will contain the various filter strings

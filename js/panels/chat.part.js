@@ -4,7 +4,7 @@
         // that the current size of it is valid otherwise
         // returns immediately to avoid extra computation
         var matchedObject = this;
-        if (matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -142,7 +142,7 @@
         var dataProcessor = function(data, mid, timestamp) {
             // parses the data retrieving the json
             // then unpacks the various attributes from it
-            var isString = typeof data == "string";
+            var isString = typeof data === "string";
             var jsonData = isString ? jQuery.parseJSON(data) : data;
             var type = jsonData["type"];
 
@@ -177,7 +177,7 @@
             // defaults the sender to the appropriate value taking into
             // account if the sender is the current user for that case the
             // username should be the receiver
-            var owner = sender == username ? receiver : sender
+            var owner = sender === username ? receiver : sender
 
             // retrieves the user status map from the currently matched
             // object and retrieves the reference to the sender from it
@@ -199,7 +199,7 @@
             // one to display the initial message
             var panel = jQuery(".chat-panel[data-user_id=" + owner + "]",
                 matchedObject);
-            if (panel.length == 0) {
+            if (panel.length === 0) {
                 // create a new chat panel for to be used to the conversation
                 // that is going to be started from this (received message)
                 panel = matchedObject.uchatpanel({
@@ -213,7 +213,7 @@
             // retrieves the correct name value to be used as the representation
             // of the current line this value should be coherent with the sender
             // username relation, defaulting to me in case it's the same
-            var myself = sender == username;
+            var myself = sender === username;
             var name = myself ? "me" : representation;
 
             // creates the localized version of the message for the blink effect
@@ -281,7 +281,7 @@
 
             // in case the current status update refers the current
             // users, must return immediately
-            if (username == _username) {
+            if (username === _username) {
                 return;
             }
 
@@ -304,7 +304,7 @@
 
                 default:
                     var item = jQuery(".buddy-list > li[data-user_id=" + _username + "]", matchedObject)
-                    if (item.length == 0) {
+                    if (item.length === 0) {
                         createItem(matchedObject, envelope);
                     }
                     item.removeClass("budy-online");
@@ -418,7 +418,7 @@
                 // in case the channel that has been registered is not
                 // the presence status nothing is meant to be done and
                 // so the control flow returns immediately
-                if (channel != "presence-status") {
+                if (channel !== "presence-status") {
                     return;
                 }
 
@@ -575,7 +575,7 @@
             // the chat panel must be updated
             var username = _body.data("username");
             var _username = element.data("username");
-            if (username == _username) {
+            if (username === _username) {
                 return;
             }
 
@@ -826,7 +826,7 @@
                         var _data = event.data.data;
                         var struct = _data ? jQuery.parseJSON(_data) : _data;
                         chatPanel.uchatline({
-                            name: struct.sender == username ? "me" : name,
+                            name: struct.sender === username ? "me" : name,
                             message: struct.message,
                             mid: mid,
                             timestamp: timestamp,
@@ -1050,7 +1050,7 @@
             // basically toggles between the current title and the provided
             // message value, this is a global handler
             var handlerT = setInterval(function() {
-                if (document.title == title) {
+                if (document.title === title) {
                     document.title = message;
                 } else {
                     document.title = title;
@@ -1091,7 +1091,7 @@
             // same and in case it is clears the interval and then restores
             // the title to the original one and unsets the value in the
             // owner chat element (avoid problems)
-            var isSame = handlerT && handlerT == _handlerT;
+            var isSame = handlerT && handlerT === _handlerT;
             if (isSame) {
                 clearInterval(_handlerT);
                 document.title = title
@@ -1240,7 +1240,7 @@
             var counter = element.data("counter") || 0;
             element.data("counter", counter + 1);
             var scroll = element.scrollTop();
-            if (scroll != 0) {
+            if (scroll !== 0) {
                 return;
             }
             var first = jQuery("> :nth-child(2)", element);
@@ -1264,7 +1264,7 @@
 
             // in case the current key to be pressed is an
             // enter key must submit the data
-            if (keyValue != 13) {
+            if (keyValue !== 13) {
                 return;
             }
 
@@ -1279,7 +1279,7 @@
             // empty messages are not allowed
             var message = textArea.val();
             message = message.trim();
-            if (message == "") {
+            if (message === "") {
                 event.preventDefault();
                 event.stopPropagation();
                 return;
@@ -1342,7 +1342,7 @@
             // text area and verifies if there's a change, then updates
             // the current scroll height with the new one
             var delta = scrollHeight - currentScroll;
-            var changed = delta != 0;
+            var changed = delta !== 0;
             currentScroll = scrollHeight;
 
             // in case there's no change in the scroll height there's
@@ -1361,7 +1361,7 @@
             var contentsScroll = contents.scrollTop();
             var contentsScrollHeight = contents[0].scrollHeight;
             var contentsOffset = contentsHeight - contentsScroll;
-            var contentsBottom = contentsScroll + contentsHeight == contentsScrollHeight;
+            var contentsBottom = contentsScroll + contentsHeight === contentsScrollHeight;
 
             // updates the contents, message and text area height with the
             // incrementings/decrementings of the calculated delta value
@@ -1450,7 +1450,7 @@
 
         // in case the provided name for the chat line is self/me
         // based it's converted in the locale representation
-        var nameLocale = name == "me" ? jQuery.uxlocale(name) : name;
+        var nameLocale = name === "me" ? jQuery.uxlocale(name) : name;
 
         // treats the message so that any newline character found
         // is replaces by the break line tag (html correspondent)
@@ -1459,7 +1459,7 @@
         // verifies that the type of message is not plain and if that's
         // the case runs the chat replacer so that certain keywords
         // are replaced with the proper image/graphical representation
-        if (plain == false) {
+        if (plain === false) {
             result = jQuery.uchatreplacer(message);
             message = result[0];
             extras = result[1];
@@ -1471,7 +1471,7 @@
         // retrieves the correct object id for the current message owner
         // and uses it to create the image url of the user that
         // created the current chat line
-        objectId = name == "me" ? _body.data("object_id") : objectId;
+        objectId = name === "me" ? _body.data("object_id") : objectId;
         var imageUrl = mvcPath + admSection + "/users/" + objectId + "/image?size=32";
 
         // retrieves the complete set of paragraphs from the current chat
@@ -1495,7 +1495,7 @@
             // verifies if this is the first iteration and if that's
             // the case a special verification is performed to make
             // sure that the line should be introduced at the beginning
-            var isFirst = index == paragraphs.length - 1;
+            var isFirst = index === paragraphs.length - 1;
             var isInitial = isFirst && _timestamp < timestamp;
 
             // determines if this is the proper buble for which the
@@ -1503,7 +1503,7 @@
             // verification on the name of the paragraph, string
             // data of it and the timestamp of the next (up paragraph)
             // is going to be performed and verified
-            var isBuble = _name == name && _dateS == dateS && _reference < timestamp;
+            var isBuble = _name === name && _dateS === dateS && _reference < timestamp;
 
             // verifies if any of the coditions (initial, buble found
             // or forced bottom) is matched and if that's not the case
@@ -1528,12 +1528,12 @@
         // in case the name for the author of the line is different
         // from the current name or the time gap between messages
         // is greater than expected a new paragraph must be created
-        if (name != _name || dateS != _dateS) {
+        if (name !== _name || dateS !== _dateS) {
             // sets the initial reference value as the selected (previous)
             // paragraph and verifies if this is a top (header) paragraph
             // that should be inserted at the the initial part of the contents
             var reference = paragraph;
-            var isTop = reference == null;
+            var isTop = reference === null || reference === undefined;
 
             // creates the date object that represents the provided timestamp
             // and thens runs the date converter using the defined format to
@@ -1690,7 +1690,7 @@
         var images = jQuery("img", chatLine);
         images.load(function() {
             var _counter = contents.data("counter");
-            if (counter != _counter) {
+            if (counter !== _counter) {
                 return;
             }
             fixScroll();
@@ -1755,7 +1755,7 @@
             result = result[0];
             extras += "<a href=\"" + result + "\" target=\"_blank\">" + "<img src=\"" + result + "\"/>" +
                 "</a>";
-            return result == message ? "" : message;
+            return result === message ? "" : message;
         };
 
         var youtube = function(message) {
@@ -1768,7 +1768,7 @@
             var youtubeId = parsed["v"];
             extras += "<iframe height=\"200\"" + " src=\"//www.youtube.com/embed/" + youtubeId +
                 "?controls=0\"" + " frameborder=\"0\"></iframe>";
-            return result == message ? "" : message;
+            return result === message ? "" : message;
         };
 
         var url = function(message) {

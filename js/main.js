@@ -134,7 +134,7 @@
 
                 // in case the click used the right or center button the
                 // event should be ignored not meant to be overriden
-                if (event.which == 2 || event.which == 3) {
+                if (event.which === 2 || event.which === 3) {
                     return;
                 }
 
@@ -319,7 +319,7 @@
                 // tries to retrieve the current top loader element, in case it's
                 // not found inserts it in the correct position in the top bar
                 var topLoader = jQuery(".top-loader");
-                if (topLoader.length == 0) {
+                if (topLoader.length === 0) {
                     var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
                     var topLoader = jQuery("<div class=\"top-loader\">" +
                         "<div class=\"loader-background\"></div>" + "</div>");
@@ -386,7 +386,7 @@
         var _setPopHandler = function() {
             // in case the pop state (changed) handler is already set there's
             // no need to set it again and so returns immediately
-            if (window.onpopstate != null) {
+            if (window.onpopstate !== null && window.onpopstate !== undefined) {
                 return;
             }
 
@@ -484,7 +484,7 @@
         var contentWrapper = jQuery("body > .content-wrapper");
         var childCount = contentWrapper.children().length;
 
-        if (childCount != 1) {
+        if (childCount !== 1) {
             return false;
         }
 
@@ -509,7 +509,7 @@
         var contentWrapper = base.filter(".content-wrapper");
         var childCount = contentWrapper.children().length;
 
-        if (childCount != 1) {
+        if (childCount !== 1) {
             return false;
         }
 
@@ -518,7 +518,7 @@
 
     var updateBase = function(hbase) {
         var _base = jQuery("head base");
-        if (_base.length == 0) {
+        if (_base.length === 0) {
             var _head = jQuery("head");
             var _base = jQuery("<base></base>");
             _head.append(_base);
@@ -614,7 +614,7 @@
         // verifies if the current section is different from the target
         // section in case it's not returns immediately, as there's nothing
         // to be done in the current context
-        var isDifferent = sectionValue != sectionValue_;
+        var isDifferent = sectionValue !== sectionValue_;
         if (!isDifferent) {
             return;
         }
@@ -763,7 +763,7 @@
         // element in case it's not fond creates a new placeholder and
         // sets it in the content wrapper section of the body
         var placeholder = jQuery(".window-placeholder");
-        if (placeholder.length == 0) {
+        if (placeholder.length === 0) {
             var _body = jQuery("body");
             placeholder = jQuery("<div class=\"window-placeholder\"></div>");
             _body.append(placeholder);
@@ -795,7 +795,7 @@
         var sidebarRight = jQuery(".sidebar-right", base);
         var sidebarRight_ = jQuery(".sidebar-right");
 
-        if (sidebarRight_.length == 0) {
+        if (sidebarRight_.length === 0) {
             var content_ = jQuery(".content");
             content_.after(sidebarRight);
         }
@@ -833,10 +833,10 @@
 
             if (sideLeft.length > 0) {
                 var parent = chat_.parent(".sidebar-left")
-                parent.length == 0 && sideLeft.append(chat_);
+                parent.length === 0 && sideLeft.append(chat_);
             } else {
                 var parent = chat_.parent(".chat-parent")
-                parent.length == 0 && chatParent.append(chat_);
+                parent.length === 0 && chatParent.append(chat_);
             }
 
             var url = chat.attr("data-url");
@@ -874,7 +874,7 @@
         var parentQuery = chatParent.length > 0 ? ".chat-parent" : "body";
         var parentTarget = jQuery(parentQuery);
         var parent = chat.parent(parentQuery);
-        parent.length == 0 && parentTarget.append(chat);
+        parent.length === 0 && parentTarget.append(chat);
 
         // in case there's a chat structure already displayed
         // in the current view must remove the chat part from
@@ -894,7 +894,7 @@
         if (!window.google_trackConversion) {
             return;
         }
-        if (!conversionId || conversionId.length == 0) {
+        if (!conversionId || conversionId.length === 0) {
             return;
         }
         conversionId = parseInt(conversionId.attr("content"));
@@ -979,7 +979,7 @@
                 // there is no match breaks the loop, nothing more
                 // to be replaced
                 var result = tagRegex.exec(url);
-                if (result == null) {
+                if (result === null || result === undefined) {
                     break;
                 }
 
@@ -1023,15 +1023,15 @@
             dateS = jQuery.uxlocale("just now");
         } else if (timestamp < 3600) {
             var minutes = Math.round(timestamp / 60);
-            var label = minutes == 1 ? "min ago" : "mins ago";
+            var label = minutes === 1 ? "min ago" : "mins ago";
             dateS = String(minutes) + " " + jQuery.uxlocale(label);
         } else if (timestamp < 86400) {
             var hours = Math.round(timestamp / 3600);
-            var label = hours == 1 ? "hour ago" : "hours ago";
+            var label = hours === 1 ? "hour ago" : "hours ago";
             dateS = String(hours) + " " + jQuery.uxlocale(label);
         } else {
             var days = Math.round(timestamp / 86400);
-            var label = days == 1 ? "day ago" : "days ago";
+            var label = days === 1 ? "day ago" : "days ago";
             dateS = String(days) + " " + jQuery.uxlocale(label);
         }
 
@@ -1087,8 +1087,8 @@
             // its components to be used to create the filter string
             var filter = filters[index];
             var name = filter[0];
-            var value = filter.length == 3 ? String(filter[2]) : String(filter[1]);
-            var operation = filter.length == 3 ? filter[1] : "equals";
+            var value = filter.length === 3 ? String(filter[2]) : String(filter[1]);
+            var operation = filter.length === 3 ? filter[1] : "equals";
 
             // creates the filter string from the various components of it
             // adds it to the list that will contain the various filter strings
@@ -1253,7 +1253,7 @@
             // verifies that the size of the code legnth
             // is of the expected size, otherwise returns
             // immediately not an expected code
-            if (value.length != SCAN_CODE_LENGTH) {
+            if (value.length !== SCAN_CODE_LENGTH) {
                 return;
             }
 
@@ -1273,7 +1273,7 @@
             // immediately in error (invalid checksum)
             var buffer = value.slice(4);
             var _checksumS = checksum(buffer);
-            if (_checksumS != checksumS) {
+            if (_checksumS !== checksumS) {
                 return;
             }
 
@@ -1312,7 +1312,7 @@
             // provided scan value is compatible with the current
             // scan version (version is included in compatible
             // version set) in case it's not returns immediately
-            var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) != -1;
+            var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) !== -1;
             if (!isCompatible) {
                 return;
             }
@@ -1450,7 +1450,7 @@
 
                 // in case the parsed data is not valid must return immediately
                 // for the next iteration loop as nothing exists to be parsed
-                if (dataJ == null) {
+                if (dataJ === null || dataJ === undefined) {
                     return;
                 }
 
@@ -1599,7 +1599,7 @@
         // that the current size of it is valid otherwise
         // returns immediately to avoid extra computation
         var matchedObject = this;
-        if (matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -1737,7 +1737,7 @@
         var dataProcessor = function(data, mid, timestamp) {
             // parses the data retrieving the json
             // then unpacks the various attributes from it
-            var isString = typeof data == "string";
+            var isString = typeof data === "string";
             var jsonData = isString ? jQuery.parseJSON(data) : data;
             var type = jsonData["type"];
 
@@ -1772,7 +1772,7 @@
             // defaults the sender to the appropriate value taking into
             // account if the sender is the current user for that case the
             // username should be the receiver
-            var owner = sender == username ? receiver : sender
+            var owner = sender === username ? receiver : sender
 
             // retrieves the user status map from the currently matched
             // object and retrieves the reference to the sender from it
@@ -1794,7 +1794,7 @@
             // one to display the initial message
             var panel = jQuery(".chat-panel[data-user_id=" + owner + "]",
                 matchedObject);
-            if (panel.length == 0) {
+            if (panel.length === 0) {
                 // create a new chat panel for to be used to the conversation
                 // that is going to be started from this (received message)
                 panel = matchedObject.uchatpanel({
@@ -1808,7 +1808,7 @@
             // retrieves the correct name value to be used as the representation
             // of the current line this value should be coherent with the sender
             // username relation, defaulting to me in case it's the same
-            var myself = sender == username;
+            var myself = sender === username;
             var name = myself ? "me" : representation;
 
             // creates the localized version of the message for the blink effect
@@ -1876,7 +1876,7 @@
 
             // in case the current status update refers the current
             // users, must return immediately
-            if (username == _username) {
+            if (username === _username) {
                 return;
             }
 
@@ -1899,7 +1899,7 @@
 
                 default:
                     var item = jQuery(".buddy-list > li[data-user_id=" + _username + "]", matchedObject)
-                    if (item.length == 0) {
+                    if (item.length === 0) {
                         createItem(matchedObject, envelope);
                     }
                     item.removeClass("budy-online");
@@ -2013,7 +2013,7 @@
                 // in case the channel that has been registered is not
                 // the presence status nothing is meant to be done and
                 // so the control flow returns immediately
-                if (channel != "presence-status") {
+                if (channel !== "presence-status") {
                     return;
                 }
 
@@ -2170,7 +2170,7 @@
             // the chat panel must be updated
             var username = _body.data("username");
             var _username = element.data("username");
-            if (username == _username) {
+            if (username === _username) {
                 return;
             }
 
@@ -2421,7 +2421,7 @@
                         var _data = event.data.data;
                         var struct = _data ? jQuery.parseJSON(_data) : _data;
                         chatPanel.uchatline({
-                            name: struct.sender == username ? "me" : name,
+                            name: struct.sender === username ? "me" : name,
                             message: struct.message,
                             mid: mid,
                             timestamp: timestamp,
@@ -2645,7 +2645,7 @@
             // basically toggles between the current title and the provided
             // message value, this is a global handler
             var handlerT = setInterval(function() {
-                if (document.title == title) {
+                if (document.title === title) {
                     document.title = message;
                 } else {
                     document.title = title;
@@ -2686,7 +2686,7 @@
             // same and in case it is clears the interval and then restores
             // the title to the original one and unsets the value in the
             // owner chat element (avoid problems)
-            var isSame = handlerT && handlerT == _handlerT;
+            var isSame = handlerT && handlerT === _handlerT;
             if (isSame) {
                 clearInterval(_handlerT);
                 document.title = title
@@ -2835,7 +2835,7 @@
             var counter = element.data("counter") || 0;
             element.data("counter", counter + 1);
             var scroll = element.scrollTop();
-            if (scroll != 0) {
+            if (scroll !== 0) {
                 return;
             }
             var first = jQuery("> :nth-child(2)", element);
@@ -2859,7 +2859,7 @@
 
             // in case the current key to be pressed is an
             // enter key must submit the data
-            if (keyValue != 13) {
+            if (keyValue !== 13) {
                 return;
             }
 
@@ -2874,7 +2874,7 @@
             // empty messages are not allowed
             var message = textArea.val();
             message = message.trim();
-            if (message == "") {
+            if (message === "") {
                 event.preventDefault();
                 event.stopPropagation();
                 return;
@@ -2937,7 +2937,7 @@
             // text area and verifies if there's a change, then updates
             // the current scroll height with the new one
             var delta = scrollHeight - currentScroll;
-            var changed = delta != 0;
+            var changed = delta !== 0;
             currentScroll = scrollHeight;
 
             // in case there's no change in the scroll height there's
@@ -2956,7 +2956,7 @@
             var contentsScroll = contents.scrollTop();
             var contentsScrollHeight = contents[0].scrollHeight;
             var contentsOffset = contentsHeight - contentsScroll;
-            var contentsBottom = contentsScroll + contentsHeight == contentsScrollHeight;
+            var contentsBottom = contentsScroll + contentsHeight === contentsScrollHeight;
 
             // updates the contents, message and text area height with the
             // incrementings/decrementings of the calculated delta value
@@ -3045,7 +3045,7 @@
 
         // in case the provided name for the chat line is self/me
         // based it's converted in the locale representation
-        var nameLocale = name == "me" ? jQuery.uxlocale(name) : name;
+        var nameLocale = name === "me" ? jQuery.uxlocale(name) : name;
 
         // treats the message so that any newline character found
         // is replaces by the break line tag (html correspondent)
@@ -3054,7 +3054,7 @@
         // verifies that the type of message is not plain and if that's
         // the case runs the chat replacer so that certain keywords
         // are replaced with the proper image/graphical representation
-        if (plain == false) {
+        if (plain === false) {
             result = jQuery.uchatreplacer(message);
             message = result[0];
             extras = result[1];
@@ -3066,7 +3066,7 @@
         // retrieves the correct object id for the current message owner
         // and uses it to create the image url of the user that
         // created the current chat line
-        objectId = name == "me" ? _body.data("object_id") : objectId;
+        objectId = name === "me" ? _body.data("object_id") : objectId;
         var imageUrl = mvcPath + admSection + "/users/" + objectId + "/image?size=32";
 
         // retrieves the complete set of paragraphs from the current chat
@@ -3090,7 +3090,7 @@
             // verifies if this is the first iteration and if that's
             // the case a special verification is performed to make
             // sure that the line should be introduced at the beginning
-            var isFirst = index == paragraphs.length - 1;
+            var isFirst = index === paragraphs.length - 1;
             var isInitial = isFirst && _timestamp < timestamp;
 
             // determines if this is the proper buble for which the
@@ -3098,7 +3098,7 @@
             // verification on the name of the paragraph, string
             // data of it and the timestamp of the next (up paragraph)
             // is going to be performed and verified
-            var isBuble = _name == name && _dateS == dateS && _reference < timestamp;
+            var isBuble = _name === name && _dateS === dateS && _reference < timestamp;
 
             // verifies if any of the coditions (initial, buble found
             // or forced bottom) is matched and if that's not the case
@@ -3123,12 +3123,12 @@
         // in case the name for the author of the line is different
         // from the current name or the time gap between messages
         // is greater than expected a new paragraph must be created
-        if (name != _name || dateS != _dateS) {
+        if (name !== _name || dateS !== _dateS) {
             // sets the initial reference value as the selected (previous)
             // paragraph and verifies if this is a top (header) paragraph
             // that should be inserted at the the initial part of the contents
             var reference = paragraph;
-            var isTop = reference == null;
+            var isTop = reference === null || reference === undefined;
 
             // creates the date object that represents the provided timestamp
             // and thens runs the date converter using the defined format to
@@ -3285,7 +3285,7 @@
         var images = jQuery("img", chatLine);
         images.load(function() {
             var _counter = contents.data("counter");
-            if (counter != _counter) {
+            if (counter !== _counter) {
                 return;
             }
             fixScroll();
@@ -3350,7 +3350,7 @@
             result = result[0];
             extras += "<a href=\"" + result + "\" target=\"_blank\">" + "<img src=\"" + result + "\"/>" +
                 "</a>";
-            return result == message ? "" : message;
+            return result === message ? "" : message;
         };
 
         var youtube = function(message) {
@@ -3363,7 +3363,7 @@
             var youtubeId = parsed["v"];
             extras += "<iframe height=\"200\"" + " src=\"//www.youtube.com/embed/" + youtubeId +
                 "?controls=0\"" + " frameborder=\"0\"></iframe>";
-            return result == message ? "" : message;
+            return result === message ? "" : message;
         };
 
         var url = function(message) {
@@ -3390,7 +3390,7 @@
         // or in case it's an empty list must return
         // immediatly initialization is not meant to
         // be run (corruption may occur)
-        if (!matchedObject || matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -3423,7 +3423,7 @@
             // retrieves the event key code and in case the code refers
             // the escape key returns immediately to avoid behavior
             var eventKeyCode = event.keyCode ? event.keyCode : event.which;
-            if (eventKeyCode == 27 || eventKeyCode == key) {
+            if (eventKeyCode === 27 || eventKeyCode === key) {
                 return;
             }
 
@@ -3625,7 +3625,7 @@
         // a single object has been matched returns immediately
         // as there's nothing remaining to be done
         var matchedObject = this;
-        if (matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -3817,7 +3817,7 @@
                 // it so that the target page opens on click and the notification
                 // hides after a certain ammount of time, note that if there's
                 // not enought permissions the show is disabled
-                var hasNotifications = typeof(Notification) != "undefined";
+                var hasNotifications = typeof(Notification) !== "undefined";
                 if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
                         dir: "auto",
@@ -3859,7 +3859,7 @@
                 // link, reverting it to a non action state, otherwise enables
                 // it so that it becomes actionable (reverse operation)
                 var itemsSize = items.length;
-                if (itemsSize == 0) {
+                if (itemsSize === 0) {
                     link.uxdisable();
                 } else {
                     link.uxenable();
@@ -3938,7 +3938,7 @@
                 // function returns immediately (to the caller method)
                 var username = _body.data("username");
                 var _username = _element.data("username");
-                if (username == _username) {
+                if (username === _username) {
                     return;
                 }
 
@@ -4099,7 +4099,7 @@
                 // verifies if the data type of the provided data is string
                 // in case it's parses it as a json string "saving" it in
                 // place of the current data element
-                var isString = typeof data == "string";
+                var isString = typeof data === "string";
                 data = isString ? jQuery.parseJSON(data) : data;
 
                 // triggers the notification event in the element to display
@@ -4171,7 +4171,7 @@
             // returns immediately so that the next iteration
             // cycle starts and new elements are processed
             var linksList = jQuery(".links-list", _element);
-            if (linksList.length == 0) {
+            if (linksList.length === 0) {
                 return;
             }
 
@@ -4179,7 +4179,7 @@
             // current links list in case at least one exists
             // continues the loop nothing to be done
             var links = linksList.children();
-            if (links.length != 0) {
+            if (links.length !== 0) {
                 return;
             }
 
@@ -4211,7 +4211,7 @@
         // or in case it's an empty list must return
         // immediatly initialization is not meant to
         // be run (corruption may occur)
-        if (!matchedObject || matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -4365,7 +4365,7 @@
         // in case there's no matched object there's not need
         // to run the report initialization, global handlers
         // exist and may cause conflicts
-        if (matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -4378,7 +4378,7 @@
         // the current extension refers a print document the print
         // report attribute is set
         var extension = pathname.slice(pathname_l - 4, pathname_l);
-        if (extension == ".prt") {
+        if (extension === ".prt") {
             matchedObject.attr("data-print", 1);
         }
 
@@ -4419,7 +4419,7 @@
         // in case the there're no options panel defined for the current
         // report the options link and icons must be hidden and not displayed
         // as no interaction would be possible/visible
-        options.length == 0 && linkOptions.hide() && iconOptions.hide();
+        options.length === 0 && linkOptions.hide() && iconOptions.hide();
 
         // schedules a timeout operation that is going to be
         // executed after this tick operation so that the
@@ -4480,7 +4480,7 @@
             var currentOrder = matchedObject.data("order");
             var reverse = matchedObject.data("reverse") || false;
             var newOrder = element.attr("data-order");
-            reverse = newOrder != currentOrder ? true : !reverse;
+            reverse = newOrder !== currentOrder ? true : !reverse;
             matchedObject.data("reverse", reverse);
             matchedObject.data("order", newOrder);
             matchedObject.data("dirty", true);
@@ -4578,7 +4578,7 @@
             // creates the sorter function for the update operation
             // taking into account the clojure around the order name
             var sorter = function(first, second) {
-                var isNumber = typeof first == "number";
+                var isNumber = typeof first === "number";
                 if (isNumber) {
                     return first[order] - second[order];
                 } else {
@@ -4629,7 +4629,7 @@
 
             // in cae the current page is the first one the previous
             // button must be disabled otherwise it's enabled
-            if (page == 0) {
+            if (page === 0) {
                 previous.uxdisable();
             } else {
                 previous.uxenable();
@@ -4637,7 +4637,7 @@
 
             // in cae the current page is the last one the next
             // button must be disabled otherwise it's enabled
-            if (page == limit) {
+            if (page === limit) {
                 next.uxdisable();
             } else {
                 next.uxenable();
@@ -4673,7 +4673,7 @@
 
         var decrement = function(matchedObject, options) {
             var page = matchedObject.data("page");
-            if (page == 0) {
+            if (page === 0) {
                 return;
             }
             page--;
@@ -4684,7 +4684,7 @@
         var increment = function(matchedObject, options) {
             var page = matchedObject.data("page");
             var limit = matchedObject.data("limit");
-            if (page == limit) {
+            if (page === limit) {
                 return;
             }
             page++;

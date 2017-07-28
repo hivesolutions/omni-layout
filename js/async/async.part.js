@@ -34,7 +34,7 @@
 
                 // in case the click used the right or center button the
                 // event should be ignored not meant to be overriden
-                if (event.which == 2 || event.which == 3) {
+                if (event.which === 2 || event.which === 3) {
                     return;
                 }
 
@@ -219,7 +219,7 @@
                 // tries to retrieve the current top loader element, in case it's
                 // not found inserts it in the correct position in the top bar
                 var topLoader = jQuery(".top-loader");
-                if (topLoader.length == 0) {
+                if (topLoader.length === 0) {
                     var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
                     var topLoader = jQuery("<div class=\"top-loader\">" +
                         "<div class=\"loader-background\"></div>" + "</div>");
@@ -286,7 +286,7 @@
         var _setPopHandler = function() {
             // in case the pop state (changed) handler is already set there's
             // no need to set it again and so returns immediately
-            if (window.onpopstate != null) {
+            if (window.onpopstate !== null && window.onpopstate !== undefined) {
                 return;
             }
 
@@ -384,7 +384,7 @@
         var contentWrapper = jQuery("body > .content-wrapper");
         var childCount = contentWrapper.children().length;
 
-        if (childCount != 1) {
+        if (childCount !== 1) {
             return false;
         }
 
@@ -409,7 +409,7 @@
         var contentWrapper = base.filter(".content-wrapper");
         var childCount = contentWrapper.children().length;
 
-        if (childCount != 1) {
+        if (childCount !== 1) {
             return false;
         }
 
@@ -418,7 +418,7 @@
 
     var updateBase = function(hbase) {
         var _base = jQuery("head base");
-        if (_base.length == 0) {
+        if (_base.length === 0) {
             var _head = jQuery("head");
             var _base = jQuery("<base></base>");
             _head.append(_base);
@@ -514,7 +514,7 @@
         // verifies if the current section is different from the target
         // section in case it's not returns immediately, as there's nothing
         // to be done in the current context
-        var isDifferent = sectionValue != sectionValue_;
+        var isDifferent = sectionValue !== sectionValue_;
         if (!isDifferent) {
             return;
         }
@@ -663,7 +663,7 @@
         // element in case it's not fond creates a new placeholder and
         // sets it in the content wrapper section of the body
         var placeholder = jQuery(".window-placeholder");
-        if (placeholder.length == 0) {
+        if (placeholder.length === 0) {
             var _body = jQuery("body");
             placeholder = jQuery("<div class=\"window-placeholder\"></div>");
             _body.append(placeholder);
@@ -695,7 +695,7 @@
         var sidebarRight = jQuery(".sidebar-right", base);
         var sidebarRight_ = jQuery(".sidebar-right");
 
-        if (sidebarRight_.length == 0) {
+        if (sidebarRight_.length === 0) {
             var content_ = jQuery(".content");
             content_.after(sidebarRight);
         }
@@ -733,10 +733,10 @@
 
             if (sideLeft.length > 0) {
                 var parent = chat_.parent(".sidebar-left")
-                parent.length == 0 && sideLeft.append(chat_);
+                parent.length === 0 && sideLeft.append(chat_);
             } else {
                 var parent = chat_.parent(".chat-parent")
-                parent.length == 0 && chatParent.append(chat_);
+                parent.length === 0 && chatParent.append(chat_);
             }
 
             var url = chat.attr("data-url");
@@ -774,7 +774,7 @@
         var parentQuery = chatParent.length > 0 ? ".chat-parent" : "body";
         var parentTarget = jQuery(parentQuery);
         var parent = chat.parent(parentQuery);
-        parent.length == 0 && parentTarget.append(chat);
+        parent.length === 0 && parentTarget.append(chat);
 
         // in case there's a chat structure already displayed
         // in the current view must remove the chat part from
@@ -794,7 +794,7 @@
         if (!window.google_trackConversion) {
             return;
         }
-        if (!conversionId || conversionId.length == 0) {
+        if (!conversionId || conversionId.length === 0) {
             return;
         }
         conversionId = parseInt(conversionId.attr("content"));

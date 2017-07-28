@@ -15,7 +15,7 @@
             // returns immediately so that the next iteration
             // cycle starts and new elements are processed
             var linksList = jQuery(".links-list", _element);
-            if (linksList.length == 0) {
+            if (linksList.length === 0) {
                 return;
             }
 
@@ -23,7 +23,7 @@
             // current links list in case at least one exists
             // continues the loop nothing to be done
             var links = linksList.children();
-            if (links.length != 0) {
+            if (links.length !== 0) {
                 return;
             }
 

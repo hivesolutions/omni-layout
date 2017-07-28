@@ -42,7 +42,7 @@
             // verifies that the size of the code legnth
             // is of the expected size, otherwise returns
             // immediately not an expected code
-            if (value.length != SCAN_CODE_LENGTH) {
+            if (value.length !== SCAN_CODE_LENGTH) {
                 return;
             }
 
@@ -62,7 +62,7 @@
             // immediately in error (invalid checksum)
             var buffer = value.slice(4);
             var _checksumS = checksum(buffer);
-            if (_checksumS != checksumS) {
+            if (_checksumS !== checksumS) {
                 return;
             }
 
@@ -101,7 +101,7 @@
             // provided scan value is compatible with the current
             // scan version (version is included in compatible
             // version set) in case it's not returns immediately
-            var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) != -1;
+            var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) !== -1;
             if (!isCompatible) {
                 return;
             }

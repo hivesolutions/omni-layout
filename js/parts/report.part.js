@@ -13,7 +13,7 @@
         // in case there's no matched object there's not need
         // to run the report initialization, global handlers
         // exist and may cause conflicts
-        if (matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -26,7 +26,7 @@
         // the current extension refers a print document the print
         // report attribute is set
         var extension = pathname.slice(pathname_l - 4, pathname_l);
-        if (extension == ".prt") {
+        if (extension === ".prt") {
             matchedObject.attr("data-print", 1);
         }
 
@@ -67,7 +67,7 @@
         // in case the there're no options panel defined for the current
         // report the options link and icons must be hidden and not displayed
         // as no interaction would be possible/visible
-        options.length == 0 && linkOptions.hide() && iconOptions.hide();
+        options.length === 0 && linkOptions.hide() && iconOptions.hide();
 
         // schedules a timeout operation that is going to be
         // executed after this tick operation so that the
@@ -128,7 +128,7 @@
             var currentOrder = matchedObject.data("order");
             var reverse = matchedObject.data("reverse") || false;
             var newOrder = element.attr("data-order");
-            reverse = newOrder != currentOrder ? true : !reverse;
+            reverse = newOrder !== currentOrder ? true : !reverse;
             matchedObject.data("reverse", reverse);
             matchedObject.data("order", newOrder);
             matchedObject.data("dirty", true);
@@ -226,7 +226,7 @@
             // creates the sorter function for the update operation
             // taking into account the clojure around the order name
             var sorter = function(first, second) {
-                var isNumber = typeof first == "number";
+                var isNumber = typeof first === "number";
                 if (isNumber) {
                     return first[order] - second[order];
                 } else {
@@ -277,7 +277,7 @@
 
             // in cae the current page is the first one the previous
             // button must be disabled otherwise it's enabled
-            if (page == 0) {
+            if (page === 0) {
                 previous.uxdisable();
             } else {
                 previous.uxenable();
@@ -285,7 +285,7 @@
 
             // in cae the current page is the last one the next
             // button must be disabled otherwise it's enabled
-            if (page == limit) {
+            if (page === limit) {
                 next.uxdisable();
             } else {
                 next.uxenable();
@@ -321,7 +321,7 @@
 
         var decrement = function(matchedObject, options) {
             var page = matchedObject.data("page");
-            if (page == 0) {
+            if (page === 0) {
                 return;
             }
             page--;
@@ -332,7 +332,7 @@
         var increment = function(matchedObject, options) {
             var page = matchedObject.data("page");
             var limit = matchedObject.data("limit");
-            if (page == limit) {
+            if (page === limit) {
                 return;
             }
             page++;

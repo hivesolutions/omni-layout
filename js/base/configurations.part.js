@@ -56,7 +56,7 @@
                 // there is no match breaks the loop, nothing more
                 // to be replaced
                 var result = tagRegex.exec(url);
-                if (result == null) {
+                if (result === null || result === undefined) {
                     break;
                 }
 

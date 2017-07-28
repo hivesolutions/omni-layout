@@ -7,7 +7,7 @@
         // or in case it's an empty list must return
         // immediatly initialization is not meant to
         // be run (corruption may occur)
-        if (!matchedObject || matchedObject.length == 0) {
+        if (!matchedObject || matchedObject.length === 0) {
             return;
         }
 
@@ -40,7 +40,7 @@
             // retrieves the event key code and in case the code refers
             // the escape key returns immediately to avoid behavior
             var eventKeyCode = event.keyCode ? event.keyCode : event.which;
-            if (eventKeyCode == 27 || eventKeyCode == key) {
+            if (eventKeyCode === 27 || eventKeyCode === key) {
                 return;
             }
 
