@@ -457,7 +457,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
-        updateGarbage(base);
+        runGarbage(base);
     };
 
     var updateSimple = function(base, body) {
@@ -476,7 +476,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
-        updateGarbage(base);
+        runGarbage(base);
     };
 
     var updateBody = function(body) {
@@ -764,7 +764,7 @@
         }
     };
 
-    var updateGarbage = function(base) {
+    var runGarbage = function(base) {
         var gcElements = jQuery(".gc");
         gcElements.each(function(index, element) {
             var _element = jQuery(this);
