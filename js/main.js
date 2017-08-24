@@ -557,6 +557,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
+        updateGarbage(base);
     };
 
     var updateSimple = function(base, body) {
@@ -575,6 +576,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
+        updateGarbage(base);
     };
 
     var updateBody = function(body) {
@@ -860,6 +862,14 @@
             sideLeft.append(chat);
             chat.uchat();
         }
+    };
+
+    var updateGarbage = function(base) {
+        var gcElements = jQuery(".gc");
+        gcElements.each(function(index, element) {
+            var _element = jQuery(this);
+            _element.triggerHandler("collect");
+        });
     };
 
     var fixContent = function(base, content) {
@@ -3583,17 +3593,17 @@
                 return;
             }
 
-            // registers the lightbox for the show event so that the
+            // registers the lightbox for the shown event so that the
             // buttons are properly animated according to their dimensions
             // and visibility (required for compatibility issues)
-            lightbox.bind("show", function() {
+            lightbox.bind("shown", function() {
                 buttons.uxanimation();
             });
 
-            // registers the lightbox for the hide event so that the
+            // registers the lightbox for the hidden event so that the
             // buttons are properly animated according to their dimensions
             // and visibility (required for compatibility issues)
-            lightbox.bind("hide", function() {
+            lightbox.bind("hidden", function() {
                 buttons.uxanimation();
             });
 

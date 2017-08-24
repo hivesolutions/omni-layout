@@ -457,6 +457,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
+        updateGarbage(base);
     };
 
     var updateSimple = function(base, body) {
@@ -475,6 +476,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
+        updateGarbage(base);
     };
 
     var updateBody = function(body) {
@@ -760,6 +762,14 @@
             sideLeft.append(chat);
             chat.uchat();
         }
+    };
+
+    var updateGarbage = function(base) {
+        var gcElements = jQuery(".gc");
+        gcElements.each(function(index, element) {
+            var _element = jQuery(this);
+            _element.triggerHandler("collect");
+        });
     };
 
     var fixContent = function(base, content) {
