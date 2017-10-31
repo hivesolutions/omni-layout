@@ -8,7 +8,10 @@
     background: #ffffff url(../images/context-menu-marker.png) no-repeat center 0px;
     border: 1px solid #d0d0d0;
     box-shadow: 0px 0px 4px #dddddd;
+    -o-box-shadow: 0px 0px 4px #dddddd;
+    -ms-box-shadow: 0px 0px 4px #dddddd;
     -moz-box-shadow: 0px 0px 4px #dddddd;
+    -khtml-box-shadow: 0px 0px 4px #dddddd;
     -webkit-box-shadow: 0px 0px 4px #dddddd;
     display: none;
     height: 20px;
@@ -41,7 +44,10 @@
     background: #ffffff;
     border: 1px solid #dddddd;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     list-style: none;
     margin: 0px 0px 0px 0px;

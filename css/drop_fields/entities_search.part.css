@@ -1,6 +1,9 @@
 .omni-style .drop-field.entities-search ul {
     box-shadow: 0px 1px 6px #dddddd;
+    -o-box-shadow: 0px 1px 6px #dddddd;
+    -ms-box-shadow: 0px 1px 6px #dddddd;
     -moz-box-shadow: 0px 1px 6px #dddddd;
+    -khtml-box-shadow: 0px 1px 6px #dddddd;
     -webkit-box-shadow: 0px 1px 6px #dddddd;
 }
 

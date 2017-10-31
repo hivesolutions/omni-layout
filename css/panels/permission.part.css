@@ -46,7 +46,10 @@
 .omni-style .content-permission .permissions-list li .permission-image {
     background-image: url(../images/tiles/tile-grey_48.png);
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
     float: left;
     height: 48px;

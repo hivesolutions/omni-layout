@@ -102,12 +102,17 @@
     background-color: #ffffff;
     border: 1px solid #d2d2d2;
     box-shadow: 0px 0px 4px #d6d6d6;
+    -o-box-shadow: 0px 0px 4px #d6d6d6;
+    -ms-box-shadow: 0px 0px 4px #d6d6d6;
     -moz-box-shadow: 0px 0px 4px #d6d6d6;
+    -khtml-box-shadow: 0px 0px 4px #d6d6d6;
     -webkit-box-shadow: 0px 0px 4px #d6d6d6;
     position: fixed;
     transition: left 0.15s, top 0.15s;
     -o-transition: left 0.15s, top 0.15s;
+    -ms-transition: left 0.15s, top 0.15s;
     -moz-transition: left 0.15s, top 0.15s;
+    -khtml-transition: left 0.15s, top 0.15s;
     -webkit-transition: left 0.15s, top 0.15s;
     width: 240px;
     z-index: 12;
@@ -164,6 +169,11 @@
     float: left;
     height: 22px;
     opacity: 0.75;
+    -o-opacity: 0.75;
+    -ms-opacity: 0.75;
+    -moz-opacity: 0.75;
+    -khtml-opacity: 0.75;
+    -webkit-opacity: 0.75;
     width: 22px;
 }
 
@@ -174,6 +184,11 @@
 
 .omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button:hover {
     opacity: 1.0;
+    -o-opacity: 1.0;
+    -ms-opacity: 1.0;
+    -moz-opacity: 1.0;
+    -khtml-opacity: 1.0;
+    -webkit-opacity: 1.0;
 }
 
 .omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button.chat-settings {
@@ -316,6 +331,9 @@
 .omni-style.dark .chat-panel {
     border: 1px solid #6d6d6d;
     box-shadow: 0px 0px 4px #7d7d7d;
+    -o-box-shadow: 0px 0px 4px #7d7d7d;
+    -ms-box-shadow: 0px 0px 4px #7d7d7d;
     -moz-box-shadow: 0px 0px 4px #7d7d7d;
+    -khtml-box-shadow: 0px 0px 4px #7d7d7d;
     -webkit-box-shadow: 0px 0px 4px #7d7d7d;
 }

@@ -11,7 +11,9 @@
 .omni-style.animations .notifications-menu.active .menu-button {
     transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
 }
 
@@ -19,7 +21,10 @@
     background: #ffffff;
     border: 1px solid #eaeaea;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     display: none;
     position: absolute;
@@ -29,6 +34,7 @@
 .omni-style.animations .notifications-container {
     animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -khtml-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
@@ -50,6 +56,11 @@
 
 .omni-style .notifications.disabled {
     opacity: 0.2;
+    -o-opacity: 0.2;
+    -ms-opacity: 0.2;
+    -moz-opacity: 0.2;
+    -khtml-opacity: 0.2;
+    -webkit-opacity: 0.2;
 }
 
 .omni-style .notifications.pending {

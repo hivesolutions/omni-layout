@@ -122,7 +122,10 @@ body.omni-style.no-overflow {
 
 body.omni-style.no-selection {
     user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
     -moz-user-select: none;
+    -khtml-user-select: none;
     -webkit-user-select: none;
 }
 
@@ -229,7 +232,10 @@ body.omni-style.opensans {
     background-color: #f0f0f0;
     border-bottom: 1px solid #dddddd;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     height: 50px;
     padding-top: 10px;
@@ -238,7 +244,10 @@ body.omni-style.opensans {
 .omni-style.dark .content-bar {
     border-color: #888888;
     box-shadow: 0px 1px 6px #888888;
+    -o-box-shadow: 0px 1px 6px #888888;
+    -ms-box-shadow: 0px 1px 6px #888888;
     -moz-box-shadow: 0px 1px 6px #888888;
+    -khtml-box-shadow: 0px 1px 6px #888888;
     -webkit-box-shadow: 0px 1px 6px #888888;
 }
 
@@ -395,7 +404,10 @@ body.omni-style.opensans {
 
 .omni-style .section-input .filter-input {
     box-shadow: none;
+    -o-box-shadow: none;
+    -ms-box-shadow: none;
     -moz-box-shadow: none;
+    -khtml-box-shadow: none;
     -webkit-box-shadow: none;
     padding-right: 76px;
     width: 448px;
@@ -626,21 +638,29 @@ body.omni-style.opensans {
 .omni-style .map {
     border: 1px solid #dadada;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     margin-top: 10px;
 }
 
 .omni-style.animations .map {
     transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
-    -o-transition: border-color 0.10s ease-in, -o-box-shadow 0.10s ease-in;
-    -moz-transition: border-color 0.10s ease-in, -moz-box-shadow 0.10s ease-in;
-    -webkit-transition: border-color 0.10s ease-in, -webkit-box-shadow 0.10s ease-in;
+    -o-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -ms-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -moz-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -khtml-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -webkit-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
 }
 
 .omni-style .map:hover {
     border-color: #bbbbbb;
     box-shadow: 0px 1px 4px #cecece;
+    -o-box-shadow: 0px 1px 4px #cecece;
+    -ms-box-shadow: 0px 1px 4px #cecece;
     -moz-box-shadow: 0px 1px 4px #cecece;
+    -khtml-box-shadow: 0px 1px 4px #cecece;
     -webkit-box-shadow: 0px 1px 4px #cecece;
 }

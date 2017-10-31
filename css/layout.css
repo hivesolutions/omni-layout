@@ -122,7 +122,10 @@ body.omni-style.no-overflow {
 
 body.omni-style.no-selection {
     user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
     -moz-user-select: none;
+    -khtml-user-select: none;
     -webkit-user-select: none;
 }
 
@@ -229,7 +232,10 @@ body.omni-style.opensans {
     background-color: #f0f0f0;
     border-bottom: 1px solid #dddddd;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     height: 50px;
     padding-top: 10px;
@@ -238,7 +244,10 @@ body.omni-style.opensans {
 .omni-style.dark .content-bar {
     border-color: #888888;
     box-shadow: 0px 1px 6px #888888;
+    -o-box-shadow: 0px 1px 6px #888888;
+    -ms-box-shadow: 0px 1px 6px #888888;
     -moz-box-shadow: 0px 1px 6px #888888;
+    -khtml-box-shadow: 0px 1px 6px #888888;
     -webkit-box-shadow: 0px 1px 6px #888888;
 }
 
@@ -395,7 +404,10 @@ body.omni-style.opensans {
 
 .omni-style .section-input .filter-input {
     box-shadow: none;
+    -o-box-shadow: none;
+    -ms-box-shadow: none;
     -moz-box-shadow: none;
+    -khtml-box-shadow: none;
     -webkit-box-shadow: none;
     padding-right: 76px;
     width: 448px;
@@ -626,28 +638,39 @@ body.omni-style.opensans {
 .omni-style .map {
     border: 1px solid #dadada;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     margin-top: 10px;
 }
 
 .omni-style.animations .map {
     transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
-    -o-transition: border-color 0.10s ease-in, -o-box-shadow 0.10s ease-in;
-    -moz-transition: border-color 0.10s ease-in, -moz-box-shadow 0.10s ease-in;
-    -webkit-transition: border-color 0.10s ease-in, -webkit-box-shadow 0.10s ease-in;
+    -o-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -ms-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -moz-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -khtml-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
+    -webkit-transition: border-color 0.10s ease-in, box-shadow 0.10s ease-in;
 }
 
 .omni-style .map:hover {
     border-color: #bbbbbb;
     box-shadow: 0px 1px 4px #cecece;
+    -o-box-shadow: 0px 1px 4px #cecece;
+    -ms-box-shadow: 0px 1px 4px #cecece;
     -moz-box-shadow: 0px 1px 4px #cecece;
+    -khtml-box-shadow: 0px 1px 4px #cecece;
     -webkit-box-shadow: 0px 1px 4px #cecece;
 }
 
 .omni-style .drop-field.entities-search ul {
     box-shadow: 0px 1px 6px #dddddd;
+    -o-box-shadow: 0px 1px 6px #dddddd;
+    -ms-box-shadow: 0px 1px 6px #dddddd;
     -moz-box-shadow: 0px 1px 6px #dddddd;
+    -khtml-box-shadow: 0px 1px 6px #dddddd;
     -webkit-box-shadow: 0px 1px 6px #dddddd;
 }
 
@@ -758,7 +781,10 @@ body.omni-style.opensans {
 
 .omni-style .activity-list li img {
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
     float: left;
     height: 50px;
@@ -768,7 +794,10 @@ body.omni-style.opensans {
 
 .omni-style.round .activity-list li img {
     border-radius: 25px 25px 25px 25px;
+    -o-border-radius: 25px 25px 25px 25px;
+    -ms-border-radius: 25px 25px 25px 25px;
     -moz-border-radius: 25px 25px 25px 25px;
+    -khtml-border-radius: 25px 25px 25px 25px;
     -webkit-border-radius: 25px 25px 25px 25px;
 }
 
@@ -888,7 +917,9 @@ body.omni-style.opensans {
     cursor: pointer;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
+    -ms-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
+    -khtml-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
 }
 
@@ -1160,7 +1191,10 @@ body.omni-style.opensans {
     background: #ffffff url(../images/context-menu-marker.png) no-repeat center 0px;
     border: 1px solid #d0d0d0;
     box-shadow: 0px 0px 4px #dddddd;
+    -o-box-shadow: 0px 0px 4px #dddddd;
+    -ms-box-shadow: 0px 0px 4px #dddddd;
     -moz-box-shadow: 0px 0px 4px #dddddd;
+    -khtml-box-shadow: 0px 0px 4px #dddddd;
     -webkit-box-shadow: 0px 0px 4px #dddddd;
     display: none;
     height: 20px;
@@ -1193,7 +1227,10 @@ body.omni-style.opensans {
     background: #ffffff;
     border: 1px solid #dddddd;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     list-style: none;
     margin: 0px 0px 0px 0px;
@@ -1249,7 +1286,9 @@ body.omni-style.opensans {
 .omni-style.animations .notifications-menu.active .menu-button {
     transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
 }
 
@@ -1257,7 +1296,10 @@ body.omni-style.opensans {
     background: #ffffff;
     border: 1px solid #eaeaea;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     display: none;
     position: absolute;
@@ -1267,6 +1309,7 @@ body.omni-style.opensans {
 .omni-style.animations .notifications-container {
     animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -khtml-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
@@ -1288,6 +1331,11 @@ body.omni-style.opensans {
 
 .omni-style .notifications.disabled {
     opacity: 0.2;
+    -o-opacity: 0.2;
+    -ms-opacity: 0.2;
+    -moz-opacity: 0.2;
+    -khtml-opacity: 0.2;
+    -webkit-opacity: 0.2;
 }
 
 .omni-style .notifications.pending {
@@ -1322,7 +1370,9 @@ body.omni-style.opensans {
 .omni-style.animations .system-menu.active .menu-button {
     transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
 }
 
@@ -1334,7 +1384,10 @@ body.omni-style.opensans {
     background: #ffffff;
     border: 1px solid #eaeaea;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     min-width: 340px;
     position: absolute;
@@ -1343,6 +1396,7 @@ body.omni-style.opensans {
 .omni-style.animations .system-menu .menu-contents {
     animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -khtml-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-animation: fade-into-drop 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
@@ -1356,13 +1410,19 @@ body.omni-style.opensans {
 
 .omni-style .system-menu .menu-contents-left > img {
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
 }
 
 .omni-style.round .system-menu .menu-contents-left > img {
     border-radius: 32px 32px 32px 32px;
+    -o-border-radius: 32px 32px 32px 32px;
+    -ms-border-radius: 32px 32px 32px 32px;
     -moz-border-radius: 32px 32px 32px 32px;
+    -khtml-border-radius: 32px 32px 32px 32px;
     -webkit-border-radius: 32px 32px 32px 32px;
 }
 
@@ -1409,13 +1469,19 @@ body.omni-style.opensans {
 
 .omni-style .system-menu .menu-contents .image > img {
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
 }
 
 .omni-style.round .system-menu .menu-contents .image > img {
     border-radius: 25px 25px 25px 25px;
+    -o-border-radius: 25px 25px 25px 25px;
+    -ms-border-radius: 25px 25px 25px 25px;
     -moz-border-radius: 25px 25px 25px 25px;
+    -khtml-border-radius: 25px 25px 25px 25px;
     -webkit-border-radius: 25px 25px 25px 25px;
 }
 
@@ -1523,12 +1589,17 @@ body.omni-style.opensans {
     background-color: #ffffff;
     border: 1px solid #d2d2d2;
     box-shadow: 0px 0px 4px #d6d6d6;
+    -o-box-shadow: 0px 0px 4px #d6d6d6;
+    -ms-box-shadow: 0px 0px 4px #d6d6d6;
     -moz-box-shadow: 0px 0px 4px #d6d6d6;
+    -khtml-box-shadow: 0px 0px 4px #d6d6d6;
     -webkit-box-shadow: 0px 0px 4px #d6d6d6;
     position: fixed;
     transition: left 0.15s, top 0.15s;
     -o-transition: left 0.15s, top 0.15s;
+    -ms-transition: left 0.15s, top 0.15s;
     -moz-transition: left 0.15s, top 0.15s;
+    -khtml-transition: left 0.15s, top 0.15s;
     -webkit-transition: left 0.15s, top 0.15s;
     width: 240px;
     z-index: 12;
@@ -1585,6 +1656,11 @@ body.omni-style.opensans {
     float: left;
     height: 22px;
     opacity: 0.75;
+    -o-opacity: 0.75;
+    -ms-opacity: 0.75;
+    -moz-opacity: 0.75;
+    -khtml-opacity: 0.75;
+    -webkit-opacity: 0.75;
     width: 22px;
 }
 
@@ -1595,6 +1671,11 @@ body.omni-style.opensans {
 
 .omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button:hover {
     opacity: 1.0;
+    -o-opacity: 1.0;
+    -ms-opacity: 1.0;
+    -moz-opacity: 1.0;
+    -khtml-opacity: 1.0;
+    -webkit-opacity: 1.0;
 }
 
 .omni-style .chat-panel > .chat-header > .chat-buttons > .chat-button.chat-settings {
@@ -1737,7 +1818,10 @@ body.omni-style.opensans {
 .omni-style.dark .chat-panel {
     border: 1px solid #6d6d6d;
     box-shadow: 0px 0px 4px #7d7d7d;
+    -o-box-shadow: 0px 0px 4px #7d7d7d;
+    -ms-box-shadow: 0px 0px 4px #7d7d7d;
     -moz-box-shadow: 0px 0px 4px #7d7d7d;
+    -khtml-box-shadow: 0px 0px 4px #7d7d7d;
     -webkit-box-shadow: 0px 0px 4px #7d7d7d;
 }
 
@@ -1801,13 +1885,16 @@ body.omni-style.opensans {
     padding: 16px 16px 16px 16px;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
+    -ms-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
+    -khtml-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
 }
 
 .omni-style.animations .content-panel {
     animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -moz-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -khtml-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-animation: fade-grow 0.45s cubic-bezier(0.645, 0.045, 0.355, 1.0);
@@ -1816,7 +1903,10 @@ body.omni-style.opensans {
 .omni-style .content-panel:hover {
     border-color: #dddddd;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
 }
 
@@ -1824,16 +1914,25 @@ body.omni-style.opensans {
     background-color: #ffffff;
     border: none;
     border-radius: 6px 6px 6px 6px;
+    -o-border-radius: 6px 6px 6px 6px;
+    -ms-border-radius: 6px 6px 6px 6px;
     -moz-border-radius: 6px 6px 6px 6px;
+    -khtml-border-radius: 6px 6px 6px 6px;
     -webkit-border-radius: 6px 6px 6px 6px;
     box-shadow: 0px 0px 10px #3d3d3d;
+    -o-box-shadow: 0px 0px 10px #3d3d3d;
+    -ms-box-shadow: 0px 0px 10px #3d3d3d;
     -moz-box-shadow: 0px 0px 10px #3d3d3d;
+    -khtml-box-shadow: 0px 0px 10px #3d3d3d;
     -webkit-box-shadow: 0px 0px 10px #3d3d3d;
 }
 
 .omni-style.dark .content-panel:hover {
     box-shadow: 0px 0px 10px #3d3d3d;
+    -o-box-shadow: 0px 0px 10px #3d3d3d;
+    -ms-box-shadow: 0px 0px 10px #3d3d3d;
     -moz-box-shadow: 0px 0px 10px #3d3d3d;
+    -khtml-box-shadow: 0px 0px 10px #3d3d3d;
     -webkit-box-shadow: 0px 0px 10px #3d3d3d;
 }
 
@@ -1885,7 +1984,10 @@ body.omni-style.opensans {
 .omni-style .content-permission .permissions-list li .permission-image {
     background-image: url(../images/tiles/tile-grey_48.png);
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
     float: left;
     height: 48px;
@@ -2087,7 +2189,9 @@ body.omni-style.opensans {
     min-height: 300px;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
+    -ms-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
+    -khtml-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
 }
 
@@ -2152,14 +2256,19 @@ body.omni-style.opensans {
     text-align: center;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
+    -ms-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
+    -khtml-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
 }
 
 .omni-style .display-box:hover {
     border: 1px solid #dddddd;
     box-shadow: 0px 1px 4px #eeeeee;
+    -o-box-shadow: 0px 1px 4px #eeeeee;
+    -ms-box-shadow: 0px 1px 4px #eeeeee;
     -moz-box-shadow: 0px 1px 4px #eeeeee;
+    -khtml-box-shadow: 0px 1px 4px #eeeeee;
     -webkit-box-shadow: 0px 1px 4px #eeeeee;
     color: #222222;
 }
@@ -2168,7 +2277,9 @@ body.omni-style.opensans {
     height: 164px;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
+    -ms-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
+    -khtml-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
     width: 260px;
 }
@@ -2622,7 +2733,10 @@ body.omni-print-style.receipt {
 
 .omni-print-style .header .logo-image {
     border-radius: 6px 6px 6px 6px;
+    -o-border-radius: 6px 6px 6px 6px;
+    -ms-border-radius: 6px 6px 6px 6px;
     -moz-border-radius: 6px 6px 6px 6px;
+    -khtml-border-radius: 6px 6px 6px 6px;
     -webkit-border-radius: 6px 6px 6px 6px;
     float: left;
 }
@@ -2763,7 +2877,10 @@ body.omni-print-style.receipt {
 
 .omni-style .entity-picture {
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
     height: 50px;
     margin-right: 14px;
@@ -2772,7 +2889,10 @@ body.omni-print-style.receipt {
 
 .omni-style.round .entity-picture {
     border-radius: 25px 25px 25px 25px;
+    -o-border-radius: 25px 25px 25px 25px;
+    -ms-border-radius: 25px 25px 25px 25px;
     -moz-border-radius: 25px 25px 25px 25px;
+    -khtml-border-radius: 25px 25px 25px 25px;
     -webkit-border-radius: 25px 25px 25px 25px;
 }
 
@@ -2785,19 +2905,28 @@ body.omni-print-style.receipt {
 
 .omni-style .entity-big-picture > img {
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
 }
 
 .omni-style.round .entity-big-picture > img {
     border-radius: 32px 32px 32px 32px;
+    -o-border-radius: 32px 32px 32px 32px;
+    -ms-border-radius: 32px 32px 32px 32px;
     -moz-border-radius: 32px 32px 32px 32px;
+    -khtml-border-radius: 32px 32px 32px 32px;
     -webkit-border-radius: 32px 32px 32px 32px;
 }
 
 .omni-style .entity-huge-picture {
     border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
     height: 96px;
     width: 96px;
@@ -2805,7 +2934,10 @@ body.omni-print-style.receipt {
 
 .omni-style.round .entity-huge-picture {
     border-radius: 48px 48px 48px 48px;
+    -o-border-radius: 48px 48px 48px 48px;
+    -ms-border-radius: 48px 48px 48px 48px;
     -moz-border-radius: 48px 48px 48px 48px;
+    -khtml-border-radius: 48px 48px 48px 48px;
     -webkit-border-radius: 48px 48px 48px 48px;
 }
 
@@ -2939,7 +3071,10 @@ body.omni-print-style.receipt {
 
 .omni-style.round .entity-details-box > li.header-label {
     border-radius: 5px 5px 5px 5px;
+    -o-border-radius: 5px 5px 5px 5px;
+    -ms-border-radius: 5px 5px 5px 5px;
     -moz-border-radius: 5px 5px 5px 5px;
+    -khtml-border-radius: 5px 5px 5px 5px;
     -webkit-border-radius: 5px 5px 5px 5px;
 }
 
