@@ -68,7 +68,7 @@ __license__   = Apache License, Version 2.0
     font-family: "Open Sans";
     font-style: italic;
     font-weight: 300;
-    src: local("Open Sans Light Italic"), local("OpenSansLight-Italic"), url(../fonts/OpenSansLight-Italic.ttf);
+    src: local("Open Sans Light Italic"), local("OpenSans-LightItalic"), url(../fonts/OpenSans-LightItalic.ttf);
 }
 
 @font-face {
