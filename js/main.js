@@ -543,6 +543,11 @@
         _body.attr("uuid", uuid);
     };
 
+    var updateRelative = function(relative) {
+        var _body = jQuery("body");
+        _body.attr("relative", relative);
+    };
+
     var updateFull = function(base, body) {
         updateBody(body);
         updateIcon(base);
