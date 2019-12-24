@@ -885,20 +885,20 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list {
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 15px;
     list-style: none;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
-    text-transform: uppercase;
 }
 
 .omni-style .list.navigation-list.navigation-mini {
     font-size: 10px;
+    line-height: 13px;
 }
 
 .omni-style .list.navigation-list > li {
     border-bottom: 1px dashed #e0e0e0;
-    line-height: 15px;
     padding: 17px 12px 17px 12px;
     text-align: right;
 }
@@ -946,11 +946,15 @@ body.omni-style.opensans {
 .omni-style .list.navigation-sub-list {
     color: #2d2d2d;
     display: none;
-    font-size: 10px;
+    font-size: 11px;
+    line-height: 16px;
     list-style: none;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
-    text-transform: uppercase;
+}
+
+.omni-style .list.navigation-sub-list > li:first-child {
+    padding-top: 15px;
 }
 
 .omni-style .list.navigation-sub-list > li {
