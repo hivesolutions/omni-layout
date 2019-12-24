@@ -954,16 +954,12 @@ body.omni-style.opensans {
     font-size: 11px;
     line-height: 16px;
     list-style: none;
-    margin: 0px 0px 0px 0px;
+    margin: 0px 0px 17px 0px;
     padding: 0px 0px 0px 0px;
 }
 
 .omni-style .list.navigation-sub-list > li:first-child > a {
     padding-top: 0px;
-}
-
-.omni-style .list.navigation-sub-list > li:last-child > a {
-    padding-bottom: 17px;
 }
 
 .omni-style .list.navigation-sub-list > li > a {
