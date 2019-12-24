@@ -972,13 +972,17 @@ body.omni-style.opensans {
     padding: 0px 0px 0px 0px;
 }
 
+.omni-style .list.navigation-sub-list > li > a {
+    color: #2d2d2d;
+    padding: 5px 12px 5px 12px;
+}
+
 .omni-style .list.navigation-sub-list > li:first-child > a {
     padding-top: 0px;
 }
 
-.omni-style .list.navigation-sub-list > li > a {
-    color: #2d2d2d;
-    padding: 10px 12px 0px 12px;
+.omni-style .list.navigation-sub-list > li:last-child > a {
+    padding-bottom: 0px;
 }
 
 .omni-style .list.navigation-sub-list > li > a.selected {
