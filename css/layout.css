@@ -911,6 +911,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list > li a {
+    border-bottom: none;
     box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -941,7 +942,7 @@ body.omni-style.opensans {
 
 .omni-style .list.navigation-list > li:first-child > a {
     font-weight: bold;
-    padding: 22px 22px 12px 12px;
+    padding: 23px 22px 12px 12px;
 }
 
 .omni-style .list.navigation-list.navigation-mini > li:first-child > a {
