@@ -467,12 +467,12 @@ body.omni-style.opensans {
 
 .omni-style .sidebar-header {
     border-bottom: 1px solid #eaeaea;
-    color: #000000;
-    font-size: 12px;
+    color: #2d2d2d;
+    font-size: 13px;
+    font-weight: 600;
     line-height: 15px;
-    margin-top: 15px;
-    padding-bottom: 4px;
-    text-transform: uppercase;
+    margin-top: 13px;
+    padding-bottom: 6px;
 }
 
 .omni-style .sidebar-text {

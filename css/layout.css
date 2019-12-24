@@ -467,12 +467,12 @@ body.omni-style.opensans {
 
 .omni-style .sidebar-header {
     border-bottom: 1px solid #eaeaea;
-    color: #000000;
-    font-size: 12px;
+    color: #2d2d2d;
+    font-size: 13px;
+    font-weight: 600;
     line-height: 15px;
-    margin-top: 15px;
-    padding-bottom: 4px;
-    text-transform: uppercase;
+    margin-top: 13px;
+    padding-bottom: 6px;
 }
 
 .omni-style .sidebar-text {
@@ -899,7 +899,6 @@ body.omni-style.opensans {
 
 .omni-style .list.navigation-list > li {
     border-bottom: 1px dashed #e0e0e0;
-    padding: 17px 12px 17px 12px;
     text-align: right;
 }
 
@@ -908,35 +907,41 @@ body.omni-style.opensans {
 }
 
 .omni-style .list.navigation-list.navigation-mini > li {
-    padding: 12px 12px 12px 12px;
     text-align: left;
 }
 
 .omni-style .list.navigation-list > li a {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     color: #000000;
     cursor: pointer;
+    display: inline-block;
+    padding: 17px 12px 17px 12px;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
     -ms-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
     -khtml-transition-duration: 0.5s;
     -webkit-transition-duration: 0.5s;
+    width: 100%;
 }
 
 .omni-style .list.navigation-list.navigation-mini > li > a {
     color: #000000;
+    padding: 12px 12px 12px 12px;
 }
 
 .omni-style .list.navigation-list > li a:hover {
     text-decoration: none;
 }
 
-.omni-style .list.navigation-list > li:first-child {
-    padding: 24px 22px 11px 12px;
-}
-
 .omni-style .list.navigation-list > li:first-child > a {
     font-weight: bold;
+    padding: 22px 22px 12px 12px;
 }
 
 .omni-style .list.navigation-list.navigation-mini > li:first-child > a {
@@ -953,16 +958,17 @@ body.omni-style.opensans {
     padding: 0px 0px 0px 0px;
 }
 
-.omni-style .list.navigation-sub-list > li:first-child {
-    padding-top: 15px;
+.omni-style .list.navigation-sub-list > li:first-child > a {
+    padding-top: 0px;
 }
 
-.omni-style .list.navigation-sub-list > li {
-    padding: 10px 12px 0px 0px;
+.omni-style .list.navigation-sub-list > li:last-child > a {
+    padding-bottom: 17px;
 }
 
 .omni-style .list.navigation-sub-list > li > a {
     color: #2d2d2d;
+    padding: 10px 12px 0px 12px;
 }
 
 .omni-style .list.navigation-list .link-expand {
