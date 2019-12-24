@@ -587,6 +587,7 @@ body.omni-style.opensans {
     font-family: Consola, monospace;
     font-size: 12px;
     line-height: 22px;
+    overflow: auto;
     padding: 12px 12px 12px 12px;
     width: 506px;
     word-wrap: break-word;
