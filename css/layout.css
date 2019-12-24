@@ -890,6 +890,12 @@ body.omni-style.opensans {
     list-style: none;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
 }
 
 .omni-style .list.navigation-list.navigation-mini {
