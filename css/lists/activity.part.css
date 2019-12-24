@@ -70,7 +70,7 @@
     color: #2d2d2d;
     float: right;
     font-size: 10px;
-    text-transform: uppercase;
+    font-weight: 600;
 }
 
 .omni-style .activity-list-content {
