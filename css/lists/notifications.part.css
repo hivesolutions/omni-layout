@@ -55,11 +55,11 @@
 .omni-style ul.notifications-list li > .time {
     color: #2d2d2d;
     font-size: 10px;
+    font-weight: 600;
     margin-left: -18px;
     margin-top: 3px;
     position: absolute;
     text-align: right;
-    text-transform: uppercase;
     width: 342px;
 }
 
