@@ -18,6 +18,11 @@
     padding: 0px 0px 0px 0px;
 }
 
+.omni-style.mobile-s .login-list {
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+
 .omni-style .login-list li p {
     float: left;
     font-size: 13px;

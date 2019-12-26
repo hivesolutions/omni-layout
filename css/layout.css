@@ -459,6 +459,11 @@ body.omni-style.opensans {
     width: 566px;
 }
 
+.omni-style.mobile-s .content {
+    margin-bottom: 0px;
+    padding-top: 26px;
+}
+
 .omni-style .sidebar-left {
     background: #ffffff:;
     width: 180px;
@@ -567,11 +572,18 @@ body.omni-style.opensans {
     font-weight: 600;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
+    max-width: 100%;
     padding-bottom: 4px;
     padding-right: 12px;
     padding-top: 4px;
     text-align: right;
     width: 92px;
+}
+
+.omni-style.mobile-s .list-label {
+    display: block;
+    padding-right: 0px;
+    text-align: left;
 }
 
 .omni-style .list-label .mandatory {
@@ -2557,6 +2569,11 @@ body.omni-style.opensans {
     padding: 0px 0px 0px 0px;
 }
 
+.omni-style.mobile-s .login-list {
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+
 .omni-style .login-list li p {
     float: left;
     font-size: 13px;
@@ -3035,6 +3052,10 @@ body.omni-print-style.receipt {
     width: 64px;
 }
 
+.omni-style.mobile-s .entity-big-picture {
+    margin-left: 0px;
+}
+
 .omni-style .entity-big-picture > img {
     border-radius: 4px 4px 4px 4px;
     -o-border-radius: 4px 4px 4px 4px;
@@ -3087,8 +3108,18 @@ body.omni-print-style.receipt {
     width: 380px;
 }
 
+.omni-style.mobile-s .entity-details-inner-container {
+    width: auto;
+}
+
 .omni-style .entity-details-inner-container p {
     margin: 5px 0px 5px 0px;
+}
+
+.omni-style.mobile-s .entity-details-inner-container p {
+    display: block;
+    float: none;
+    width: auto;
 }
 
 .omni-style .entity-details-inner-container.full {
@@ -3099,6 +3130,7 @@ body.omni-print-style.receipt {
     color: #2d2d2d;
     font-size: 20px;
     font-weight: bold;
+    max-width: 100%;
     width: 380px;
 }
 

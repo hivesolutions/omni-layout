@@ -459,6 +459,11 @@ body.omni-style.opensans {
     width: 566px;
 }
 
+.omni-style.mobile-s .content {
+    margin-bottom: 0px;
+    padding-top: 26px;
+}
+
 .omni-style .sidebar-left {
     background: #ffffff:;
     width: 180px;
@@ -567,11 +572,18 @@ body.omni-style.opensans {
     font-weight: 600;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
+    max-width: 100%;
     padding-bottom: 4px;
     padding-right: 12px;
     padding-top: 4px;
     text-align: right;
     width: 92px;
+}
+
+.omni-style.mobile-s .list-label {
+    display: block;
+    padding-right: 0px;
+    text-align: left;
 }
 
 .omni-style .list-label .mandatory {
