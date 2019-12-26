@@ -576,6 +576,7 @@ body.omni-style.opensans {
 
 .omni-style .list-lower-label {
     font-size: 10px;
+    font-weight: 600;
     line-height: 12px;
     margin: 0px 0px 0px 0px;
     text-transform: uppercase;
