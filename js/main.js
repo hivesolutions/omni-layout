@@ -4360,7 +4360,7 @@
         // retrieves the reference to the handle associated with the
         // top bar and registers it for the click event to toggle the
         // visibility of the top bar
-        var handle = jQuery(".top-bar-handle", matchedObject)
+        var handle = jQuery(".top-bar-handle", matchedObject);
         handle.click(function() {
             var element = jQuery(this);
             var slider = element.parents(".top-bar-slider");
@@ -4377,6 +4377,21 @@
                 slider.addClass("visible");
                 element.addClass("up");
             }
+        });
+
+        // registers for the click in the header logo so that it's possible
+        // to toggle side left visibility in the mobile layout
+        var headerLogo = jQuery(".top-bar-logo .header-logo", matchedObject);
+        headerLogo.click(function(event) {
+            var _body = jQuery("body");
+            var isMobile = _body.hasClass("mobile-s");
+            if (!isMobile) {
+                return;
+            }
+
+            _body.toggleClass("side-left-visible");
+            event.preventDefault();
+            event.stopPropagation();
         });
 
         return this;
