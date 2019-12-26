@@ -1,6 +1,13 @@
 .omni-style .content-login {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     margin: 60px auto 60px auto;
-    width: 532px;
+    max-width: 100%;
+    width: 564px;
 }
 
 .omni-style .login-logo {

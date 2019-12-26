@@ -311,8 +311,15 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-input {
-    height: 32px;
-    width: 414px;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 38px;
+    max-width: 100%;
+    width: 428px;
 }
 
 .omni-style .list-drop-input > .text-field {
@@ -441,12 +448,31 @@ body.omni-style.opensans {
 }
 
 .omni-style .sidebar-left {
+    background: #ffffff:;
     width: 180px;
+}
+
+.omni-style.mobile-s .sidebar-left {
+    background: white;
+    box-shadow: 0px 1px 4px #cccccc;
+    -o-box-shadow: 0px 1px 4px #cccccc;
+    -ms-box-shadow: 0px 1px 4px #cccccc;
+    -moz-box-shadow: 0px 1px 4px #cccccc;
+    -khtml-box-shadow: 0px 1px 4px #cccccc;
+    -webkit-box-shadow: 0px 1px 4px #cccccc;
+    min-height: 100%;
+    position: fixed;
+    width: 200px;
+    z-index: 10;
 }
 
 .omni-style .sidebar-right {
     padding-left: 28px;
     width: 174px;
+}
+
+.omni-style.mobile-s .sidebar-right {
+    display: none;
 }
 
 .omni-style .section-title {
@@ -558,6 +584,7 @@ body.omni-style.opensans {
     font-weight: 600;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
+    max-width: 100%;
     padding-bottom: 4px;
     padding-right: 12px;
     padding-top: 4px;
@@ -565,16 +592,29 @@ body.omni-style.opensans {
     width: 80px;
 }
 
+.omni-style.mobile-s .list-window-label {
+    display: block;
+    padding-right: 0px;
+    text-align: left;
+}
+
 .omni-style .list-super-label {
     color: #000000;
     font-weight: 600;
     line-height: 22px;
     margin: 0px 0px 0px 0px;
+    max-width: 100%;
     padding-bottom: 8px;
     padding-right: 12px;
     padding-top: 8px;
     text-align: right;
     width: 92px;
+}
+
+.omni-style.mobile-s .list-super-label {
+    display: block;
+    padding-right: 0px;
+    text-align: left;
 }
 
 .omni-style .list-super-label .mandatory {

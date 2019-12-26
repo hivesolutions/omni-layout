@@ -39,6 +39,11 @@
     padding-top: 12px;
 }
 
+.omni-style.mobile-s .login-list li.login-remember-container {
+    display: block;
+    margin-left: 0px;
+}
+
 .omni-style .login-list .login-remember {
     color: #2d2d2d;
     font-size: 12px;
