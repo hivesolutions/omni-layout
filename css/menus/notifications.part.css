@@ -1,5 +1,5 @@
 .omni-style .notifications-menu {
-    margin-left: -30px;
+    margin-left: -32px;
     margin-top: 4px;
     position: absolute;
 }
@@ -45,6 +45,7 @@
     color: #ffffff;
     font-weight: bold;
     height: 32px;
+    padding: 0px 1px 0px 1px;
     text-align: center;
     width: 30px;
 }
