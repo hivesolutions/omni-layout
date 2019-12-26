@@ -2,7 +2,8 @@
     color: #2d2d2d;
     font-size: 12px;
     margin: 22px auto 22px auto;
-    min-width: 960px;
+    max-width: 100%;
+    width: 960px;
 }
 
 .omni-style .footer-message {

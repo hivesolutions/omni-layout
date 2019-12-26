@@ -205,6 +205,7 @@ body.omni-style.opensans {
 
 .omni-style .content-wrapper {
     margin: 0px auto 0px auto;
+    max-width: 100%;
     width: 960px;
 }
 
@@ -427,9 +428,16 @@ body.omni-style.opensans {
     border-bottom: 1px solid #eaeaea;
     border-left: 1px solid #eaeaea;
     border-right: 1px solid #eaeaea;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     margin-bottom: 22px;
+    max-width: 100%;
     padding: 16px 16px 16px 16px;
-    width: 532px;
+    width: 566px;
 }
 
 .omni-style .sidebar-left {
@@ -2336,6 +2344,7 @@ body.omni-style.opensans {
 
 .omni-style .stats-box {
     font-size: 16px;
+    font-weight: 600;
     height: 124px;
     padding: 20px 20px 20px 20px;
     width: 220px;
@@ -2380,7 +2389,8 @@ body.omni-style.opensans {
     color: #2d2d2d;
     font-size: 12px;
     margin: 22px auto 22px auto;
-    min-width: 960px;
+    max-width: 100%;
+    width: 960px;
 }
 
 .omni-style .footer-message {
