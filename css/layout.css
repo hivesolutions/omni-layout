@@ -3091,13 +3091,13 @@ body.omni-print-style.receipt {
 
 .omni-style .entity-details-box > li.header-label {
     background-color: #777777;
-    color: white;
+    color: #ffffff;
     font-size: 8px;
     font-weight: bold;
     letter-spacing: 1px;
-    line-height: 13px;
+    line-height: 14px;
     margin-left: 105px;
-    margin-top: -6px;
+    margin-top: -7px;
     padding: 0px 8px 0px 8px;
     position: absolute;
     text-transform: uppercase;
