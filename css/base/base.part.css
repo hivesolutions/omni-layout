@@ -190,7 +190,7 @@ body.omni-style.opensans {
 .omni-style .link-item {
     display: inline-block;
     font-size: 13px;
-    margin: 0px 0px 8px 0px;
+    margin: 0px 0px 10px 0px;
     min-width: 112px;
 }
 
@@ -273,6 +273,12 @@ body.omni-style.opensans {
 }
 
 .omni-style .top-bar {
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
     width: 100%;
     z-index: 12;
 }
