@@ -256,6 +256,15 @@ body.omni-style.opensans {
     display: none;
 }
 
+.omni-style.mobile-s.side-left-visible .content-bar {
+    box-shadow: none;
+    -o-box-shadow: none;
+    -ms-box-shadow: none;
+    -moz-box-shadow: none;
+    -khtml-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
 .omni-style.full .content-bar > .content-wrapper {
     width: 960px;
 }
@@ -471,12 +480,6 @@ body.omni-style.opensans {
 
 .omni-style.mobile-s .sidebar-left {
     background: white;
-    box-shadow: 0px 1px 4px #cccccc;
-    -o-box-shadow: 0px 1px 4px #cccccc;
-    -ms-box-shadow: 0px 1px 4px #cccccc;
-    -moz-box-shadow: 0px 1px 4px #cccccc;
-    -khtml-box-shadow: 0px 1px 4px #cccccc;
-    -webkit-box-shadow: 0px 1px 4px #cccccc;
     left: -200px;
     min-height: 100%;
     position: fixed;
@@ -491,6 +494,12 @@ body.omni-style.opensans {
 }
 
 .omni-style.mobile-s.side-left-visible .sidebar-left {
+    box-shadow: 0px 1px 6px #7d7d7d;
+    -o-box-shadow: 0px 1px 6px #7d7d7d;
+    -ms-box-shadow: 0px 1px 6px #7d7d7d;
+    -moz-box-shadow: 0px 1px 6px #7d7d7d;
+    -khtml-box-shadow: 0px 1px 6px #7d7d7d;
+    -webkit-box-shadow: 0px 1px 6px #7d7d7d;
     left: 0px;
 }
 
@@ -501,6 +510,38 @@ body.omni-style.opensans {
 
 .omni-style.mobile-s .sidebar-right {
     display: none;
+}
+
+.omni-style .sidebar-overlay {
+    background-color: rgba(20, 20, 20, 0.5);
+    height: 100%;
+    left: 0px;
+    opacity: 0;
+    -o-opacity: 0;
+    -ms-opacity: 0;
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    -webkit-opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0px;
+    transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    width: 100%;
+    z-index: 10;
+}
+
+.omni-style.mobile-s.side-left-visible .sidebar-overlay {
+    opacity: 1;
+    -o-opacity: 1;
+    -ms-opacity: 1;
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    -webkit-opacity: 1;
 }
 
 .omni-style .section-title {
@@ -3215,6 +3256,10 @@ body.omni-print-style.receipt {
 
 .omni-style .entity-details-box.box-right {
     float: right;
+}
+
+.omni-style.mobile-s .entity-details-box.box-right {
+    float: none;
 }
 
 .omni-style .entity-details-box > li {

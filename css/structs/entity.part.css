@@ -191,6 +191,10 @@
     float: right;
 }
 
+.omni-style.mobile-s .entity-details-box.box-right {
+    float: none;
+}
+
 .omni-style .entity-details-box > li {
     clear: both;
 }
