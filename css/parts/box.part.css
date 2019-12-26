@@ -12,6 +12,10 @@
     -webkit-transition-duration: 0.5s;
 }
 
+.omni-style.mobile-s .display-box {
+    display: none;
+}
+
 .omni-style .display-box:hover {
     border: 1px solid #dddddd;
     box-shadow: 0px 1px 4px #eeeeee;
@@ -25,6 +29,7 @@
 
 .omni-style .display-box-flip {
     height: 164px;
+    max-width: 100%;
     transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
     -ms-transition-duration: 0.5s;
@@ -41,6 +46,7 @@
 
 .omni-style .chart-box {
     height: 144px;
+    max-width: 100%;
     padding: 10px 0px 10px 0px;
     width: 260px;
 }
@@ -49,6 +55,7 @@
     font-size: 16px;
     font-weight: 600;
     height: 124px;
+    max-width: 100%;
     padding: 20px 20px 20px 20px;
     width: 220px;
 }
