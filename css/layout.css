@@ -821,6 +821,7 @@ body.omni-style.opensans {
     font-size: 11px;
     font-weight: 600;
     line-height: 15px;
+    text-transform: capitalize;
 }
 
 .omni-style .activity-list-content {
@@ -1068,6 +1069,7 @@ body.omni-style.opensans {
     margin-top: 3px;
     position: absolute;
     text-align: right;
+    text-transform: capitalize;
     width: 342px;
 }
 
@@ -3090,8 +3092,10 @@ body.omni-print-style.receipt {
 .omni-style .entity-details-box > li.header-label {
     background-color: #777777;
     color: white;
-    font-size: 10px;
+    font-size: 8px;
+    font-weight: bold;
     letter-spacing: 1px;
+    line-height: 13px;
     margin-left: 105px;
     margin-top: -6px;
     padding: 0px 8px 0px 8px;
