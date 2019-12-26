@@ -905,6 +905,7 @@ body.omni-style.opensans {
     border-right: 1px solid #d8d8d8;
     border-top: 1px solid #d8d8d8;
     margin-left: -10px;
+    max-width: 100%;
     padding-bottom: 16px;
     padding-left: 10px;
     padding-right: 10px;
@@ -939,8 +940,13 @@ body.omni-style.opensans {
 
 .omni-style .activity-list li .container {
     float: left;
+    max-width: 100%;
     padding-top: 4px;
     width: 468px;
+}
+
+.omni-style.mobile-s .activity-list li .container {
+    float: none;
 }
 
 .omni-style.opensans .activity-list li .container {
