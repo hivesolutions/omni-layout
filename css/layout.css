@@ -541,6 +541,7 @@ body.omni-style.opensans {
 .omni-style .list-window-label {
     color: #000000;
     font-size: 14px;
+    font-weight: 600;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
     padding-bottom: 4px;
