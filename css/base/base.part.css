@@ -438,7 +438,7 @@ body.omni-style.opensans {
 .omni-style .section-title {
     color: #000000;
     font-size: 18px;
-    font-weight: normal;
+    font-weight: 600;
     line-height: 18px;
     min-height: 18px;
 }

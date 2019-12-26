@@ -30,6 +30,7 @@
 
 .omni-style .system-menu .menu-link {
     cursor: pointer;
+    font-weight: 600;
 }
 
 .omni-style .system-menu .menu-contents {
