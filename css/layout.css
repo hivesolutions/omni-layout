@@ -542,6 +542,7 @@ body.omni-style.opensans {
     -moz-opacity: 1;
     -khtml-opacity: 1;
     -webkit-opacity: 1;
+    pointer-events: auto;
 }
 
 .omni-style .section-title {

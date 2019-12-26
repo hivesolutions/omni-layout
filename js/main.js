@@ -90,6 +90,11 @@
         var side = jQuery(".sidebar-section", matchedObject);
         side.uside();
 
+        // retrieves the sidebar overlay as the set of elements
+        // that are going to apply an overlay for sidebar usage
+        var sidebarOverlay = jQuery(".sidebar-overlay", matchedObject);
+        sidebarOverlay.usidebaroverlay();
+
         // retrieves the reference to the various images that are
         // going to be used as lightbox triggers
         var image = jQuery(".lightbox-trigger, .entity-big-picture > img",
@@ -4219,6 +4224,27 @@
             // hides the current side element as there are no
             // links under its links list
             _element.hide();
+        });
+    };
+})(jQuery);
+
+(function(jQuery) {
+    jQuery.fn.usidebaroverlay = function(options) {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        // registers for the click in the sidebar overlay so that it's possible
+        // to toggle side left visibility in the mobile layout
+        matchedObject.click(function(event) {
+            var _body = jQuery("body");
+            var isMobile = _body.hasClass("mobile-s");
+            if (!isMobile) {
+                return;
+            }
+
+            _body.toggleClass("side-left-visible");
+            event.preventDefault();
+            event.stopPropagation();
         });
     };
 })(jQuery);

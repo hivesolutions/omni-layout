@@ -65,6 +65,11 @@
         var side = jQuery(".sidebar-section", matchedObject);
         side.uside();
 
+        // retrieves the sidebar overlay as the set of elements
+        // that are going to apply an overlay for sidebar usage
+        var sidebarOverlay = jQuery(".sidebar-overlay", matchedObject);
+        sidebarOverlay.usidebaroverlay();
+
         // retrieves the reference to the various images that are
         // going to be used as lightbox triggers
         var image = jQuery(".lightbox-trigger, .entity-big-picture > img",
