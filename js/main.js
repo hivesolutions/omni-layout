@@ -1047,7 +1047,7 @@
         var dateS = "n/a";
 
         if (timestamp < 60) {
-            dateS = jQuery.uxlocale("just now");
+            dateS = jQuery.uxlocale("time:just_now");
         } else if (timestamp < 3600) {
             var minutes = Math.round(timestamp / 60);
             var label = minutes === 1 ? "min ago" : "mins ago";
@@ -1555,12 +1555,12 @@
         "physical_signature:signed": "Signed",
         "physical_signature:not_signed": "Not Signed",
         "physical_signature:unknown": "Unknown",
+        "time:just_now": "Just now",
         "Signing in to chat server": "Signing in to chat server",
         "You've been disconnected": "You've been disconnected",
         "mae": "me",
         "retrying ...": "retrying ...",
         "says ...": "says ...",
-        "just now": "just now",
         "min ago": "min ago",
         "mins ago": "mins ago",
         "hour ago": "hour ago",
@@ -1596,12 +1596,12 @@
         "physical_signature:signed": "Assinado",
         "physical_signature:not_signed": "Não Assinado",
         "physical_signature:unknown": "Desconhecido",
+        "time:just_now": "Agora mesmo",
         "Signing in to chat server": "Ligando a servidor de chat",
         "You've been disconnected": "Ligação a servidor perdida",
         "mae": "eu",
         "retrying ...": "tentando de novo ...",
         "says ...": "diz ...",
-        "just now": "agora mesmo",
         "min ago": "min atrás",
         "mins ago": "min atrás",
         "hour ago": "hora atrás",

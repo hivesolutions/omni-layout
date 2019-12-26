@@ -3,7 +3,7 @@
         var dateS = "n/a";
 
         if (timestamp < 60) {
-            dateS = jQuery.uxlocale("just now");
+            dateS = jQuery.uxlocale("time:just_now");
         } else if (timestamp < 3600) {
             var minutes = Math.round(timestamp / 60);
             var label = minutes === 1 ? "min ago" : "mins ago";
