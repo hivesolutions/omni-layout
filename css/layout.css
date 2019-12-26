@@ -284,6 +284,10 @@ body.omni-style.opensans {
     z-index: 12;
 }
 
+.omni-style.mobile-s .top-bar .top-bar-extra {
+    display: none;
+}
+
 .omni-style .top-bar-button {
     margin-left: 4px;
     margin-right: 12px;
@@ -1954,11 +1958,19 @@ body.omni-style.opensans {
     width: 564px;
 }
 
+.omni-style.mobile-s .content-login {
+    margin: 20px auto 20px auto;
+}
+
 .omni-style .login-logo {
     background: transparent url(../images/logos/front-door-login-logo.png) no-repeat center center;
     height: 79px;
     margin: 60px auto 0px auto;
     width: 151px;
+}
+
+.omni-style.mobile-s .login-logo {
+    margin: 20px auto 0px auto;
 }
 
 .omni-style.retina-s .login-logo {

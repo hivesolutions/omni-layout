@@ -284,6 +284,10 @@ body.omni-style.opensans {
     z-index: 12;
 }
 
+.omni-style.mobile-s .top-bar .top-bar-extra {
+    display: none;
+}
+
 .omni-style .top-bar-button {
     margin-left: 4px;
     margin-right: 12px;
