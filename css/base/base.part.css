@@ -401,9 +401,12 @@ body.omni-style.opensans {
     min-width: 100%;
 }
 
+.omni-style .list-medium-tag-input {
+    max-width: 100%;
+}
+
 .omni-style .list-medium-tag-input > .text-field {
     height: 26px;
-    max-width: 100%;
     width: 392px;
 }
 

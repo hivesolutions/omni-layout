@@ -401,9 +401,12 @@ body.omni-style.opensans {
     min-width: 100%;
 }
 
+.omni-style .list-medium-tag-input {
+    max-width: 100%;
+}
+
 .omni-style .list-medium-tag-input > .text-field {
     height: 26px;
-    max-width: 100%;
     width: 392px;
 }
 
@@ -3288,7 +3291,7 @@ body.omni-print-style.receipt {
 
 .omni-style .entity-details-list {
     list-style: none;
-    margin: 0px 0px 16px 0px;
+    margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
 }
 
@@ -3314,8 +3317,13 @@ body.omni-print-style.receipt {
 .omni-style .entity-details-list .panel-more > div > li.list-more {
     display: block;
     margin-top: 7px;
+    max-width: 100%;
     position: absolute;
     width: 532px;
+}
+
+.omni-style.mobile-s .entity-details-list .panel-more > div > li.list-more {
+    margin-top: -10px;
 }
 
 .omni-style .entity-details-list > li.list-divider,
