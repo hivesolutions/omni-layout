@@ -728,6 +728,10 @@ body.omni-style.opensans {
     padding-bottom: 2px;
 }
 
+.omni-style.mobile-s .list-label .mandatory {
+    padding-bottom: 1px;
+}
+
 .omni-style .list-sub-label {
     color: #000000;
     font-size: 13px;
@@ -794,6 +798,10 @@ body.omni-style.opensans {
 .omni-style .list-super-label .mandatory {
     border-bottom: 1px solid #000000;
     padding-bottom: 2px;
+}
+
+.omni-style.mobile-s .list-super-label .mandatory {
+    padding-bottom: 1px;
 }
 
 .omni-style .list-lower-label {

@@ -728,6 +728,10 @@ body.omni-style.opensans {
     padding-bottom: 2px;
 }
 
+.omni-style.mobile-s .list-label .mandatory {
+    padding-bottom: 1px;
+}
+
 .omni-style .list-sub-label {
     color: #000000;
     font-size: 13px;
@@ -794,6 +798,10 @@ body.omni-style.opensans {
 .omni-style .list-super-label .mandatory {
     border-bottom: 1px solid #000000;
     padding-bottom: 2px;
+}
+
+.omni-style.mobile-s .list-super-label .mandatory {
+    padding-bottom: 1px;
 }
 
 .omni-style .list-lower-label {
@@ -3318,6 +3326,7 @@ body.omni-print-style.receipt {
 .omni-style.mobile-s .entity-details-list > li,
 .omni-style.mobile-s .entity-details-list .panel-more > div > li {
     float: none;
+    margin: 12px 0px 12px 0px;
 }
 
 .omni-style.mobile-s .entity-details-list > li:after,
@@ -3348,6 +3357,11 @@ body.omni-print-style.receipt {
     margin: 16px 0px 16px 0px;
 }
 
+.omni-style.mobile-s .entity-details-list > li.list-divider,
+.omni-style.mobile-s .entity-details-list .panel-more > div > li.list-divider {
+    margin: 10px 0px 10px 0px;
+}
+
 .omni-style .entity-details-list > li p,
 .omni-style .entity-details-list .panel-more > div > li p {
     float: left;
@@ -3360,6 +3374,14 @@ body.omni-print-style.receipt {
 .omni-style.mobile-s .entity-details-list > li p,
 .omni-style.mobile-s .entity-details-list .panel-more > div > li p {
     float: none;
+    line-height: 22px;
+    padding-bottom: 1px;
+    padding-top: 1px;
+}
+
+.omni-style.mobile-s .form .entity-details-list > li p,
+.omni-style.mobile-s .form .entity-details-list .panel-more > div > li p {
+    padding-bottom: 6px;
 }
 
 .omni-style .entity-details-list > li .list-super-label,

@@ -140,6 +140,7 @@
 .omni-style.mobile-s .entity-details-list > li,
 .omni-style.mobile-s .entity-details-list .panel-more > div > li {
     float: none;
+    margin: 12px 0px 12px 0px;
 }
 
 .omni-style.mobile-s .entity-details-list > li:after,
@@ -170,6 +171,11 @@
     margin: 16px 0px 16px 0px;
 }
 
+.omni-style.mobile-s .entity-details-list > li.list-divider,
+.omni-style.mobile-s .entity-details-list .panel-more > div > li.list-divider {
+    margin: 10px 0px 10px 0px;
+}
+
 .omni-style .entity-details-list > li p,
 .omni-style .entity-details-list .panel-more > div > li p {
     float: left;
@@ -182,6 +188,14 @@
 .omni-style.mobile-s .entity-details-list > li p,
 .omni-style.mobile-s .entity-details-list .panel-more > div > li p {
     float: none;
+    line-height: 22px;
+    padding-bottom: 1px;
+    padding-top: 1px;
+}
+
+.omni-style.mobile-s .form .entity-details-list > li p,
+.omni-style.mobile-s .form .entity-details-list .panel-more > div > li p {
+    padding-bottom: 6px;
 }
 
 .omni-style .entity-details-list > li .list-super-label,
