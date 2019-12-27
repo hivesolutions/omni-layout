@@ -722,6 +722,7 @@ body.omni-style.opensans {
     font-size: 13px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
+    max-width: 100%;
     padding-bottom: 4px;
     padding-top: 4px;
     width: 428px;
@@ -732,6 +733,7 @@ body.omni-style.opensans {
     font-size: 13px;
     line-height: 24px;
     margin: 0px 0px 0px 0px;
+    max-width: 100%;
     padding-bottom: 4px;
     padding-top: 4px;
     white-space: pre;

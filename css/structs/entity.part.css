@@ -149,6 +149,10 @@
     display: block;
 }
 
+.omni-style .entity-details-list .panel-more > div {
+    position: relative;
+}
+
 .omni-style .entity-details-list .panel-more > div > li.list-more {
     display: block;
     margin-top: 7px;
