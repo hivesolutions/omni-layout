@@ -347,11 +347,24 @@ body.omni-style.opensans {
 
 .omni-style .list-medium-input {
     height: 26px;
+    max-width: 100%;
     width: 414px;
+}
+
+.omni-style.mobile-s .list-medium-input {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 32px;
+    width: 428px;
 }
 
 .omni-style .list-medium-area {
     height: 100px;
+    max-width: 100%;
     width: 414px;
 }
 
@@ -367,17 +380,42 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-medium-drop-input {
+    max-width: 100%;
     width: 428px;
 }
 
 .omni-style .list-medium-drop-input > .text-field {
     height: 26px;
+    max-width: 100%;
     width: 392px;
+}
+
+.omni-style.mobile-s .list-medium-drop-input > .text-field {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 32px;
+    min-width: 100%;
 }
 
 .omni-style .list-medium-tag-input > .text-field {
     height: 26px;
+    max-width: 100%;
     width: 392px;
+}
+
+.omni-style.mobile-s .list-medium-tag-input > .text-field {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 32px;
+    min-width: 100%;
 }
 
 .omni-style .list-medium-check {
@@ -388,6 +426,19 @@ body.omni-style.opensans {
     height: 26px;
     margin-left: 6px;
     width: 244px;
+}
+
+.omni-style.mobile-s .list-small-input {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 32px;
+    margin-left: 0px;
+    min-width: 100%;
+    width: 258px;
 }
 
 .omni-style .list-small-drop-input {
@@ -410,22 +461,38 @@ body.omni-style.opensans {
 
 .omni-style .list-mini-input {
     height: 26px;
+    max-width: 100%;
     width: 150px;
+}
+
+.omni-style.mobile-s .list-mini-input {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 32px;
+    min-width: 100%;
+    width: 164px;
 }
 
 .omni-style .list-micro-input {
     height: 26px;
     margin-left: 6px;
+    max-width: 100%;
     width: 50px;
 }
 
 .omni-style .list-window-input {
     height: 26px;
+    max-width: 100%;
     width: 314px;
 }
 
 .omni-style .list-window-mini-input {
     height: 26px;
+    max-width: 100%;
     width: 136px;
 }
 
@@ -450,6 +517,10 @@ body.omni-style.opensans {
 
 .omni-style .three-rows-label {
     height: 98px;
+}
+
+.omni-style.mobile-s .three-rows-label {
+    height: auto;
 }
 
 .omni-style .content {
