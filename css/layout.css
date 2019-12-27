@@ -398,6 +398,7 @@ body.omni-style.opensans {
     -khtml-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     height: 32px;
+    min-width: 100%;
 }
 
 .omni-style .list-medium-tag-input > .text-field {
