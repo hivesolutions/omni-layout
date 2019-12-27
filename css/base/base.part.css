@@ -621,9 +621,10 @@ body.omni-style.opensans {
     max-height: 100%;
     min-height: 100%;
     overflow-y: auto;
+    padding-right: 10px;
     padding-top: 60px;
     position: fixed;
-    right: -202px;
+    right: -212px;
     top: 0px;
     transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -o-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
@@ -631,7 +632,7 @@ body.omni-style.opensans {
     -moz-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -khtml-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    width: 202px;
+    width: 212px;
     z-index: 10;
 }
 
