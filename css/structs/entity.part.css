@@ -93,7 +93,7 @@
 .omni-style.mobile-s .entity-details-inner-container p {
     display: block;
     float: none;
-    width: auto;
+    width: fit-content;
 }
 
 .omni-style .entity-details-inner-container.full {
