@@ -368,6 +368,17 @@ body.omni-style.opensans {
     width: 414px;
 }
 
+.omni-style.mobile-s .list-medium-area {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 106px;
+    width: 428px;
+}
+
 .omni-style .list-code-area {
     font-family: Consolas, monospace;
     height: 200px;
