@@ -624,12 +624,12 @@ body.omni-style.opensans {
     position: fixed;
     right: -202px;
     top: 0px;
-    transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -o-transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -ms-transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -moz-transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -khtml-transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
-    -webkit-transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     width: 202px;
     z-index: 10;
 }
@@ -668,7 +668,10 @@ body.omni-style.opensans {
     z-index: 10;
 }
 
-.omni-style.mobile-s.side-left-visible .sidebar-overlay {
+.omni-style.tablet-s.side-left-visible .sidebar-overlay,
+.omni-style.mobile-s.side-left-visible .sidebar-overlay,
+.omni-style.tablet-s.side-right-visible .sidebar-overlay,
+.omni-style.mobile-s.side-right-visible .sidebar-overlay {
     opacity: 1;
     -o-opacity: 1;
     -ms-opacity: 1;
@@ -676,6 +679,33 @@ body.omni-style.opensans {
     -khtml-opacity: 1;
     -webkit-opacity: 1;
     pointer-events: auto;
+}
+
+.omni-style .sidebar-open {
+    background: #8d8d8d;
+    color: #ffffff;
+    cursor: pointer;
+    display: none;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    line-height: 16px;
+    padding: 3px 6px 3px 6px;
+    position: fixed;
+    right: -18px;
+    text-transform: uppercase;
+    top: 50%;
+    transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -khtml-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
+
+.omni-style.tablet-s .sidebar-open,
+.omni-style.mobile-s .sidebar-open {
+    display: block;
 }
 
 .omni-style .section-title {

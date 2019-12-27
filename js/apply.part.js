@@ -65,6 +65,11 @@
         var side = jQuery(".sidebar-section", matchedObject);
         side.uside();
 
+        // retrieves the sidebar open as the set of elements
+        // that are going to apply a button to the side of the screen
+        var sidebarOpen = jQuery(".sidebar-open", matchedObject);
+        sidebarOpen.usidebaropen();
+
         // retrieves the sidebar overlay as the set of elements
         // that are going to apply an overlay for sidebar usage
         var sidebarOverlay = jQuery(".sidebar-overlay", matchedObject);

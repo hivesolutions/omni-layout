@@ -1,14 +1,13 @@
 (function(jQuery) {
-    jQuery.fn.usidebaroverlay = function(options) {
+    jQuery.fn.usidebaropen = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
 
-        // registers for the click in the sidebar overlay so that it's possible
-        // to hide side left and right visibility
+        // registers for the click in the sidebar open so that it's possible
+        // to ensure side right visibility
         matchedObject.click(function(event) {
             var _body = jQuery("body");
-            _body.removeClass("side-left-visible");
-            _body.removeClass("side-right-visible");
+            _body.addClass("side-right-visible");
             event.preventDefault();
             event.stopPropagation();
         });

@@ -5,12 +5,13 @@
             "base/query.part.js", "extras/menu.part.js",
             "extras/scan.part.js", "lists/activity.part.js",
             "locale/base.en_us.part.js", "locale/base.pt_pt.part.js",
-            "panels/chat.part.js", "panels/eureka.part.js", "panels/lightbox.part.js",
-            "panels/notifications.part.js", "panels/side.part.js", "panels/sidebar_overlay.part.js",
-            "panels/summary.part.js", "panels/top_bar.part.js",
-            "parts/report.part.js", "text/text.part.js",
-            "text/template.part.js", "visuals/chart.part.js",
-            "footer.part.js"
+            "panels/chat.part.js", "panels/eureka.part.js",
+            "panels/lightbox.part.js", "panels/notifications.part.js",
+            "panels/side.part.js", "panels/sidebar_open.part.js",
+            "panels/sidebar_overlay.part.js", "panels/summary.part.js",
+            "panels/top_bar.part.js", "parts/report.part.js",
+            "text/text.part.js", "text/template.part.js",
+            "visuals/chart.part.js", "footer.part.js"
         ]
     },
     "main-min.js": {
@@ -19,12 +20,13 @@
             "base/query.part.js", "extras/menu.part.js",
             "extras/scan.part.js", "lists/activity.part.js",
             "locale/base.en_us.part.js", "locale/base.pt_pt.part.js",
-            "panels/chat.part.js", "panels/eureka.part.js", "panels/lightbox.part.js",
-            "panels/notifications.part.js", "panels/side.part.js", "panels/sidebar_overlay.part.js",
-            "panels/summary.part.js", "panels/top_bar.part.js",
-            "parts/report.part.js", "text/text.part.js",
-            "text/template.part.js", "visuals/chart.part.js",
-            "footer.part.js"
+            "panels/chat.part.js", "panels/eureka.part.js",
+            "panels/lightbox.part.js", "panels/notifications.part.js",
+            "panels/side.part.js", "panels/sidebar_open.part.js",
+            "panels/sidebar_overlay.part.js", "panels/summary.part.js",
+            "panels/top_bar.part.js", "parts/report.part.js",
+            "text/text.part.js", "text/template.part.js",
+            "visuals/chart.part.js", "footer.part.js"
         ],
         "minify": "javascript"
     }

@@ -90,6 +90,11 @@
         var side = jQuery(".sidebar-section", matchedObject);
         side.uside();
 
+        // retrieves the sidebar open as the set of elements
+        // that are going to apply a button to the side of the screen
+        var sidebarOpen = jQuery(".sidebar-open", matchedObject);
+        sidebarOpen.usidebaropen();
+
         // retrieves the sidebar overlay as the set of elements
         // that are going to apply an overlay for sidebar usage
         var sidebarOverlay = jQuery(".sidebar-overlay", matchedObject);
@@ -4229,20 +4234,32 @@
 })(jQuery);
 
 (function(jQuery) {
+    jQuery.fn.usidebaropen = function(options) {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        // registers for the click in the sidebar open so that it's possible
+        // to ensure side right visibility
+        matchedObject.click(function(event) {
+            var _body = jQuery("body");
+            _body.addClass("side-right-visible");
+            event.preventDefault();
+            event.stopPropagation();
+        });
+    };
+})(jQuery);
+
+(function(jQuery) {
     jQuery.fn.usidebaroverlay = function(options) {
         // sets the jquery matched object
         var matchedObject = this;
 
         // registers for the click in the sidebar overlay so that it's possible
-        // to toggle side left visibility in the mobile layout
+        // to hide side left and right visibility
         matchedObject.click(function(event) {
             var _body = jQuery("body");
-            var isMobile = _body.hasClass("mobile-s");
-            if (!isMobile) {
-                return;
-            }
-
-            _body.toggleClass("side-left-visible");
+            _body.removeClass("side-left-visible");
+            _body.removeClass("side-right-visible");
             event.preventDefault();
             event.stopPropagation();
         });
