@@ -256,7 +256,8 @@ body.omni-style.opensans {
     display: none;
 }
 
-.omni-style.mobile-s.side-left-visible .content-bar {
+.omni-style.mobile-s.side-left-visible .content-bar,
+.omni-style.mobile-s.side-right-visible .content-bar {
     box-shadow: none;
     -o-box-shadow: none;
     -ms-box-shadow: none;

@@ -573,6 +573,7 @@
         updateFooter(base);
         updateNavigationList(base);
         updateSidebarRight(base);
+        updateSidebarOpen(base);
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
@@ -833,6 +834,18 @@
         sidebarRightHtml = sidebarRightHtml.replace(/aux-src=/ig, "src=");
         sidebarRight_.html(sidebarRightHtml);
         sidebarRight_.uxapply();
+    };
+
+    var updateSidebarOpen = function(base) {
+        var sidebarOpen = jQuery(".sidebar-open", base);
+        var sidebarOpen_ = jQuery(".sidebar-open");
+        if (sidebarOpen.length === 0 || sidebarOpen_.length === 0) {
+            return;
+        }
+        var sidebarOpenHtml = sidebarOpen.html();
+        sidebarOpenHtml = sidebarOpenHtml.replace(/aux-src=/ig, "src=");
+        sidebarOpen_.html(sidebarOpenHtml);
+        sidebarOpen_.uxapply();
     };
 
     var updateOverlaySearch = function(base) {
