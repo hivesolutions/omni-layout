@@ -722,6 +722,7 @@
         menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml + "</div>");
         menu_ = jQuery(".top-bar .system-menu");
         menu_.uxapply();
+        menu_.uxmenu();
     };
 
     var updateNotification = function(base) {
@@ -4270,7 +4271,6 @@
         // registers for the global hide modal event
         // so that the side panels are properly hidden
         !isRegistered && _body.bind("hide_modal", function() {
-            console.info("hide_modal");
             _body.removeClass("side-right-visible");
             _body.removeClass("side-left-visible");
         });

@@ -22,7 +22,6 @@
         // registers for the global hide modal event
         // so that the side panels are properly hidden
         !isRegistered && _body.bind("hide_modal", function() {
-            console.info("hide_modal");
             _body.removeClass("side-right-visible");
             _body.removeClass("side-left-visible");
         });

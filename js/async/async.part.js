@@ -612,6 +612,7 @@
         menu_.replaceWith("<div class=\"menu system-menu\">" + menuHtml + "</div>");
         menu_ = jQuery(".top-bar .system-menu");
         menu_.uxapply();
+        menu_.uxmenu();
     };
 
     var updateNotification = function(base) {
