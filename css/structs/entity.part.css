@@ -83,6 +83,8 @@
 }
 
 .omni-style.mobile-s .entity-details-inner-container {
+    float: none;
+    overflow: hidden;
     width: auto;
 }
 
@@ -104,8 +106,14 @@
     color: #2d2d2d;
     font-size: 20px;
     font-weight: bold;
+    line-height: 27px;
     max-width: 100%;
     width: 380px;
+}
+
+.omni-style.mobile-s .entity-details-inner-container .entity-name {
+    font-size: 18px;
+    line-height: 24px;
 }
 
 .omni-style .entity-details-inner-container .entity-description {
