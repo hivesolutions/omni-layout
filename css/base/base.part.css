@@ -206,7 +206,12 @@ body.omni-style.opensans {
 .omni-style .content-wrapper {
     margin: 0px auto 0px auto;
     max-width: 100%;
+    min-width: 746px;
     width: 960px;
+}
+
+.omni-style.mobile-s .content-wrapper {
+    min-width: auto;
 }
 
 .omni-style .content-wrapper:after {
@@ -219,6 +224,10 @@ body.omni-style.opensans {
 
 .omni-style.full .content-wrapper {
     width: 100%;
+}
+
+.omni-style .top-bar > .content-wrapper {
+    min-width: auto;
 }
 
 .omni-style .content-margin {
