@@ -230,6 +230,16 @@ body.omni-style.opensans {
     min-width: auto;
 }
 
+.omni-style.mobile-s .content-wrapper.content-wrapper-out {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding: 0px 10px 0px 10px;
+}
+
 .omni-style .content-margin {
     height: 60px;
 }
