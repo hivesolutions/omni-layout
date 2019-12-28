@@ -610,7 +610,7 @@ body.omni-style.opensans {
     -khtml-transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-transition: left 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     width: 200px;
-    z-index: 10;
+    z-index: 9;
 }
 
 .omni-style.mobile-s.side-left-visible .sidebar-left {
@@ -652,7 +652,7 @@ body.omni-style.opensans {
     -khtml-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-transition: right 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     width: 212px;
-    z-index: 10;
+    z-index: 9;
 }
 
 .omni-style.tablet-s.side-right-visible .sidebar-right,
@@ -686,7 +686,7 @@ body.omni-style.opensans {
     -khtml-transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     -webkit-transition: opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1.0);
     width: 100%;
-    z-index: 10;
+    z-index: 8;
 }
 
 .omni-style.tablet-s.side-left-visible .sidebar-overlay,
@@ -728,7 +728,7 @@ body.omni-style.opensans {
     -moz-transform-origin: bottom right;
     -khtml-transform-origin: bottom right;
     -webkit-transform-origin: bottom right;
-    z-index: 9;
+    z-index: 7;
 }
 
 .omni-style.tablet-s .sidebar-open,
