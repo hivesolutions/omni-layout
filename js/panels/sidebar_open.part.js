@@ -8,8 +8,6 @@
         matchedObject.click(function(event) {
             var _body = jQuery("body");
             _body.addClass("side-right-visible");
-            event.preventDefault();
-            event.stopPropagation();
         });
     };
 })(jQuery);

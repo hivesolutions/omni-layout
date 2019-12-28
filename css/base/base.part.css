@@ -694,15 +694,22 @@ body.omni-style.opensans {
     line-height: 16px;
     padding: 3px 6px 3px 6px;
     position: fixed;
-    right: -18px;
+    right: 0px;
     text-transform: uppercase;
     top: 50%;
-    transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -khtml-transform: rotate(-90deg);
-    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg) translateX(50%);
+    -o-transform: rotate(-90deg) translateX(50%);
+    -ms-transform: rotate(-90deg) translateX(50%);
+    -moz-transform: rotate(-90deg) translateX(50%);
+    -khtml-transform: rotate(-90deg) translateX(50%);
+    -webkit-transform: rotate(-90deg) translateX(50%);
+    transform-origin: bottom right;
+    -o-transform-origin: bottom right;
+    -ms-transform-origin: bottom right;
+    -moz-transform-origin: bottom right;
+    -khtml-transform-origin: bottom right;
+    -webkit-transform-origin: bottom right;
+    z-index: 9;
 }
 
 .omni-style.tablet-s .sidebar-open,

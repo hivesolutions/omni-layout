@@ -4256,8 +4256,6 @@
         matchedObject.click(function(event) {
             var _body = jQuery("body");
             _body.addClass("side-right-visible");
-            event.preventDefault();
-            event.stopPropagation();
         });
     };
 })(jQuery);
@@ -4412,6 +4410,14 @@
         // related elements to be used in the toggle operation
         var contentBar = jQuery(".content-bar", matchedObject);
         var contentMargin = jQuery(".content-margin", matchedObject);
+
+        // registers for the click on the top bar so that the side panels
+        // are hiden on each of the clicks
+        contentBar.click(function(event) {
+            var _body = jQuery("body");
+            _body.removeClass("side-left-visible");
+            _body.removeClass("side-right-visible");
+        });
 
         // retrieves the reference to the handle associated with the
         // top bar and registers it for the click event to toggle the
