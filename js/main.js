@@ -4257,6 +4257,7 @@
         // registers for the click in the sidebar open so that it's possible
         // to ensure side right visibility
         matchedObject.click(function(event) {
+            _body.triggerHandler("hide_modal");
             _body.addClass("side-right-visible");
         });
 
@@ -4466,8 +4467,15 @@
                 return;
             }
 
-            _body.toggleClass("side-left-visible");
+            if (_body.hasClass("side-left-visible")) {
+                _body.removeClass("side-left-visible");
+            } else {
+                _body.triggerHandler("hide_modal");
+                _body.addClass("side-left-visible");
+            }
+
             _body.removeClass("side-right-visible");
+
             event.preventDefault();
             event.stopPropagation();
         });

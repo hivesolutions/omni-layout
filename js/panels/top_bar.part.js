@@ -49,8 +49,15 @@
                 return;
             }
 
-            _body.toggleClass("side-left-visible");
+            if (_body.hasClass("side-left-visible")) {
+                _body.removeClass("side-left-visible");
+            } else {
+                _body.triggerHandler("hide_modal");
+                _body.addClass("side-left-visible");
+            }
+
             _body.removeClass("side-right-visible");
+
             event.preventDefault();
             event.stopPropagation();
         });

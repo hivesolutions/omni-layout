@@ -9,6 +9,7 @@
         // registers for the click in the sidebar open so that it's possible
         // to ensure side right visibility
         matchedObject.click(function(event) {
+            _body.triggerHandler("hide_modal");
             _body.addClass("side-right-visible");
         });
 
