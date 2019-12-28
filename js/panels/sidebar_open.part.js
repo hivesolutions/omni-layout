@@ -11,5 +11,15 @@
         matchedObject.click(function(event) {
             _body.addClass("side-right-visible");
         });
+
+        // registers for the hide modal event so that both side parts are properly
+        // removed from the viewport on such ocasion (as expected)
+        matchedObject.length > 0 && _body.bind("hide_modal", onHideModal = function() {
+            _body.removeClass("side-right-visible");
+            _body.removeClass("side-left-visible");
+        });
+        matchedObject.bind("destroyed", function() {
+            _body.unbind("hide_modal", onHideModal);
+        });
     };
 })(jQuery);
