@@ -103,6 +103,7 @@ body.omni-style {
     font-family: Arial, sans-serif;
     font-size: 13px;
     margin: 0px 0px 0px 0px;
+    min-width: 960px;
     overflow-y: scroll;
 }
 
@@ -110,6 +111,11 @@ form.omni-style {
     display: table;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
+}
+
+body.omni-style.tablet-s,
+body.omni-style.mobile-s {
+    min-width: auto;
 }
 
 body.omni-style.dark {
