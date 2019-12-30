@@ -951,14 +951,26 @@ body.omni-style.opensans {
     margin: 16px 0px 16px 0px;
 }
 
+.omni-style.mobile-s .list-divider {
+    margin: 12px 0px 12px 0px;
+}
+
 .omni-style .list-divider-bottomless {
     border-bottom: 1px solid #eaeaea;
     margin: 16px 0px 0px 0px;
 }
 
+.omni-style.mobile-s .list-divider-bottomless {
+    margin: 12px 0px 0px 0px;
+}
+
 .omni-style .list-divider-transparent {
     border-bottom: none;
     margin: 16px 0px 0px 0px;
+}
+
+.omni-style.mobile-s .list-divider-transparent {
+    margin: 12px 0px 0px 0px;
 }
 
 .omni-style .list-separator {
