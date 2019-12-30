@@ -138,6 +138,12 @@
     padding: 0px 0px 0px 0px;
 }
 
+.omni-style .entity-details-list:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
 .omni-style .entity-details-list > li,
 .omni-style .entity-details-list .panel-more > div > li {
     float: left;
