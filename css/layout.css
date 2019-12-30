@@ -1820,6 +1820,8 @@ body.omni-style.opensans {
     -moz-border-radius: 4px 4px 4px 4px;
     -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
+    height: 64px:;
+    width: 64px;
 }
 
 .omni-style.round .system-menu .menu-contents-left > img {
@@ -3353,6 +3355,8 @@ body.omni-print-style.receipt {
     -moz-border-radius: 4px 4px 4px 4px;
     -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
+    height: 100%;
+    width: 100%;
 }
 
 .omni-style.round .entity-big-picture > img {

@@ -3815,7 +3815,7 @@
                 // creates the various items that are going to be used
                 // in the notification, this is important to maintain
                 // the notification as useful as possible
-                var imageUrl = urlU + "/image?size=50";
+                var imageUrl = urlU + "/image?size=128";
                 var userName = data.create_user.representation;
                 var time = diffS;
 
