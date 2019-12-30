@@ -3180,6 +3180,8 @@ body.omni-print-style.receipt {
     -khtml-border-radius: 6px 6px 6px 6px;
     -webkit-border-radius: 6px 6px 6px 6px;
     float: left;
+    height: 50px;
+    width: 50px;
 }
 
 .omni-print-style .header .header-details {
