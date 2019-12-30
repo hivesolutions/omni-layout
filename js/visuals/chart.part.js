@@ -299,8 +299,8 @@
                 var count = valueS.length - 1;
                 var unit = Math.floor(count / 3);
                 var unitS = unit >= 1 ? UNIT_MAP[unit] : "";
-                var value = Math.floor(currentValue / Math.pow(10, unit * 3));
-                valueS = value.toString() + " " + unitS;
+                var value = currentValue / Math.pow(10, unit * 3);
+                valueS = value.toString().slice(0, 3) + " " + unitS;
 
                 // measures the text size to retrieve the text
                 // width so that is possible to correctly
@@ -781,7 +781,12 @@
             // retrieves the chart as the matched object
             var chart = matchedObject;
 
-            // retrieves the chart element reference
+            // retrieve the reference to the "parent" boyd
+            // object to be used in this operation
+            var _body = jQuery("body");
+
+            // retrieves the chart element reference as the
+            // first element of the chart selection
             var chartElement = chart.get(0);
 
             // in case there is no chart element to draw in
@@ -792,12 +797,24 @@
                 return;
             }
 
-            // retrieves the chart element context
-            var context = chartElement.getContext("2d");
-
             // retrieves the chart size
             var chartWidth = chartElement.width;
             var chartHeight = chartElement.height;
+
+            // retrieves the chart element context
+            var context = chartElement.getContext("2d");
+
+            // in case the current environment is a "retina" one
+            // (high density display) then an extra scale operation
+            // is performed to provide crisp graphics
+            var isRetina = _body.hasClass("retina-s");
+            if (isRetina) {
+                chartElement.width = chartWidth * 2;
+                chartElement.height = chartHeight * 2;
+                chartElement.style.width = String(chartWidth) + "px";
+                chartElement.style.height = String(chartElement) + "px";
+                context.scale(2, 2)
+            }
 
             // clears the context
             context.clearRect(0, 0, chartWidth, chartHeight);
