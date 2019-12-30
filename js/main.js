@@ -5667,23 +5667,31 @@
 
             // registers for the resize operation so that in case
             // no invalidation is performed then a redraw is triggered
-            _window.resize(function() {
-                var sizes = {
-                    width: _window.width(),
-                    height: _window.height()
-                };
+            matchedObject.length > 0 && !matchedObject.data("on_resize") && _window.bind("resize", onResize =
+                function() {
+                    var sizes = {
+                        width: _window.width(),
+                        height: _window.height()
+                    };
 
-                setTimeout(function() {
-                    if (_window.width() !== sizes.width) {
-                        return;
-                    }
-                    if (_window.height() !== sizes.height) {
-                        return;
-                    }
+                    setTimeout(function() {
+                        if (_window.width() !== sizes.width) {
+                            return;
+                        }
+                        if (_window.height() !== sizes.height) {
+                            return;
+                        }
 
-                    draw();
-                }, 150);
+                        draw();
+                    }, 150);
+                });
+            matchedObject.bind("destroyed", function() {
+                var element = jQuery(this);
+                var onResize = matchedObject.data("on_resize");
+                _window.unbind("resize", onResize);
+                matchedObject.data("on_resize", null);
             });
+            matchedObject.data("on_resize", onResize);
 
             // retrieves the chart size, using the traditional
             // dimensions retrieval strategy
