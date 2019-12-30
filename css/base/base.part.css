@@ -323,9 +323,18 @@ body.omni-style.opensans {
     display: none;
 }
 
+.omni-style .top-bar .top-bar-menu {
+    font-size: 0px;
+    line-height: 40px;
+}
+
 .omni-style .top-bar-button {
     margin-left: 4px;
     margin-right: 12px;
+}
+
+.omni-style .top-bar-input {
+    width: auto;
 }
 
 .omni-style.tablet-s .top-bar-input,

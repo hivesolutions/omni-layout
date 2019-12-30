@@ -323,9 +323,18 @@ body.omni-style.opensans {
     display: none;
 }
 
+.omni-style .top-bar .top-bar-menu {
+    font-size: 0px;
+    line-height: 40px;
+}
+
 .omni-style .top-bar-button {
     margin-left: 4px;
     margin-right: 12px;
+}
+
+.omni-style .top-bar-input {
+    width: auto;
 }
 
 .omni-style.tablet-s .top-bar-input,
@@ -1651,9 +1660,8 @@ body.omni-style.opensans {
 }
 
 .omni-style .notifications-menu {
-    margin-left: -32px;
-    margin-top: 4px;
-    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .omni-style .notifications-menu.active .menu-button {
@@ -1724,6 +1732,13 @@ body.omni-style.opensans {
     background-position: left -63px;
 }
 
+.omni-style .system-menu {
+    display: inline-block;
+    font-size: 13px;
+    line-height: normal;
+    vertical-align: middle;
+}
+
 .omni-style .system-menu .switch-panel {
     display: none;
 }
@@ -1732,7 +1747,6 @@ body.omni-style.opensans {
     background: transparent url(../images/arrow-blue.png) no-repeat right center;
     height: 24px;
     line-height: 24px;
-    margin-top: 4px;
     padding: 4px 20px 4px 8px;
 }
 

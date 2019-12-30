@@ -1,7 +1,6 @@
 .omni-style .notifications-menu {
-    margin-left: -32px;
-    margin-top: 4px;
-    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .omni-style .notifications-menu.active .menu-button {
