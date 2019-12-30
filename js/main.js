@@ -5648,8 +5648,9 @@
             // retrieves the chart as the matched object
             var chart = matchedObject;
 
-            // retrieve the reference to the "parent" boyd
-            // object to be used in this operation
+            // retrieve the reference to the "parent" window and
+            // body objects to be used in this operation
+            var _window = jQuery(window);
             var _body = jQuery("body");
 
             // retrieves the chart element reference as the
@@ -5664,9 +5665,30 @@
                 return;
             }
 
-            // retrieves the chart size
-            var chartWidth = chartElement.width;
-            var chartHeight = chartElement.height;
+            // registers for the resize operation so that in case
+            // no invalidation is performed then a redraw is triggered
+            _window.resize(function() {
+                var sizes = {
+                    width: _window.width(),
+                    height: _window.height()
+                };
+
+                setTimeout(function() {
+                    if (_window.width() !== sizes.width) {
+                        return;
+                    }
+                    if (_window.height() !== sizes.height) {
+                        return;
+                    }
+
+                    draw();
+                }, 150);
+            });
+
+            // retrieves the chart size, using the traditional
+            // dimensions retrieval strategy
+            var chartWidth = matchedObject.width();
+            var chartHeight = matchedObject.height();
 
             // retrieves the chart element context
             var context = chartElement.getContext("2d");
@@ -5678,8 +5700,6 @@
             if (isRetina) {
                 chartElement.width = chartWidth * 2;
                 chartElement.height = chartHeight * 2;
-                chartElement.style.width = String(chartWidth) + "px";
-                chartElement.style.height = String(chartElement) + "px";
                 context.scale(2, 2)
             }
 
