@@ -1881,6 +1881,8 @@ body.omni-style.opensans {
     -moz-border-radius: 4px 4px 4px 4px;
     -khtml-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
+    height: 50px;
+    width: 50px;
 }
 
 .omni-style.round .system-menu .menu-contents .image > img {
