@@ -300,7 +300,11 @@
                 var unit = Math.floor(count / 3);
                 var unitS = unit >= 1 ? UNIT_MAP[unit] : "";
                 var value = currentValue / Math.pow(10, unit * 3);
-                valueS = value.toString().slice(0, 3) + " " + unitS;
+                valueS = value.toString();
+                valueS = valueS.slice(0, 3);
+                valueS = valueS[valueS.length - 1] === "." ? valueS.slice(0,
+                    valueS.length - 1) : valueS;
+                valueS = valueS + " " + unitS;
 
                 // measures the text size to retrieve the text
                 // width so that is possible to correctly
