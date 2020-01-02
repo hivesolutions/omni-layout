@@ -376,8 +376,19 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-drop-input > .text-field {
-    height: 32px;
-    width: 392px;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 38px;
+    max-width: 100%;
+    width: 428px;
+}
+
+.omni-style.mobile-s .list-drop-input > .text-field {
+    min-width: 100%;
 }
 
 .omni-style .list-tag-input > .text-field {
@@ -386,12 +397,6 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-medium-input {
-    height: 26px;
-    max-width: 100%;
-    width: 414px;
-}
-
-.omni-style.mobile-s .list-medium-input {
     box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -399,16 +404,15 @@ body.omni-style.opensans {
     -khtml-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     height: 32px;
+    max-width: 100%;
     width: 428px;
 }
 
-.omni-style .list-medium-area {
-    height: 100px;
-    max-width: 100%;
-    width: 414px;
+.omni-style.mobile-s .list-medium-input {
+    min-width: 100%;
 }
 
-.omni-style.mobile-s .list-medium-area {
+.omni-style .list-medium-area {
     box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -416,7 +420,12 @@ body.omni-style.opensans {
     -khtml-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     height: 106px;
+    max-width: 100%;
     width: 428px;
+}
+
+.omni-style.mobile-s .list-medium-area {
+    min-width: 100%;
 }
 
 .omni-style .list-code-area {
@@ -430,18 +439,7 @@ body.omni-style.opensans {
     font-family: Consolas, monospace;
 }
 
-.omni-style .list-medium-drop-input {
-    max-width: 100%;
-    width: 428px;
-}
-
 .omni-style .list-medium-drop-input > .text-field {
-    height: 26px;
-    max-width: 100%;
-    width: 392px;
-}
-
-.omni-style.mobile-s .list-medium-drop-input > .text-field {
     box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -449,6 +447,11 @@ body.omni-style.opensans {
     -khtml-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     height: 32px;
+    max-width: 100%;
+    width: 428px;
+}
+
+.omni-style.mobile-s .list-medium-drop-input > .text-field {
     min-width: 100%;
 }
 
@@ -457,11 +460,6 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-medium-tag-input > .text-field {
-    height: 26px;
-    width: 392px;
-}
-
-.omni-style.mobile-s .list-medium-tag-input > .text-field {
     box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -469,6 +467,11 @@ body.omni-style.opensans {
     -khtml-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     height: 32px;
+    max-width: 100%;
+    width: 428px;
+}
+
+.omni-style.mobile-s .list-medium-tag-input > .text-field {
     min-width: 100%;
 }
 
@@ -477,12 +480,6 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-small-input {
-    height: 26px;
-    margin-left: 6px;
-    width: 244px;
-}
-
-.omni-style.mobile-s .list-small-input {
     box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -490,9 +487,13 @@ body.omni-style.opensans {
     -khtml-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     height: 32px;
+    margin-left: 6px;
+    width: 258px;
+}
+
+.omni-style.mobile-s .list-small-input {
     margin-left: 0px;
     min-width: 100%;
-    width: 258px;
 }
 
 .omni-style .list-small-drop-input {
@@ -514,12 +515,6 @@ body.omni-style.opensans {
 }
 
 .omni-style .list-mini-input {
-    height: 26px;
-    max-width: 100%;
-    width: 150px;
-}
-
-.omni-style.mobile-s .list-mini-input {
     box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -527,8 +522,12 @@ body.omni-style.opensans {
     -khtml-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     height: 32px;
-    min-width: 100%;
+    max-width: 100%;
     width: 164px;
+}
+
+.omni-style.mobile-s .list-mini-input {
+    min-width: 100%;
 }
 
 .omni-style .list-micro-input {
