@@ -3815,7 +3815,8 @@
                 // creates the various items that are going to be used
                 // in the notification, this is important to maintain
                 // the notification as useful as possible
-                var imageUrl = urlU + "/image?size=128";
+                var imageUrl = urlU + "/image?size=64";
+                var imageUrlSet = urlU + "/image?size=128 2x";
                 var userName = data.create_user.representation;
                 var time = diffS;
 
@@ -3828,10 +3829,11 @@
                 // the pre-defined username and time as defined
                 // in the received data
                 var notification = jQuery("<li class=\"button\" data-link=\"" + url + "\">" +
-                    "<img class=\"entity-picture\" src=\"" + imageUrl + "\">" +
-                    "<div class=\"contents\">" + "<p class=\"title\">" + userName + "</p>" +
-                    "<p class=\"subject\"></p>" + "</div>" + "<div class=\"time\">" + time +
-                    "</div>" + "<div class=\"break\"></div>" + "</li>");
+                    "<img class=\"entity-picture\" src=\"" + imageUrl + "\" srcset=\"" +
+                    imageUrlSet + "\">" + "<div class=\"contents\">" +
+                    "<p class=\"title\">" + userName + "</p>" + "<p class=\"subject\"></p>" +
+                    "</div>" + "<div class=\"time\">" + time + "</div>" +
+                    "<div class=\"break\"></div>" + "</li>");
                 list.prepend(notification);
                 notification.uxbutton();
 
