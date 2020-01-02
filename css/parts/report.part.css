@@ -62,8 +62,9 @@
     color: #4d4d4d;
     font-weight: bold;
     margin: 24px auto 0px auto;
-    min-width: 960px;
+    max-width: 100%;
     text-align: center;
+    width: 960px;
 }
 
 .omni-style .report.loading .report-location {
@@ -72,8 +73,9 @@
 
 .omni-style .report .report-more {
     margin: 8px auto 0px auto;
-    min-width: 960px;
+    max-width: 100%;
     text-align: center;
+    width: 960px;
 }
 
 .omni-style .report.loading .report-more {
