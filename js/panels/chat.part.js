@@ -1472,7 +1472,7 @@
         // and uses it to create the image url of the user that
         // created the current chat line
         objectId = name === "me" ? _body.data("object_id") : objectId;
-        var imageUrl = mvcPath + admSection + "/users/" + objectId + "/image?size=32";
+        var imageUrl = mvcPath + admSection + "/users/" + objectId + "/image?size=64";
 
         // retrieves the complete set of paragraphs from the current chat
         // panel and then runs a reverse iteration in them trying to

@@ -2145,6 +2145,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .chat-panel > .chat-contents > .chat-paragraph {
+    background-size: 32px 32px;
     margin: 4px 0px 4px 0px;
     min-height: 32px;
     padding-left: 40px;
