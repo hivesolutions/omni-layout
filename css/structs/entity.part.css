@@ -177,7 +177,7 @@
 
 .omni-style .entity-details-list .panel-more > div > li.list-more {
     display: block;
-    margin-top: 7px;
+    margin-top: 6px;
     max-width: 100%;
     position: absolute;
     width: 532px;
@@ -283,7 +283,7 @@
     letter-spacing: 1px;
     line-height: 14px;
     margin-left: 105px;
-    margin-top: -7px;
+    margin-top: -8px;
     padding: 0px 8px 0px 8px;
     position: absolute;
     text-transform: uppercase;
