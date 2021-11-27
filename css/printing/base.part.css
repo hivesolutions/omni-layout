@@ -106,6 +106,12 @@ body.omni-print-style.receipt {
     text-align: center;
 }
 
+.omni-print-style .footer .qrcode {
+    display: block;
+    margin: 0px auto 10px auto;
+    width: 120px;
+}
+
 .omni-print-style .footer .barcode {
     margin: 0px 0px 0px 0px;
 }
