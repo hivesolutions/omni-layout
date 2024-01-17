@@ -3871,8 +3871,8 @@
                 // in case this is a new notification creates a desktop
                 // notification and registers the appropriate handlers to
                 // it so that the target page opens on click and the notification
-                // hides after a certain ammount of time, note that if there's
-                // not enought permissions the show is disabled
+                // hides after a certain amount of time, note that if there's
+                // not enough permissions the show is disabled
                 var hasNotifications = typeof(Notification) !== "undefined";
                 if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
@@ -4372,7 +4372,7 @@
                 var sum = 0;
 
                 // iterates over each of the elements in order to
-                // gather the ammount value that is going to be
+                // gather the amount value that is going to be
                 // used for the calculus, this uses a strategy of
                 // finding the last number value in the target
                 elements.each(function(index, element) {
