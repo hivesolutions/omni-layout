@@ -3715,8 +3715,8 @@
             // iteration
             var _element = jQuery(this);
 
-            // retrieves the references to both the menu link asscoiated
-            // with the notifications contqainer and to the list that
+            // retrieves the references to both the menu link associated
+            // with the notifications container and to the list that
             // contains the notifications
             var link = jQuery(".menu-link", _element);
             var contents = jQuery(".menu-contents", _element);
@@ -3765,7 +3765,7 @@
                 var current = date.getTime();
 
                 // unpacks both the object id and the cid (class id)
-                // from the current data strcucture
+                // from the current data structure
                 var uniqueId = data.unique_id;
                 var objectId = data.entity.object_id;
                 var uobjectId = data.create_user.object_id;
@@ -3792,8 +3792,8 @@
                 var diff = (current / 1000.0) - data.create_date;
                 var diffS = jQuery.udates(diff);
 
-                // extracs the message value from the base notification structure
-                // and then retrieves the argumentss from it also, then runs the
+                // extracts the message value from the base notification structure
+                // and then retrieves the arguments from it also, then runs the
                 // localization system on the message and formats the arguments
                 // on the provided message (according to the c standard)
                 var message = data.notification.message;
@@ -3947,8 +3947,8 @@
                     // is going to be update with the new string value
                     var time = jQuery(".time", _element);
 
-                    // extracs the message value from the base notification structure
-                    // and then retrieves the argumentss from it also, then runs the
+                    // extracts the message value from the base notification structure
+                    // and then retrieves the arguments from it also, then runs the
                     // localization system on the message and formats the arguments
                     // on the provided message (according to the c standard)
                     var message = data.notification.message;
@@ -4117,15 +4117,15 @@
                 // channel that is going to be subscribed for notifications
                 var username = _body.data("username");
 
-                // subscribes to the personal channel for the user, this channeç
-                // should contain notification related infromation
+                // subscribes to the personal channel for the user, this channel
+                // should contain notification related information
                 this.subscribe("personal-" + username);
             });
 
             // registers for the subscribe event to be able to create the previously
             // existing events from the stored (logged) ones
             pushi.bind("subscribe", function(event, channel, data) {
-                // verifies if the cyrrent channel type is personal and in
+                // verifies if the current channel type is personal and in
                 // case it's not returns immediately (nothing to be done)
                 var isPersonal = channel.startsWith("personal-");
                 if (!isPersonal) {
@@ -4134,7 +4134,7 @@
 
                 // extracts the list of events from the provided data and
                 // the iterates over them to create the various notifications
-                // in the oposite order of arrival (correct order)
+                // in the opposite order of arrival (correct order)
                 var events = data.events || [];
                 var length = events.length > MAXIMUM_NOTIFICATIONS ? MAXIMUM_NOTIFICATIONS :
                     events.length;
