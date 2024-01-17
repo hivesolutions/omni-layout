@@ -3442,7 +3442,7 @@
 
         // in case the matched object is not defined
         // or in case it's an empty list must return
-        // immediatly initialization is not meant to
+        // immediately initialization is not meant to
         // be run (corruption may occur)
         if (!matchedObject || matchedObject.length === 0) {
             return;
@@ -3453,7 +3453,7 @@
         // of the operations associated with eureka
         var _body = jQuery("body");
 
-        // retrieves the complete set of overlay panels associatd
+        // retrieves the complete set of overlay panels associated
         // with the various provided eureka element, they are going
         // to be used for some of the event registration
         var overlayPanel = matchedObject.parents(".overlay-panel");
@@ -4314,7 +4314,7 @@
 
         // in case the matched object is not defined
         // or in case it's an empty list must return
-        // immediatly initialization is not meant to
+        // immediately initialization is not meant to
         // be run (corruption may occur)
         if (!matchedObject || matchedObject.length === 0) {
             return;
