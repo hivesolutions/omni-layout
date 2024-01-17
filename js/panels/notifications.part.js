@@ -59,7 +59,7 @@
             // communication, and then creates the full absolute ur
             // from the base url and the communication suffix
             var url = _element.attr("data-url");
-            var absolueUrl = jQuery.uxresolve(url + "/pushi.json");
+            var absoluteUrl = jQuery.uxresolve(url + "/pushi.json");
 
             // retrieves the name of the currently signed in user
             // from the body element, to be used for the current panel
@@ -67,13 +67,13 @@
             _element.data("username", username);
 
             // retrieves the (base) url and the app key values to be used
-            // for the establishement of the pushi connection, then uses them
+            // for the establishment of the pushi connection, then uses them
             // as the various arguments for the construction of the proxy object
             var url = _element.attr("data-url");
             var key = _element.attr("data-key");
             var pushi = new Pushi(key, {
                 baseUrl: url,
-                authEndpoint: absolueUrl
+                authEndpoint: absoluteUrl
             });
 
             // updates the current element with the reference to the pushi
