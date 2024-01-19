@@ -97,7 +97,7 @@
                 var date = new Date();
                 var current = date.getTime();
 
-                // unpacks both the object id and the cid (class id)
+                // unpacks both the object id and the CID (class ID)
                 // from the current data structure
                 var uniqueId = data.unique_id;
                 var objectId = data.entity.object_id;

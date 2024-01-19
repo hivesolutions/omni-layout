@@ -1510,7 +1510,7 @@
                 message = jQuery.uxlocale(message);
 
                 // retrieves the target as the first element of the meta attributes
-                // and then unpacks it as the cid (class id) and the object id of
+                // and then unpacks it as the CID (class ID) and the object id of
                 // the target entity associated with the notification
                 var target = meta[0];
                 var cid = target[0];
@@ -3764,7 +3764,7 @@
                 var date = new Date();
                 var current = date.getTime();
 
-                // unpacks both the object id and the cid (class id)
+                // unpacks both the object id and the CID (class ID)
                 // from the current data structure
                 var uniqueId = data.unique_id;
                 var objectId = data.entity.object_id;

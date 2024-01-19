@@ -68,7 +68,7 @@
                 message = jQuery.uxlocale(message);
 
                 // retrieves the target as the first element of the meta attributes
-                // and then unpacks it as the cid (class id) and the object id of
+                // and then unpacks it as the CID (class ID) and the object id of
                 // the target entity associated with the notification
                 var target = meta[0];
                 var cid = target[0];
