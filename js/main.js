@@ -330,8 +330,8 @@
 
                     // creates the notification message that will indicate the loading
                     // of the new panel and adds it to the notifications container
-                    var notification = jQuery("<div class=\"header-notification warning\"><strong>" +
-                        loading + "</strong></div>");
+                    var notification = jQuery("<div class=\"header-notification warning\"><strong>"
+                        + loading + "</strong></div>");
                     container.append(notification);
                 }
 
@@ -340,8 +340,8 @@
                 var topLoader = jQuery(".top-loader");
                 if (topLoader.length === 0) {
                     var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
-                    var topLoader = jQuery("<div class=\"top-loader\">" +
-                        "<div class=\"loader-background\"></div>" + "</div>");
+                    var topLoader = jQuery("<div class=\"top-loader\">"
+                        + "<div class=\"loader-background\"></div>" + "</div>");
                     rightPanel.after(topLoader);
                 }
 
@@ -663,10 +663,10 @@
 
         // appends both the css file and the javascript logic for the
         // target section so that it's correctly loaded
-        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue +
-            "resources/css/layout.css\" type=\"text/css\" />");
-        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue +
-            "resources/js/main.js\"></script>");
+        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue
+            + "resources/css/layout.css\" type=\"text/css\" />");
+        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue
+            + "resources/js/main.js\"></script>");
     };
 
     var updateLocale = function(base) {
@@ -1733,8 +1733,8 @@
 
             // creates the list item (budy item) used to represent
             // the user and adds it to the buddy list
-            var item = jQuery("<li class=\"budy-" + status + "\" data-user_id=\"" + username +
-                "\" data-object_id=\"" + objectId + "\">" + representation + "</li>");
+            var item = jQuery("<li class=\"budy-" + status + "\" data-user_id=\"" + username
+                + "\" data-object_id=\"" + objectId + "\">" + representation + "</li>");
 
             // starts the target element (the one after the current element)
             // as invalid so that by default no target is used and then starts
@@ -2190,8 +2190,8 @@
             !hasBuddyList
                 && element.append("<ul class=\"list buddy-list\"></ul>");
             element.append("<div class=\"loading\">" + signinS + "<br /><b>" + username + "</b></div>");
-            element.append("<div class=\"disconnected\">" + disconnectedS + "<br /><b>" + retryingS +
-                "</b></div>");
+            element.append("<div class=\"disconnected\">" + disconnectedS + "<br /><b>" + retryingS
+                + "</b></div>");
         });
 
         // registers for the event triggered when a new chat
@@ -2388,12 +2388,12 @@
         // that an extra hidden text area is created as it will be used
         // to measure the height of the text contained in the (real)
         // text area and properly act for its resize if required
-        chatPanel = jQuery("<div class=\"chat-panel empty budy-available\">" + "<div class=\"chat-header\">" +
-            name + "<div class=\"chat-buttons\">" + "<div class=\"chat-button chat-settings\"></div>" +
-            "<div class=\"chat-button chat-close\"></div>" + "</div>" + "</div>" +
-            "<div class=\"chat-contents\"></div>" + "<div class=\"chat-message\">" +
-            "<textarea type=\"text\" class=\"text-area\"></textarea>" +
-            "<textarea type=\"text\" class=\"text-area hidden\"></textarea>" + "</div>" + "</div>");
+        chatPanel = jQuery("<div class=\"chat-panel empty budy-available\">" + "<div class=\"chat-header\">"
+            + name + "<div class=\"chat-buttons\">" + "<div class=\"chat-button chat-settings\"></div>"
+            + "<div class=\"chat-button chat-close\"></div>" + "</div>" + "</div>"
+            + "<div class=\"chat-contents\"></div>" + "<div class=\"chat-message\">"
+            + "<textarea type=\"text\" class=\"text-area\"></textarea>"
+            + "<textarea type=\"text\" class=\"text-area hidden\"></textarea>" + "</div>" + "</div>");
         matchedObject.append(chatPanel);
         chatPanel.uxapply();
         chatPanel.hide();
@@ -3223,8 +3223,8 @@
 
             // creates a new paragraph element associated with the current
             // name and with the proper background (avatar) image
-            paragraph = jQuery("<div class=\"chat-paragraph\">" + "<div class=\"chat-name\">" + nameLocale +
-                "</div>" + "<div class=\"chat-time\">" + timeString + "</div>" + "</div>");
+            paragraph = jQuery("<div class=\"chat-paragraph\">" + "<div class=\"chat-name\">" + nameLocale
+                + "</div>" + "<div class=\"chat-time\">" + timeString + "</div>" + "</div>");
             paragraph.css("background-image", "url(" + imageUrl + ")");
             paragraph.css("background-repeat", "no-repeat");
             paragraph.attr("data-date", timeString);
@@ -3402,8 +3402,8 @@
                 return message;
             }
             result = result[0];
-            extras += "<a href=\"" + result + "\" target=\"_blank\">" + "<img src=\"" + result + "\"/>" +
-                "</a>";
+            extras += "<a href=\"" + result + "\" target=\"_blank\">" + "<img src=\"" + result + "\"/>"
+                + "</a>";
             return result === message ? "" : message;
         };
 
@@ -3415,8 +3415,8 @@
             result = result[0];
             var parsed = parse(result);
             var youtubeId = parsed["v"];
-            extras += "<iframe height=\"200\"" + " src=\"//www.youtube.com/embed/" + youtubeId +
-                "?controls=0\"" + " frameborder=\"0\"></iframe>";
+            extras += "<iframe height=\"200\"" + " src=\"//www.youtube.com/embed/" + youtubeId
+                + "?controls=0\"" + " frameborder=\"0\"></iframe>";
             return result === message ? "" : message;
         };
 
@@ -3698,8 +3698,8 @@
         // adds the various inner elements of the notifications
         // container to the notification activator icon
         var link = jQuery("<div class=\"button menu-button menu-link notifications\"></div>")
-        var container = jQuery("<div class=\"menu-contents notifications-container\">" +
-            "<ul class=\"notifications-list\"></ul>" + "</div>");
+        var container = jQuery("<div class=\"menu-contents notifications-container\">"
+            + "<ul class=\"notifications-list\"></ul>" + "</div>");
         matchedObject.append(link)
         matchedObject.append(container);
 
@@ -3825,12 +3825,13 @@
                 // notifications, this notification should have
                 // the pre-defined username and time as defined
                 // in the received data
-                var notification = jQuery("<li class=\"button\" data-link=\"" + url + "\">" +
-                    "<img class=\"entity-picture\" src=\"" + imageUrl + "\" srcset=\"" +
-                    imageUrlSet + "\">" + "<div class=\"contents\">" +
-                    "<p class=\"title\">" + userName + "</p>" + "<p class=\"subject\"></p>" +
-                    "</div>" + "<div class=\"time\">" + time + "</div>" +
-                    "<div class=\"break\"></div>" + "</li>");
+                var notification = jQuery("<li class=\"button\" data-link=\"" + url + "\">"
+                    + "<img class=\"entity-picture\" src=\"" + imageUrl + "\" srcset=\""
+                    + imageUrlSet + "\">" + "<div class=\"contents\">"
+                    + "<p class=\"title\">" + userName + "</p>"
+                    + "<p class=\"subject\"></p>"
+                    + "</div>" + "<div class=\"time\">" + time + "</div>"
+                    + "<div class=\"break\"></div>" + "</li>");
                 list.prepend(notification);
                 notification.uxbutton();
 
@@ -4136,8 +4137,8 @@
                 // the iterates over them to create the various notifications
                 // in the opposite order of arrival (correct order)
                 var events = data.events || [];
-                var length = events.length > MAXIMUM_NOTIFICATIONS ? MAXIMUM_NOTIFICATIONS :
-                    events.length;
+                var length = events.length > MAXIMUM_NOTIFICATIONS ? MAXIMUM_NOTIFICATIONS
+                    : events.length;
                 for (var index = length - 1; index >= 0; index--) {
                     var event = events[index];
                     var data = event.data.data;
@@ -4339,9 +4340,9 @@
             for (var index = 0; index < VALUES.length; index++) {
                 var value = VALUES[index];
                 var valueL = VALUES_LOCALE[index];
-                var item = jQuery("<li class=\"" + value + "\">" + "<span class=\"key\">" + valueL +
-                    "</span>" + "<span class=\"value\"></span>" +
-                    "<div class=\"sidebar-clear\"></div>" + "</li>");
+                var item = jQuery("<li class=\"" + value + "\">" + "<span class=\"key\">" + valueL
+                    + "</span>" + "<span class=\"value\"></span>"
+                    + "<div class=\"sidebar-clear\"></div>" + "</li>");
                 sidebarList.append(item)
             }
 
@@ -5009,8 +5010,8 @@
 
             // draws the bottom horizontal axis to the current context
             // note that the line function is used for the drawing
-            context.line(marginLeft + verticalLabelWidth, marginTop + verticalAxisSize, marginLeft +
-                verticalLabelWidth + horizontalAxisSize + 1, marginTop + verticalAxisSize);
+            context.line(marginLeft + verticalLabelWidth, marginTop + verticalAxisSize, marginLeft
+                + verticalLabelWidth + horizontalAxisSize + 1, marginTop + verticalAxisSize);
 
             // strokes and closes the path, this should flush the axis
             // into the current canvas area
@@ -5385,8 +5386,8 @@
             // sets the various option flag based values to enable
             // and disable certain features
             var drawAxis = options["drawAxis"] ? options["drawAxis"] : DRAW_AXIS;
-            var drawAuxiliaryAxis = options["drawAuxiliaryAxis"] ? options["drawAuxiliaryAxis"] :
-                DRAW_AUXILIARY_AXIS;
+            var drawAuxiliaryAxis = options["drawAuxiliaryAxis"] ? options["drawAuxiliaryAxis"]
+                : DRAW_AUXILIARY_AXIS;
             var drawLabels = options["drawLabels"] ? options["drawLabels"] : DRAW_LABELS;
             var drawLines = options["drawLines"] ? options["drawLines"] : DRAW_LINES;
             var drawLabelBox = options["drawLabelBox"] ? options["drawLabelBox"] : DRAW_LABEL_BOX;
@@ -5394,30 +5395,30 @@
             // sets the ui values
             var labelFontName = options["labelFontName"] ? options["labelFontName"] : LABEL_FONT_NAME;
             var labelFontSize = options["labelFontSize"] ? options["labelFontSize"] : LABEL_FONT_SIZE;
-            var labelFontRealSize = options["labelFontRealSize"] ? options["labelFontRealSize"] :
-                LABEL_FONT_REAL_SIZE;
+            var labelFontRealSize = options["labelFontRealSize"] ? options["labelFontRealSize"]
+                : LABEL_FONT_REAL_SIZE;
             var baseColor = options["baseColor"] ? options["baseColor"] : BASE_COLOR;
             var labelColor = options["labelColor"] ? options["labelColor"] : LABEL_COLOR;
             var axisColor = options["axisColor"] ? options["axisColor"] : AXIS_COLOR;
-            var auxiliaryAxisColor = options["auxiliaryAxisColor"] ? options["auxiliaryAxisColor"] :
-                AUXILIARY_AXIS_COLOR;
-            var valueCircleColor = options["valueCircleColor"] ? options["valueCircleColor"] :
-                VALUE_CIRCLE_COLOR;
-            var backgroundCircleColor = options["backgroundCircleColor"] ? options["backgroundCircleColor"] :
-                BACKGROUND_CIRCLE_COLOR;
-            var backgroundBoxColor = options["backgroundBoxColor"] ? options["backgroundBoxColor"] :
-                BACKGROUND_BOX_COLOR;
+            var auxiliaryAxisColor = options["auxiliaryAxisColor"] ? options["auxiliaryAxisColor"]
+                : AUXILIARY_AXIS_COLOR;
+            var valueCircleColor = options["valueCircleColor"] ? options["valueCircleColor"]
+                : VALUE_CIRCLE_COLOR;
+            var backgroundCircleColor = options["backgroundCircleColor"] ? options["backgroundCircleColor"]
+                : BACKGROUND_CIRCLE_COLOR;
+            var backgroundBoxColor = options["backgroundBoxColor"] ? options["backgroundBoxColor"]
+                : BACKGROUND_BOX_COLOR;
             var chartColors = options["chartColors"] ? options["chartColors"] : CHART_COLORS;
 
             // sets the number of steps
             var verticalSteps = options["verticalSteps"] ? options["verticalSteps"] : VERTICAL_STEPS;
-            var horizontalSteps = options["horizontalSteps"] ? options["horizontalSteps"] :
-                HORIZONTAL_STEPS;
+            var horizontalSteps = options["horizontalSteps"] ? options["horizontalSteps"]
+                : HORIZONTAL_STEPS;
 
             // sets the maximum and minimum values and calculates
             // the range value
-            var maximumValue = options["maximumValue"] ? Math.ceil(options["maximumValue"] / verticalSteps) *
-                verticalSteps : MAXIMUM_VALUE;
+            var maximumValue = options["maximumValue"] ? Math.ceil(options["maximumValue"] / verticalSteps)
+                * verticalSteps : MAXIMUM_VALUE;
             var minimumValue = options["minimumValue"] ? options["minimumValue"] : MINIMUM_VALUE;
             var rangeValue = maximumValue - minimumValue;
 
@@ -5426,10 +5427,10 @@
 
             // retrieves the horizontal and vertical label width
             // and height values
-            var horizontalLabelHeight = options["horizontalLabelHeight"] ? options["horizontalLabelHeight"] :
-                HORIZONTAL_LABEL_HEIGHT;
-            var verticalLabelWidth = options["verticalLabelWidth"] ? options["verticalLabelWidth"] :
-                VERTICAL_LABEL_WIDTH;
+            var horizontalLabelHeight = options["horizontalLabelHeight"] ? options["horizontalLabelHeight"]
+                : HORIZONTAL_LABEL_HEIGHT;
+            var verticalLabelWidth = options["verticalLabelWidth"] ? options["verticalLabelWidth"]
+                : VERTICAL_LABEL_WIDTH;
 
             // retrieves the label offset
             var labelOffset = options["labelOffset"] ? options["labelOffset"] : LABEL_OFFSET;
@@ -5445,14 +5446,14 @@
             var verticalMargin = marginTop + marginBottom + horizontalLabelHeight;
 
             // calculates the box margins and offsets
-            var boxMarginHorizontal = options["boxMarginHorizontal"] ? options["boxMarginHorizontal"] :
-                BOX_MARGIN_HORIZONTAL;
-            var boxMarginVertical = options["boxMarginVertical"] ? options["boxMarginVertical"] :
-                BOX_MARGIN_VERTICAL;
-            var boxHorizontalOffset = options["boxHorizontalOffset"] ? options["boxHorizontalOffset"] :
-                BOX_HORIZONTAL_OFFSET;
-            var boxVerticalOffset = options["boxVerticalOffset"] ? options["boxVerticalOffset"] :
-                BOX_VERTICAL_OFFSET;
+            var boxMarginHorizontal = options["boxMarginHorizontal"] ? options["boxMarginHorizontal"]
+                : BOX_MARGIN_HORIZONTAL;
+            var boxMarginVertical = options["boxMarginVertical"] ? options["boxMarginVertical"]
+                : BOX_MARGIN_VERTICAL;
+            var boxHorizontalOffset = options["boxHorizontalOffset"] ? options["boxHorizontalOffset"]
+                : BOX_HORIZONTAL_OFFSET;
+            var boxVerticalOffset = options["boxVerticalOffset"] ? options["boxVerticalOffset"]
+                : BOX_VERTICAL_OFFSET;
 
             // calculates the size of the axis based on the
             var horizontalAxisSize = chartWidth - horizontalMargin;
@@ -5554,8 +5555,8 @@
 
             // calculates the box position with the offset and anchored
             // to the current defined position
-            var boxX = marginLeft + verticalLabelWidth + horizontalAxisSize - boxWidth -
-                boxHorizontalOffset;
+            var boxX = marginLeft + verticalLabelWidth + horizontalAxisSize - boxWidth
+                - boxHorizontalOffset;
             var boxY = marginTop + boxVerticalOffset;
 
             // sets the background box fill color as the background box color

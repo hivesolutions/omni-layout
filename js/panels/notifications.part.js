@@ -31,8 +31,8 @@
         // adds the various inner elements of the notifications
         // container to the notification activator icon
         var link = jQuery("<div class=\"button menu-button menu-link notifications\"></div>")
-        var container = jQuery("<div class=\"menu-contents notifications-container\">" +
-            "<ul class=\"notifications-list\"></ul>" + "</div>");
+        var container = jQuery("<div class=\"menu-contents notifications-container\">"
+            + "<ul class=\"notifications-list\"></ul>" + "</div>");
         matchedObject.append(link)
         matchedObject.append(container);
 
@@ -158,12 +158,13 @@
                 // notifications, this notification should have
                 // the pre-defined username and time as defined
                 // in the received data
-                var notification = jQuery("<li class=\"button\" data-link=\"" + url + "\">" +
-                    "<img class=\"entity-picture\" src=\"" + imageUrl + "\" srcset=\"" +
-                    imageUrlSet + "\">" + "<div class=\"contents\">" +
-                    "<p class=\"title\">" + userName + "</p>" + "<p class=\"subject\"></p>" +
-                    "</div>" + "<div class=\"time\">" + time + "</div>" +
-                    "<div class=\"break\"></div>" + "</li>");
+                var notification = jQuery("<li class=\"button\" data-link=\"" + url + "\">"
+                    + "<img class=\"entity-picture\" src=\"" + imageUrl + "\" srcset=\""
+                    + imageUrlSet + "\">" + "<div class=\"contents\">"
+                    + "<p class=\"title\">" + userName + "</p>"
+                    + "<p class=\"subject\"></p>"
+                    + "</div>" + "<div class=\"time\">" + time + "</div>"
+                    + "<div class=\"break\"></div>" + "</li>");
                 list.prepend(notification);
                 notification.uxbutton();
 
@@ -469,8 +470,8 @@
                 // the iterates over them to create the various notifications
                 // in the opposite order of arrival (correct order)
                 var events = data.events || [];
-                var length = events.length > MAXIMUM_NOTIFICATIONS ? MAXIMUM_NOTIFICATIONS :
-                    events.length;
+                var length = events.length > MAXIMUM_NOTIFICATIONS ? MAXIMUM_NOTIFICATIONS
+                    : events.length;
                 for (var index = length - 1; index >= 0; index--) {
                     var event = events[index];
                     var data = event.data.data;

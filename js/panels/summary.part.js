@@ -42,9 +42,9 @@
             for (var index = 0; index < VALUES.length; index++) {
                 var value = VALUES[index];
                 var valueL = VALUES_LOCALE[index];
-                var item = jQuery("<li class=\"" + value + "\">" + "<span class=\"key\">" + valueL +
-                    "</span>" + "<span class=\"value\"></span>" +
-                    "<div class=\"sidebar-clear\"></div>" + "</li>");
+                var item = jQuery("<li class=\"" + value + "\">" + "<span class=\"key\">" + valueL
+                    + "</span>" + "<span class=\"value\"></span>"
+                    + "<div class=\"sidebar-clear\"></div>" + "</li>");
                 sidebarList.append(item)
             }
 

@@ -84,8 +84,8 @@
 
             // creates the list item (budy item) used to represent
             // the user and adds it to the buddy list
-            var item = jQuery("<li class=\"budy-" + status + "\" data-user_id=\"" + username +
-                "\" data-object_id=\"" + objectId + "\">" + representation + "</li>");
+            var item = jQuery("<li class=\"budy-" + status + "\" data-user_id=\"" + username
+                + "\" data-object_id=\"" + objectId + "\">" + representation + "</li>");
 
             // starts the target element (the one after the current element)
             // as invalid so that by default no target is used and then starts
@@ -541,8 +541,8 @@
             !hasBuddyList
                 && element.append("<ul class=\"list buddy-list\"></ul>");
             element.append("<div class=\"loading\">" + signinS + "<br /><b>" + username + "</b></div>");
-            element.append("<div class=\"disconnected\">" + disconnectedS + "<br /><b>" + retryingS +
-                "</b></div>");
+            element.append("<div class=\"disconnected\">" + disconnectedS + "<br /><b>" + retryingS
+                + "</b></div>");
         });
 
         // registers for the event triggered when a new chat
@@ -739,12 +739,12 @@
         // that an extra hidden text area is created as it will be used
         // to measure the height of the text contained in the (real)
         // text area and properly act for its resize if required
-        chatPanel = jQuery("<div class=\"chat-panel empty budy-available\">" + "<div class=\"chat-header\">" +
-            name + "<div class=\"chat-buttons\">" + "<div class=\"chat-button chat-settings\"></div>" +
-            "<div class=\"chat-button chat-close\"></div>" + "</div>" + "</div>" +
-            "<div class=\"chat-contents\"></div>" + "<div class=\"chat-message\">" +
-            "<textarea type=\"text\" class=\"text-area\"></textarea>" +
-            "<textarea type=\"text\" class=\"text-area hidden\"></textarea>" + "</div>" + "</div>");
+        chatPanel = jQuery("<div class=\"chat-panel empty budy-available\">" + "<div class=\"chat-header\">"
+            + name + "<div class=\"chat-buttons\">" + "<div class=\"chat-button chat-settings\"></div>"
+            + "<div class=\"chat-button chat-close\"></div>" + "</div>" + "</div>"
+            + "<div class=\"chat-contents\"></div>" + "<div class=\"chat-message\">"
+            + "<textarea type=\"text\" class=\"text-area\"></textarea>"
+            + "<textarea type=\"text\" class=\"text-area hidden\"></textarea>" + "</div>" + "</div>");
         matchedObject.append(chatPanel);
         chatPanel.uxapply();
         chatPanel.hide();
@@ -1574,8 +1574,8 @@
 
             // creates a new paragraph element associated with the current
             // name and with the proper background (avatar) image
-            paragraph = jQuery("<div class=\"chat-paragraph\">" + "<div class=\"chat-name\">" + nameLocale +
-                "</div>" + "<div class=\"chat-time\">" + timeString + "</div>" + "</div>");
+            paragraph = jQuery("<div class=\"chat-paragraph\">" + "<div class=\"chat-name\">" + nameLocale
+                + "</div>" + "<div class=\"chat-time\">" + timeString + "</div>" + "</div>");
             paragraph.css("background-image", "url(" + imageUrl + ")");
             paragraph.css("background-repeat", "no-repeat");
             paragraph.attr("data-date", timeString);
@@ -1753,8 +1753,8 @@
                 return message;
             }
             result = result[0];
-            extras += "<a href=\"" + result + "\" target=\"_blank\">" + "<img src=\"" + result + "\"/>" +
-                "</a>";
+            extras += "<a href=\"" + result + "\" target=\"_blank\">" + "<img src=\"" + result + "\"/>"
+                + "</a>";
             return result === message ? "" : message;
         };
 
@@ -1766,8 +1766,8 @@
             result = result[0];
             var parsed = parse(result);
             var youtubeId = parsed["v"];
-            extras += "<iframe height=\"200\"" + " src=\"//www.youtube.com/embed/" + youtubeId +
-                "?controls=0\"" + " frameborder=\"0\"></iframe>";
+            extras += "<iframe height=\"200\"" + " src=\"//www.youtube.com/embed/" + youtubeId
+                + "?controls=0\"" + " frameborder=\"0\"></iframe>";
             return result === message ? "" : message;
         };
 

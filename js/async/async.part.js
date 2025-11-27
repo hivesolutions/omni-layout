@@ -223,8 +223,8 @@
 
                     // creates the notification message that will indicate the loading
                     // of the new panel and adds it to the notifications container
-                    var notification = jQuery("<div class=\"header-notification warning\"><strong>" +
-                        loading + "</strong></div>");
+                    var notification = jQuery("<div class=\"header-notification warning\"><strong>"
+                        + loading + "</strong></div>");
                     container.append(notification);
                 }
 
@@ -233,8 +233,8 @@
                 var topLoader = jQuery(".top-loader");
                 if (topLoader.length === 0) {
                     var rightPanel = jQuery(".top-bar > .content-wrapper > .right");
-                    var topLoader = jQuery("<div class=\"top-loader\">" +
-                        "<div class=\"loader-background\"></div>" + "</div>");
+                    var topLoader = jQuery("<div class=\"top-loader\">"
+                        + "<div class=\"loader-background\"></div>" + "</div>");
                     rightPanel.after(topLoader);
                 }
 
@@ -556,10 +556,10 @@
 
         // appends both the css file and the javascript logic for the
         // target section so that it's correctly loaded
-        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue +
-            "resources/css/layout.css\" type=\"text/css\" />");
-        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue +
-            "resources/js/main.js\"></script>");
+        _head.append("<link rel=\"stylesheet\" href=\"" + basePathValue
+            + "resources/css/layout.css\" type=\"text/css\" />");
+        _head.append("<script type=\"text/javascript\" src=\"" + basePathValue
+            + "resources/js/main.js\"></script>");
     };
 
     var updateLocale = function(base) {

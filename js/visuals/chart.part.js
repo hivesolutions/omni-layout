@@ -143,8 +143,8 @@
 
             // draws the bottom horizontal axis to the current context
             // note that the line function is used for the drawing
-            context.line(marginLeft + verticalLabelWidth, marginTop + verticalAxisSize, marginLeft +
-                verticalLabelWidth + horizontalAxisSize + 1, marginTop + verticalAxisSize);
+            context.line(marginLeft + verticalLabelWidth, marginTop + verticalAxisSize, marginLeft
+                + verticalLabelWidth + horizontalAxisSize + 1, marginTop + verticalAxisSize);
 
             // strokes and closes the path, this should flush the axis
             // into the current canvas area
@@ -519,8 +519,8 @@
             // sets the various option flag based values to enable
             // and disable certain features
             var drawAxis = options["drawAxis"] ? options["drawAxis"] : DRAW_AXIS;
-            var drawAuxiliaryAxis = options["drawAuxiliaryAxis"] ? options["drawAuxiliaryAxis"] :
-                DRAW_AUXILIARY_AXIS;
+            var drawAuxiliaryAxis = options["drawAuxiliaryAxis"] ? options["drawAuxiliaryAxis"]
+                : DRAW_AUXILIARY_AXIS;
             var drawLabels = options["drawLabels"] ? options["drawLabels"] : DRAW_LABELS;
             var drawLines = options["drawLines"] ? options["drawLines"] : DRAW_LINES;
             var drawLabelBox = options["drawLabelBox"] ? options["drawLabelBox"] : DRAW_LABEL_BOX;
@@ -528,30 +528,30 @@
             // sets the ui values
             var labelFontName = options["labelFontName"] ? options["labelFontName"] : LABEL_FONT_NAME;
             var labelFontSize = options["labelFontSize"] ? options["labelFontSize"] : LABEL_FONT_SIZE;
-            var labelFontRealSize = options["labelFontRealSize"] ? options["labelFontRealSize"] :
-                LABEL_FONT_REAL_SIZE;
+            var labelFontRealSize = options["labelFontRealSize"] ? options["labelFontRealSize"]
+                : LABEL_FONT_REAL_SIZE;
             var baseColor = options["baseColor"] ? options["baseColor"] : BASE_COLOR;
             var labelColor = options["labelColor"] ? options["labelColor"] : LABEL_COLOR;
             var axisColor = options["axisColor"] ? options["axisColor"] : AXIS_COLOR;
-            var auxiliaryAxisColor = options["auxiliaryAxisColor"] ? options["auxiliaryAxisColor"] :
-                AUXILIARY_AXIS_COLOR;
-            var valueCircleColor = options["valueCircleColor"] ? options["valueCircleColor"] :
-                VALUE_CIRCLE_COLOR;
-            var backgroundCircleColor = options["backgroundCircleColor"] ? options["backgroundCircleColor"] :
-                BACKGROUND_CIRCLE_COLOR;
-            var backgroundBoxColor = options["backgroundBoxColor"] ? options["backgroundBoxColor"] :
-                BACKGROUND_BOX_COLOR;
+            var auxiliaryAxisColor = options["auxiliaryAxisColor"] ? options["auxiliaryAxisColor"]
+                : AUXILIARY_AXIS_COLOR;
+            var valueCircleColor = options["valueCircleColor"] ? options["valueCircleColor"]
+                : VALUE_CIRCLE_COLOR;
+            var backgroundCircleColor = options["backgroundCircleColor"] ? options["backgroundCircleColor"]
+                : BACKGROUND_CIRCLE_COLOR;
+            var backgroundBoxColor = options["backgroundBoxColor"] ? options["backgroundBoxColor"]
+                : BACKGROUND_BOX_COLOR;
             var chartColors = options["chartColors"] ? options["chartColors"] : CHART_COLORS;
 
             // sets the number of steps
             var verticalSteps = options["verticalSteps"] ? options["verticalSteps"] : VERTICAL_STEPS;
-            var horizontalSteps = options["horizontalSteps"] ? options["horizontalSteps"] :
-                HORIZONTAL_STEPS;
+            var horizontalSteps = options["horizontalSteps"] ? options["horizontalSteps"]
+                : HORIZONTAL_STEPS;
 
             // sets the maximum and minimum values and calculates
             // the range value
-            var maximumValue = options["maximumValue"] ? Math.ceil(options["maximumValue"] / verticalSteps) *
-                verticalSteps : MAXIMUM_VALUE;
+            var maximumValue = options["maximumValue"] ? Math.ceil(options["maximumValue"] / verticalSteps)
+                * verticalSteps : MAXIMUM_VALUE;
             var minimumValue = options["minimumValue"] ? options["minimumValue"] : MINIMUM_VALUE;
             var rangeValue = maximumValue - minimumValue;
 
@@ -560,10 +560,10 @@
 
             // retrieves the horizontal and vertical label width
             // and height values
-            var horizontalLabelHeight = options["horizontalLabelHeight"] ? options["horizontalLabelHeight"] :
-                HORIZONTAL_LABEL_HEIGHT;
-            var verticalLabelWidth = options["verticalLabelWidth"] ? options["verticalLabelWidth"] :
-                VERTICAL_LABEL_WIDTH;
+            var horizontalLabelHeight = options["horizontalLabelHeight"] ? options["horizontalLabelHeight"]
+                : HORIZONTAL_LABEL_HEIGHT;
+            var verticalLabelWidth = options["verticalLabelWidth"] ? options["verticalLabelWidth"]
+                : VERTICAL_LABEL_WIDTH;
 
             // retrieves the label offset
             var labelOffset = options["labelOffset"] ? options["labelOffset"] : LABEL_OFFSET;
@@ -579,14 +579,14 @@
             var verticalMargin = marginTop + marginBottom + horizontalLabelHeight;
 
             // calculates the box margins and offsets
-            var boxMarginHorizontal = options["boxMarginHorizontal"] ? options["boxMarginHorizontal"] :
-                BOX_MARGIN_HORIZONTAL;
-            var boxMarginVertical = options["boxMarginVertical"] ? options["boxMarginVertical"] :
-                BOX_MARGIN_VERTICAL;
-            var boxHorizontalOffset = options["boxHorizontalOffset"] ? options["boxHorizontalOffset"] :
-                BOX_HORIZONTAL_OFFSET;
-            var boxVerticalOffset = options["boxVerticalOffset"] ? options["boxVerticalOffset"] :
-                BOX_VERTICAL_OFFSET;
+            var boxMarginHorizontal = options["boxMarginHorizontal"] ? options["boxMarginHorizontal"]
+                : BOX_MARGIN_HORIZONTAL;
+            var boxMarginVertical = options["boxMarginVertical"] ? options["boxMarginVertical"]
+                : BOX_MARGIN_VERTICAL;
+            var boxHorizontalOffset = options["boxHorizontalOffset"] ? options["boxHorizontalOffset"]
+                : BOX_HORIZONTAL_OFFSET;
+            var boxVerticalOffset = options["boxVerticalOffset"] ? options["boxVerticalOffset"]
+                : BOX_VERTICAL_OFFSET;
 
             // calculates the size of the axis based on the
             var horizontalAxisSize = chartWidth - horizontalMargin;
@@ -688,8 +688,8 @@
 
             // calculates the box position with the offset and anchored
             // to the current defined position
-            var boxX = marginLeft + verticalLabelWidth + horizontalAxisSize - boxWidth -
-                boxHorizontalOffset;
+            var boxX = marginLeft + verticalLabelWidth + horizontalAxisSize - boxWidth
+                - boxHorizontalOffset;
             var boxY = marginTop + boxVerticalOffset;
 
             // sets the background box fill color as the background box color
