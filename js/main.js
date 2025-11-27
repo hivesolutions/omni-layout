@@ -1104,6 +1104,8 @@
         var type = param["type"] || "get";
         var url = param["url"];
         var data = param["data"];
+        var processData = param["processData"];
+        var contentType = param["contentType"];
         var complete = param["complete"];
         var success = param["success"];
         var error = param["error"];
@@ -1114,7 +1116,7 @@
         var section = urlSplit[0];
         var remainder = urlSplit.slice(1);
 
-        // creates the section url fromthe alias and rejoins the values
+        // creates the section url from the alias and rejoins the values
         // to created the alias resolved url
         var sectionUrl = alias[section] || section;
         url = sectionUrl + "/" + remainder.join("/")
@@ -1157,6 +1159,8 @@
             type: type,
             url: url,
             data: data,
+            processData: processData,
+            contentType: contentType,
             complete: complete,
             success: success,
             error: error
