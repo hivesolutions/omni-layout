@@ -4961,7 +4961,7 @@
         var options = options ? options : {};
 
         // constructs the options
-        var options = jQuery.extend(defaults, options);
+        options = jQuery.extend(defaults, options);
 
         // sets the jquery matched object
         var matchedObject = this;
