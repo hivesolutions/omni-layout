@@ -12,7 +12,7 @@
         // (global configurations)
         matchedObject.uconfigurations();
 
-        // applies the top bar related configuations to the
+        // applies the top bar related configurations to the
         // current top level object
         matchedObject.utopbar();
 
