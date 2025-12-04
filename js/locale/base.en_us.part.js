@@ -1,9 +1,11 @@
 (function(jQuery) {
     var BUNDLE_EN_US = {
+        "payment_method:bank_transfer": "Bank Transfer",
         "payment_method:cash": "Cash",
         "payment_method:card": "Card",
         "payment_method:check": "Check",
         "payment_method:credit_note": "Credit Note",
+        "payment_method:custom": "Other",
         "payment_method:easypay": "Easypay",
         "payment_method:paypal": "Paypal",
         "physical_signature:signed": "Signed",
