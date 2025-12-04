@@ -546,6 +546,12 @@ body.omni-style.opensans {
     width: 136px;
 }
 
+.omni-style .list-window-area {
+    height: 80px;
+    max-width: 100%;
+    width: 314px;
+}
+
 .omni-style .section-input .filter-input {
     box-shadow: none;
     -o-box-shadow: none;
