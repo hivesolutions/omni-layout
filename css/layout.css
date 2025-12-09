@@ -2363,6 +2363,101 @@ body.omni-style.opensans {
     -webkit-box-shadow: 0px 0px 10px #3d3d3d;
 }
 
+.omni-style .passkey-settings-panel .panel-description {
+    color: #2d2d2d;
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+
+.omni-style .passkey-loading,
+.omni-style .passkey-empty {
+    padding: 20px 0px 20px 0px;
+    text-align: center;
+}
+
+.omni-style .passkey-empty {
+    color: #999999;
+    display: none;
+}
+
+.omni-style .passkey-table {
+    border-collapse: collapse;
+    display: none;
+    width: 100%;
+}
+
+.omni-style .passkey-table thead tr {
+    border-bottom: 2px solid #dddddd;
+}
+
+.omni-style .passkey-table th {
+    padding: 10px 10px 10px 10px;
+    text-align: left;
+}
+
+.omni-style .passkey-table th.passkey-actions {
+    text-align: center;
+}
+
+.omni-style .passkey-table td {
+    padding: 10px 10px 10px 10px;
+}
+
+.omni-style .passkey-table td.passkey-actions {
+    text-align: center;
+}
+
+.omni-style .passkey-table tbody tr {
+    border-bottom: 1px solid #eeeeee;
+}
+
+.omni-style .passkey-delete-btn {
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 3px 3px 3px 3px;
+    -o-border-radius: 3px 3px 3px 3px;
+    -ms-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -khtml-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 5px 15px 5px 15px;
+}
+
+.omni-style .passkey-delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.omni-style .passkey-add-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.omni-style .passkey-section {
+    display: none;
+}
+
+.omni-style .passkey-instructions {
+    color: #666666;
+    line-height: 20px;
+    margin: 8px 0px 8px 0px;
+}
+
+.omni-style .passkey-status {
+    margin-top: 10px;
+}
+
+.omni-style .passkey-waiting {
+    color: #666666;
+}
+
+.omni-style .passkey-error {
+    color: #e74c3c;
+    display: none;
+    font-weight: bold;
+}
+
 .omni-style .content-permission {
     margin: 120px auto 60px auto;
     width: 624px;

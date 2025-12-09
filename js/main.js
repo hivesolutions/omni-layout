@@ -1390,7 +1390,7 @@
                 ]);
             } catch (exception) {
                 // in case an exception was throw must return
-                // immediately as the redirectionis meant to
+                // immediately as the redirections are meant to
                 // be avoided (exception semantics)
                 return;
             }
@@ -1400,13 +1400,13 @@
             var baseUrl = mvcPath + classUrl;
 
             // replaces the left padded zeros in the object
-            // id to contruct the final object id, then uses
+            // id to construct the final object id, then uses
             // it to redirect the user agent to the show page
             objectId = objectId.replace(/^0+|\s+$/g, "");
             jQuery.uxlocation(baseUrl + objectId);
         });
 
-        // registers for the scan erro event in the document
+        // registers for the scan error event in the document
         // to be able to react to it
         _document.bind("scan_error", function(event, value) {});
 
