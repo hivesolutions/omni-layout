@@ -27,7 +27,7 @@
 
 .omni-style .passkey-table th {
     color: #2d2d2d;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     padding: 10px 10px 10px 10px;
     text-align: left;
@@ -38,6 +38,7 @@
 }
 
 .omni-style .passkey-table td {
+    font-size: 12px;
     padding: 10px 10px 10px 10px;
 }
 
@@ -60,6 +61,7 @@
     -webkit-border-radius: 3px 3px 3px 3px;
     color: #ffffff;
     cursor: pointer;
+    font-weight: 600;
     padding: 5px 15px 5px 15px;
 }
 
