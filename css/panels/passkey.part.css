@@ -26,6 +26,9 @@
 }
 
 .omni-style .passkey-table th {
+    color: #2d2d2d;
+    font-size: 13px;
+    font-weight: 600;
     padding: 10px 10px 10px 10px;
     text-align: left;
 }
