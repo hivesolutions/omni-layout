@@ -2363,7 +2363,7 @@ body.omni-style.opensans {
     -webkit-box-shadow: 0px 0px 10px #3d3d3d;
 }
 
-.omni-style .passkey-settings-panel .panel-description {
+.omni-style .passkey-settings .panel-description {
     color: #2d2d2d;
     line-height: 20px;
     margin-bottom: 20px;
