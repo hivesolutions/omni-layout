@@ -68,7 +68,7 @@
             });
 
             // retrieves the current async registration flag from the body
-            // elemennt in case it's currently set returns immediately to
+            // element in case it's currently set returns immediately to
             // avoid duplicated registration
             var async = _body.data("async") || false;
             if (async) {
@@ -76,14 +76,14 @@
             }
 
             // registers for the data changed event so that if there's new panel
-            // data available the layour is update in acordance, so that the async
+            // data available the layout is updated in accordance, so that the async
             // requests are reflected in a layout change
             _body.bind("data", function(event, data, href, uuid, push, hbase) {
                 // in case no unique identifier for the state exists generates a new
                 // one in order to identify the current layout state
                 uuid = uuid || jQuery.uxguid();
 
-                // retrieves the default hiperlink base value as the target link value
+                // retrieves the default hyperlink base value as the target link value
                 // this value may be used to customize the url versus link resolution
                 hbase = hbase || href;
 
@@ -121,7 +121,7 @@
                     var _isBaseSimple = isBaseSimple(base);
 
                     // verifies if the current layout and the target layout for
-                    // loadinf are valid for layout change in case they're not
+                    // loading are valid for layout change in case they're not
                     // raises an exception indicating the problem
                     var isValid = (_isFull || _isSimple) && (_isBaseFull || _isBaseSimple);
                     if (!isValid) {
