@@ -1,6 +1,7 @@
 .omni-style .passkey-settings .panel-description {
     color: #2d2d2d;
-    line-height: 20px;
+    font-size: 13px;
+    line-height: 24px;
     margin-bottom: 20px;
 }
 
@@ -61,6 +62,7 @@
     -webkit-border-radius: 3px 3px 3px 3px;
     color: #ffffff;
     cursor: pointer;
+    font-size: 11px;
     font-weight: 600;
     padding: 5px 15px 5px 15px;
 }
@@ -72,6 +74,11 @@
 .omni-style .passkey-add-container {
     margin-top: 20px;
     text-align: center;
+}
+
+.omni-style .button-add-passkey {
+    display: inline-block;
+    width: max-content;
 }
 
 .omni-style .passkey-section {
