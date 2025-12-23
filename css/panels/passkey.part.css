@@ -5,28 +5,28 @@
     margin-bottom: 20px;
 }
 
-.omni-style .passkey-loading,
-.omni-style .passkey-empty {
+.omni-style .passkey-settings .passkey-loading,
+.omni-style .passkey-settings .passkey-empty {
     padding: 20px 0px 20px 0px;
     text-align: center;
 }
 
-.omni-style .passkey-empty {
+.omni-style .passkey-settings .passkey-empty {
     color: #999999;
     display: none;
 }
 
-.omni-style .passkey-table {
+.omni-style .passkey-settings .passkey-table {
     border-collapse: collapse;
     display: none;
     width: 100%;
 }
 
-.omni-style .passkey-table thead tr {
+.omni-style .passkey-settings .passkey-table thead tr {
     border-bottom: 2px solid #dddddd;
 }
 
-.omni-style .passkey-table th {
+.omni-style .passkey-settings .passkey-table th {
     color: #2d2d2d;
     font-size: 12px;
     font-weight: 600;
@@ -34,24 +34,24 @@
     text-align: left;
 }
 
-.omni-style .passkey-table th.passkey-actions {
+.omni-style .passkey-settings .passkey-table th.passkey-actions {
     text-align: center;
 }
 
-.omni-style .passkey-table td {
+.omni-style .passkey-settings .passkey-table td {
     font-size: 12px;
     padding: 10px 10px 10px 10px;
 }
 
-.omni-style .passkey-table td.passkey-actions {
+.omni-style .passkey-settings .passkey-table td.passkey-actions {
     text-align: center;
 }
 
-.omni-style .passkey-table tbody tr {
+.omni-style .passkey-settings .passkey-table tbody tr {
     border-bottom: 1px solid #eeeeee;
 }
 
-.omni-style .passkey-delete-btn {
+.omni-style .passkey-delete-button {
     background-color: #e74c3c;
     border: none;
     border-radius: 3px 3px 3px 3px;
@@ -67,39 +67,39 @@
     padding: 5px 15px 5px 15px;
 }
 
-.omni-style .passkey-delete-btn:hover {
+.omni-style .passkey-delete-button:hover {
     background-color: #c0392b;
 }
 
-.omni-style .passkey-add-container {
+.omni-style .passkey-settings .passkey-add-container {
     margin-top: 20px;
     text-align: center;
 }
 
-.omni-style .button-add-passkey {
+.omni-style .passkey-settings .button-add-passkey {
     display: inline-block;
     width: max-content;
 }
 
-.omni-style .passkey-section {
+.omni-style .passkey-settings .passkey-section {
     display: none;
 }
 
-.omni-style .passkey-instructions {
+.omni-style .passkey-settings .passkey-instructions {
     color: #666666;
     line-height: 20px;
     margin: 8px 0px 8px 0px;
 }
 
-.omni-style .passkey-status {
+.omni-style .passkey-settings .passkey-status {
     margin-top: 10px;
 }
 
-.omni-style .passkey-waiting {
+.omni-style .passkey-settings .passkey-waiting {
     color: #666666;
 }
 
-.omni-style .passkey-error {
+.omni-style .passkey-settings .passkey-error {
     color: #e74c3c;
     display: none;
     font-weight: bold;
