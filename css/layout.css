@@ -2992,26 +2992,6 @@ body.omni-style.opensans {
     display: none;
 }
 
-.omni-style .login-list .passkey-section .passkey-instructions {
-    color: #666666;
-    line-height: 20px;
-    margin: 8px 0px 8px 0px;
-}
-
-.omni-style .login-list .passkey-section .passkey-status {
-    margin-top: 10px;
-}
-
-.omni-style .login-list .passkey-section .passkey-waiting {
-    color: #666666;
-}
-
-.omni-style .login-list .passkey-section .passkey-error {
-    color: #e74c3c;
-    display: none;
-    font-weight: bold;
-}
-
 .omni-style .passkey-verify-panel .passkey-buttons {
     margin: 22px 0px 12px 0px;
     text-align: center;
@@ -3021,6 +3001,26 @@ body.omni-style.opensans {
     display: inline-block;
     margin-bottom: 12px;
     width: max-content;
+}
+
+.omni-style .passkey-prompt .passkey-instructions {
+    color: #666666;
+    line-height: 20px;
+    margin: 8px 0px 8px 0px;
+}
+
+.omni-style .passkey-prompt .passkey-status {
+    margin-top: 10px;
+}
+
+.omni-style .passkey-prompt .passkey-waiting {
+    color: #666666;
+}
+
+.omni-style .passkey-prompt .passkey-error {
+    color: #c31f30;
+    display: none;
+    font-weight: bold;
 }
 
 .omni-style .report {

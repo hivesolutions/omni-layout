@@ -8,3 +8,23 @@
     margin-bottom: 12px;
     width: max-content;
 }
+
+.omni-style .passkey-prompt .passkey-instructions {
+    color: #666666;
+    line-height: 20px;
+    margin: 8px 0px 8px 0px;
+}
+
+.omni-style .passkey-prompt .passkey-status {
+    margin-top: 10px;
+}
+
+.omni-style .passkey-prompt .passkey-waiting {
+    color: #666666;
+}
+
+.omni-style .passkey-prompt .passkey-error {
+    color: #c31f30;
+    display: none;
+    font-weight: bold;
+}
