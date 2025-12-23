@@ -55,3 +55,27 @@
     line-height: 18px;
     margin-left: 6px;
 }
+
+.omni-style .login-list .passkey-section {
+    display: none;
+}
+
+.omni-style .login-list .passkey-section .passkey-instructions {
+    color: #666666;
+    line-height: 20px;
+    margin: 8px 0px 8px 0px;
+}
+
+.omni-style .login-list .passkey-section .passkey-status {
+    margin-top: 10px;
+}
+
+.omni-style .login-list .passkey-section .passkey-waiting {
+    color: #666666;
+}
+
+.omni-style .login-list .passkey-section .passkey-error {
+    color: #e74c3c;
+    display: none;
+    font-weight: bold;
+}

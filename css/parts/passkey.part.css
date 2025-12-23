@@ -1,0 +1,10 @@
+.omni-style .passkey-verify-panel .passkey-buttons {
+    margin: 22px 0px 12px 0px;
+    text-align: center;
+}
+
+.omni-style .passkey-verify-panel .button-passkey-verify {
+    display: inline-block;
+    margin-bottom: 12px;
+    width: max-content;
+}
