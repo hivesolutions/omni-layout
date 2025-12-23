@@ -3697,6 +3697,7 @@ body.omni-print-style.receipt {
     width: 250px;
 }
 
+.omni-style .entity-details-box.box-full,
 .omni-style.mobile-s .entity-details-box {
     float: none;
     margin: 8px 0px 0px 0px;
@@ -3724,6 +3725,7 @@ body.omni-print-style.receipt {
     clear: both;
 }
 
+.omni-style .entity-details-box.box-full > li,
 .omni-style.mobile-s .entity-details-box > li {
     display: flex;
 }
@@ -3788,6 +3790,7 @@ body.omni-print-style.receipt {
     width: 94px;
 }
 
+.omni-style .entity-details-box.box-full > li p.list-label,
 .omni-style.mobile-s .entity-details-box > li p.list-label {
     flex: 1 0;
 }
