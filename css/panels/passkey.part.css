@@ -80,27 +80,3 @@
     display: inline-block;
     width: max-content;
 }
-
-.omni-style .passkey-settings .passkey-section {
-    display: none;
-}
-
-.omni-style .passkey-settings .passkey-instructions {
-    color: #666666;
-    line-height: 20px;
-    margin: 8px 0px 8px 0px;
-}
-
-.omni-style .passkey-settings .passkey-status {
-    margin-top: 10px;
-}
-
-.omni-style .passkey-settings .passkey-waiting {
-    color: #666666;
-}
-
-.omni-style .passkey-settings .passkey-error {
-    color: #e74c3c;
-    display: none;
-    font-weight: bold;
-}
