@@ -869,6 +869,13 @@ body.omni-style.opensans {
     word-wrap: break-word;
 }
 
+.omni-style .list-code-label.monospace {
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 18px;
+    overflow-x: auto;
+}
+
 .omni-style .list-window-label {
     color: #000000;
     font-size: 14px;
