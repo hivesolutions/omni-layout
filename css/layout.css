@@ -3663,7 +3663,7 @@ body.omni-print-style.receipt {
     line-height: 24px;
     padding-bottom: 4px;
     padding-top: 4px;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .omni-style.mobile-s .entity-details-list > li p,
