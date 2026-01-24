@@ -778,6 +778,14 @@ body.omni-style.opensans {
     min-height: 18px;
 }
 
+.omni-style .section-table-title {
+    color: #2d2d2d;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18px;
+    min-height: 18px;
+}
+
 .omni-style .section-text {
     color: #2d2d2d;
     line-height: 20px;
