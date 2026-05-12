@@ -115,6 +115,22 @@
     line-height: 20px;
 }
 
+.omni-style .activity-list-actions {
+    color: #2d2d2d;
+    float: right;
+    margin: 10px 0px 0px 0px;
+}
+
+.omni-style .activity-list-actions > .link {
+    margin-left: 12px;
+}
+
+.omni-style .activity-list-meta {
+    color: #2d2d2d;
+    float: left;
+    margin: 10px 0px 0px 0px;
+}
+
 .omni-style .activity-list .data {
     display: none;
 }
