@@ -111,6 +111,10 @@
     margin: 10px 0px 0px 0px;
 }
 
+.omni-style .activity-list-description.relaxed {
+    line-height: 20px;
+}
+
 .omni-style .activity-list .data {
     display: none;
 }
