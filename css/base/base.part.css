@@ -425,6 +425,22 @@ body.omni-style.opensans {
     min-width: 100%;
 }
 
+.omni-style .list-full-area {
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 106px;
+    max-width: 100%;
+    width: 100%;
+}
+
+.omni-style.mobile-s .list-full-area {
+    min-width: 100%;
+}
+
 .omni-style .list-code-area {
     font-family: Consolas, monospace;
     height: 200px;
