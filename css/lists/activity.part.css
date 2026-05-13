@@ -166,52 +166,48 @@
     color: #4d4d4d;
 }
 
-.omni-style .discussion-composer-files {
-    margin-top: 8px;
-}
-
-.omni-style .discussion-files-list {
+.omni-style .activity-list .files-list {
     list-style: none;
     margin: 8px 0px 0px 0px;
     padding: 0px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
 }
 
-.omni-style .discussion-files-list li {
-    align-items: center;
-    background-color: #f4f4f6;
-    border: 1px solid #e6e6ea;
-    border-radius: 999px;
-    box-sizing: border-box;
-    -o-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -khtml-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    display: inline-flex;
+.omni-style .activity-list .files-list:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.omni-style .activity-list .files-list li {
+    border: 0px;
+    cursor: default;
+    float: left;
     font-size: 12px;
-    gap: 6px;
     line-height: 18px;
+    margin: 0px 12px 4px 0px;
     max-width: 100%;
-    padding: 2px 10px;
+    padding: 0px;
 }
 
-.omni-style .discussion-files-list li::before {
-    color: #8a8a92;
-    content: "📎";
-    font-size: 11px;
+.omni-style .activity-list .files-list li:hover {
+    background-color: transparent;
+    border: 0px;
+    margin: 0px 12px 4px 0px;
+    padding: 0px;
+    width: auto;
 }
 
-.omni-style .discussion-files-list li > a {
+.omni-style .activity-list .files-list li > a {
+    display: inline-block;
     max-width: 220px;
     overflow: hidden;
     text-overflow: ellipsis;
+    vertical-align: bottom;
     white-space: nowrap;
 }
 
-.omni-style .discussion-files-list li > a.discussion-files-delete {
+.omni-style .activity-list .files-list li > a.files-list-delete {
     font-size: 11px;
+    margin-left: 6px;
     max-width: none;
 }
