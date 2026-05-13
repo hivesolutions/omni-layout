@@ -169,7 +169,7 @@
 .omni-style .activity-list .files-list {
     list-style: none;
     margin: 8px 0px 0px 0px;
-    padding: 0px;
+    padding: 0px 0px 0px 0px;
 }
 
 .omni-style .activity-list .files-list:after {
@@ -179,21 +179,21 @@
 }
 
 .omni-style .activity-list .files-list li {
-    border: 0px;
+    border: none;
     cursor: default;
     float: left;
     font-size: 12px;
     line-height: 18px;
     margin: 0px 12px 4px 0px;
     max-width: 100%;
-    padding: 0px;
+    padding: 0px 0px 0px 0px;
 }
 
 .omni-style .activity-list .files-list li:hover {
     background-color: transparent;
-    border: 0px;
+    border: none;
     margin: 0px 12px 4px 0px;
-    padding: 0px;
+    padding: 0px 0px 0px 0px;
     width: auto;
 }
 

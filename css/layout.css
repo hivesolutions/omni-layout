@@ -1326,6 +1326,52 @@ body.omni-style.opensans {
     color: #4d4d4d;
 }
 
+.omni-style .activity-list .files-list {
+    list-style: none;
+    margin: 8px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .activity-list .files-list:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.omni-style .activity-list .files-list li {
+    border: none;
+    cursor: default;
+    float: left;
+    font-size: 12px;
+    line-height: 18px;
+    margin: 0px 12px 4px 0px;
+    max-width: 100%;
+    padding: 0px 0px 0px 0px;
+}
+
+.omni-style .activity-list .files-list li:hover {
+    background-color: transparent;
+    border: none;
+    margin: 0px 12px 4px 0px;
+    padding: 0px 0px 0px 0px;
+    width: auto;
+}
+
+.omni-style .activity-list .files-list li > a {
+    display: inline-block;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+}
+
+.omni-style .activity-list .files-list li > a.files-list-delete {
+    font-size: 11px;
+    margin-left: 6px;
+    max-width: none;
+}
+
 .omni-style .list.navigation-list {
     font-size: 14px;
     line-height: 15px;
