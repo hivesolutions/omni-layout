@@ -4057,11 +4057,31 @@
 
             // registers for the before unload event in the window
             // element so that any pending native notification is
-            // closed and not left over as garbage
-            !isRegistered && _window.bind("beforeunload", function() {
-                var _notification = _body.data("_notification");
-                _notification && _notification.close();
-            });
+            // closed and not left over as garbage, the binding is wrapped
+            // in a try/catch so that it fails gracefully in case the event
+            // is blocked by the browser (eg: permissions policy)
+            try {
+                !isRegistered && _window.bind("beforeunload", function() {
+                    var _notification = _body.data("_notification");
+                    _notification && _notification.close();
+                });
+            } catch (exception) {
+                // ignores the exception as the binding is best effort
+            }
+
+            // registers for the unload event in the window
+            // element so that any pending native notification is
+            // closed and not left over as garbage, the binding is wrapped
+            // in a try/catch so that it fails gracefully in case the event
+            // is blocked by the browser (eg: permissions policy)
+            try {
+                !isRegistered && _window.bind("unload", function() {
+                    var _notification = _body.data("_notification");
+                    _notification && _notification.close();
+                });
+            } catch (exception) {
+                // ignores the exception as the binding is best effort
+            }
 
             // registers for the show event so that the reading
             // class may be added to the link indicating that the
