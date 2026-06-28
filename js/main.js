@@ -3703,6 +3703,24 @@
         var isRegistered = _window.data("notifications_global");
         _window.data("notifications_global", true);
 
+        // sends the configuration (the mvc path and the class id URL map) to
+        // the service worker so that it's able to resolve the target URL of
+        // the Web Push notifications the same way it's done for the local (in
+        // page) ones, the operation is wrapped in a try/catch and runs on each
+        // page load so that the (in memory) configuration is kept up to date
+        try {
+            "serviceWorker" in navigator
+                && navigator.serviceWorker.ready.then(function(ready) {
+                    ready.active && ready.active.postMessage({
+                        type: "config",
+                        mvc_path: _body.data("mvc_path"),
+                        class_id_url: _body.data("class_id_url")
+                    });
+                });
+        } catch (exception) {
+            // ignores the exception as the configuration send is best effort
+        }
+
         // adds the various inner elements of the notifications
         // container to the notification activator icon
         var link = jQuery("<div class=\"button menu-button menu-link notifications\"></div>")
