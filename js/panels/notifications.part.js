@@ -32,15 +32,21 @@
         // the service worker so that it's able to resolve the target URL of
         // the Web Push notifications the same way it's done for the local (in
         // page) ones, the operation is wrapped in a try/catch and runs on each
-        // page load so that the (in memory) configuration is kept up to date
+        // page load so that the (in memory) configuration is kept up to date,
+        // note that the registrations are used (instead of the ready promise)
+        // as the service worker is registered under a scope that does not
+        // control the page and so the ready promise would never resolve
         try {
             "serviceWorker" in navigator
-                && navigator.serviceWorker.ready.then(function(ready) {
-                    ready.active && ready.active.postMessage({
-                        type: "config",
-                        mvc_path: _body.data("mvc_path"),
-                        class_id_url: _body.data("class_id_url")
-                    });
+                && navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for (var index = 0; index < registrations.length; index++) {
+                        var active = registrations[index].active;
+                        active && active.postMessage({
+                            type: "config",
+                            mvc_path: _body.data("mvc_path"),
+                            class_id_url: _body.data("class_id_url")
+                        });
+                    }
                 });
         } catch (exception) {
             // ignores the exception as the configuration send is best effort
