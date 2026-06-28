@@ -4063,14 +4063,6 @@
                 _notification && _notification.close();
             });
 
-            // registers for the unload event in the window
-            // element so that any pending native notification is
-            // closed and not left over as garbage
-            !isRegistered && _window.bind("unload", function() {
-                var _notification = _body.data("_notification");
-                _notification && _notification.close();
-            });
-
             // registers for the show event so that the reading
             // class may be added to the link indicating that the
             // notifications panel is being "read"
