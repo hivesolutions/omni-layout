@@ -3761,6 +3761,15 @@
                 // retrieves the current element
                 var _element = jQuery(this);
 
+                // verifies that the notification data contains the minimum
+                // required structure (entity, create user and notification),
+                // returning immediately otherwise so that a malformed or
+                // legacy notification does not break the rendering pipeline
+                if (!data || !data.entity || !data.create_user
+                    || !data.notification) {
+                    return;
+                }
+
                 // retrieves the mvc and base paths and the class id url
                 // map for the current page
                 var mvcPath = _body.data("mvc_path");
@@ -3943,7 +3952,7 @@
                     // there's no data skips the current iteration
                     var _element = jQuery(this);
                     var data = _element.data("data");
-                    if (!data) {
+                    if (!data || !data.entity || !data.notification) {
                         return;
                     }
 
@@ -4149,6 +4158,9 @@
                     : events.length;
                 for (var index = length - 1; index >= 0; index--) {
                     var event = events[index];
+                    if (!event || !event.data) {
+                        continue;
+                    }
                     var data = event.data.data;
                     var _data = data ? jQuery.parseJSON(data) : data;
                     _element.triggerHandler("notification", [_data,
