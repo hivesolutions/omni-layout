@@ -1293,6 +1293,10 @@
         // registers for the scan event in the document
         // to be able to react to it
         _document.bind("scan", function(event, value) {
+            // logs the detection of the scan so that the resolution
+            // process of it may be followed in the console
+            console.info("Scan detected:", value);
+
             // retrieves the current element that is the
             // target of the scan operation
             var element = jQuery(this);
@@ -1306,6 +1310,7 @@
             // is of the expected size, otherwise returns
             // immediately not an expected code
             if (value.length !== SCAN_CODE_LENGTH) {
+                console.info("Scan with unexpected length:", value.length);
                 return;
             }
 
@@ -1326,6 +1331,7 @@
             var buffer = value.slice(4);
             var _checksumS = checksum(buffer);
             if (_checksumS !== checksumS) {
+                console.warn("Scan with invalid checksum:", checksumS);
                 return;
             }
 
@@ -1342,6 +1348,7 @@
             // the "generated" integer is valid
             var versionInt = parseInt(version);
             if (isNaN(versionInt)) {
+                console.warn("Scan with invalid version:", version);
                 return;
             }
             // converts the class identifier into an integer
@@ -1349,6 +1356,7 @@
             // the "generated" integer is valid
             var classIdInt = parseInt(classId);
             if (isNaN(classIdInt)) {
+                console.warn("Scan with invalid class id:", classId);
                 return;
             }
 
@@ -1357,6 +1365,7 @@
             // the "generated" integer is valid
             var objectIdInt = parseInt(objectId);
             if (isNaN(objectId)) {
+                console.warn("Scan with invalid object id:", objectId);
                 return;
             }
 
@@ -1366,6 +1375,7 @@
             // version set) in case it's not returns immediately
             var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) !== -1;
             if (!isCompatible) {
+                console.warn("Scan with incompatible version:", versionInt);
                 return;
             }
 
@@ -1374,8 +1384,13 @@
             // it's not found returns immediately in error
             var classUrl = classIdUrl[classIdInt];
             if (!classUrl) {
+                console.warn("Scan with no class url:", classIdInt);
                 return;
             }
+
+            // logs the resolution of the scan into its version, class
+            // and object identifiers (before the uscan handling)
+            console.info("Scan resolved:", versionInt, classIdInt, objectIdInt);
 
             // sets the uscan attribute in the event so that
             // any other handler is able to "understand" that
@@ -1392,6 +1407,7 @@
                 // in case an exception was throw must return
                 // immediately as the redirections are meant to
                 // be avoided (exception semantics)
+                console.info("Scan redirection avoided:", classIdInt);
                 return;
             }
 
@@ -1403,12 +1419,17 @@
             // id to construct the final object id, then uses
             // it to redirect the user agent to the show page
             objectId = objectId.replace(/^0+|\s+$/g, "");
+            console.info("Scan redirecting to:", baseUrl + objectId);
             jQuery.uxlocation(baseUrl + objectId);
         });
 
         // registers for the scan error event in the document
         // to be able to react to it
-        _document.bind("scan_error", function(event, value) {});
+        _document.bind("scan_error", function(event, value) {
+            // logs the scan error with only the length of the value
+            // as it may contain keys typed by the user
+            console.debug("Scan error with length:", value.length);
+        });
 
         var checksum = function(buffer, modulus, salt) {
             // retrieves the various value for the provided
