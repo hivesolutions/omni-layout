@@ -1304,6 +1304,12 @@
             // process of it may be followed in the console
             console.info("Scan detected:", value);
 
+            // retrieves the current timestamp as the identifier of the scan
+            // (assumes uniqueness) and sets it as the current one in the body
+            // so that a pending lookup of a previous scan is not scanned
+            var identifier = new Date().getTime();
+            _body.data("current", identifier);
+
             // retrieves the current element that is the
             // target of the scan operation
             var element = jQuery(this);
@@ -1330,6 +1336,16 @@
                         value: value
                     },
                     success: function(data) {
+                        // retrieves the current identifier from the body and
+                        // checks it against the closure based identifier in
+                        // case it's not the same (a scan has come in between)
+                        // the response is outdated and must be ignored
+                        var current = _body.data("current");
+                        if (current !== identifier) {
+                            console.info("Scan with outdated QR code:", value);
+                            return;
+                        }
+
                         var barcode = data["barcode"];
                         if (!barcode) {
                             console.info("Scan with unknown QR code:", value);
@@ -1337,6 +1353,9 @@
                         }
                         console.info("Scan resolved into barcode:", barcode);
                         _document.trigger("scan", [barcode]);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Scan with failed QR code lookup:", error);
                     }
                 });
 
