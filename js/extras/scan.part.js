@@ -20,6 +20,13 @@
          */
         var QR_CODE_REGEX = /^A:[^*]*\*B:[^*]*\*C:[^*]*\*D:[^*]*\*E:[^*]*\*F:[^*]*\*G:[^*]*\*H:/;
 
+        /**
+         * The sequence of the characters that may be encoded in code 39,
+         * ordered by their value, as used in the calculus of the (modulo 43)
+         * check character of the code 39 barcodes.
+         */
+        var CODE_39_CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+
         // sets the jquery matched object
         var matchedObject = this;
 
@@ -108,6 +115,16 @@
                 // returns immediately as the barcode is going to be
                 // scanned once it's retrieved (asynchronous operation)
                 return;
+            }
+
+            // in case the scanned value (or its alternative, eg: the scanner has
+            // the keyboard layout of the system instead of the US one) is a code
+            // followed by its code 39 (modulo 43) check character, as sent by
+            // most of the scanners, the check character is removed from it
+            var code = stripCheck(value) || stripCheck(alternative);
+            if (code) {
+                console.info("Scan with code 39 check character removed:", code);
+                value = code;
             }
 
             // verifies that the size of the code legnth
@@ -265,6 +282,34 @@
             var checksum = counter % modulus;
             var checksumS = String(checksum);
             return checksumS;
+        };
+
+        var stripCheck = function(value) {
+            // in case the value doesn't have the length of a code followed
+            // by a check character returns immediately (nothing to remove)
+            if (!value || value.length !== SCAN_CODE_LENGTH + 1) {
+                return null;
+            }
+
+            // retrieves the code (the value without its last character) and
+            // sums the values of its characters (their position in the code
+            // 39 characters), returning immediately in case a character is
+            // not possible to encode in code 39
+            var code = value.slice(0, -1);
+            var counter = 0;
+            for (var index = 0; index < code.length; index++) {
+                var characterValue = CODE_39_CHARACTERS.indexOf(code[index]);
+                if (characterValue === -1) {
+                    return null;
+                }
+                counter += characterValue;
+            }
+
+            // verifies that the last character of the value is the check
+            // character (the one whose value is the modulo 43 of the sum)
+            // returning the code without it, otherwise nothing is returned
+            var check = CODE_39_CHARACTERS[counter % 43];
+            return value[value.length - 1] === check ? code : null;
         };
     };
 })(jQuery);
