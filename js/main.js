@@ -1277,10 +1277,11 @@
 
         /**
          * The regular expression that matches the QR codes printed in the
-         * documents according to the AT rules, starting with the tax number
-         * of the issuer and including the ATCUD of the document.
+         * documents according to the AT rules, starting with their mandatory
+         * fields in order, from the tax number of the issuer (A) to the ATCUD
+         * of the document (H).
          */
-        var QR_CODE_REGEX = /^A:.*\*H:/;
+        var QR_CODE_REGEX = /^A:[^*]*\*B:[^*]*\*C:[^*]*\*D:[^*]*\*E:[^*]*\*F:[^*]*\*G:[^*]*\*H:/;
 
         // sets the jquery matched object
         var matchedObject = this;
@@ -1355,7 +1356,7 @@
                         _document.trigger("scan", [barcode]);
                     },
                     error: function(xhr, status, error) {
-                        console.error("Scan with failed QR code lookup:", error);
+                        console.error("Scan with failed QR code lookup:", value, status, error);
                     }
                 });
 
