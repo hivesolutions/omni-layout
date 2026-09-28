@@ -37,7 +37,7 @@
 
         // registers for the scan event in the document
         // to be able to react to it
-        _document.bind("scan", function(event, value) {
+        _document.bind("scan", function(event, value, alternative) {
             // logs the detection of the scan so that the resolution
             // process of it may be followed in the console
             console.info("Scan detected:", value);
@@ -56,6 +56,14 @@
             // map for the current page
             var mvcPath = _body.data("mvc_path");
             var classIdUrl = _body.data("class_id_url");
+
+            // in case the scanned value is not a QR code but its alternative is
+            // (eg: the scanner has the keyboard layout of the system instead of
+            // the US one) the alternative value is the one used as the QR code
+            if (!QR_CODE_REGEX.test(value) && alternative && QR_CODE_REGEX.test(alternative)) {
+                console.info("Scan with alternative QR code:", alternative);
+                value = alternative;
+            }
 
             // verifies if the scanned value is the QR code of a document, in
             // which case the barcode of the document is retrieved and scanned
