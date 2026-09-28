@@ -1275,6 +1275,13 @@
          */
         var COMPATIBLE_VERSIONS = [1];
 
+        /**
+         * The regular expression that matches the QR codes printed in the
+         * documents according to the AT rules, starting with the tax number
+         * of the issuer and including the ATCUD of the document.
+         */
+        var QR_CODE_REGEX = /^A:.*\*H:/;
+
         // sets the jquery matched object
         var matchedObject = this;
 
@@ -1297,6 +1304,12 @@
             // process of it may be followed in the console
             console.info("Scan detected:", value);
 
+            // retrieves the current timestamp as the identifier of the scan
+            // (assumes uniqueness) and sets it as the current one in the body
+            // so that a pending lookup of a previous scan is not scanned
+            var identifier = new Date().getTime();
+            _body.data("current", identifier);
+
             // retrieves the current element that is the
             // target of the scan operation
             var element = jQuery(this);
@@ -1305,6 +1318,51 @@
             // map for the current page
             var mvcPath = _body.data("mvc_path");
             var classIdUrl = _body.data("class_id_url");
+
+            // verifies if the scanned value is the QR code of a document, in
+            // which case the barcode of the document is retrieved and scanned
+            // instead, so that the QR code behaves as the barcode
+            if (QR_CODE_REGEX.test(value)) {
+                // sets the uscan attribute in the event so that any
+                // other handler ignores the QR code (handled as uscan)
+                event.uscan = true;
+
+                // runs the remote query that retrieves the barcode of the
+                // document of the QR code and scans it, logging the miss
+                // in case no document is represented by the QR code
+                jQuery.uquery({
+                    url: "omni_util/qr_code.json",
+                    data: {
+                        value: value
+                    },
+                    success: function(data) {
+                        // retrieves the current identifier from the body and
+                        // checks it against the closure based identifier in
+                        // case it's not the same (a scan has come in between)
+                        // the response is outdated and must be ignored
+                        var current = _body.data("current");
+                        if (current !== identifier) {
+                            console.info("Scan with outdated QR code:", value);
+                            return;
+                        }
+
+                        var barcode = data["barcode"];
+                        if (!barcode) {
+                            console.info("Scan with unknown QR code:", value);
+                            return;
+                        }
+                        console.info("Scan resolved into barcode:", barcode);
+                        _document.trigger("scan", [barcode]);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Scan with failed QR code lookup:", error);
+                    }
+                });
+
+                // returns immediately as the barcode is going to be
+                // scanned once it's retrieved (asynchronous operation)
+                return;
+            }
 
             // verifies that the size of the code legnth
             // is of the expected size, otherwise returns
