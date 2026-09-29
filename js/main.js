@@ -990,6 +990,15 @@
         var objectId = jQuery("#object-id", matchedObject).html();
         var username = jQuery("#username", matchedObject).html();
         var representation = jQuery("#representation", matchedObject).html();
+
+        // retrieves the (global) settings of the colony print as text, as
+        // they are used as raw values (eg: in the URL and in the headers of
+        // the print jobs) and the HTML of an element escapes its characters
+        var colonyPrintUrl = jQuery("#colony-print-url", matchedObject).text();
+        var colonyPrintKey = jQuery("#colony-print-key", matchedObject).text();
+        var colonyPrintNode = jQuery("#colony-print-node", matchedObject).text();
+        var colonyPrintPrinter = jQuery("#colony-print-printer", matchedObject).text();
+
         var definitionsS = jQuery("#definitions", matchedObject).html();
         var aliasS = jQuery("#alias", matchedObject).html();
         var definitions = definitionsS ? jQuery.parseJSON(definitionsS) : {};
@@ -1056,6 +1065,10 @@
         matchedObject.data("object_id", objectId);
         matchedObject.data("username", username);
         matchedObject.data("representation", representation);
+        matchedObject.data("colony_print_url", colonyPrintUrl);
+        matchedObject.data("colony_print_key", colonyPrintKey);
+        matchedObject.data("colony_print_node", colonyPrintNode);
+        matchedObject.data("colony_print_printer", colonyPrintPrinter);
         matchedObject.data("definitions", definitions);
         matchedObject.data("alias", alias);
         matchedObject.data("sections", sections);
