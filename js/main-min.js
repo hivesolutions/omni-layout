@@ -57,7 +57,10 @@ var _document=jQuery(document);var _body=jQuery("body");_document.bind("scan",fu
 if(QR_CODE_REGEX.test(value)){event.uscan=true;jQuery.uquery({url:"omni_util/qr_code.json",data:{value:value},success:function(data){var current=_body.data("current");if(current!==identifier){console.info("Scan with outdated QR code:",value);return;}
 var barcode=data["barcode"];if(!barcode){console.info("Scan with unknown QR code:",value);return;}
 console.info("Scan resolved into barcode:",barcode);_document.trigger("scan",[barcode]);},error:function(xhr,status,error){console.error("Scan with failed QR code lookup:",value,status,error);}});return;}
-if(value.length!==SCAN_CODE_LENGTH){console.info("Scan with unexpected length:",value.length);return;}
+if(value.length!==SCAN_CODE_LENGTH){console.info("Scan with unexpected length:",value.length);setTimeout(function(){if(event.uscan){return;}
+jQuery.uquery({url:"omni_util/merchandise_code.json",data:{value:value},success:function(data){var current=_body.data("current");if(current!==identifier){console.info("Scan with outdated code:",value);return;}
+var barcode=data["barcode"];if(!barcode){console.info("Scan with unknown code:",value);return;}
+console.info("Scan resolved into barcode:",barcode);_document.trigger("scan",[barcode]);},error:function(xhr,status,error){console.error("Scan with failed code lookup:",value,status,error);}});});return;}
 var checksumS=value.slice(0,4);checksumS=parseInt(checksumS);checksumS=String(checksumS);var buffer=value.slice(4);var _checksumS=checksum(buffer);if(_checksumS!==checksumS){console.warn("Scan with invalid checksum:",checksumS);return;}
 var version=value.slice(4,6);var classId=value.slice(6,10);var objectId=value.slice(10);var versionInt=parseInt(version);if(isNaN(versionInt)){console.warn("Scan with invalid version:",version);return;}
 var classIdInt=parseInt(classId);if(isNaN(classIdInt)){console.warn("Scan with invalid class id:",classId);return;}
