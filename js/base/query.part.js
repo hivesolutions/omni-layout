@@ -3,9 +3,10 @@
         // retrieves the reference to the body element and uses
         // it to retrieve the currently set mvc path in case it's
         // not found raises an exception (not possible to run query)
+        // note that an empty mvc path is valid (top level pages)
         var _body = jQuery("body");
         var mvcPath = _body.data("mvc_path");
-        if (!mvcPath) {
+        if (mvcPath === null || mvcPath === undefined) {
             throw jQuery.uxexception("No mvc path variable defined");
         }
         var alias = _body.data("alias") || {};
