@@ -1105,9 +1105,10 @@
         // retrieves the reference to the body element and uses
         // it to retrieve the currently set mvc path in case it's
         // not found raises an exception (not possible to run query)
+        // note that an empty mvc path is valid (top level pages)
         var _body = jQuery("body");
         var mvcPath = _body.data("mvc_path");
-        if (!mvcPath) {
+        if (mvcPath === null || mvcPath === undefined) {
             throw jQuery.uxexception("No mvc path variable defined");
         }
         var alias = _body.data("alias") || {};
@@ -1387,10 +1388,59 @@
             }
 
             // verifies that the size of the code legnth
-            // is of the expected size, otherwise returns
-            // immediately not an expected code
+            // is of the expected size, otherwise the value is
+            // not an expected code and may be the code of a
+            // merchandise (eg: its EAN) to be resolved
             if (value.length !== SCAN_CODE_LENGTH) {
                 console.info("Scan with unexpected length:", value.length);
+
+                // schedules a delayed operation so that the code is only
+                // resolved after the other handlers of the scan, in case
+                // none of them has handled it (eg: the pos adding the
+                // merchandise to the sale)
+                setTimeout(function() {
+                    // in case the uscan attribute has been set in the event
+                    // meanwhile the scan has been handled by another handler
+                    // and so the code must not be resolved
+                    if (event.uscan) {
+                        return;
+                    }
+
+                    // runs the remote query that retrieves the barcode of the
+                    // merchandise of the code and scans it, logging the miss
+                    // in case no merchandise is represented by the code
+                    jQuery.uquery({
+                        url: "omni_util/merchandise_code.json",
+                        data: {
+                            value: value
+                        },
+                        success: function(data) {
+                            // retrieves the current identifier from the body and
+                            // checks it against the closure based identifier in
+                            // case it's not the same (a scan has come in between)
+                            // the response is outdated and must be ignored
+                            var current = _body.data("current");
+                            if (current !== identifier) {
+                                console.info("Scan with outdated code:", value);
+                                return;
+                            }
+
+                            var barcode = data["barcode"];
+                            if (!barcode) {
+                                console.info("Scan with unknown code:", value);
+                                return;
+                            }
+                            console.info("Scan resolved into barcode:", barcode);
+                            _document.trigger("scan", [barcode]);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Scan with failed code lookup:", value, status, error);
+                        }
+                    });
+                });
+
+                // returns immediately as the barcode is going to be
+                // scanned once it's retrieved (asynchronous operation)
                 return;
             }
 
