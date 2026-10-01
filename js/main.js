@@ -1316,16 +1316,12 @@
         var _document = jQuery(document);
         var _body = jQuery("body");
 
-        // retrieves the logger of the plugin, to be used to
-        // log the steps of the resolution of the scans
-        var logger = jQuery.uxlogger("uscan");
-
         // registers for the scan event in the document
         // to be able to react to it
         _document.bind("scan", function(event, value, alternative) {
             // logs the detection of the scan so that the resolution
             // process of it may be followed in the console
-            logger.info("Scan detected:", value);
+            console.info("Scan detected:", value);
 
             // retrieves the current timestamp as the identifier of the scan
             // (assumes uniqueness) and sets it as the current one in the body
@@ -1346,7 +1342,7 @@
             // (eg: the scanner has the keyboard layout of the system instead of
             // the US one) the alternative value is the one used as the QR code
             if (!QR_CODE_REGEX.test(value) && alternative && QR_CODE_REGEX.test(alternative)) {
-                logger.info("Scan with alternative QR code:", alternative);
+                console.info("Scan with alternative QR code:", alternative);
                 value = alternative;
             }
 
@@ -1373,20 +1369,20 @@
                         // the response is outdated and must be ignored
                         var current = _body.data("current");
                         if (current !== identifier) {
-                            logger.info("Scan with outdated QR code:", value);
+                            console.info("Scan with outdated QR code:", value);
                             return;
                         }
 
                         var barcode = data["barcode"];
                         if (!barcode) {
-                            logger.info("Scan with unknown QR code:", value);
+                            console.info("Scan with unknown QR code:", value);
                             return;
                         }
-                        logger.info("Scan resolved into barcode:", barcode);
+                        console.info("Scan resolved into barcode:", barcode);
                         _document.trigger("scan", [barcode]);
                     },
                     error: function(xhr, status, error) {
-                        logger.error("Scan with failed QR code lookup:", value, status, error);
+                        console.error("Scan with failed QR code lookup:", value, status, error);
                     }
                 });
 
@@ -1400,7 +1396,7 @@
             // not an expected code and may be the code of a
             // merchandise (eg: its EAN) to be resolved
             if (value.length !== SCAN_CODE_LENGTH) {
-                logger.info("Scan with unexpected length:", value.length);
+                console.info("Scan with unexpected length:", value.length);
 
                 // schedules a delayed operation so that the code is only
                 // resolved after the other handlers of the scan, in case
@@ -1429,20 +1425,20 @@
                             // the response is outdated and must be ignored
                             var current = _body.data("current");
                             if (current !== identifier) {
-                                logger.info("Scan with outdated code:", value);
+                                console.info("Scan with outdated code:", value);
                                 return;
                             }
 
                             var barcode = data["barcode"];
                             if (!barcode) {
-                                logger.info("Scan with unknown code:", value);
+                                console.info("Scan with unknown code:", value);
                                 return;
                             }
-                            logger.info("Scan resolved into barcode:", barcode);
+                            console.info("Scan resolved into barcode:", barcode);
                             _document.trigger("scan", [barcode]);
                         },
                         error: function(xhr, status, error) {
-                            logger.error("Scan with failed code lookup:", value, status, error);
+                            console.error("Scan with failed code lookup:", value, status, error);
                         }
                     });
                 });
@@ -1469,7 +1465,7 @@
             var buffer = value.slice(4);
             var _checksumS = checksum(buffer);
             if (_checksumS !== checksumS) {
-                logger.warn("Scan with invalid checksum:", checksumS);
+                console.warn("Scan with invalid checksum:", checksumS);
                 return;
             }
 
@@ -1486,7 +1482,7 @@
             // the "generated" integer is valid
             var versionInt = parseInt(version);
             if (isNaN(versionInt)) {
-                logger.warn("Scan with invalid version:", version);
+                console.warn("Scan with invalid version:", version);
                 return;
             }
             // converts the class identifier into an integer
@@ -1494,7 +1490,7 @@
             // the "generated" integer is valid
             var classIdInt = parseInt(classId);
             if (isNaN(classIdInt)) {
-                logger.warn("Scan with invalid class id:", classId);
+                console.warn("Scan with invalid class id:", classId);
                 return;
             }
 
@@ -1503,7 +1499,7 @@
             // the "generated" integer is valid
             var objectIdInt = parseInt(objectId);
             if (isNaN(objectId)) {
-                logger.warn("Scan with invalid object id:", objectId);
+                console.warn("Scan with invalid object id:", objectId);
                 return;
             }
 
@@ -1513,7 +1509,7 @@
             // version set) in case it's not returns immediately
             var isCompatible = COMPATIBLE_VERSIONS.indexOf(versionInt) !== -1;
             if (!isCompatible) {
-                logger.warn("Scan with incompatible version:", versionInt);
+                console.warn("Scan with incompatible version:", versionInt);
                 return;
             }
 
@@ -1522,13 +1518,13 @@
             // it's not found returns immediately in error
             var classUrl = classIdUrl[classIdInt];
             if (!classUrl) {
-                logger.warn("Scan with no class url:", classIdInt);
+                console.warn("Scan with no class url:", classIdInt);
                 return;
             }
 
             // logs the resolution of the scan into its version, class
             // and object identifiers (before the uscan handling)
-            logger.info("Scan resolved:", versionInt, classIdInt, objectIdInt);
+            console.info("Scan resolved:", versionInt, classIdInt, objectIdInt);
 
             // sets the uscan attribute in the event so that
             // any other handler is able to "understand" that
@@ -1545,7 +1541,7 @@
                 // in case an exception was throw must return
                 // immediately as the redirections are meant to
                 // be avoided (exception semantics)
-                logger.info("Scan redirection avoided:", classIdInt);
+                console.info("Scan redirection avoided:", classIdInt);
                 return;
             }
 
@@ -1557,7 +1553,7 @@
             // id to construct the final object id, then uses
             // it to redirect the user agent to the show page
             objectId = objectId.replace(/^0+|\s+$/g, "");
-            logger.info("Scan redirecting to:", baseUrl + objectId);
+            console.info("Scan redirecting to:", baseUrl + objectId);
             jQuery.uxlocation(baseUrl + objectId);
         });
 
@@ -1566,7 +1562,7 @@
         _document.bind("scan_error", function(event, value) {
             // logs the scan error with only the length of the value
             // as it may contain keys typed by the user
-            logger.debug("Scan error with length:", value.length);
+            console.debug("Scan error with length:", value.length);
         });
 
         var checksum = function(buffer, modulus, salt) {
