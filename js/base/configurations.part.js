@@ -27,6 +27,8 @@
         var colonyPrintKey = jQuery("#colony-print-key", matchedObject).text();
         var colonyPrintNode = jQuery("#colony-print-node", matchedObject).text();
         var colonyPrintPrinter = jQuery("#colony-print-printer", matchedObject).text();
+        var colonyPrintLabelNode = jQuery("#colony-print-label-node", matchedObject).text();
+        var colonyPrintLabelPrinter = jQuery("#colony-print-label-printer", matchedObject).text();
 
         var definitionsS = jQuery("#definitions", matchedObject).html();
         var aliasS = jQuery("#alias", matchedObject).html();
@@ -98,6 +100,8 @@
         matchedObject.data("colony_print_key", colonyPrintKey);
         matchedObject.data("colony_print_node", colonyPrintNode);
         matchedObject.data("colony_print_printer", colonyPrintPrinter);
+        matchedObject.data("colony_print_label_node", colonyPrintLabelNode);
+        matchedObject.data("colony_print_label_printer", colonyPrintLabelPrinter);
         matchedObject.data("definitions", definitions);
         matchedObject.data("alias", alias);
         matchedObject.data("sections", sections);
