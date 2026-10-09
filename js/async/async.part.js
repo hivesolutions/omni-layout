@@ -138,6 +138,13 @@
                     // and the user experience is not broken
                     _body.hide();
 
+                    // in case this is not a verified operation the current state
+                    // must be pushed into the history stack, so that we're able
+                    // to rollback to it latter, note that this is done before the
+                    // layout is updated so that the target url is the current one
+                    // when the elements of the new contents are initialized
+                    push && window.history.pushState(state, null, href);
+
                     // updates the base (resolution) tag in the document header
                     // so that it reflects the proper link resolution, expected
                     // for the current document state
@@ -177,12 +184,9 @@
                     // so that many operations may be resumed
                     _body.triggerHandler("post_async");
 
-                    // in case this is not a verified operation the current state
-                    // must be pushed into the history stack, so that we're able
-                    // to rollback to it latter, note that in case the google
+                    // in case this is not a verified operation and the google
                     // analytics reference exists a new event is triggered, the
                     // same is also performed for conversion tracking
-                    push && window.history.pushState(state, null, href);
                     push && window._gaq && _gaq.push(["_trackPageview", relative]);
                     push && window.ga && ga("send", {
                         hitType: "pageview",
