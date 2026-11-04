@@ -2938,9 +2938,19 @@ body.omni-style.opensans {
     background-position: 176px 60px;
 }
 
+.omni-style.retina-s .display-box-background.box {
+    background-image: url(../images/entities/box_background-2x.png);
+    background-size: 149px 130px;
+}
+
 .omni-style .display-box-background.folder {
     background-image: url(../images/entities/folder_background.png);
     background-position: 176px 60px;
+}
+
+.omni-style.retina-s .display-box-background.folder {
+    background-image: url(../images/entities/folder_background-2x.png);
+    background-size: 167px 130px;
 }
 
 .omni-style .display-box-background.money-in {
@@ -2948,14 +2958,29 @@ body.omni-style.opensans {
     background-position: 176px 60px;
 }
 
+.omni-style.retina-s .display-box-background.money-in {
+    background-image: url(../images/entities/money_in_background-2x.png);
+    background-size: 131px 143px;
+}
+
 .omni-style .display-box-background.money-out {
     background-image: url(../images/entities/money_out_background.png);
     background-position: 176px 60px;
 }
 
+.omni-style.retina-s .display-box-background.money-out {
+    background-image: url(../images/entities/money_out_background-2x.png);
+    background-size: 131px 143px;
+}
+
 .omni-style .display-box-background.person {
     background-image: url(../images/entities/person_background.png);
     background-position: 176px 36px;
+}
+
+.omni-style.retina-s .display-box-background.person {
+    background-image: url(../images/entities/person_background-2x.png);
+    background-size: 151px 143px;
 }
 
 .omni-style .display-box-background.store {
