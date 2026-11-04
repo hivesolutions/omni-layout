@@ -8,6 +8,7 @@
         var DRAW_LABELS = true;
         var DRAW_LINES = true;
         var DRAW_LABEL_BOX = false;
+        var DRAW_POINT = true;
 
         // the label related information static variables
         // to be used in font configuration
@@ -62,6 +63,30 @@
         var BOX_HORIZONTAL_OFFSET = 20;
         var BOX_VERTICAL_OFFSET = 20;
 
+        // values for the highlight of the point under the pointer and
+        // for the box that describes its value, the radius of the touch
+        // being larger as a finger is less precise than a pointer and the
+        // mouse events that follow a touch (emulated) being ignored
+        var POINT_RADIUS = 12;
+        var TOUCH_RADIUS = 24;
+        var TOUCH_TIMEOUT = 1000;
+        var POINT_BOX_COLOR = "#ffffff";
+        var POINT_BOX_BORDER_COLOR = "#d9d9d9";
+        var POINT_VALUE_FONT_SIZE = 12;
+        var POINT_BOX_MARGIN = 8;
+        var POINT_BOX_OFFSET = 14;
+
+        // the number of times (and the interval between them) that the
+        // drawing of a chart with no size (yet) is retried
+        var DRAW_RETRIES = 10;
+        var DRAW_RETRY_TIMEOUT = 150;
+
+        // the function that converts the value of a point into the
+        // string that describes it in the box of the point
+        var FORMAT_VALUE = function(value) {
+            return String(value);
+        };
+
         // unit map meant to be used in the conversion of very large
         // values so that they can fit in the current grid for labels.
         var UNIT_MAP = {
@@ -94,6 +119,10 @@
 
         // sets the jquery matched object
         var matchedObject = this;
+
+        // retrieves the logger of the chart, used to report the
+        // drawings that could not be performed
+        var logger = jQuery.uxlogger("uchart");
 
         /**
          * Initializer of the plugin, runs the necessary functions to initialize
@@ -353,11 +382,17 @@
             var horizontalAxisSize = options["horizontalAxisSize"];
             var verticalAxisSize = options["verticalAxisSize"];
 
-            // retrieves the data values
+            // retrieves the data values and the labels of the points (the
+            // horizontal ones in case the points have none of their own)
             var dataValues = data["values"];
+            var pointLabels = data["pointLabels"] || data["horizontalLabels"] || [];
 
             // retrieves the chart colors length
             var chartColorsLength = chartColors.length;
+
+            // starts the list of points of the chart, that is going
+            // to be used to find the point under the pointer
+            var points = [];
 
             // saves the current state
             context.save();
@@ -482,6 +517,18 @@
                     context.fill();
                     context.closePath();
 
+                    // adds the point to the points of the chart, with its
+                    // position, so that it may be found by the pointer
+                    points.push({
+                        key: key,
+                        index: index,
+                        value: currentValue,
+                        label: pointLabels[index],
+                        color: currentColor,
+                        x: currentX,
+                        y: currentY
+                    });
+
                     // increments the current x position with the x
                     // position increment so that the next position is
                     // set for the current iteration cycle
@@ -494,6 +541,10 @@
 
             // restores the state
             context.restore();
+
+            // sets the points in the chart, so that the point
+            // under the pointer may be found latter
+            matchedObject.data("points", points);
         };
 
         var initializeContext = function(matchedObject, options) {
@@ -524,6 +575,7 @@
             var drawLabels = options["drawLabels"] ? options["drawLabels"] : DRAW_LABELS;
             var drawLines = options["drawLines"] ? options["drawLines"] : DRAW_LINES;
             var drawLabelBox = options["drawLabelBox"] ? options["drawLabelBox"] : DRAW_LABEL_BOX;
+            var drawPoint = options["drawPoint"] ? options["drawPoint"] : DRAW_POINT;
 
             // sets the ui values
             var labelFontName = options["labelFontName"] ? options["labelFontName"] : LABEL_FONT_NAME;
@@ -542,6 +594,7 @@
             var backgroundBoxColor = options["backgroundBoxColor"] ? options["backgroundBoxColor"]
                 : BACKGROUND_BOX_COLOR;
             var chartColors = options["chartColors"] ? options["chartColors"] : CHART_COLORS;
+            var formatValue = options["formatValue"] ? options["formatValue"] : FORMAT_VALUE;
 
             // sets the number of steps
             var verticalSteps = options["verticalSteps"] ? options["verticalSteps"] : VERTICAL_STEPS;
@@ -599,6 +652,7 @@
             options["drawLabels"] = drawLabels;
             options["drawLines"] = drawLines;
             options["drawLabelBox"] = drawLabelBox;
+            options["drawPoint"] = drawPoint;
             options["labelFontName"] = labelFontName;
             options["labelFontSize"] = labelFontSize;
             options["labelFontRealSize"] = labelFontRealSize;
@@ -610,6 +664,7 @@
             options["backgroundCircleColor"] = backgroundCircleColor;
             options["backgroundBoxColor"] = backgroundBoxColor;
             options["chartColors"] = chartColors;
+            options["formatValue"] = formatValue;
             options["verticalSteps"] = verticalSteps;
             options["horizontalSteps"] = horizontalSteps;
             options["maximumValue"] = maximumValue;
@@ -743,6 +798,131 @@
             }
         };
 
+        var drawPoint = function(matchedObject, options) {
+            // retrieves the options values
+            var context = options["context"];
+            var labelFontName = options["labelFontName"];
+            var labelFontSize = options["labelFontSize"];
+            var labelFontRealSize = options["labelFontRealSize"];
+            var baseColor = options["baseColor"];
+            var labelColor = options["labelColor"];
+            var valueCircleColor = options["valueCircleColor"];
+            var formatValue = options["formatValue"];
+            var chartWidth = options["width"];
+
+            // retrieves the point under the pointer, in case there's
+            // none there's nothing to be drawn
+            var point = matchedObject.data("point");
+            if (!point) {
+                return;
+            }
+
+            // draws a light halo around the point so that it stands
+            // out from the other points of the chart
+            context.fillStyle = "rgba(0, 0, 0, 0.08)";
+            context.beginPath();
+            context.arc(point.x, point.y, POINT_RADIUS, 0, Math.PI * 2, true);
+            context.fill();
+            context.closePath();
+
+            // draws a bigger version of the (outer, color and inner)
+            // circles of the point over the halo
+            context.fillStyle = valueCircleColor;
+            context.beginPath();
+            context.arc(point.x, point.y, 8, 0, Math.PI * 2, true);
+            context.fill();
+            context.closePath();
+            context.fillStyle = point.color;
+            context.beginPath();
+            context.arc(point.x, point.y, 7, 0, Math.PI * 2, true);
+            context.fill();
+            context.closePath();
+            context.fillStyle = valueCircleColor;
+            context.beginPath();
+            context.arc(point.x, point.y, 3, 0, Math.PI * 2, true);
+            context.fill();
+            context.closePath();
+
+            // formats the value of the point and builds its label, with
+            // the label of the point followed by the key of its line
+            var value = formatValue(point.value);
+            var label = point.label ? point.label + " · " + point.key : point.key;
+
+            // measures both the value and the label so that the box
+            // is sized to the largest of them
+            context.font = "bold " + POINT_VALUE_FONT_SIZE + "px " + labelFontName;
+            var valueWidth = context.measureText(value).width;
+            context.font = labelFontSize + "px " + labelFontName;
+            var labelWidth = context.measureText(label).width;
+            var boxWidth = Math.max(valueWidth, labelWidth) + (2 * POINT_BOX_MARGIN);
+            var boxHeight = POINT_VALUE_FONT_SIZE + labelFontRealSize + (2 * POINT_BOX_MARGIN) + 4;
+
+            // positions the box centered above the point (below it in
+            // case there's no space above) and inside of the chart
+            var boxX = Math.max(Math.min(point.x - (boxWidth / 2), chartWidth - boxWidth - 1), 1);
+            var boxY = point.y - POINT_BOX_OFFSET - boxHeight;
+            boxY = boxY < 1 ? point.y + POINT_BOX_OFFSET : boxY;
+
+            // draws the box with a light shadow and a border, with the
+            // color of the line of the point at its top
+            context.save();
+            context.shadowColor = "rgba(0, 0, 0, 0.12)";
+            context.shadowBlur = 6;
+            context.shadowOffsetY = 2;
+            context.fillStyle = POINT_BOX_COLOR;
+            context.beginPath();
+            context.roundRectangle(boxX, boxY, boxWidth, boxHeight, 4);
+            context.fill();
+            context.closePath();
+            context.restore();
+            context.lineWidth = 1;
+            context.strokeStyle = POINT_BOX_BORDER_COLOR;
+            context.beginPath();
+            context.roundRectangle(boxX, boxY, boxWidth, boxHeight, 4);
+            context.stroke();
+            context.closePath();
+            context.fillStyle = point.color;
+            context.fillRect(boxX + 2, boxY, boxWidth - 4, 3);
+
+            // draws both the value and the label of the point centered
+            // in the box, the value standing out from the label
+            context.fillStyle = labelColor;
+            context.font = "bold " + POINT_VALUE_FONT_SIZE + "px " + labelFontName;
+            context.fillText(value, boxX + ((boxWidth - valueWidth) / 2),
+                boxY + POINT_BOX_MARGIN + POINT_VALUE_FONT_SIZE);
+            context.fillStyle = baseColor;
+            context.font = labelFontSize + "px " + labelFontName;
+            context.fillText(label, boxX + ((boxWidth - labelWidth) / 2),
+                boxY + POINT_BOX_MARGIN + POINT_VALUE_FONT_SIZE + 4 + labelFontRealSize);
+        };
+
+        var findPoint = function(matchedObject, x, y, radius) {
+            // retrieves the points of the chart, set by its last drawing
+            var points = matchedObject.data("points") || [];
+
+            // iterates over the points of the chart to find the one that
+            // is the nearest to the provided position (within the radius),
+            // the first one prevailing over the ones at the same distance
+            var nearest = null;
+            var nearestDistance = radius;
+            for (var index = 0; index < points.length; index++) {
+                var point = points[index];
+                var distance = Math.sqrt(Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2));
+                if (distance > radius) {
+                    continue;
+                }
+                if (nearest && distance >= nearestDistance) {
+                    continue;
+                }
+                nearest = point;
+                nearestDistance = distance;
+            }
+
+            // returns the nearest point, null in case there's
+            // no point within the radius of the position
+            return nearest;
+        };
+
         var processData = function(matchedObject, options) {
             // retrieves the options values
             var data = options["data"] ? options["data"] : DATA;
@@ -785,10 +965,9 @@
             // retrieves the chart as the matched object
             var chart = matchedObject;
 
-            // retrieve the reference to the "parent" window and
-            // body objects to be used in this operation
+            // retrieve the reference to the "parent" window
+            // object to be used in this operation
             var _window = jQuery(window);
-            var _body = jQuery("body");
 
             // retrieves the chart element reference as the
             // first element of the chart selection
@@ -802,10 +981,19 @@
                 return;
             }
 
-            // registers for the resize operation so that in case
-            // no invalidation is performed then a redraw is triggered
-            matchedObject.length > 0 && !matchedObject.data("on_resize") && _window.bind("resize", onResize =
-                function() {
+            // sets the drawing in the chart so that the handlers (that are
+            // registered only once) and the retries of the drawing always
+            // redraw the chart with its latest options
+            matchedObject.data("draw", draw);
+
+            // registers for the resize and page show operations, and for
+            // the restore of the canvas, so that in case no invalidation is
+            // performed then a redraw is triggered (the canvas may have been
+            // cleared meanwhile), the handler is registered only once and
+            // unregistered once the chart is destroyed
+            var onResize = matchedObject.data("on_resize");
+            if (!onResize) {
+                onResize = function() {
                     var sizes = {
                         width: _window.width(),
                         height: _window.height()
@@ -819,34 +1007,110 @@
                             return;
                         }
 
-                        draw();
+                        matchedObject.data("draw")();
                     }, 150);
+                };
+                _window.bind("resize pageshow", onResize);
+                matchedObject.bind("contextrestored", onResize);
+                matchedObject.bind("destroyed", function() {
+                    var onResize = matchedObject.data("on_resize");
+                    _window.unbind("resize pageshow", onResize);
+                    matchedObject.data("on_resize", null);
                 });
-            matchedObject.bind("destroyed", function() {
-                var element = jQuery(this);
-                var onResize = matchedObject.data("on_resize");
-                _window.unbind("resize", onResize);
-                matchedObject.data("on_resize", null);
-            });
-            matchedObject.data("on_resize", onResize);
+                matchedObject.data("on_resize", onResize);
+            }
+
+            // registers for the mouse move and the touch start events in
+            // the chart so that the point under the pointer is highlighted
+            // with its value, and for the mouse leave event so that the
+            // highlight is removed, the handlers are registered only once
+            var onPoint = matchedObject.data("on_point");
+            if (!onPoint) {
+                onPoint = function(event) {
+                    // retrieves the position of the pointer (or of the touch)
+                    // relative to the chart, the space of its points
+                    var originalEvent = event.originalEvent || {};
+                    var touches = originalEvent.touches;
+                    var position = touches && touches.length ? touches[0] : event;
+                    var offset = matchedObject.offset();
+
+                    // ignores the mouse events that follow a touch, as they're
+                    // emulated by the browser from the touch and would remove
+                    // the highlight found with the (larger) radius of the touch
+                    var time = new Date().getTime();
+                    var touched = matchedObject.data("touched") || 0;
+                    if (!touches && time - touched < TOUCH_TIMEOUT) {
+                        return;
+                    }
+                    touches && matchedObject.data("touched", time);
+                    var x = position.pageX - offset.left;
+                    var y = position.pageY - offset.top;
+
+                    // finds the point under the pointer (with a larger radius
+                    // for a touch) and in case it's not the one that is
+                    // highlighted updates the highlight, redrawing the chart
+                    var radius = touches ? TOUCH_RADIUS : POINT_RADIUS;
+                    var point = findPoint(matchedObject, x, y, radius);
+                    var current = matchedObject.data("point");
+                    var isSame = point && current && point.key === current.key
+                        && point.index === current.index;
+                    if (isSame || (!point && !current)) {
+                        return;
+                    }
+                    matchedObject.data("point", point);
+                    matchedObject.css("cursor", point ? "pointer" : "");
+                    matchedObject.data("draw")();
+                };
+                matchedObject.bind("mousemove touchstart", onPoint);
+                matchedObject.bind("mouseleave", function() {
+                    if (!matchedObject.data("point")) {
+                        return;
+                    }
+                    matchedObject.data("point", null);
+                    matchedObject.css("cursor", "");
+                    matchedObject.data("draw")();
+                });
+                matchedObject.data("on_point", onPoint);
+            }
 
             // retrieves the chart size, using the traditional
             // dimensions retrieval strategy
             var chartWidth = matchedObject.width();
             var chartHeight = matchedObject.height();
 
+            // in case the chart has no size (eg: not yet attached to the
+            // document) drawing it would empty the canvas, so the drawing
+            // is retried latter, for a limited number of times and with
+            // at most one retry pending (whatever triggers the drawing)
+            if (!chartWidth || !chartHeight) {
+                var retries = matchedObject.data("retries") || 0;
+                var isPending = matchedObject.data("retry_pending");
+                if (retries < DRAW_RETRIES && !isPending) {
+                    matchedObject.data("retries", retries + 1);
+                    matchedObject.data("retry_pending", true);
+                    setTimeout(function() {
+                        matchedObject.data("retry_pending", false);
+                        matchedObject.data("draw")();
+                    }, DRAW_RETRY_TIMEOUT);
+                }
+                logger.warn("Chart not drawn with size:", chartWidth, chartHeight);
+                return;
+            }
+            matchedObject.data("retries", 0);
+
             // retrieves the chart element context
             var context = chartElement.getContext("2d");
 
             // in case the current environment is a "retina" one
             // (high density display) then an extra scale operation
-            // is performed to provide crisp graphics
-            var isRetina = _body.hasClass("retina-s");
-            if (isRetina) {
-                chartElement.width = chartWidth * 2;
-                chartElement.height = chartHeight * 2;
-                context.scale(2, 2)
-            }
+            // is performed to provide crisp graphics, the density is
+            // read in every drawing (it changes with the screen) and
+            // the canvas is sized for it, which also clears it
+            var isRetina = window.devicePixelRatio > 1;
+            var ratio = isRetina ? 2 : 1;
+            chartElement.width = chartWidth * ratio;
+            chartElement.height = chartHeight * ratio;
+            context.scale(ratio, ratio);
 
             // clears the context
             context.clearRect(0, 0, chartWidth, chartHeight);
@@ -875,6 +1139,7 @@
             var _drawLabels = options["drawLabels"];
             var _drawLines = options["drawLines"];
             var _drawLabelBox = options["drawLabelBox"];
+            var _drawPoint = options["drawPoint"];
 
             // initializes the context, that is going to be used
             // for the drawing of the canvas and then runs the
@@ -888,6 +1153,9 @@
 
             // draws the label box
             _drawLabelBox && drawLabelBox(matchedObject, options);
+
+            // draws the point under the pointer (if any) with its value
+            _drawPoint && drawPoint(matchedObject, options);
         };
 
         // switches over the method
