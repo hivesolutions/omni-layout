@@ -5630,6 +5630,25 @@
             // sets the points in the chart, so that the point
             // under the pointer may be found latter
             matchedObject.data("points", points);
+
+            // refreshes the point under the pointer with the one of the new
+            // points (same key and index), as its position and value may have
+            // changed (eg: a resize or new values), unsetting it in case the
+            // new points no longer have it
+            var current = matchedObject.data("point");
+            if (current) {
+                var refreshed = null;
+                for (var index = 0; index < points.length; index++) {
+                    var point = points[index];
+                    if (point.key !== current.key || point.index !== current.index) {
+                        continue;
+                    }
+                    refreshed = point;
+                    break;
+                }
+                matchedObject.data("point", refreshed);
+                matchedObject.css("cursor", refreshed ? "pointer" : "");
+            }
         };
 
         var initializeContext = function(matchedObject, options) {
