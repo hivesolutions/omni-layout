@@ -6167,6 +6167,14 @@
                 };
                 matchedObject.bind("mousemove touchstart", onPoint);
                 matchedObject.bind("mouseleave", function() {
+                    // ignores the mouse leave that follows a touch, as it's
+                    // emulated by the browser from the touch (the pointer
+                    // returning to the mouse) and would remove the highlight
+                    var time = new Date().getTime();
+                    var touched = matchedObject.data("touched") || 0;
+                    if (time - touched < TOUCH_TIMEOUT) {
+                        return;
+                    }
                     if (!matchedObject.data("point")) {
                         return;
                     }
