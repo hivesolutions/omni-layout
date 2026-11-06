@@ -478,6 +478,17 @@
             var _body = jQuery("body");
             _body.scrollTop(0);
         }
+
+        // scrolls again to the element once the stylesheets that are still
+        // loading (eg: the one of a new section, added by the update of the
+        // resources) are loaded, as they may change its position, as the
+        // browser waits for them on the complete loading of a page
+        var links = jQuery("link[rel=\"stylesheet\"]").filter(function() {
+            return !this.sheet;
+        });
+        target && links.one("load", function() {
+            target.scrollIntoView();
+        });
     };
 
     var updateFull = function(base, body) {
