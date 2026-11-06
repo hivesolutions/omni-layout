@@ -281,10 +281,11 @@
                     updateRelative(relative);
 
                     // restores the display of the body so that the elements of
-                    // it are restored to the user, also scroll the body element
-                    // to the top so that the feel is of a new page
+                    // it are restored to the user, also scroll to the element
+                    // targeted by the hash of the link (as the browser does) or
+                    // else to the top so that the feel is of a new page
                     _body.show();
-                    _body.scrollTop(0);
+                    updateScroll(href);
 
                     // triggers the post async event to notify the listening
                     // handlers about the end of the dom modification operations
@@ -557,6 +558,33 @@
     var updateRelative = function(relative) {
         var _body = jQuery("body");
         _body.attr("relative", relative);
+    };
+
+    var updateScroll = function(href) {
+        // retrieves the element targeted by the hash of the link, by its
+        // identifier as it is and then decoded (eg: an identifier with
+        // accents), as the browser does on the complete loading of a page
+        var index = href.indexOf("#");
+        var hash = index === -1 ? "" : href.slice(index + 1);
+        var target = hash ? document.getElementById(hash) : null;
+        if (hash && !target) {
+            try {
+                target = document.getElementById(decodeURIComponent(hash));
+            } catch (exception) {
+                // ignores the exception as the hash is not a valid percent
+                // encoded value (eg: 100%) and so it's only used as it is
+            }
+        }
+
+        // scrolls to the element targeted by the hash, below the top bar
+        // (by the scroll padding of the document), or else to the top of
+        // the body when there's no hash or no element with its identifier
+        if (target) {
+            target.scrollIntoView();
+        } else {
+            var _body = jQuery("body");
+            _body.scrollTop(0);
+        }
     };
 
     var updateFull = function(base, body) {
