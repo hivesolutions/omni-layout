@@ -1832,7 +1832,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .notifications {
-    background: transparent url(../images/menus/notifications.png) no-repeat left 1px;
+    background: transparent url(../images/menus/notifications.png) no-repeat 1px 1px;
     color: #ffffff;
     font-weight: bold;
     height: 32px;
@@ -1856,11 +1856,11 @@ body.omni-style.opensans {
 }
 
 .omni-style .notifications.pending {
-    background-position: left -31px;
+    background-position: 1px -31px;
 }
 
 .omni-style .notifications.error {
-    background-position: left -63px;
+    background-position: 1px -63px;
 }
 
 .omni-style .search-menu {
@@ -1882,7 +1882,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .search {
-    background: transparent url(../images/menus/search.png) no-repeat left 1px;
+    background: transparent url(../images/menus/search.png) no-repeat 1px 1px;
     height: 32px;
     padding: 0px 1px 0px 1px;
     width: 30px;
