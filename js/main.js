@@ -3663,6 +3663,12 @@
 
 (function(jQuery) {
     jQuery.fn.ueureka = function(options) {
+        /**
+         * The minimum number of options (results) of the eureka for the
+         * phones, where it fills the screen and has room for more of them.
+         */
+        var MOBILE_NUMBER_OPTIONS = 6;
+
         // sets the jquery matched object
         var matchedObject = this;
 
@@ -3729,6 +3735,17 @@
             var element = jQuery(this);
             var textField = jQuery(".text-field", element);
             textField.uxreset();
+
+            // retrieves the eureka of the overlay panel and the number of
+            // options defined in its template, raised to the mobile number
+            // of options in the phones (where the eureka fills the screen)
+            // and then updates the number of options of its drop field
+            var eureka = jQuery(".eureka", element);
+            var isMobile = _body.hasClass("mobile-s");
+            var numberOptions = eureka.attr("data-number_options");
+            numberOptions = parseInt(numberOptions);
+            numberOptions = isMobile ? Math.max(numberOptions, MOBILE_NUMBER_OPTIONS) : numberOptions;
+            !isNaN(numberOptions) && eureka.data("number_options", numberOptions);
         });
 
         // registers for the (new) item event to change
