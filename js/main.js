@@ -576,9 +576,16 @@
             }
         }
 
+        // ignores the element targeted by the hash when it's a tab of a tab
+        // panel (eg: #tab-prices), as the hash selects the tab (as a click
+        // in its selector does) instead of being a place of the page
+        var isTab = target ? jQuery(target).is(".tab-panel .tab") : false;
+        target = isTab ? null : target;
+
         // scrolls to the element targeted by the hash, below the top bar
         // (by the scroll padding of the document), or else to the top of
-        // the body when there's no hash or no element with its identifier
+        // the page when there's no hash, no element with its identifier or
+        // when it's a tab
         if (target) {
             target.scrollIntoView();
         } else {
