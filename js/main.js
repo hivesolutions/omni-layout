@@ -581,24 +581,35 @@
             }
         }
 
+        // ignores the element targeted by the hash when it's a tab of a tab
+        // panel (eg: #tab-prices), as the hash selects the tab (as a click
+        // in its selector does) instead of being a place of the page
+        var isTab = target ? jQuery(target).is(".tab-panel .tab") : false;
+        target = isTab ? null : target;
+
         // scrolls to the element targeted by the hash, below the top bar
         // (by the scroll padding of the document), or else to the top of
-        // the body when there's no hash or no element with its identifier
+        // the page when there's no hash, no element with its identifier or
+        // when it's a tab
         if (target) {
             target.scrollIntoView();
         } else {
-            var _body = jQuery("body");
-            _body.scrollTop(0);
+            var _window = jQuery(window);
+            _window.scrollTop(0);
         }
 
         // scrolls again to the element once the stylesheets that are still
         // loading (eg: the one of a new section, added by the update of the
         // resources) are loaded, as they may change its position, as the
-        // browser waits for them on the complete loading of a page
+        // browser waits for them on the complete loading of a page, unless
+        // the page has been left meanwhile (eg: a link within the page)
         var links = jQuery("link[rel=\"stylesheet\"]").filter(function() {
             return !this.sheet;
         });
         target && links.one("load", function() {
+            if (document.location.href !== href) {
+                return;
+            }
             target.scrollIntoView();
         });
     };
