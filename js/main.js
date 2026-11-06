@@ -67,6 +67,11 @@
         var eureka = jQuery(".eureka", matchedObject);
         eureka.ueureka();
 
+        // retrieves the search (menu) as the search (button)
+        // and then starts the search logic on it
+        var search = jQuery(".search-menu", matchedObject);
+        search.usearch();
+
         // retrieves the summary as the summary and
         // then starts the summary logic on it
         var summary = jQuery(".summary", matchedObject);
@@ -3697,10 +3702,16 @@
             event.stopImmediatePropagation();
         });
 
+        // starts the variable that is going to store the handler of the
+        // shown event of the overlay panel, so that it's unregistered once
+        // the eureka is destroyed (eg: its contents replaced by the async
+        // navigation), as the overlay panel is kept between the visits
+        var onShown = null;
+
         // registers for the shown event in the overlay panel associated
         // with the eureka element so that various element of the eureka
         // are restored to the unset original values
-        overlayPanel.bind("shown", function() {
+        overlayPanel.bind("shown", onShown = function() {
             // retrieves the current element and the associated text field
             // and then runs the reset operation to restore it to the original
             // value as expected by the specification
@@ -3755,6 +3766,7 @@
         });
         matchedObject.bind("destroyed", function() {
             _body.unbind("post_async", onPostAsync);
+            overlayPanel.unbind("shown", onShown);
         });
     };
 })(jQuery);
@@ -4465,6 +4477,55 @@
         // this will run the initial update and initialize the
         // various components (startup process)
         matchedObject.triggerHandler("refresh");
+    };
+})(jQuery);
+
+(function(jQuery) {
+    jQuery.fn.usearch = function(options) {
+        // sets the jquery matched object
+        var matchedObject = this;
+
+        // in case the matched object is not defined
+        // or in case it's an empty list must return
+        // immediately initialization is not meant to
+        // be run (corruption may occur)
+        if (!matchedObject || matchedObject.length === 0) {
+            return;
+        }
+
+        // retrieves the reference to the top level body element
+        // and the overlay panel of the eureka, that is page-wide
+        // and so retrieved from the body, as the windows are
+        var _body = jQuery("body");
+        var overlayPanel = jQuery(".overlay-search", _body);
+
+        // retrieves the button of the search menu and registers
+        // for the click on it to show the overlay panel of the
+        // eureka, as its (ctrl) key shows it
+        var button = jQuery(".menu-button", matchedObject);
+        button.click(function() {
+            overlayPanel.triggerHandler("show");
+        });
+
+        // starts the variables that are going to store the handlers of
+        // the shown and hidden events of the overlay panel, so that they
+        // are unregistered once the search menu is destroyed
+        var onShown = null;
+        var onHidden = null;
+
+        // registers for the shown and hidden events of the overlay panel
+        // so that the search menu is marked as active while the eureka is
+        // visible, whether it was shown by the button or by the key
+        overlayPanel.bind("shown", onShown = function() {
+            matchedObject.addClass("active");
+        });
+        overlayPanel.bind("hidden", onHidden = function() {
+            matchedObject.removeClass("active");
+        });
+        matchedObject.bind("destroyed", function() {
+            overlayPanel.unbind("shown", onShown);
+            overlayPanel.unbind("hidden", onHidden);
+        });
     };
 })(jQuery);
 

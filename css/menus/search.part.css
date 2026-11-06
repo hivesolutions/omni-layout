@@ -1,0 +1,29 @@
+.omni-style .search-menu {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.omni-style .search-menu.active .menu-button {
+    background-color: #ffffff;
+}
+
+.omni-style.animations .search-menu.active .menu-button {
+    transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-transition: background-color 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+}
+
+.omni-style .search {
+    background: transparent url(../images/menus/search.png) no-repeat left 1px;
+    height: 32px;
+    padding: 0px 1px 0px 1px;
+    width: 30px;
+}
+
+.omni-style.retina-s .search {
+    background-image: url(../images/menus/search-2x.png);
+    background-size: 30px 32px;
+}
