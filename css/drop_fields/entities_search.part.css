@@ -75,3 +75,53 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.omni-style .drop-field.entities-search .entity-group {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+    color: #777777;
+    cursor: default;
+    font-size: 10px;
+    line-height: 18px;
+    margin: -8px -6px 8px -6px;
+    padding: 2px 6px 2px 6px;
+    text-transform: uppercase;
+}
+
+.omni-style .drop-field.entities-search .entity-group.disabled {
+    display: none;
+}
+
+.omni-style .drop-field.entities-search .entity-group > .subscript-extra {
+    float: right;
+    text-transform: none;
+}
+
+.omni-style .drop-field.entities-search .entity-page {
+    margin: -4px 0px -4px 0px;
+}
+
+.omni-style .drop-field.entities-search .entity-page .entity-picture {
+    height: 24px;
+    margin: -1px 10px -1px 0px;
+    width: 24px;
+}
+
+.omni-style .drop-field.entities-search .entity-page div.left {
+    float: none;
+    overflow: hidden;
+}
+
+.omni-style .drop-field.entities-search .entity-page .entity-name {
+    float: left;
+    margin: 0px 0px 0px 0px;
+    width: auto;
+}
+
+.omni-style .drop-field.entities-search .entity-page .entity-details {
+    color: #4d4d4d;
+    float: right;
+    font-size: 80%;
+    margin: 0px 0px 0px 0px;
+    width: auto;
+}

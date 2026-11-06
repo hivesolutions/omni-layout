@@ -71,10 +71,34 @@
         // registers for the (new) item event to change
         // the item inserting new attributes in it
         matchedObject.bind("item", function(event, item) {
-            // retrieves the mvc path and the class id url
-            // map for the current page
+            // retrieves the base path, the mvc path and the class
+            // id url map for the current page
+            var basePath = _body.data("base_path");
             var mvcPath = _body.data("mvc_path");
             var classIdUrl = _body.data("class_id_url");
+
+            // defaults the kind of the item to the record and its group
+            // to none, as the template only replaces the attributes that
+            // the item has (the records have none of them when the pages
+            // are not requested), the group being shown only in the first
+            // item of each kind
+            var kind = item["kind"] || "record";
+            var group = item["group"] || "";
+            item["kind"] = kind;
+            item["group"] = group;
+            item["group_extra"] = item["group_extra"] || "";
+            item["group_status"] = group ? "enabled" : "disabled";
+
+            // in case the item is a page its link is its (concrete) url
+            // under the mvc path and its picture is the icon of its section,
+            // from the common images of the entities
+            if (kind === "page") {
+                var iconPath = basePath + "common/images/entities/" + item["icon"];
+                item["link"] = mvcPath + item["url"];
+                item["image"] = iconPath + "_24.png";
+                item["image_2x"] = iconPath + "_50.png";
+                return;
+            }
 
             // retrieves the various attribute values from the
             // item to be used in the link construction
@@ -86,9 +110,11 @@
             var baseUrl = mvcPath + classIdUrl[cid];
 
             // creates the final link value and updates the
-            // item with it
+            // item with it and with the ones of its picture
             var link = baseUrl + objectId;
             item["link"] = link;
+            item["image"] = link + "/image?size=50&mtime=" + item["mtime"];
+            item["image_2x"] = link + "/image?size=128&mtime=" + item["mtime"];
         });
 
         // registers for the value selection event so that it's possible
