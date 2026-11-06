@@ -50,10 +50,16 @@
             event.stopImmediatePropagation();
         });
 
+        // starts the variable that is going to store the handler of the
+        // shown event of the overlay panel, so that it's unregistered once
+        // the eureka is destroyed (eg: its contents replaced by the async
+        // navigation), as the overlay panel is kept between the visits
+        var onShown = null;
+
         // registers for the shown event in the overlay panel associated
         // with the eureka element so that various element of the eureka
         // are restored to the unset original values
-        overlayPanel.bind("shown", function() {
+        overlayPanel.bind("shown", onShown = function() {
             // retrieves the current element and the associated text field
             // and then runs the reset operation to restore it to the original
             // value as expected by the specification
@@ -108,6 +114,7 @@
         });
         matchedObject.bind("destroyed", function() {
             _body.unbind("post_async", onPostAsync);
+            overlayPanel.unbind("shown", onShown);
         });
     };
 })(jQuery);
