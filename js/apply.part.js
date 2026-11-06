@@ -45,6 +45,11 @@
         var eureka = jQuery(".eureka", matchedObject);
         eureka.ueureka();
 
+        // retrieves the search (menu) as the search (button)
+        // and then starts the search logic on it
+        var search = jQuery(".search-menu", matchedObject);
+        search.usearch();
+
         // retrieves the summary as the summary and
         // then starts the summary logic on it
         var summary = jQuery(".summary", matchedObject);
