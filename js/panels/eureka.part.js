@@ -138,6 +138,12 @@
                 overlayPanel.triggerHandler("hide");
             });
 
+        // starts the variable that is going to store the handler of the
+        // post async event of the body, so that its own handler is the one
+        // unregistered once the eureka is destroyed (and not the one of
+        // another plugin, as the chat registers one as well)
+        var onPostAsync = null;
+
         // registers for the post async event so that the overlay panel associated
         // with the eureka structure is properly hidden and does not remains displayed
         // in the current screen, otherwise garbage would be left (ux problems)

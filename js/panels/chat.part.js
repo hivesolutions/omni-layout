@@ -660,6 +660,12 @@
             _body.unbind("pre_async", onPreAsync);
         });
 
+        // starts the variable that is going to store the handler of the
+        // post async event of the body, so that its own handler is the one
+        // unregistered once the chat is destroyed (and not the one of
+        // another plugin, as the eureka registers one as well)
+        var onPostAsync = null;
+
         // enables the post async event listening to be able to
         // restore the state of the chat element back to the original
         // values before the async operation, note that this registration

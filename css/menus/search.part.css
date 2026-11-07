@@ -17,13 +17,12 @@
 }
 
 .omni-style .search {
-    background: transparent url(../images/menus/search.png) no-repeat left 1px;
+    background: transparent url(../images/menus/search.png) no-repeat left top;
     height: 32px;
-    padding: 0px 1px 0px 1px;
-    width: 30px;
+    width: 32px;
 }
 
 .omni-style.retina-s .search {
     background-image: url(../images/menus/search-2x.png);
-    background-size: 30px 32px;
+    background-size: 32px 32px;
 }
