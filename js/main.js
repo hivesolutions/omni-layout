@@ -1060,6 +1060,10 @@
         var colonyPrintLabelNode = jQuery("#colony-print-label-node", matchedObject).text();
         var colonyPrintLabelPrinter = jQuery("#colony-print-label-printer", matchedObject).text();
 
+        // retrieves the (global) setting that silences the notifications as
+        // text, as the other settings, to build the sounds of the notifications
+        var notificationSilent = jQuery("#notification-silent", matchedObject).text();
+
         var definitionsS = jQuery("#definitions", matchedObject).html();
         var aliasS = jQuery("#alias", matchedObject).html();
         var definitions = definitionsS ? jQuery.parseJSON(definitionsS) : {};
@@ -1118,6 +1122,20 @@
             classIdUrl[classId] = url;
         }
 
+        // builds the map of the sounds of the notifications, by their type,
+        // from the URLs of the sounds in the meta (as text, an empty one in
+        // case the page has no such element, playing no sound), empty in
+        // case the notifications are silent
+        var notificationSounds = {};
+        if (notificationSilent !== "1") {
+            notificationSounds = {
+                error: jQuery("#notification-sound-error", matchedObject).text(),
+                warning: jQuery("#notification-sound-warning", matchedObject).text(),
+                success: jQuery("#notification-sound-success", matchedObject).text(),
+                information: jQuery("#notification-sound-information", matchedObject).text()
+            };
+        }
+
         // updates the various (configuration) references in the
         // element to be used for reference latter
         matchedObject.data("base_path", basePath);
@@ -1132,6 +1150,7 @@
         matchedObject.data("colony_print_printer", colonyPrintPrinter);
         matchedObject.data("colony_print_label_node", colonyPrintLabelNode);
         matchedObject.data("colony_print_label_printer", colonyPrintLabelPrinter);
+        matchedObject.data("notification_sounds", notificationSounds);
         matchedObject.data("definitions", definitions);
         matchedObject.data("alias", alias);
         matchedObject.data("sections", sections);
