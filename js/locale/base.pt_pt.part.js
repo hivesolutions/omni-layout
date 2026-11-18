@@ -213,6 +213,7 @@
         "Next login": "Próximo login",
         "Fiscal year": "Ano fiscal",
         "User type": "Tipo de utilizador",
+        "Company": "Empresa",
         "Filter, eg: sale": "Filtro, ex: sale",
         "Check a permission": "Verificar uma permissão",
         "eg: sale_transaction.show": "ex: sale_transaction.show",

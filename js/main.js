@@ -2029,6 +2029,7 @@
         "Next login": "Next login",
         "Fiscal year": "Fiscal year",
         "User type": "User type",
+        "Company": "Company",
         "Filter, eg: sale": "Filter, eg: sale",
         "Check a permission": "Check a permission",
         "eg: sale_transaction.show": "eg: sale_transaction.show",
@@ -2270,6 +2271,7 @@
         "Next login": "Próximo login",
         "Fiscal year": "Ano fiscal",
         "User type": "Tipo de utilizador",
+        "Company": "Empresa",
         "Filter, eg: sale": "Filtro, ex: sale",
         "Check a permission": "Verificar uma permissão",
         "eg: sale_transaction.show": "ex: sale_transaction.show",
@@ -4181,6 +4183,7 @@
         var SESSION_LABELS = {
             user: "User",
             user_type: "User type",
+            company: "Company",
             version: "Version",
             environment: "Environment",
             run_mode: "Run mode",
@@ -5193,7 +5196,7 @@
                     typing = false;
                     typed.text(edge ? String.prototype.formatC.apply(
                         jQuery.uxlocale("Typed the edge case %s: %s (%s keys in %s ms)"),
-                        [jQuery.uxlocale(edge.label).toLowerCase(), value, keys.length, elapsed])
+                        [jQuery.uxlocale(edge.label), value, keys.length, elapsed])
                         : String.prototype.formatC.apply(
                             jQuery.uxlocale("Typed %s (%s keys in %s ms)"),
                             [value, keys.length, elapsed]));
@@ -5626,7 +5629,8 @@
                 }, {
                     name: "fallback",
                     label: "Fallback",
-                    value: receipt && receipt.fallback ? _url(receipt.fallback) : null
+                    value: receipt && receipt.fallback ? jQuery.uxresolve(_url(receipt.fallback))
+                        : null
                 }]);
             };
 
