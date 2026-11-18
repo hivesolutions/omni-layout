@@ -1123,17 +1123,16 @@
         }
 
         // builds the map of the sounds of the notifications, by their type,
-        // from the sounds of the layout (the base path is relative to the
-        // page, empty in the root of the module), empty in case the
-        // notifications are silent or the page has no base path element
+        // from the URLs of the sounds in the meta (as text, an empty one in
+        // case the page has no such element, playing no sound), empty in
+        // case the notifications are silent
         var notificationSounds = {};
-        var hasBasePath = basePath !== null && basePath !== undefined;
-        if (hasBasePath && notificationSilent !== "1") {
+        if (notificationSilent !== "1") {
             notificationSounds = {
-                error: basePath + "common/sounds/dialog-error.mp3",
-                warning: basePath + "common/sounds/dialog-warning.mp3",
-                success: basePath + "common/sounds/complete.mp3",
-                information: basePath + "common/sounds/dialog-information.mp3"
+                error: jQuery("#notification-sound-error", matchedObject).text(),
+                warning: jQuery("#notification-sound-warning", matchedObject).text(),
+                success: jQuery("#notification-sound-success", matchedObject).text(),
+                information: jQuery("#notification-sound-information", matchedObject).text()
             };
         }
 
