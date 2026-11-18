@@ -224,17 +224,23 @@
                 isNew && notification.addClass("pending");
                 isNew && link.addClass("pending");
 
+                // verifies if the desktop notifications are available and if
+                // they are shown, which requires the permission of the user
+                var hasNotifications = typeof(Notification) !== "undefined";
+                var hasDesktop = hasNotifications && Notification.permission === "granted";
+
                 // in case the current notification is new creates
                 // a new notification box for the current notification
                 // so that the user gets an immediate visual effect, with
-                // no sound in case the page is hidden (eg: another tab), as
-                // the desktop notification is the one that sounds then
+                // no sound in case the page is hidden (eg: another tab) and
+                // the desktop notification is shown, as that is the one that
+                // sounds then
                 isNew && _body.uxnotification({
                     "title": userName,
                     "message": message,
                     "link": jQuery.uxresolve(url),
                     "timeout": 15000,
-                    "silent": document.hidden
+                    "silent": document.hidden && hasDesktop
                 });
 
                 // in case this is a new notification creates a desktop
@@ -244,7 +250,6 @@
                 // not enough permissions the show is disabled, and that it has
                 // no sound while the page is visible, as the notification box
                 // is the one that sounds then
-                var hasNotifications = typeof(Notification) !== "undefined";
                 if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
                         dir: "auto",
