@@ -4216,19 +4216,24 @@
 
                 // in case the current notification is new creates
                 // a new notification box for the current notification
-                // so that the user gets an immediate visual effect
+                // so that the user gets an immediate visual effect, with
+                // no sound in case the page is hidden (eg: another tab), as
+                // the desktop notification is the one that sounds then
                 isNew && _body.uxnotification({
                     "title": userName,
                     "message": message,
                     "link": jQuery.uxresolve(url),
-                    "timeout": 15000
+                    "timeout": 15000,
+                    "silent": document.hidden
                 });
 
                 // in case this is a new notification creates a desktop
                 // notification and registers the appropriate handlers to
                 // it so that the target page opens on click and the notification
                 // hides after a certain amount of time, note that if there's
-                // not enough permissions the show is disabled
+                // not enough permissions the show is disabled, and that it has
+                // no sound while the page is visible, as the notification box
+                // is the one that sounds then
                 var hasNotifications = typeof(Notification) !== "undefined";
                 if (hasNotifications && isNew) {
                     var _notification = new Notification(userName, {
@@ -4236,7 +4241,8 @@
                         icon: jQuery.uxresolve(logoUrl),
                         lang: "en",
                         body: messageT,
-                        tag: uniqueId
+                        tag: uniqueId,
+                        silent: !document.hidden
                     });
                     _notification.onclick = function() {
                         window.open(urlR, "_blank");
