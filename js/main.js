@@ -1856,6 +1856,7 @@
         "Notifications": "Notifications",
         "Scan": "Scan",
         "Session": "Session",
+        "Open the debug bar": "Open the debug bar",
         "Theme": "Theme",
         "Close": "Close",
         "Omni Light": "Omni Light",
@@ -1970,6 +1971,7 @@
         "Notifications": "Notificações",
         "Scan": "Leitura",
         "Session": "Sessão",
+        "Open the debug bar": "Abrir a barra de depuração",
         "Theme": "Tema",
         "Close": "Fechar",
         "Omni Light": "Omni Claro",
@@ -4122,10 +4124,10 @@
         var theme = _get("omni:debug:theme");
         theme = THEMES.indexOf(theme) === -1 ? THEMES[0] : theme;
 
-        // builds the header of the bar, with its badge, the tabs of its
-        // tools, the counts of the errors and the warnings of the logs, the
-        // select of the theme, the hint of the shortcut and the button that
-        // closes the bar
+        // builds the header of the dock of the bar, with its badge, the tabs
+        // of its tools, the counts of the errors and the warnings of the logs,
+        // the select of the theme, the hint of the shortcut and the button
+        // that closes the bar
         var header = jQuery("<div class=\"debug-bar-header\">"
             + "<span class=\"debug-bar-badge\">DEBUG</span>"
             + "<ul class=\"debug-bar-tabs\"></ul>"
@@ -4137,14 +4139,28 @@
             + "<span class=\"debug-bar-close\" title=\"" + jQuery.uxlocale("Close")
             + "\">&#215;</span>" + "</div>");
         var tools = jQuery("<div class=\"debug-bar-tools\"></div>");
-        matchedObject.append(header);
-        matchedObject.append(tools);
+        var dock = jQuery("<div class=\"debug-bar-dock\"></div>");
+        dock.append(header);
+        dock.append(tools);
+        matchedObject.append(dock);
 
-        // retrieves the references to the elements of the header that are
-        // going to be used latter in the operations of the bar
+        // builds the launcher of the bar, shown while the bar is closed, with
+        // its badge, the counts of the errors and the warnings of the logs and
+        // the arrow that hints that it opens the bar
+        var launcher = jQuery("<div class=\"debug-bar-launcher\" title=\""
+            + jQuery.uxlocale("Open the debug bar") + "\">"
+            + "<span class=\"debug-bar-launcher-badge\">DEBUG</span>"
+            + "<span class=\"debug-bar-count debug-bar-errors\">0</span>"
+            + "<span class=\"debug-bar-count debug-bar-warnings\">0</span>"
+            + "<span class=\"debug-bar-launcher-arrow\"></span>" + "</div>");
+        matchedObject.append(launcher);
+
+        // retrieves the references to the elements of the header (and of the
+        // launcher) that are going to be used latter in the operations of the
+        // bar, the counts being both the ones of the header and of the launcher
         var tabs = jQuery(".debug-bar-tabs", header);
-        var errors = jQuery(".debug-bar-errors", header);
-        var warnings = jQuery(".debug-bar-warnings", header);
+        var errors = jQuery(".debug-bar-errors", matchedObject);
+        var warnings = jQuery(".debug-bar-warnings", matchedObject);
         var themeSelect = jQuery(".debug-bar-theme", header);
         var close = jQuery(".debug-bar-close", header);
 
@@ -4951,8 +4967,8 @@
         });
 
         /**
-         * Updates the counts of the errors and of the warnings of the
-         * header of the bar from the records of the logs.
+         * Updates the counts of the errors and of the warnings of the header
+         * and of the launcher of the bar from the records of the logs.
          */
         var _count = function() {
             var records = _window.data("udebug_records");
@@ -5036,9 +5052,13 @@
         });
 
         // registers for the click in the close button so that the bar is
-        // hidden (shown again by the shortcut)
+        // hidden (shown again by the shortcut or the launcher), and for the
+        // click in the launcher so that the bar is shown
         close.click(function() {
             _hide();
+        });
+        launcher.click(function() {
+            _show();
         });
 
         // starts the variables that are going to store the handlers of the

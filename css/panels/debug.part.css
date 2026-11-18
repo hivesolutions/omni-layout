@@ -1,4 +1,4 @@
-.omni-style .debug-bar {
+.omni-style .debug-bar .debug-bar-dock {
     background-color: #ffffff;
     border-top: 1px solid #dddddd;
     bottom: 0px;
@@ -9,18 +9,109 @@
     -khtml-box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.12);
     -webkit-box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.12);
     color: #2d2d2d;
-    display: none;
+    display: flex;
+    flex-direction: column;
     font-size: 12px;
     height: 300px;
     left: 0px;
+    opacity: 0;
     position: fixed;
     right: 0px;
+    transform: translateY(24px);
+    -o-transform: translateY(24px);
+    -ms-transform: translateY(24px);
+    -moz-transform: translateY(24px);
+    -khtml-transform: translateY(24px);
+    -webkit-transform: translateY(24px);
+    visibility: hidden;
     z-index: 11;
 }
 
-.omni-style .debug-bar.open {
+.omni-style .debug-bar.open .debug-bar-dock {
+    opacity: 1;
+    transform: translateY(0px);
+    -o-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -khtml-transform: translateY(0px);
+    -webkit-transform: translateY(0px);
+    visibility: visible;
+}
+
+.omni-style .debug-bar .debug-bar-launcher {
+    align-items: center;
+    background-color: #f4f4f4;
+    border: 1px solid #dddddd;
+    border-radius: 20px;
+    bottom: 16px;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.12);
+    -o-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.12);
+    -ms-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.12);
+    -khtml-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    color: #2d2d2d;
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
+    font-size: 11px;
+    font-weight: bold;
+    gap: 10px;
+    height: 40px;
+    letter-spacing: 1px;
+    padding: 0px 12px 0px 14px;
+    position: fixed;
+    right: 16px;
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    z-index: 11;
+}
+
+.omni-style .debug-bar.open .debug-bar-launcher {
+    opacity: 0;
+    transform: translateY(6px);
+    -o-transform: translateY(6px);
+    -ms-transform: translateY(6px);
+    -moz-transform: translateY(6px);
+    -khtml-transform: translateY(6px);
+    -webkit-transform: translateY(6px);
+    visibility: hidden;
+}
+
+.omni-style .debug-bar .debug-bar-launcher-badge {
+    color: #3668c6;
+}
+
+.omni-style .debug-bar .debug-bar-launcher .debug-bar-count {
+    margin-right: 0px;
+}
+
+.omni-style .debug-bar .debug-bar-launcher .debug-bar-count:before {
+    height: 7px;
+    margin-right: 4px;
+    width: 7px;
+}
+
+.omni-style .debug-bar .debug-bar-launcher-arrow {
+    border-left-color: #5f5f5f;
+    border-left-style: solid;
+    border-left-width: 2px;
+    border-top-color: #5f5f5f;
+    border-top-style: solid;
+    border-top-width: 2px;
+    height: 6px;
+    margin: 4px 2px 0px 2px;
+    transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -khtml-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 6px;
 }
 
 .omni-style .debug-bar > .debug-bar-session {
@@ -615,11 +706,56 @@
     color: #2d2d2d;
 }
 
+.omni-style.animations .debug-bar .debug-bar-dock {
+    transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -o-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -ms-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -moz-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -khtml-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -webkit-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+}
+
+.omni-style.animations .debug-bar.open .debug-bar-dock {
+    transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -o-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -ms-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -moz-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -khtml-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -webkit-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+}
+
+.omni-style.animations .debug-bar .debug-bar-launcher {
+    transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -o-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -ms-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -moz-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -khtml-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+    -webkit-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0s;
+}
+
+.omni-style.animations .debug-bar.open .debug-bar-launcher {
+    transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -o-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -ms-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -moz-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -khtml-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+    -webkit-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1.0), visibility 0s linear 0.25s;
+}
+
+.omni-style.animations .notifications-stack.bottom-left {
+    transition: bottom 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -o-transition: bottom 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -ms-transition: bottom 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -moz-transition: bottom 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -khtml-transition: bottom 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+    -webkit-transition: bottom 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0);
+}
+
 .omni-style.debug-bar-open .notifications-stack.bottom-left {
     bottom: 316px;
 }
 
-.omni-style .debug-bar.theme-graphite {
+.omni-style .debug-bar.theme-graphite .debug-bar-dock {
     background-color: #242424;
     border-top: 1px solid #3a3a3a;
     box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.28);
@@ -629,6 +765,27 @@
     -khtml-box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.28);
     -webkit-box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.28);
     color: #e6e6e6;
+}
+
+.omni-style .debug-bar.theme-graphite .debug-bar-launcher {
+    background-color: #2b2b2b;
+    border: 1px solid #3a3a3a;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.28);
+    -o-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.28);
+    -ms-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.28);
+    -khtml-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.28);
+    -webkit-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.28);
+    color: #e6e6e6;
+}
+
+.omni-style .debug-bar.theme-graphite .debug-bar-launcher-badge {
+    color: #6f9be8;
+}
+
+.omni-style .debug-bar.theme-graphite .debug-bar-launcher-arrow {
+    border-left-color: #a0a0a0;
+    border-top-color: #a0a0a0;
 }
 
 .omni-style .debug-bar.theme-graphite .debug-bar-header {
@@ -888,7 +1045,7 @@
     color: #e6e6e6;
 }
 
-.omni-style .debug-bar.theme-midnight {
+.omni-style .debug-bar.theme-midnight .debug-bar-dock {
     background-color: #0f1724;
     border-top: 1px solid #24324f;
     box-shadow: 0px -6px 18px rgba(2, 6, 23, 0.45);
@@ -898,6 +1055,27 @@
     -khtml-box-shadow: 0px -6px 18px rgba(2, 6, 23, 0.45);
     -webkit-box-shadow: 0px -6px 18px rgba(2, 6, 23, 0.45);
     color: #e2e8f0;
+}
+
+.omni-style .debug-bar.theme-midnight .debug-bar-launcher {
+    background-color: #16213a;
+    border: 1px solid #24324f;
+    box-shadow: 0px 4px 14px rgba(2, 6, 23, 0.45);
+    -o-box-shadow: 0px 4px 14px rgba(2, 6, 23, 0.45);
+    -ms-box-shadow: 0px 4px 14px rgba(2, 6, 23, 0.45);
+    -moz-box-shadow: 0px 4px 14px rgba(2, 6, 23, 0.45);
+    -khtml-box-shadow: 0px 4px 14px rgba(2, 6, 23, 0.45);
+    -webkit-box-shadow: 0px 4px 14px rgba(2, 6, 23, 0.45);
+    color: #e2e8f0;
+}
+
+.omni-style .debug-bar.theme-midnight .debug-bar-launcher-badge {
+    color: #38bdf8;
+}
+
+.omni-style .debug-bar.theme-midnight .debug-bar-launcher-arrow {
+    border-left-color: #94a3b8;
+    border-top-color: #94a3b8;
 }
 
 .omni-style .debug-bar.theme-midnight .debug-bar-header {
@@ -1157,7 +1335,7 @@
     color: #e2e8f0;
 }
 
-.omni-style .debug-bar.theme-amber {
+.omni-style .debug-bar.theme-amber .debug-bar-dock {
     background-color: #121110;
     border-top: 1px solid #3a3127;
     box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.45);
@@ -1167,6 +1345,27 @@
     -khtml-box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.45);
     -webkit-box-shadow: 0px -6px 18px rgba(0, 0, 0, 0.45);
     color: #f3e5c9;
+}
+
+.omni-style .debug-bar.theme-amber .debug-bar-launcher {
+    background-color: #1b1916;
+    border: 1px solid #3a3127;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.45);
+    -o-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.45);
+    -ms-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.45);
+    -khtml-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.45);
+    -webkit-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.45);
+    color: #f3e5c9;
+}
+
+.omni-style .debug-bar.theme-amber .debug-bar-launcher-badge {
+    color: #ffb000;
+}
+
+.omni-style .debug-bar.theme-amber .debug-bar-launcher-arrow {
+    border-left-color: #b8a27f;
+    border-top-color: #b8a27f;
 }
 
 .omni-style .debug-bar.theme-amber .debug-bar-header {
@@ -1426,7 +1625,7 @@
     color: #f3e5c9;
 }
 
-.omni-style .debug-bar.theme-frontdoor {
+.omni-style .debug-bar.theme-frontdoor .debug-bar-dock {
     background-color: #1f2a33;
     border-top: 1px solid #364652;
     box-shadow: 0px -6px 18px rgba(8, 18, 26, 0.4);
@@ -1436,6 +1635,27 @@
     -khtml-box-shadow: 0px -6px 18px rgba(8, 18, 26, 0.4);
     -webkit-box-shadow: 0px -6px 18px rgba(8, 18, 26, 0.4);
     color: #e6eef3;
+}
+
+.omni-style .debug-bar.theme-frontdoor .debug-bar-launcher {
+    background-color: #26333e;
+    border: 1px solid #364652;
+    box-shadow: 0px 4px 14px rgba(8, 18, 26, 0.4);
+    -o-box-shadow: 0px 4px 14px rgba(8, 18, 26, 0.4);
+    -ms-box-shadow: 0px 4px 14px rgba(8, 18, 26, 0.4);
+    -moz-box-shadow: 0px 4px 14px rgba(8, 18, 26, 0.4);
+    -khtml-box-shadow: 0px 4px 14px rgba(8, 18, 26, 0.4);
+    -webkit-box-shadow: 0px 4px 14px rgba(8, 18, 26, 0.4);
+    color: #e6eef3;
+}
+
+.omni-style .debug-bar.theme-frontdoor .debug-bar-launcher-badge {
+    color: #5cc0f0;
+}
+
+.omni-style .debug-bar.theme-frontdoor .debug-bar-launcher-arrow {
+    border-left-color: #9fb2c0;
+    border-top-color: #9fb2c0;
 }
 
 .omni-style .debug-bar.theme-frontdoor .debug-bar-header {
@@ -1695,7 +1915,7 @@
     color: #e6eef3;
 }
 
-.omni-style .debug-bar.theme-aubergine {
+.omni-style .debug-bar.theme-aubergine .debug-bar-dock {
     background-color: #1d1426;
     border-top: 1px solid #3b2a4c;
     box-shadow: 0px -6px 18px rgba(10, 4, 18, 0.45);
@@ -1705,6 +1925,27 @@
     -khtml-box-shadow: 0px -6px 18px rgba(10, 4, 18, 0.45);
     -webkit-box-shadow: 0px -6px 18px rgba(10, 4, 18, 0.45);
     color: #ede4f5;
+}
+
+.omni-style .debug-bar.theme-aubergine .debug-bar-launcher {
+    background-color: #261a32;
+    border: 1px solid #3b2a4c;
+    box-shadow: 0px 4px 14px rgba(10, 4, 18, 0.45);
+    -o-box-shadow: 0px 4px 14px rgba(10, 4, 18, 0.45);
+    -ms-box-shadow: 0px 4px 14px rgba(10, 4, 18, 0.45);
+    -moz-box-shadow: 0px 4px 14px rgba(10, 4, 18, 0.45);
+    -khtml-box-shadow: 0px 4px 14px rgba(10, 4, 18, 0.45);
+    -webkit-box-shadow: 0px 4px 14px rgba(10, 4, 18, 0.45);
+    color: #ede4f5;
+}
+
+.omni-style .debug-bar.theme-aubergine .debug-bar-launcher-badge {
+    color: #c4b5fd;
+}
+
+.omni-style .debug-bar.theme-aubergine .debug-bar-launcher-arrow {
+    border-left-color: #b8a6c9;
+    border-top-color: #b8a6c9;
 }
 
 .omni-style .debug-bar.theme-aubergine .debug-bar-header {

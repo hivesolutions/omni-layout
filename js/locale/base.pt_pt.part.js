@@ -40,6 +40,7 @@
         "Notifications": "Notificações",
         "Scan": "Leitura",
         "Session": "Sessão",
+        "Open the debug bar": "Abrir a barra de depuração",
         "Theme": "Tema",
         "Close": "Fechar",
         "Omni Light": "Omni Claro",

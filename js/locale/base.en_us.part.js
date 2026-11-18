@@ -40,6 +40,7 @@
         "Notifications": "Notifications",
         "Scan": "Scan",
         "Session": "Session",
+        "Open the debug bar": "Open the debug bar",
         "Theme": "Theme",
         "Close": "Close",
         "Omni Light": "Omni Light",
