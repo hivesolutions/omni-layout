@@ -88,6 +88,7 @@
          */
         var SESSION_LABELS = {
             user: "User",
+            user_type: "User type",
             version: "Version",
             environment: "Environment",
             run_mode: "Run mode",
@@ -113,6 +114,99 @@
             "$": ["Digit4", 52, true],
             "%": ["Digit5", 53, true]
         };
+
+        /**
+         * The interval (in milliseconds) between the keys of the scans typed
+         * by the scan tool, as a barcode scanner types them.
+         */
+        var KEY_INTERVAL = 10;
+
+        /**
+         * The interval (in milliseconds) between the keys of the scans typed
+         * slower than a scanner, over the maximum interval between the keys
+         * of the scan detection (80 ms), so that they're not detected.
+         */
+        var SLOW_INTERVAL = 120;
+
+        /**
+         * The edge cases of the scans typed by the scan tool, each one with
+         * its label and either a fixed code or the parts of an omni code (the
+         * version, the class identifier, the object identifier and a fixed
+         * checksum replacing the valid one), and the interval of its keys.
+         */
+        var EDGE_CASES = [{
+            name: "checksum",
+            label: "Bad checksum",
+            version: "01",
+            cid: 14,
+            object: 477,
+            checksum: "9999"
+        }, {
+            name: "version",
+            label: "Wrong version",
+            version: "02",
+            cid: 14,
+            object: 477
+        }, {
+            name: "cid",
+            label: "Unknown CID",
+            version: "01",
+            cid: 9999,
+            object: 1
+        }, {
+            name: "short",
+            label: "Too short",
+            code: "1234"
+        }, {
+            name: "slow",
+            label: "Too slow",
+            code: "5601234567892",
+            interval: SLOW_INTERVAL
+        }];
+
+        /**
+         * The labels of the sources of the flags and of the settings of the
+         * instance, by the sources retrieved from the server.
+         */
+        var SOURCES = {
+            "setting": "Setting",
+            "environment": "Environment",
+            "default": "Default"
+        };
+
+        /**
+         * The labels of the moments when the flags of the instance apply, by
+         * the moments retrieved from the server.
+         */
+        var APPLIES = {
+            now: "Now",
+            login: "Next login",
+            fiscal_year: "Fiscal year"
+        };
+
+        /**
+         * The names of the values of the permissions of the session (allow,
+         * validate and deny), by their values, used as the classes of the
+         * permissions and, capitalized, as their labels.
+         */
+        var PERMISSION_VALUES = {
+            10: "allow",
+            20: "validate",
+            30: "deny"
+        };
+
+        /**
+         * The classes of the body of a phone (as set by the plugins of the
+         * user agent and of the size of the window), the ones set when the
+         * page tool forces the classes of a phone.
+         */
+        var PHONE_CLASSES = ["mobile", "device", "touch", "mobile-s"];
+
+        /**
+         * The classes of the body of the other devices (desktop and tablet),
+         * removed when the page tool forces the classes of a phone.
+         */
+        var DEVICE_CLASSES = ["desktop", "tablet", "mouse", "desktop-s", "tablet-s"];
 
         // sets the jquery matched object and verifies if
         // at least one object as been matched, in case not
@@ -225,6 +319,215 @@
             return valueS;
         };
 
+        /**
+         * Removes the value stored under the provided key in the local
+         * storage, ignoring the local storage in case it's not accessible.
+         *
+         * @param {String}
+         *            key The key of the value to be removed.
+         */
+        var _remove = function(key) {
+            try {
+                window.localStorage && window.localStorage.removeItem(key);
+            } catch (exception) {
+                // ignores the exception as the storage of the values of the
+                // bar is a convenience of the browser (best effort)
+            }
+        };
+
+        /**
+         * Retrieves the keys of the local storage that start with one of the
+         * provided prefixes, sorted, an empty list in case the local storage
+         * is not accessible.
+         *
+         * @param {Array}
+         *            prefixes The prefixes of the keys to be retrieved.
+         * @return {Array} The keys of the local storage with the prefixes.
+         */
+        var _keys = function(prefixes) {
+            var keys = [];
+            try {
+                var storage = window.localStorage;
+                var count = storage ? storage.length : 0;
+                for (var index = 0; index < count; index++) {
+                    var key = storage.key(index);
+                    for (var _index = 0; _index < prefixes.length; _index++) {
+                        key.indexOf(prefixes[_index]) === 0 && keys.push(key);
+                    }
+                }
+            } catch (exception) {
+                return [];
+            }
+            keys.sort();
+            return keys;
+        };
+
+        /**
+         * Retrieves the URL of the provided path (relative to the mvc path, eg:
+         * the documents of the presets), resolving its section with the alias
+         * of the page, as the queries of the layout do.
+         *
+         * @param {String}
+         *            path The path relative to the mvc path.
+         * @return {String} The URL of the path.
+         */
+        var _url = function(path) {
+            var mvcPath = _body.data("mvc_path") || "";
+            var alias = _body.data("alias") || {};
+            var parts = path.split("/");
+            parts[0] = alias[parts[0]] || parts[0];
+            return mvcPath + parts.join("/");
+        };
+
+        /**
+         * Masks the provided value (eg: a key of a service), keeping only its
+         * last four characters visible.
+         *
+         * @param {String}
+         *            value The value to be masked.
+         * @return {String} The masked value, an invalid value in case there's
+         *         no value.
+         */
+        var _mask = function(value) {
+            if (!value) {
+                return null;
+            }
+            return "••••••••" + String(value).slice(-4);
+        };
+
+        /**
+         * Renders the provided values in the provided list, replacing the
+         * ones rendered before, each one with its name, its label (to be
+         * localized), its value and, optionally, its source (to be localized)
+         * and its state (eg: success, warning or error).
+         *
+         * @param {Element}
+         *            list The list where the values are going to be rendered.
+         * @param {Array}
+         *            values The values to be rendered.
+         */
+        var _values = function(list, values) {
+            list.empty();
+            for (var index = 0; index < values.length; index++) {
+                var value = values[index];
+                var item = jQuery("<li class=\"debug-bar-value\">"
+                    + "<span class=\"debug-bar-value-label\"></span>"
+                    + "<span class=\"debug-bar-value-text\"></span>" + "</li>");
+                var labelElement = jQuery(".debug-bar-value-label", item);
+                var textElement = jQuery(".debug-bar-value-text", item);
+                var isEmpty = value.value === null || value.value === undefined
+                    || value.value === "";
+                item.attr("data-name", value.name);
+                value.state && item.addClass(value.state);
+                labelElement.text(jQuery.uxlocale(value.label));
+                textElement.text(isEmpty ? jQuery.uxlocale("None") : String(value.value));
+                if (value.source && !isEmpty) {
+                    var sourceElement = jQuery("<span class=\"debug-bar-value-source\"></span>");
+                    sourceElement.text(" (" + jQuery.uxlocale(value.source) + ")");
+                    textElement.append(sourceElement);
+                }
+                list.append(item);
+            }
+        };
+
+        /**
+         * Renders the provided names as chips in the provided list, replacing
+         * the ones rendered before, or the provided message in case there's no
+         * name to be rendered.
+         *
+         * @param {Element}
+         *            list The list where the chips are going to be rendered.
+         * @param {Array}
+         *            names The names of the chips to be rendered.
+         * @param {String}
+         *            message The message (to be localized) shown in case there's
+         *            no name to be rendered.
+         * @return {Element} The chips that have been rendered.
+         */
+        var _chips = function(list, names, message) {
+            list.empty();
+            for (var index = 0; index < names.length; index++) {
+                var item = jQuery("<li class=\"debug-bar-chip\"></li>");
+                item.attr("data-name", names[index]);
+                item.text(names[index]);
+                list.append(item);
+            }
+            names.length === 0 && list.append("<li class=\"debug-bar-chips-empty\">"
+                + jQuery.uxlocale(message) + "</li>");
+            return jQuery(".debug-bar-chip", list);
+        };
+
+        // starts the variables that hold the presets of the instance, once
+        // retrieved, and the callbacks waiting for them to be retrieved
+        var presets = null;
+        var presetsCallbacks = [];
+
+        /**
+         * Retrieves the presets of the instance (the codes to be scanned and
+         * the documents to be printed), once for the bar, calling the provided
+         * callback with them (an empty set of presets in case of failure).
+         *
+         * @param {Function}
+         *            callback The function called with the presets.
+         */
+        var _presets = function(callback) {
+            // in case the presets have already been retrieved calls the
+            // callback with them immediately, otherwise queues the callback
+            // and in case the presets are already being retrieved returns
+            if (presets) {
+                callback(presets);
+                return;
+            }
+            var isPending = presetsCallbacks.length > 0;
+            presetsCallbacks.push(callback);
+            if (isPending) {
+                return;
+            }
+
+            /**
+             * Keeps the provided presets (as retrieved from the server) and
+             * calls the callbacks queued with them.
+             *
+             * @param {Object}
+             *            data The presets retrieved from the server.
+             */
+            var _done = function(data) {
+                presets = {
+                    scans: (data && data.scans) || [],
+                    documents: (data && data.documents) || []
+                };
+                for (var index = 0; index < presetsCallbacks.length; index++) {
+                    presetsCallbacks[index](presets);
+                }
+                presetsCallbacks = [];
+            };
+
+            jQuery.uquery({
+                url: "omni_util/debug_presets.json",
+                data: {},
+                success: function(data) {
+                    _done(data);
+                },
+                error: function(request, status, error) {
+                    logger.warn("Presets retrieval failed:", request.status, error);
+                    _done(null);
+                }
+            });
+        };
+
+        /**
+         * Retrieves the time of the provided date as a string, with its hours,
+         * minutes and seconds (eg: the time of the records of the logs).
+         *
+         * @param {Date}
+         *            date The date to retrieve the time for.
+         * @return {String} The time of the date as a string.
+         */
+        var _time = function(date) {
+            return _pad(date.getHours(), 2) + ":" + _pad(date.getMinutes(), 2) + ":"
+                + _pad(date.getSeconds(), 2);
+        };
+
         // retrieves the value of the global registration of the capture
         // of the logs, as the records are kept for the window (so that the
         // records survive the bar being created again by the async navigation)
@@ -266,12 +569,42 @@
 
             _window.bind("unhandledrejection", function(event) {
                 var original = event.originalEvent || event;
+                var reason = original.reason;
                 _record({
                     time: new Date(),
                     level: "error",
                     name: "console",
-                    message: "Unhandled rejection: " + _string(original.reason)
+                    message: "Unhandled rejection: "
+                        + (reason && reason.message ? reason.message : _string(reason))
                 });
+            });
+
+            // registers for the events of the asynchronous navigation of the
+            // pages so that the last one (its link, its duration and its events)
+            // is kept for the page tool, notifying the bars about it
+            _body.bind("async_start async_end pre_async do_async post_async", function(event) {
+                var navigation = _window.data("udebug_navigation_start");
+                if (event.type === "async_start") {
+                    navigation = {
+                        time: new Date().getTime(),
+                        events: []
+                    };
+                    _window.data("udebug_navigation_start", navigation);
+                }
+                if (!navigation) {
+                    return;
+                }
+                navigation.events.push(event.type);
+                if (event.type !== "post_async") {
+                    return;
+                }
+                _window.data("udebug_navigation", {
+                    href: document.location.href,
+                    duration: new Date().getTime() - navigation.time,
+                    events: navigation.events
+                });
+                _window.data("udebug_navigation_start", null);
+                _body.triggerHandler("debug_navigation");
             });
         }
 
@@ -333,9 +666,11 @@
         themeSelect.val(theme);
         matchedObject.addClass("theme-" + theme);
 
-        // updates the bar with the level of the logs of this browser, the
-        // one that the tools use (eg: the logs filtering their records)
+        // updates the bar with the level of the logs of this browser and with
+        // the theme of the bar, the ones that the tools use (eg: the logs
+        // filtering their records)
         matchedObject.data("level", level);
+        matchedObject.data("theme", theme);
 
         /**
          * Builds the panel of the logs tool, the records of the logs of the
@@ -347,6 +682,7 @@
          *            panel The panel of the tool to be built.
          */
         var _buildLogs = function(panel) {
+            panel.addClass("debug-bar-tool-list");
             panel.append("<div class=\"debug-bar-toolbar\">"
                 + "<label class=\"debug-bar-label\">" + jQuery.uxlocale("Level") + "</label>"
                 + "<select class=\"debug-bar-select debug-bar-level\"></select>"
@@ -400,10 +736,6 @@
                     if (selected !== "all" && record.name !== selected) {
                         continue;
                     }
-                    var time = record.time;
-                    var hours = _pad(time.getHours(), 2);
-                    var minutes = _pad(time.getMinutes(), 2);
-                    var seconds = _pad(time.getSeconds(), 2);
                     var item = jQuery("<li class=\"debug-bar-log " + _level + "\">"
                         + "<span class=\"debug-bar-log-time\"></span>"
                         + "<span class=\"debug-bar-log-level\"></span>"
@@ -413,7 +745,7 @@
                     var levelElement = jQuery(".debug-bar-log-level", item);
                     var nameElement = jQuery(".debug-bar-log-name", item);
                     var messageElement = jQuery(".debug-bar-log-message", item);
-                    timeElement.text(hours + ":" + minutes + ":" + seconds);
+                    timeElement.text(_time(record.time));
                     levelElement.text(record.level.toUpperCase());
                     nameElement.text(record.name);
                     messageElement.text(record.message);
@@ -610,8 +942,9 @@
         /**
          * Builds the panel of the scan tool, that types codes as a barcode
          * scanner does: the presets of the instance, the codes of the
-         * entities of omni (by their class and object id) and any code,
-         * the presets and the entities being retrieved once it's shown.
+         * entities of omni (by their class and object id), any code and the
+         * edge cases of the scans, the presets and the entities being
+         * retrieved once it's shown.
          *
          * @param {Element}
          *            panel The panel of the tool to be built.
@@ -662,10 +995,8 @@
                 + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Recent") + "</span>"
                 + "<ul class=\"debug-bar-recent\"></ul>"
                 + "<span class=\"debug-bar-status debug-bar-typed\"></span>"
-                + "<span class=\"debug-bar-hint\">"
-                + jQuery.uxlocale(
-                    "Each code is typed as a scanner does, a key every 10 ms ending in Enter")
-                + "</span>" + "</div>");
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Edge cases") + "</span>"
+                + "<ul class=\"debug-bar-edges\"></ul>" + "</div>");
 
             // retrieves the references to the elements of the panel that are
             // going to be used in the scans
@@ -683,6 +1014,7 @@
             var codeScan = jQuery(".debug-bar-code-scan", panel);
             var recent = jQuery(".debug-bar-recent", panel);
             var typed = jQuery(".debug-bar-typed", panel);
+            var edges = jQuery(".debug-bar-edges", panel);
 
             // starts the variables that hold the classes of the entities (once
             // retrieved), the class of the picked entity and the code that it
@@ -708,13 +1040,19 @@
 
             /**
              * Types the provided code as a barcode scanner does, a key press
-             * and release every 10 ms ending in the enter key, on the document
-             * (where the scan detection listens), with no field focused.
+             * and release every 10 ms (or the provided interval) ending in the
+             * enter key, on the document (where the scan detection listens),
+             * with no field focused, keeping it as a recent code unless it's
+             * an edge case.
              *
              * @param {String}
              *            value The code to be typed.
+             * @param {Integer}
+             *            interval The interval between the keys, in ms.
+             * @param {Object}
+             *            edge The edge case of the code, in case it's one.
              */
-            var _type = function(value) {
+            var _type = function(value, interval, edge) {
                 // in case there's no value or a scan is still being typed
                 // returns immediately (one scan at a time)
                 if (!value || typing) {
@@ -730,6 +1068,7 @@
                 var start = new Date().getTime();
                 var keys = value.split("");
                 keys.push("\n");
+                interval = interval || KEY_INTERVAL;
 
                 /**
                  * Presses and releases the key of the character at the provided
@@ -755,16 +1094,19 @@
                     if (index < keys.length - 1) {
                         setTimeout(function() {
                             _key(index + 1);
-                        }, 10);
+                        }, interval);
                         return;
                     }
                     var elapsed = new Date().getTime() - start;
                     typing = false;
-                    typed.text(String.prototype.formatC.apply(
-                        jQuery.uxlocale("Typed %s (%s keys in %s ms)"),
-                        [value, keys.length, elapsed]));
-                    logger.info("Scan typed with keys:", keys.length);
-                    _remember(value);
+                    typed.text(edge ? String.prototype.formatC.apply(
+                        jQuery.uxlocale("Typed the edge case %s: %s (%s keys in %s ms)"),
+                        [jQuery.uxlocale(edge.label).toLowerCase(), value, keys.length, elapsed])
+                        : String.prototype.formatC.apply(
+                            jQuery.uxlocale("Typed %s (%s keys in %s ms)"),
+                            [value, keys.length, elapsed]));
+                    logger.info("Scan typed with keys and interval:", keys.length, interval);
+                    !edge && _remember(value);
                 };
                 _key(0);
             };
@@ -847,6 +1189,23 @@
                     var element = jQuery(this);
                     _type(element.attr("data-code"));
                 });
+            };
+
+            /**
+             * Builds the code of the provided edge case, either its fixed code
+             * or the omni code of its parts, with the valid checksum of its
+             * parts unless it has a fixed one (an invalid checksum).
+             *
+             * @param {Object}
+             *            edge The edge case to build the code for.
+             * @return {String} The code of the edge case.
+             */
+            var _edge = function(edge) {
+                if (edge.code) {
+                    return edge.code;
+                }
+                var buffer = edge.version + _pad(edge.cid, 4) + _pad(edge.object, 12);
+                return (edge.checksum || _pad(jQuery.uchecksum(buffer), 4)) + buffer;
             };
 
             /**
@@ -995,6 +1354,23 @@
                 _type(String(code.val()).replace(/^\s+|\s+$/g, ""));
             });
 
+            // adds the edge cases of the scans as the chips that type them,
+            // each one with the interval of its keys
+            for (var index = 0; index < EDGE_CASES.length; index++) {
+                var item = jQuery("<li class=\"debug-bar-edge\"></li>");
+                item.attr("data-name", EDGE_CASES[index].name);
+                item.attr("data-code", _edge(EDGE_CASES[index]));
+                item.data("edge", EDGE_CASES[index]);
+                item.text(jQuery.uxlocale(EDGE_CASES[index].label));
+                edges.append(item);
+            }
+            var edgeItems = jQuery(".debug-bar-edge", edges);
+            edgeItems.click(function() {
+                var element = jQuery(this);
+                var edge = element.data("edge");
+                _type(element.attr("data-code"), edge.interval, edge);
+            });
+
             // registers for the panel being shown so that the presets and the
             // classes of the entities are retrieved, once, the first time
             panel.bind("shown", function() {
@@ -1002,16 +1378,8 @@
                     return;
                 }
                 panel.data("loaded", true);
-                jQuery.uquery({
-                    url: "omni_util/debug_presets.json",
-                    data: {},
-                    success: function(data) {
-                        _renderPresets(data);
-                    },
-                    error: function(request, status, error) {
-                        logger.warn("Presets retrieval failed:", request.status, error);
-                        _renderPresets([]);
-                    }
+                _presets(function(data) {
+                    _renderPresets(data.scans);
                 });
                 jQuery.uquery({
                     url: "omni_util/class_ids.json",
@@ -1032,53 +1400,1153 @@
         };
 
         /**
+         * Builds the panel of the print tool, the gateway that the page prints
+         * with (as resolved by the print plugin, from the settings of the
+         * instance and the local storage of this browser) and the tests that
+         * print the documents of the presets of the instance.
+         *
+         * @param {Element}
+         *            panel The panel of the tool to be built.
+         */
+        var _buildPrint = function(panel) {
+            panel.append("<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Gateway of this page")
+                + "</span>" + "<ul class=\"debug-bar-values debug-bar-gateway\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-column debug-bar-wide\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Test") + "</span>"
+                + "<div class=\"debug-bar-row\">"
+                + "<span class=\"debug-bar-button debug-bar-primary debug-bar-print-receipt"
+                + " disabled\">" + jQuery.uxlocale("Print a test receipt") + "</span>"
+                + "<span class=\"debug-bar-button debug-bar-primary debug-bar-print-label"
+                + " disabled\">" + jQuery.uxlocale("Print a test label") + "</span>" + "</div>"
+                + "<span class=\"debug-bar-status debug-bar-print-status\"></span>"
+                + "<span class=\"debug-bar-hint\">"
+                + jQuery.uxlocale("The tests print a document of this instance through"
+                    + " uxgprint, with the gateway above, as the documents of the pages do")
+                + "</span>" + "</div>");
+
+            // retrieves the references to the elements of the panel that are
+            // going to be used in the printing of the documents
+            var gatewayList = jQuery(".debug-bar-gateway", panel);
+            var printReceipt = jQuery(".debug-bar-print-receipt", panel);
+            var printLabel = jQuery(".debug-bar-print-label", panel);
+            var printStatus = jQuery(".debug-bar-print-status", panel);
+
+            // starts the variables that hold the documents of the presets to
+            // be printed (once retrieved) and the elements that print them
+            var receipt = null;
+            var label = null;
+            var receiptElement = null;
+            var labelElement = null;
+
+            /**
+             * Resolves the gateway that the page prints with, as the print
+             * plugin does, each value of the local storage of this browser
+             * taking precedence over the one of the settings of the instance,
+             * except for the printers, only used with the node they belong to,
+             * and with the node and the printer of the labels taking precedence
+             * over the general ones for the labels.
+             *
+             * @return {Object} The values of the gateway with their sources.
+             */
+            var _gateway = function() {
+                var urlLocal = _get("uxf:gateway:base_url");
+                var keyLocal = _get("uxf:gateway:key");
+                var nodeLocal = _get("uxf:gateway:node:id");
+                var printerLocal = _get("uxf:gateway:printer:id");
+                var labelNodeLocal = _get("uxf:gateway:label:node:id");
+                var labelPrinterLocal = _get("uxf:gateway:label:printer:id");
+                var url = urlLocal || _body.data("colony_print_url") || "";
+                var key = keyLocal || _body.data("colony_print_key") || "";
+                var node = nodeLocal || _body.data("colony_print_node") || "";
+                var printer = printerLocal || (nodeLocal ? ""
+                    : _body.data("colony_print_printer")) || "";
+                var labelNode = labelNodeLocal || (labelPrinterLocal && nodeLocal ? ""
+                    : _body.data("colony_print_label_node")) || "";
+                var labelPrinter = labelPrinterLocal
+                    || (labelNodeLocal || (nodeLocal && !labelNode) ? ""
+                        : _body.data("colony_print_label_printer")) || "";
+                var nodeSource = nodeLocal ? "this browser" : "settings";
+                var printerSource = printerLocal ? "this browser" : "settings";
+                return {
+                    url: url,
+                    urlSource: urlLocal ? "this browser" : "settings",
+                    key: key,
+                    keySource: keyLocal ? "this browser" : "settings",
+                    node: node,
+                    nodeSource: nodeSource,
+                    printer: printer,
+                    printerSource: printerSource,
+                    labelNode: labelNode || node,
+                    labelNodeSource: labelNodeLocal ? "this browser" : labelNode ? "settings"
+                        : nodeSource,
+                    labelPrinter: labelPrinter || (labelNode ? "" : printer),
+                    labelPrinterSource: labelPrinterLocal ? "this browser" : labelPrinter
+                        ? "settings" : printerSource
+                };
+            };
+
+            /**
+             * Renders the values of the gateway that the page prints with, the
+             * kind of the gateway (the cloud print, the plugin of the browser
+             * or none) and the fallback of the receipt.
+             */
+            var _render = function() {
+                var gateway = _gateway();
+                var isCloud = gateway.url && gateway.key && gateway.node;
+                var plugin = _document.uxg ? _document.uxg() : null;
+                _values(gatewayList, [{
+                    name: "gateway",
+                    label: "Gateway",
+                    value: isCloud ? "Colony Print" : plugin ? jQuery.uxlocale("Browser plugin")
+                        : null,
+                    state: isCloud || plugin ? "success" : "warning"
+                }, {
+                    name: "base_url",
+                    label: "Base URL",
+                    value: gateway.url,
+                    source: gateway.urlSource
+                }, {
+                    name: "key",
+                    label: "Key",
+                    value: _mask(gateway.key),
+                    source: gateway.keySource
+                }, {
+                    name: "node",
+                    label: "Node",
+                    value: gateway.node,
+                    source: gateway.nodeSource
+                }, {
+                    name: "printer",
+                    label: "Printer",
+                    value: gateway.printer,
+                    source: gateway.printerSource
+                }, {
+                    name: "label_node",
+                    label: "Label node",
+                    value: gateway.labelNode,
+                    source: gateway.labelNodeSource
+                }, {
+                    name: "label_printer",
+                    label: "Label printer",
+                    value: gateway.labelPrinter,
+                    source: gateway.labelPrinterSource
+                }, {
+                    name: "fallback",
+                    label: "Fallback",
+                    value: receipt && receipt.fallback ? _url(receipt.fallback) : null
+                }]);
+            };
+
+            /**
+             * Creates the (hidden) element that prints the provided document
+             * of the presets through the print plugin, with the attributes of
+             * the print links of the pages, with its fallback in case it has one.
+             *
+             * @param {Object}
+             *            item The document of the presets to be printed.
+             * @param {Boolean}
+             *            isLabel If the document is a label (printed with the
+             *            node and the printer of the labels).
+             * @return {Element} The element that prints the document.
+             */
+            var _element = function(item, isLabel) {
+                var element = jQuery("<span class=\"debug-bar-print-document\"></span>");
+                element.attr("data-binie", _url(item.url));
+                isLabel && element.attr("data-label", "1");
+                item.fallback && element.attr("data-fallback", _url(item.fallback));
+                item.fallback && element.attr("data-target", "_blank");
+                panel.append(element);
+                return element;
+            };
+
+            /**
+             * Prints the provided document of the presets with its element and
+             * shows where it has been sent to (the node and the printer of the
+             * cloud print, the plugin of the browser or the fallback).
+             *
+             * @param {Object}
+             *            item The document of the presets to be printed.
+             * @param {Element}
+             *            element The element that prints the document.
+             * @param {Boolean}
+             *            isLabel If the document is a label.
+             */
+            var _print = function(item, element, isLabel) {
+                var gateway = _gateway();
+                var node = isLabel ? gateway.labelNode : gateway.node;
+                var printer = isLabel ? gateway.labelPrinter : gateway.printer;
+                var isCloud = gateway.url && gateway.key && node;
+                var plugin = _document.uxg ? _document.uxg() : null;
+                element.uxgprint("print");
+                printStatus.removeClass("warning");
+                if (isCloud) {
+                    printStatus.text(String.prototype.formatC.apply(
+                        jQuery.uxlocale("Sent %s to %s (%s)"), [item.name,
+                            printer || jQuery.uxlocale("the default printer"), node]));
+                } else if (plugin) {
+                    printStatus.text(String.prototype.formatC.apply(
+                        jQuery.uxlocale("Sent %s to the browser plugin"), [item.name]));
+                } else if (item.fallback) {
+                    printStatus.text(String.prototype.formatC.apply(
+                        jQuery.uxlocale("No gateway, opened the fallback of %s"), [item.name]));
+                } else {
+                    printStatus.addClass("warning");
+                    printStatus.text(String.prototype.formatC.apply(
+                        jQuery.uxlocale("No gateway nor fallback, %s was not printed"),
+                        [item.name]));
+                }
+                logger.info("Test print of document:", item.url);
+            };
+
+            // registers for the clicks in the print buttons so that the
+            // documents of the presets are printed (once retrieved)
+            printReceipt.click(function() {
+                receipt && _print(receipt, receiptElement, false);
+            });
+            printLabel.click(function() {
+                label && _print(label, labelElement, true);
+            });
+
+            // registers for the panel being shown so that the gateway is
+            // rendered again (it may have been changed in the local storage)
+            // and the documents of the presets retrieved, the first time
+            panel.bind("shown", function() {
+                _render();
+                if (panel.data("loaded")) {
+                    return;
+                }
+                panel.data("loaded", true);
+                _presets(function(data) {
+                    for (var index = data.documents.length - 1; index >= 0; index--) {
+                        var item = data.documents[index];
+                        item.kind === "receipt" && (receipt = item);
+                        item.kind === "label" && (label = item);
+                    }
+                    receipt && (receiptElement = _element(receipt, false));
+                    label && (labelElement = _element(label, true));
+                    printReceipt.toggleClass("disabled", !receipt);
+                    printLabel.toggleClass("disabled", !label);
+                    !receipt && !label && printStatus.text(
+                        jQuery.uxlocale("No documents to print on this instance"));
+                    _render();
+                });
+            });
+        };
+
+        /**
+         * Builds the panel of the pushi tool, the connection of the panel of
+         * the notifications to the pushi server (its state, server, key, socket
+         * and channels) and the tests of the notifications sent by the server.
+         *
+         * @param {Element}
+         *            panel The panel of the tool to be built.
+         */
+        var _buildPushi = function(panel) {
+            panel.append("<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Connection") + "</span>"
+                + "<ul class=\"debug-bar-values debug-bar-pushi-values\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Channels") + "</span>"
+                + "<ul class=\"debug-bar-chips debug-bar-channels\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-column debug-bar-wide\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Test") + "</span>"
+                + "<div class=\"debug-bar-row\">"
+                + "<span class=\"debug-bar-button debug-bar-primary debug-bar-pushi-test\">"
+                + jQuery.uxlocale("Send a test notification") + "</span>"
+                + "<span class=\"debug-bar-button debug-bar-pushi-reconnect\">"
+                + jQuery.uxlocale("Reconnect") + "</span>" + "</div>"
+                + "<span class=\"debug-bar-status debug-bar-pushi-status\"></span>"
+                + "<span class=\"debug-bar-hint\">"
+                + jQuery.uxlocale("The test is sent by the server (as the test of the local"
+                    + " services) and comes back through the socket to the notifications panel")
+                + "</span>" + "</div>");
+
+            // retrieves the references to the elements of the panel and to
+            // the panel of the notifications, that holds the pushi connection
+            var valuesList = jQuery(".debug-bar-pushi-values", panel);
+            var channels = jQuery(".debug-bar-channels", panel);
+            var pushiTest = jQuery(".debug-bar-pushi-test", panel);
+            var pushiReconnect = jQuery(".debug-bar-pushi-reconnect", panel);
+            var pushiStatus = jQuery(".debug-bar-pushi-status", panel);
+            var notifications = jQuery(".notifications-menu", _body);
+
+            /**
+             * The names of the events of the pushi connection that change the
+             * values rendered by the tool.
+             */
+            var PUSHI_EVENTS = ["connect", "disconnect", "subscribe", "unsubscribe"];
+
+            // starts the variable that holds the pushi connection whose events
+            // are registered, so that they're unregistered once destroyed
+            var bound = null;
+
+            /**
+             * The handler of the events of the pushi connection, that renders
+             * the values of the connection again.
+             */
+            var onPushi = function() {
+                _render();
+            };
+
+            /**
+             * Renders the values of the pushi connection of the panel of the
+             * notifications and its subscribed channels, registering for its
+             * events (once) so that they're rendered again on any change.
+             */
+            var _render = function() {
+                var pushi = notifications.data("pushi") || null;
+                var isConnected = pushi && pushi.state === "connected";
+                _values(valuesList, [{
+                    name: "state",
+                    label: "State",
+                    value: jQuery.uxlocale(!pushi ? "Not available" : isConnected ? "Connected"
+                        : "Disconnected"),
+                    state: isConnected ? "success" : "warning"
+                }, {
+                    name: "server",
+                    label: "Server",
+                    value: pushi && pushi.baseUrl
+                }, {
+                    name: "app_key",
+                    label: "App key",
+                    value: pushi && _mask(pushi.appKey)
+                }, {
+                    name: "socket",
+                    label: "Socket",
+                    value: pushi && pushi.socketId
+                }]);
+                var names = [];
+                var _channels = (pushi && pushi.channels) || {};
+                for (var name in _channels) {
+                    _channels[name] && _channels[name].subscribed && names.push(name);
+                }
+                names.sort();
+                _chips(channels, names, "No channel subscribed");
+                pushiReconnect.toggleClass("disabled", !pushi);
+                if (!pushi || bound) {
+                    return;
+                }
+                bound = pushi;
+                for (var index = 0; index < PUSHI_EVENTS.length; index++) {
+                    pushi.bind(PUSHI_EVENTS[index], onPushi);
+                }
+            };
+
+            // registers for the click in the test button so that the server
+            // sends the test notification (as the test of the local services)
+            // through pushi to the panel of the notifications
+            pushiTest.click(function() {
+                pushiStatus.removeClass("warning");
+                pushiStatus.text(jQuery.uxlocale("Requesting the test notification"));
+                jQuery.uquery({
+                    type: "post",
+                    url: "omni_adm/local_services/notify_test.json",
+                    data: {},
+                    success: function() {
+                        pushiStatus.text(jQuery.uxlocale(
+                            "Test notification requested, it comes back through the socket"));
+                        logger.info("Test notification requested:", "notification.test");
+                    },
+                    error: function(request, status, error) {
+                        pushiStatus.addClass("warning");
+                        pushiStatus.text(String.prototype.formatC.apply(
+                            jQuery.uxlocale("The test notification failed (%s)"),
+                            [request.status]));
+                        logger.warn("Test notification failed:", request.status, error);
+                    }
+                });
+            });
+
+            // registers for the click in the reconnect button so that the
+            // pushi connection is closed and opened again (or opened in case
+            // it's not connected)
+            pushiReconnect.click(function() {
+                var pushi = notifications.data("pushi");
+                if (!pushi) {
+                    return;
+                }
+                var _reconnected = function() {
+                    pushiStatus.text(jQuery.uxlocale("Reconnected"));
+                    _render();
+                };
+                pushiStatus.removeClass("warning");
+                pushiStatus.text(jQuery.uxlocale("Reconnecting"));
+                pushi.state === "connected" ? pushi.reopen(_reconnected)
+                    : pushi.open(_reconnected);
+                logger.info("Pushi reconnecting to:", pushi.baseUrl);
+            });
+
+            // registers for the panel being shown so that the values of the
+            // connection are rendered again, and for the destruction of the
+            // bar so that the events of the connection are unregistered
+            panel.bind("shown", _render);
+            matchedObject.bind("destroyed", function() {
+                for (var index = 0; bound && index < PUSHI_EVENTS.length; index++) {
+                    bound.unbind(PUSHI_EVENTS[index], onPushi);
+                }
+            });
+        };
+
+        /**
+         * Builds the panel of the errors tool, that raises errors as real ones
+         * would be (a javascript error, an unhandled rejection, a failed async
+         * link and a server error) and shows the last error of the page.
+         *
+         * @param {Element}
+         *            panel The panel of the tool to be built.
+         */
+        var _buildErrors = function(panel) {
+            panel.append("<div class=\"debug-bar-column debug-bar-half\">"
+                + "<ul class=\"debug-bar-error-actions\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-column debug-bar-wide\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Last error") + "</span>"
+                + "<span class=\"debug-bar-last-error\"></span>"
+                + "<span class=\"debug-bar-hint\">"
+                + jQuery.uxlocale("Each error is raised as a real one would be, so that the"
+                    + " error notifications, the logs and the reporting of the errors are"
+                    + " tested end to end")
+                + "</span>" + "</div>");
+
+            // retrieves the references to the elements of the panel that are
+            // going to be used in the raising of the errors
+            var actions = jQuery(".debug-bar-error-actions", panel);
+            var lastError = jQuery(".debug-bar-last-error", panel);
+
+            /**
+             * The errors raised by the tool, each one with its name, its label
+             * and hint (to be localized) and the function that raises it.
+             */
+            var ERRORS = [{
+                name: "throw",
+                label: "Throw a JavaScript error",
+                hint: "An error of a handler, caught by the window",
+                raise: function() {
+                    setTimeout(function() {
+                        throw new Error("Debug bar test error");
+                    }, 0);
+                }
+            }, {
+                name: "reject",
+                label: "Reject a promise",
+                hint: "A rejection that nothing handles",
+                raise: function() {
+                    window.Promise && window.Promise.reject(new Error("Debug bar test rejection"));
+                }
+            }, {
+                name: "link",
+                label: "Fail an async link",
+                hint: "The asynchronous navigation to a missing page, then loaded",
+                raise: function() {
+                    jQuery.uxlocation(_url("omni_util/debug_missing"));
+                }
+            }, {
+                name: "request",
+                label: "Request a server error",
+                hint: "A request answered with an error 500",
+                raise: function() {
+                    jQuery.uquery({
+                        url: "omni_util/debug_error.json",
+                        data: {},
+                        error: function(request, status, error) {
+                            logger.error("Request failed:", "omni_util/debug_error.json",
+                                request.status, error);
+                            _body.uxnotification({
+                                type: "error",
+                                title: jQuery.uxlocale("Server error"),
+                                message: String.prototype.formatC.apply(jQuery.uxlocale(
+                                    "There was an error processing the request (%s)"),
+                                    [request.status])
+                            });
+                        }
+                    });
+                }
+            }];
+
+            // adds the errors to the list of actions, each one with its label
+            // and its hint, raising the error on its click
+            for (var index = 0; index < ERRORS.length; index++) {
+                var item = jQuery("<li class=\"debug-bar-error-action\">"
+                    + "<span class=\"debug-bar-error-label\"></span>"
+                    + "<span class=\"debug-bar-error-hint\"></span>" + "</li>");
+                var labelElement = jQuery(".debug-bar-error-label", item);
+                var hintElement = jQuery(".debug-bar-error-hint", item);
+                item.attr("data-name", ERRORS[index].name);
+                item.data("error", ERRORS[index]);
+                labelElement.text(jQuery.uxlocale(ERRORS[index].label));
+                hintElement.text(jQuery.uxlocale(ERRORS[index].hint));
+                actions.append(item);
+            }
+            var items = jQuery(".debug-bar-error-action", actions);
+            items.click(function() {
+                var element = jQuery(this);
+                var error = element.data("error");
+                logger.info("Error raised:", error.name);
+                error.raise();
+            });
+
+            /**
+             * Renders the last error of the page, the newest record of the logs
+             * with the error level, or the message of no errors.
+             */
+            var _render = function() {
+                var records = _window.data("udebug_records");
+                for (var index = records.length - 1; index >= 0; index--) {
+                    var record = records[index];
+                    if (record.level !== "error" && record.level !== "critical") {
+                        continue;
+                    }
+                    lastError.removeClass("empty");
+                    lastError.text(_time(record.time) + " " + record.name + " "
+                        + record.message);
+                    return;
+                }
+                lastError.addClass("empty");
+                lastError.text(jQuery.uxlocale("None in this page"));
+            };
+
+            // registers for the records and the clear of the bar so that the
+            // last error is rendered again, and renders it
+            matchedObject.bind("record clear", _render);
+            _render();
+        };
+
+        /**
+         * Builds the panel of the storage tool, the keys of omni and of uxf in
+         * the local storage of this browser, each one removable.
+         *
+         * @param {Element}
+         *            panel The panel of the tool to be built.
+         */
+        var _buildStorage = function(panel) {
+            panel.addClass("debug-bar-tool-list");
+            panel.append("<div class=\"debug-bar-toolbar\">"
+                + "<span class=\"debug-bar-summary debug-bar-storage-summary\"></span>"
+                + "<span class=\"debug-bar-button debug-bar-storage-omni\">"
+                + jQuery.uxlocale("Clear Omni keys") + "</span>"
+                + "<span class=\"debug-bar-button debug-bar-storage-all\">"
+                + jQuery.uxlocale("Clear all") + "</span>" + "</div>"
+                + "<ul class=\"debug-bar-storage\"></ul>");
+
+            // retrieves the references to the elements of the panel that are
+            // going to be used in the rendering of the keys
+            var summary = jQuery(".debug-bar-storage-summary", panel);
+            var clearOmni = jQuery(".debug-bar-storage-omni", panel);
+            var clearAll = jQuery(".debug-bar-storage-all", panel);
+            var list = jQuery(".debug-bar-storage", panel);
+
+            /**
+             * Renders the keys of omni and of uxf in the local storage with
+             * their values and the buttons that remove them.
+             */
+            var _render = function() {
+                var keys = _keys(["omni:", "uxf:"]);
+                list.empty();
+                for (var index = 0; index < keys.length; index++) {
+                    var item = jQuery("<li class=\"debug-bar-storage-item\">"
+                        + "<span class=\"debug-bar-storage-key\"></span>"
+                        + "<span class=\"debug-bar-storage-value\"></span>"
+                        + "<span class=\"debug-bar-storage-remove\">&#215;</span>" + "</li>");
+                    var keyElement = jQuery(".debug-bar-storage-key", item);
+                    var valueElement = jQuery(".debug-bar-storage-value", item);
+                    var removeElement = jQuery(".debug-bar-storage-remove", item);
+                    item.attr("data-key", keys[index]);
+                    removeElement.attr("data-key", keys[index]);
+                    keyElement.text(keys[index]);
+                    valueElement.text(_get(keys[index]));
+                    removeElement.attr("title", jQuery.uxlocale("Remove the key"));
+                    list.append(item);
+                }
+                keys.length === 0 && list.append("<li class=\"debug-bar-storage-empty\">"
+                    + jQuery.uxlocale("No keys of Omni or uxf in this browser") + "</li>");
+                summary.text(String.prototype.formatC.apply(jQuery.uxlocale(
+                    "%s keys of Omni and uxf in the local storage of this browser"),
+                    [keys.length]));
+                var removes = jQuery(".debug-bar-storage-remove", list);
+                removes.click(function() {
+                    var element = jQuery(this);
+                    _remove(element.attr("data-key"));
+                    _render();
+                });
+            };
+
+            /**
+             * Removes the keys of the local storage with the provided prefixes,
+             * rendering the keys again.
+             *
+             * @param {Array}
+             *            prefixes The prefixes of the keys to be removed.
+             */
+            var _clear = function(prefixes) {
+                var keys = _keys(prefixes);
+                for (var index = 0; index < keys.length; index++) {
+                    _remove(keys[index]);
+                }
+                logger.info("Storage keys removed:", keys.length);
+                _render();
+            };
+
+            // registers for the clicks in the clear buttons so that the keys
+            // of omni (or of both omni and uxf) are removed, and for the panel
+            // being shown so that the keys are rendered again
+            clearOmni.click(function() {
+                _clear(["omni:"]);
+            });
+            clearAll.click(function() {
+                _clear(["omni:", "uxf:"]);
+            });
+            panel.bind("shown", _render);
+        };
+
+        /**
+         * Builds the panel of the page tool, the values of the page (its route,
+         * paths, section and last async navigation), the classes of the body,
+         * with a switch forcing the ones of a phone, and the timings of the
+         * loading of the page.
+         *
+         * @param {Element}
+         *            panel The panel of the tool to be built.
+         */
+        var _buildPage = function(panel) {
+            panel.append("<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Page") + "</span>"
+                + "<ul class=\"debug-bar-values debug-bar-page-values\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Body classes")
+                + "</span>" + "<ul class=\"debug-bar-chips debug-bar-classes\"></ul>"
+                + "<label class=\"debug-bar-option\">"
+                + "<input type=\"checkbox\" class=\"debug-bar-phone\" /> "
+                + jQuery.uxlocale("Force the classes of a phone (mobile-s, touch)") + "</label>"
+                + "</div>" + "<div class=\"debug-bar-column debug-bar-wide\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Timings") + "</span>"
+                + "<ul class=\"debug-bar-values debug-bar-timing-values\"></ul>" + "</div>");
+
+            // retrieves the references to the elements of the panel that are
+            // going to be used in the rendering of the page
+            var pageList = jQuery(".debug-bar-page-values", panel);
+            var classes = jQuery(".debug-bar-classes", panel);
+            var phone = jQuery(".debug-bar-phone", panel);
+            var timingList = jQuery(".debug-bar-timing-values", panel);
+
+            // starts the variables that hold the classes of the body added and
+            // removed while the classes of a phone are forced
+            var added = [];
+            var removed = [];
+
+            /**
+             * Retrieves the route of the provided URL, relative to the mvc path
+             * of the page (eg: omni_pos/sales), or its path in case it's not
+             * under the mvc path.
+             *
+             * @param {String}
+             *            href The URL to retrieve the route for.
+             * @return {String} The route of the URL.
+             */
+            var _route = function(href) {
+                var base = jQuery.uxresolve(_body.data("mvc_path") || "");
+                href = href.split("#")[0];
+                return href.indexOf(base) === 0 ? href.slice(base.length) : href;
+            };
+
+            /**
+             * Converts the provided duration (in milliseconds) into a string,
+             * an invalid value in case there's no duration (eg: still loading).
+             *
+             * @param {Number}
+             *            value The duration to be converted.
+             * @return {String} The duration as a string.
+             */
+            var _duration = function(value) {
+                return value > 0 ? Math.round(value) + " ms" : null;
+            };
+
+            /**
+             * Renders the values of the page, the classes of the body and the
+             * timings of the loading of the page (from the performance API).
+             */
+            var _render = function() {
+                var navigation = _window.data("udebug_navigation");
+                _values(pageList, [{
+                    name: "route",
+                    label: "Route",
+                    value: _route(document.location.href)
+                }, {
+                    name: "base_path",
+                    label: "Base path",
+                    value: _body.data("base_path")
+                }, {
+                    name: "mvc_path",
+                    label: "MVC path",
+                    value: _body.data("mvc_path")
+                }, {
+                    name: "section",
+                    label: "Section",
+                    value: jQuery(".meta > #section", _body).text()
+                }, {
+                    name: "navigation",
+                    label: "Last navigation",
+                    value: navigation ? String.prototype.formatC.apply(
+                        jQuery.uxlocale("%s, %s ms (%s)"), [_route(navigation.href),
+                            navigation.duration, navigation.events.join(", ")])
+                        : jQuery.uxlocale("None, loaded in full")
+                }]);
+
+                var names = String(_body.attr("class") || "").split(/\s+/);
+                for (var index = names.length - 1; index >= 0; index--) {
+                    !names[index] && names.splice(index, 1);
+                }
+                var chips = _chips(classes, names, "No classes");
+                chips.each(function() {
+                    var element = jQuery(this);
+                    var name = element.attr("data-name");
+                    added.indexOf(name) !== -1 && element.addClass("forced");
+                });
+
+                var performance = window.performance || null;
+                var entries = performance && performance.getEntriesByType
+                    ? performance.getEntriesByType("navigation") : [];
+                var resources = performance && performance.getEntriesByType
+                    ? performance.getEntriesByType("resource") : [];
+                var entry = entries.length ? entries[0] : null;
+                var timing = (performance && performance.timing) || null;
+                var start = timing ? timing.navigationStart : 0;
+                var size = entry ? entry.transferSize || 0 : 0;
+                for (var index = 0; index < resources.length; index++) {
+                    size += resources[index].transferSize || 0;
+                }
+                _values(timingList, [{
+                    name: "server",
+                    label: "Server",
+                    value: _duration(entry ? entry.responseStart - entry.requestStart
+                        : timing ? timing.responseStart - timing.requestStart : 0)
+                }, {
+                    name: "ready",
+                    label: "DOM ready",
+                    value: _duration(entry ? entry.domContentLoadedEventEnd
+                        : timing ? timing.domContentLoadedEventEnd - start : 0)
+                }, {
+                    name: "load",
+                    label: "Load",
+                    value: _duration(entry ? entry.loadEventEnd
+                        : timing ? timing.loadEventEnd - start : 0)
+                }, {
+                    name: "requests",
+                    label: "Requests",
+                    value: String.prototype.formatC.apply(jQuery.uxlocale("%s, %s KB"),
+                        [resources.length + 1, Math.round(size / 1024)])
+                }]);
+            };
+
+            // registers for the change of the phone switch so that the classes
+            // of a phone are forced in the body (removing the ones of the other
+            // devices) or the original classes restored, until the size of the
+            // window changes (when the classes of its size are set again)
+            phone.change(function() {
+                if (phone.is(":checked")) {
+                    added = [];
+                    removed = [];
+                    for (var index = 0; index < PHONE_CLASSES.length; index++) {
+                        var name = PHONE_CLASSES[index];
+                        !_body.hasClass(name) && added.push(name);
+                        _body.addClass(name);
+                    }
+                    for (var index = 0; index < DEVICE_CLASSES.length; index++) {
+                        var name = DEVICE_CLASSES[index];
+                        _body.hasClass(name) && removed.push(name);
+                        _body.removeClass(name);
+                    }
+                    logger.info("Phone classes forced:", added.join(", "));
+                } else {
+                    for (var index = 0; index < added.length; index++) {
+                        _body.removeClass(added[index]);
+                    }
+                    for (var index = 0; index < removed.length; index++) {
+                        _body.addClass(removed[index]);
+                    }
+                    logger.info("Phone classes restored:", removed.join(", "));
+                    added = [];
+                    removed = [];
+                }
+                _render();
+            });
+
+            // registers for the asynchronous navigation of the page (kept by
+            // the bar) and for the panel being shown so that the values are
+            // rendered again, unregistering once the bar is destroyed
+            var onNavigation = null;
+            _body.bind("debug_navigation", onNavigation = function() {
+                _render();
+            });
+            matchedObject.bind("destroyed", function() {
+                _body.unbind("debug_navigation", onNavigation);
+            });
+            panel.bind("shown", _render);
+        };
+
+        /**
+         * Builds the panel of the settings tool, the feature flags and the
+         * global settings of the instance (as retrieved from the server, once
+         * shown), filtered by their names or keys, marking the flags whose
+         * value in the session differs from their value.
+         *
+         * @param {Element}
+         *            panel The panel of the tool to be built.
+         */
+        var _buildSettings = function(panel) {
+            panel.addClass("debug-bar-tool-list");
+            panel.append("<div class=\"debug-bar-toolbar\">"
+                + "<label class=\"debug-bar-label\">" + jQuery.uxlocale("Filter") + "</label>"
+                + "<input type=\"text\" class=\"debug-bar-input debug-bar-settings-filter\""
+                + " autocomplete=\"off\" placeholder=\"" + jQuery.uxlocale("Name or key")
+                + "\" />" + "<span class=\"debug-bar-summary\">"
+                + jQuery.uxlocale("The flags read by the pages apply at the next login, as the"
+                    + " session keeps them")
+                + "</span>" + "</div>" + "<div class=\"debug-bar-table-header\">"
+                + "<span class=\"debug-bar-setting-name\">" + jQuery.uxlocale("Name") + "</span>"
+                + "<span class=\"debug-bar-setting-key\">" + jQuery.uxlocale("Key") + "</span>"
+                + "<span class=\"debug-bar-setting-value\">" + jQuery.uxlocale("Value")
+                + "</span>" + "<span class=\"debug-bar-setting-source\">"
+                + jQuery.uxlocale("Source") + "</span>"
+                + "<span class=\"debug-bar-setting-applies\">" + jQuery.uxlocale("Applies")
+                + "</span>" + "</div>" + "<ul class=\"debug-bar-settings\"></ul>");
+
+            // retrieves the references to the elements of the panel that are
+            // going to be used in the rendering of the settings
+            var filter = jQuery(".debug-bar-settings-filter", panel);
+            var list = jQuery(".debug-bar-settings", panel);
+
+            // starts the variable that holds the flags and the settings of the
+            // instance, once retrieved from the server
+            var settings = null;
+
+            /**
+             * Renders the flags and the settings of the instance that match the
+             * text of the filter (in their names or keys), the flags first.
+             */
+            var _render = function() {
+                list.empty();
+                if (!settings) {
+                    list.append("<li class=\"debug-bar-settings-empty\">"
+                        + jQuery.uxlocale("Loading") + "</li>");
+                    return;
+                }
+                var query = String(filter.val()).toLowerCase().replace(/^\s+|\s+$/g, "");
+                var flags = settings.flags || [];
+                var _settings = settings.settings || [];
+                var items = [];
+                for (var index = 0; index < flags.length; index++) {
+                    items.push([flags[index], "flag"]);
+                }
+                for (var index = 0; index < _settings.length; index++) {
+                    items.push([_settings[index], "setting"]);
+                }
+                var count = 0;
+                for (var index = 0; index < items.length; index++) {
+                    var setting = items[index][0];
+                    var kind = items[index][1];
+                    var name = String(setting.name || "");
+                    var key = String(setting.key || "");
+                    var matches = !query || name.toLowerCase().indexOf(query) !== -1
+                        || key.toLowerCase().indexOf(query) !== -1;
+                    if (!matches) {
+                        continue;
+                    }
+
+                    // builds the value of the setting (enabled or disabled for
+                    // the flags) and, for the flags, the value of the session,
+                    // that differs from the value until the next login
+                    var isFlag = kind === "flag";
+                    var session = isFlag && setting.session !== null
+                        && setting.session !== undefined
+                        ? setting.session === "1" || setting.session === "true" : null;
+                    var differs = session !== null && session !== Boolean(setting.value);
+                    var value = isFlag ? jQuery.uxlocale(setting.value ? "Enabled" : "Disabled")
+                        : setting.value === null || setting.value === undefined
+                            ? jQuery.uxlocale("Not set or hidden") : String(setting.value);
+
+                    var item = jQuery("<li class=\"debug-bar-setting\">"
+                        + "<span class=\"debug-bar-setting-name\"></span>"
+                        + "<span class=\"debug-bar-setting-key\"></span>"
+                        + "<span class=\"debug-bar-setting-value\"></span>"
+                        + "<span class=\"debug-bar-setting-source\"></span>"
+                        + "<span class=\"debug-bar-setting-applies\"></span>" + "</li>");
+                    var nameElement = jQuery(".debug-bar-setting-name", item);
+                    var keyElement = jQuery(".debug-bar-setting-key", item);
+                    var valueElement = jQuery(".debug-bar-setting-value", item);
+                    var sourceElement = jQuery(".debug-bar-setting-source", item);
+                    var appliesElement = jQuery(".debug-bar-setting-applies", item);
+                    item.attr("data-key", key);
+                    item.attr("data-kind", kind);
+                    differs && item.addClass("differs");
+                    nameElement.text(name);
+                    keyElement.text(key);
+                    valueElement.text(value);
+                    isFlag && valueElement.addClass(setting.value ? "enabled" : "disabled");
+                    sourceElement.text(jQuery.uxlocale(SOURCES[setting.source]
+                        || setting.source || ""));
+                    appliesElement.text(jQuery.uxlocale(APPLIES[setting.applies]
+                        || setting.applies || ""));
+                    if (differs) {
+                        var sessionElement = jQuery("<span class=\"debug-bar-setting-session\">"
+                            + "</span>");
+                        sessionElement.text(String.prototype.formatC.apply(
+                            jQuery.uxlocale("%s in this session, until the next login"),
+                            [jQuery.uxlocale(session ? "Enabled" : "Disabled")]));
+                        valueElement.append(sessionElement);
+                    }
+                    list.append(item);
+                    count++;
+                }
+                count === 0 && list.append("<li class=\"debug-bar-settings-empty\">"
+                    + jQuery.uxlocale("No settings match the filter") + "</li>");
+            };
+
+            // registers for the typing in the filter so that the settings are
+            // rendered again, and for the panel being shown so that the flags
+            // and the settings are retrieved, the first time
+            filter.bind("keyup", _render);
+            panel.bind("shown", function() {
+                if (panel.data("loaded")) {
+                    return;
+                }
+                panel.data("loaded", true);
+                jQuery.uquery({
+                    url: "omni_util/debug_settings.json",
+                    data: {},
+                    success: function(data) {
+                        settings = data || {};
+                        _render();
+                    },
+                    error: function(request, status, error) {
+                        logger.warn("Settings retrieval failed:", request.status, error);
+                        settings = {};
+                        _render();
+                    }
+                });
+            });
+            _render();
+        };
+
+        /**
+         * Builds the panel of the permissions tool, the permissions of the
+         * session (as retrieved from the server, once shown) filtered by their
+         * keys, and the check of a permission by its key.
+         *
+         * @param {Element}
+         *            panel The panel of the tool to be built.
+         */
+        var _buildPermissions = function(panel) {
+            panel.append("<div class=\"debug-bar-column debug-bar-wide\">"
+                + "<div class=\"debug-bar-row debug-bar-permissions-header\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("User type") + "</span>"
+                + "<span class=\"debug-bar-permissions-type\"></span>"
+                + "<span class=\"debug-bar-permissions-count\"></span>"
+                + "<input type=\"text\" class=\"debug-bar-input debug-bar-permissions-filter\""
+                + " autocomplete=\"off\" placeholder=\""
+                + jQuery.uxlocale("Filter, eg: sale") + "\" />" + "</div>"
+                + "<ul class=\"debug-bar-chips debug-bar-permissions\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Check a permission")
+                + "</span>" + "<div class=\"debug-bar-row\">"
+                + "<input type=\"text\" class=\"debug-bar-input debug-bar-check\""
+                + " autocomplete=\"off\" placeholder=\""
+                + jQuery.uxlocale("eg: sale_transaction.show") + "\" />"
+                + "<span class=\"debug-bar-button debug-bar-primary debug-bar-check-button\">"
+                + jQuery.uxlocale("Check") + "</span>" + "</div>"
+                + "<span class=\"debug-bar-status debug-bar-check-result\"></span>"
+                + "<span class=\"debug-bar-hint\">"
+                + jQuery.uxlocale("Answers why a user sees (or doesn't see) a page or an action:"
+                    + " the key of its permission and the decision for the user type")
+                + "</span>" + "</div>");
+
+            // retrieves the references to the elements of the panel that are
+            // going to be used in the rendering of the permissions
+            var type = jQuery(".debug-bar-permissions-type", panel);
+            var count = jQuery(".debug-bar-permissions-count", panel);
+            var filter = jQuery(".debug-bar-permissions-filter", panel);
+            var list = jQuery(".debug-bar-permissions", panel);
+            var check = jQuery(".debug-bar-check", panel);
+            var checkButton = jQuery(".debug-bar-check-button", panel);
+            var checkResult = jQuery(".debug-bar-check-result", panel);
+            var userType = jQuery(".debug-bar-session > li[data-name=\"user_type\"]",
+                matchedObject);
+
+            // starts the variable that holds the permissions of the session,
+            // once retrieved from the server
+            var permissions = null;
+
+            /**
+             * Renders the permissions of the session whose keys match the text
+             * of the filter as chips, marked by their values (allow, validate
+             * or deny), and the count of the permissions.
+             */
+            var _render = function() {
+                var query = String(filter.val()).toLowerCase().replace(/^\s+|\s+$/g, "");
+                var items = permissions || [];
+                var keys = [];
+                var values = {};
+                for (var index = 0; index < items.length; index++) {
+                    var key = String(items[index].key);
+                    values[key] = items[index].value;
+                    (!query || key.toLowerCase().indexOf(query) !== -1) && keys.push(key);
+                }
+                type.text(userType.text() || jQuery.uxlocale("Unknown"));
+                count.text(String.prototype.formatC.apply(jQuery.uxlocale("%s permissions"),
+                    [items.length]));
+                var chips = _chips(list, keys, permissions ? "No permissions match the filter"
+                    : "Loading");
+                chips.each(function() {
+                    var element = jQuery(this);
+                    var value = PERMISSION_VALUES[values[element.attr("data-name")]] || "allow";
+                    element.addClass(value);
+                    element.attr("title", jQuery.uxlocale(value.charAt(0).toUpperCase()
+                        + value.slice(1)));
+                });
+            };
+
+            /**
+             * Checks the permission with the key of the check field in the
+             * server, for the session, showing if it's allowed or denied.
+             */
+            var _check = function() {
+                var key = String(check.val()).replace(/^\s+|\s+$/g, "");
+                checkResult.removeClass("success");
+                checkResult.removeClass("warning");
+                if (!key) {
+                    checkResult.text(jQuery.uxlocale("Type the key of a permission"));
+                    return;
+                }
+                jQuery.uquery({
+                    url: "omni_util/debug_permissions.json",
+                    data: {
+                        permission: key
+                    },
+                    success: function(data) {
+                        var allowed = data && data.allowed;
+                        checkResult.addClass(allowed ? "success" : "warning");
+                        checkResult.text(String.prototype.formatC.apply(jQuery.uxlocale(allowed
+                            ? "%s is allowed for the user type %s"
+                            : "%s is denied for the user type %s"), [key,
+                                userType.text() || jQuery.uxlocale("Unknown")]));
+                        logger.info("Permission checked:", key, allowed);
+                    },
+                    error: function(request, status, error) {
+                        checkResult.addClass("warning");
+                        checkResult.text(String.prototype.formatC.apply(
+                            jQuery.uxlocale("The check of the permission failed (%s)"),
+                            [request.status]));
+                        logger.warn("Permission check failed:", request.status, error);
+                    }
+                });
+            };
+
+            // registers for the typing in the filter so that the permissions
+            // are rendered again, for the check button and the enter key in
+            // the check field so that the permission is checked, and for the
+            // panel being shown so that the permissions are retrieved, once
+            filter.bind("keyup", _render);
+            checkButton.click(_check);
+            check.bind("keyup", function(event) {
+                event.keyCode === 13 && _check();
+            });
+            panel.bind("shown", function() {
+                if (panel.data("loaded")) {
+                    return;
+                }
+                panel.data("loaded", true);
+                jQuery.uquery({
+                    url: "omni_util/debug_permissions.json",
+                    data: {},
+                    success: function(data) {
+                        permissions = (data && data.permissions) || [];
+                        _render();
+                    },
+                    error: function(request, status, error) {
+                        logger.warn("Permissions retrieval failed:", request.status, error);
+                        permissions = [];
+                        _render();
+                    }
+                });
+            });
+            _render();
+        };
+
+        /**
          * Builds the panel of the session tool, the values of the session of
-         * the page (as rendered in the bar) plus the level of the logs of this
-         * browser and whether the notifications are silent.
+         * the page (as rendered in the bar) and the ones of this browser (the
+         * level of the logs, the silent notifications, the theme of the bar,
+         * the screen, the pixel density and the language).
          *
          * @param {Element}
          *            panel The panel of the tool to be built.
          */
         var _buildSession = function(panel) {
-            panel.append("<ul class=\"debug-bar-session-list\"></ul>");
-            var list = jQuery(".debug-bar-session-list", panel);
+            panel.append("<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Session") + "</span>"
+                + "<ul class=\"debug-bar-values debug-bar-session-values\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-column debug-bar-half\">"
+                + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Browser") + "</span>"
+                + "<ul class=\"debug-bar-values debug-bar-browser-values\"></ul>" + "</div>");
+            var sessionList = jQuery(".debug-bar-session-values", panel);
+            var browserList = jQuery(".debug-bar-browser-values", panel);
             var session = jQuery(".debug-bar-session > li", matchedObject);
 
             /**
              * Renders the values of the session, the ones rendered in the
-             * bar followed by the ones of this browser.
+             * bar, and the ones of this browser.
              */
             var _render = function() {
-                list.empty();
                 var values = [];
                 session.each(function() {
                     var element = jQuery(this);
                     var name = element.attr("data-name");
                     var label = SESSION_LABELS[name]
                         || name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, " ");
-                    values.push([jQuery.uxlocale(label), element.text()]);
+                    values.push({
+                        name: name,
+                        label: label,
+                        value: element.text()
+                    });
                 });
+                _values(sessionList, values);
+
                 var sounds = _body.data("notification_sounds") || {};
-                values.push([jQuery.uxlocale("Log level"), jQuery.uxlocale(
-                    matchedObject.data("level").charAt(0).toUpperCase()
-                        + matchedObject.data("level").slice(1))]);
-                values.push([jQuery.uxlocale("Silent notifications"),
-                    jQuery.uxlocale(jQuery.isEmptyObject(sounds) ? "Yes" : "No")]);
-                for (var index = 0; index < values.length; index++) {
-                    var item = jQuery("<li class=\"debug-bar-session-item\">"
-                        + "<span class=\"debug-bar-session-key\"></span>"
-                        + "<span class=\"debug-bar-session-value\"></span>" + "</li>");
-                    var keyElement = jQuery(".debug-bar-session-key", item);
-                    var valueElement = jQuery(".debug-bar-session-value", item);
-                    keyElement.text(values[index][0]);
-                    valueElement.text(values[index][1]);
-                    list.append(item);
-                }
+                var level = matchedObject.data("level");
+                var theme = matchedObject.data("theme");
+                var device = _body.attr("data-device") || "desktop";
+                _values(browserList, [{
+                    name: "log_level",
+                    label: "Log level",
+                    value: jQuery.uxlocale(level.charAt(0).toUpperCase() + level.slice(1))
+                }, {
+                    name: "silent_notifications",
+                    label: "Silent notifications",
+                    value: jQuery.uxlocale(jQuery.isEmptyObject(sounds) ? "Yes" : "No")
+                }, {
+                    name: "theme",
+                    label: "Theme",
+                    value: jQuery.uxlocale(THEME_NAMES[THEMES.indexOf(theme)] || THEME_NAMES[0])
+                }, {
+                    name: "screen",
+                    label: "Screen",
+                    value: _window.width() + " × " + _window.height() + ", "
+                        + jQuery.uxlocale(device.charAt(0).toUpperCase() + device.slice(1))
+                }, {
+                    name: "pixel_density",
+                    label: "Pixel density",
+                    value: (window.devicePixelRatio || 1) + "x"
+                }, {
+                    name: "language",
+                    label: "Language",
+                    value: navigator.language || navigator.userLanguage
+                }]);
             };
 
-            // registers for the level of the bar so that the values are
-            // rendered again, and renders them
-            matchedObject.bind("level", _render);
+            // registers for the level and the theme of the bar and for the
+            // panel being shown so that the values are rendered again, and
+            // renders them
+            matchedObject.bind("level theme", _render);
+            panel.bind("shown", _render);
             _render();
         };
 
@@ -1100,6 +2568,34 @@
             title: "Scan",
             build: _buildScan
         }, {
+            name: "print",
+            title: "Print",
+            build: _buildPrint
+        }, {
+            name: "pushi",
+            title: "Pushi",
+            build: _buildPushi
+        }, {
+            name: "errors",
+            title: "Errors",
+            build: _buildErrors
+        }, {
+            name: "storage",
+            title: "Storage",
+            build: _buildStorage
+        }, {
+            name: "page",
+            title: "Page",
+            build: _buildPage
+        }, {
+            name: "settings",
+            title: "Settings",
+            build: _buildSettings
+        }, {
+            name: "permissions",
+            title: "Permissions",
+            build: _buildPermissions
+        }, {
             name: "session",
             title: "Session",
             build: _buildSession
@@ -1110,7 +2606,8 @@
         for (var index = 0; index < TOOLS.length; index++) {
             var tool = TOOLS[index];
             var tab = jQuery("<li class=\"debug-bar-tab\" data-name=\"" + tool.name + "\">"
-                + jQuery.uxlocale(tool.title) + "</li>");
+                + jQuery.uxlocale(tool.title) + "<span class=\"debug-bar-tab-count\"></span>"
+                + "</li>");
             var panel = jQuery("<div class=\"debug-bar-tool\" data-name=\"" + tool.name
                 + "\"></div>");
             tabs.append(tab);
@@ -1128,7 +2625,8 @@
 
         /**
          * Updates the counts of the errors and of the warnings of the header
-         * and of the launcher of the bar from the records of the logs.
+         * and of the launcher of the bar and the count of the records in the
+         * tab of the logs, from the records of the logs.
          */
         var _count = function() {
             var records = _window.data("udebug_records");
@@ -1139,8 +2637,11 @@
                 errorCount += _level === "error" || _level === "critical" ? 1 : 0;
                 warningCount += _level === "warning" ? 1 : 0;
             }
+            var logsCount = jQuery(".debug-bar-tab[data-name=\"logs\"] > .debug-bar-tab-count",
+                tabs);
             errors.text(String(errorCount));
             warnings.text(String(warningCount));
+            logsCount.text(records.length ? String(records.length) : "");
         };
 
         /**
@@ -1202,6 +2703,8 @@
                 matchedObject.removeClass("theme-" + THEMES[index]);
             }
             matchedObject.addClass("theme-" + _theme);
+            matchedObject.data("theme", _theme);
+            matchedObject.triggerHandler("theme", [_theme]);
             _set("omni:debug:theme", _theme);
         });
 
