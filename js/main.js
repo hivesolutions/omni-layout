@@ -2017,6 +2017,7 @@
         "%s, %s KB": "%s, %s KB",
         "Filter": "Filter",
         "Name or key": "Name or key",
+        "Text, /regular expression/ or -text to exclude": "Text, /regular expression/ or -text to exclude",
         "The flags read by the pages apply at the next login, as the session keeps them": "The flags read by the pages apply at the next login, as the session keeps them",
         "Name": "Name",
         "Value": "Value",
@@ -2263,6 +2264,7 @@
         "%s, %s KB": "%s, %s KB",
         "Filter": "Filtro",
         "Name or key": "Nome ou chave",
+        "Text, /regular expression/ or -text to exclude": "Texto, /expressão regular/ ou -texto a excluir",
         "The flags read by the pages apply at the next login, as the session keeps them": "As flags lidas pelas páginas aplicam-se no próximo login, porque a sessão as guarda",
         "Name": "Nome",
         "Value": "Valor",
@@ -4807,9 +4809,10 @@
 
         /**
          * Builds the panel of the logs tool, the records of the logs of the
-         * page (newest first) filtered by the level of this browser and by
-         * the plugin that logged them, with the switch of the level and the
-         * button that clears the records.
+         * page (newest first) filtered by the level of this browser, by the
+         * plugin that logged them and by the text of the filter (as the one
+         * of the console of the developer tools of the browsers), with the
+         * switch of the level and the button that clears the records.
          *
          * @param {Element}
          *            panel The panel of the tool to be built.
@@ -4824,7 +4827,11 @@
                 + "<span class=\"debug-bar-select-box\">"
                 + "<select class=\"debug-bar-select debug-bar-plugin\">"
                 + "<option value=\"all\">" + jQuery.uxlocale("All plugins") + "</option>"
-                + "</select>" + "</span>" + "<span class=\"debug-bar-summary\"></span>"
+                + "</select>" + "</span>"
+                + "<input type=\"text\" class=\"debug-bar-input debug-bar-search\""
+                + " autocomplete=\"off\" placeholder=\"" + jQuery.uxlocale("Filter") + "\""
+                + " title=\"" + jQuery.uxlocale("Text, /regular expression/ or -text to exclude")
+                + "\" />" + "<span class=\"debug-bar-summary\"></span>"
                 + "<span class=\"debug-bar-button debug-bar-clear\">" + jQuery.uxlocale("Clear")
                 + "</span>" + "</div>" + "<ul class=\"debug-bar-logs\"></ul>");
 
@@ -4832,6 +4839,7 @@
             // going to be used in the rendering of the records
             var levelSelect = jQuery(".debug-bar-level", panel);
             var plugin = jQuery(".debug-bar-plugin", panel);
+            var search = jQuery(".debug-bar-search", panel);
             var summary = jQuery(".debug-bar-summary", panel);
             var clear = jQuery(".debug-bar-clear", panel);
             var list = jQuery(".debug-bar-logs", panel);
@@ -4846,15 +4854,80 @@
             levelSelect.val(matchedObject.data("level"));
 
             /**
+             * Parses the provided text of the filter into its terms, separated
+             * by spaces, as the filter of the console of the developer tools of
+             * the browsers does, each one a regular expression (ignoring the
+             * case) that the text of a record must match, or must not match in
+             * case it's negative (starting with a dash), the terms between
+             * slashes being regular expressions (plain text in case they are
+             * not valid ones) and the other ones plain text.
+             *
+             * @param {String}
+             *            text The text of the filter to be parsed.
+             * @return {Array} The terms of the filter, each one with its
+             *         regular expression and if it's negative.
+             */
+            var _terms = function(text) {
+                var terms = [];
+                var parts = text.split(/\s+/);
+                for (var index = 0; index < parts.length; index++) {
+                    var part = parts[index];
+                    var negative = part.length > 1 && part.charAt(0) === "-";
+                    part = negative ? part.slice(1) : part;
+                    if (!part) {
+                        continue;
+                    }
+                    var regex = null;
+                    var isRegex = part.length > 2 && part.charAt(0) === "/"
+                        && part.charAt(part.length - 1) === "/";
+                    try {
+                        regex = isRegex ? new RegExp(part.slice(1, -1), "i") : null;
+                    } catch (exception) {
+                        regex = null;
+                    }
+                    var escaped = part.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&");
+                    regex = regex || new RegExp(escaped, "i");
+                    terms.push({
+                        regex: regex,
+                        negative: negative
+                    });
+                }
+                return terms;
+            };
+
+            /**
+             * Verifies if the provided text of a record (its level, plugin and
+             * message) matches every one of the terms of the filter, the text
+             * matching the positive terms and not matching the negative ones.
+             *
+             * @param {Array}
+             *            terms The terms of the filter, as parsed.
+             * @param {String}
+             *            text The text of the record to be verified.
+             * @return {Boolean} If the text matches every one of the terms.
+             */
+            var _matches = function(terms, text) {
+                for (var index = 0; index < terms.length; index++) {
+                    var term = terms[index];
+                    if (term.regex.test(text) === term.negative) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            /**
              * Renders the records of the logs in the list of the panel, the
-             * newest first, keeping the ones at or above the level of the bar
-             * and of the selected plugin, and updates the options of the
-             * select of the plugins with the plugins of the records.
+             * newest first, keeping the ones at or above the level of the bar,
+             * of the selected plugin and matching the text of the filter, and
+             * updates the options of the select of the plugins with the plugins
+             * of the records.
              */
             var _render = function() {
                 var records = _window.data("udebug_records");
                 var minimum = LEVELS.indexOf(matchedObject.data("level"));
                 var selected = plugin.val();
+                var terms = _terms(search.val());
                 var names = [];
                 var count = 0;
                 list.empty();
@@ -4869,6 +4942,11 @@
                         continue;
                     }
                     if (selected !== "all" && record.name !== selected) {
+                        continue;
+                    }
+                    var text = record.level.toUpperCase() + " " + record.name + " "
+                        + record.message;
+                    if (!_matches(terms, text)) {
                         continue;
                     }
                     var item = jQuery("<li class=\"debug-bar-log " + _level + "\">"
@@ -4935,11 +5013,13 @@
                 matchedObject.triggerHandler("clear");
             });
 
-            // registers for the records, the level and the clear of the bar
-            // and for the change of the plugin so that the records are
-            // rendered again, and renders the records already kept
+            // registers for the records, the level and the clear of the bar,
+            // for the change of the plugin and for the keys of the filter so
+            // that the records are rendered again, and renders the records
+            // already kept
             matchedObject.bind("record level clear", _render);
             plugin.change(_render);
+            search.keyup(_render);
             _render();
         };
 

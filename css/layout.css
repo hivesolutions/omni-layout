@@ -2853,6 +2853,10 @@ body.omni-style.opensans {
     height: 24px;
 }
 
+.omni-style .debug-bar .debug-bar-toolbar .debug-bar-button {
+    line-height: 22px;
+}
+
 .omni-style .debug-bar .debug-bar-summary {
     color: #6b6b6b;
 }
@@ -3705,12 +3709,12 @@ body.omni-style.opensans {
 }
 
 .omni-style.animations .debug-bar .debug-bar-dock {
-    transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.05s, visibility 0s linear 0.3s;
-    -o-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.05s, visibility 0s linear 0.3s;
-    -ms-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.05s, visibility 0s linear 0.3s;
-    -moz-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.05s, visibility 0s linear 0.3s;
-    -khtml-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.05s, visibility 0s linear 0.3s;
-    -webkit-transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.25s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.05s, visibility 0s linear 0.3s;
+    transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.04s, visibility 0s linear 0.24s;
+    -o-transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.04s, visibility 0s linear 0.24s;
+    -ms-transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.04s, visibility 0s linear 0.24s;
+    -moz-transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.04s, visibility 0s linear 0.24s;
+    -khtml-transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.04s, visibility 0s linear 0.24s;
+    -webkit-transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.0) 0.04s, visibility 0s linear 0.24s;
 }
 
 .omni-style.animations .debug-bar.open .debug-bar-dock {

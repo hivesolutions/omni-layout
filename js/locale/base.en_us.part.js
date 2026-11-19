@@ -201,6 +201,7 @@
         "%s, %s KB": "%s, %s KB",
         "Filter": "Filter",
         "Name or key": "Name or key",
+        "Text, /regular expression/ or -text to exclude": "Text, /regular expression/ or -text to exclude",
         "The flags read by the pages apply at the next login, as the session keeps them": "The flags read by the pages apply at the next login, as the session keeps them",
         "Name": "Name",
         "Value": "Value",
