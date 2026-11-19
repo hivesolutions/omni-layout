@@ -1930,6 +1930,7 @@
         "Settings": "Settings",
         "Permissions": "Permissions",
         "Open the debug bar": "Open the debug bar",
+        "Drag to resize, double click to reset": "Drag to resize, double click to reset",
         "Edge cases": "Edge cases",
         "Bad checksum": "Bad checksum",
         "Wrong version": "Wrong version",
@@ -1993,6 +1994,9 @@
         "None in this page": "None in this page",
         "Clear Omni keys": "Clear Omni keys",
         "Clear all": "Clear all",
+        "Remove the %s keys of Omni from the local storage of this browser?": "Remove the %s keys of Omni from the local storage of this browser?",
+        "Remove the %s keys of Omni and uxf from the local storage of this browser?": "Remove the %s keys of Omni and uxf from the local storage of this browser?",
+        "The preferences kept by the pages in this browser are lost.": "The preferences kept by the pages in this browser are lost.",
         "Remove the key": "Remove the key",
         "No keys of Omni or uxf in this browser": "No keys of Omni or uxf in this browser",
         "%s keys of Omni and uxf in the local storage of this browser": "%s keys of Omni and uxf in the local storage of this browser",
@@ -2172,6 +2176,7 @@
         "Settings": "Definições",
         "Permissions": "Permissões",
         "Open the debug bar": "Abrir a barra de depuração",
+        "Drag to resize, double click to reset": "Arraste para redimensionar, duplo clique para repor",
         "Edge cases": "Casos limite",
         "Bad checksum": "Soma de controlo errada",
         "Wrong version": "Versão errada",
@@ -2235,6 +2240,9 @@
         "None in this page": "Nenhum nesta página",
         "Clear Omni keys": "Limpar as chaves do Omni",
         "Clear all": "Limpar tudo",
+        "Remove the %s keys of Omni from the local storage of this browser?": "Remover as %s chaves do Omni do armazenamento local deste navegador?",
+        "Remove the %s keys of Omni and uxf from the local storage of this browser?": "Remover as %s chaves do Omni e do uxf do armazenamento local deste navegador?",
+        "The preferences kept by the pages in this browser are lost.": "As preferências guardadas pelas páginas neste navegador são perdidas.",
         "Remove the key": "Remover a chave",
         "No keys of Omni or uxf in this browser": "Sem chaves do Omni ou do uxf neste browser",
         "%s keys of Omni and uxf in the local storage of this browser": "%s chaves do Omni e do uxf no armazenamento local deste browser",
@@ -4303,6 +4311,30 @@
          */
         var DEVICE_CLASSES = ["desktop", "tablet", "mouse", "desktop-s", "tablet-s"];
 
+        /**
+         * The default height of the dock of the bar, in pixels, the one used
+         * until it's resized (and once it's reset by a double click).
+         */
+        var HEIGHT = 300;
+
+        /**
+         * The minimum height of the dock of the bar, in pixels, so that its
+         * header and part of the panel of its tool are always shown.
+         */
+        var MINIMUM_HEIGHT = 160;
+
+        /**
+         * The maximum height of the dock of the bar, as a ratio of the height
+         * of the window, so that part of the page is always shown.
+         */
+        var MAXIMUM_HEIGHT_RATIO = 0.8;
+
+        /**
+         * The gap between the dock of the bar and the notifications at the
+         * bottom of the page that are raised above it, in pixels.
+         */
+        var NOTIFICATIONS_GAP = 16;
+
         // sets the jquery matched object and verifies if
         // at least one object as been matched, in case not
         // a single object has been matched returns immediately
@@ -4731,6 +4763,12 @@
         dock.append(header);
         dock.append(tools);
         matchedObject.append(dock);
+
+        // builds the handle of the resize of the dock, along its top edge,
+        // that changes its height while dragged (reset by a double click)
+        var resize = jQuery("<div class=\"debug-bar-resize\" title=\""
+            + jQuery.uxlocale("Drag to resize, double click to reset") + "\"></div>");
+        dock.append(resize);
 
         // builds the launcher of the bar, shown while the bar is closed, with
         // its badge, the counts of the errors and the warnings of the logs and
@@ -6068,28 +6106,51 @@
 
             /**
              * Removes the keys of the local storage with the provided prefixes,
-             * rendering the keys again.
+             * once confirmed by the user (as the preferences kept by the pages
+             * in the browser are lost), rendering the keys again, nothing being
+             * asked in case there's no key to be removed.
              *
              * @param {Array}
              *            prefixes The prefixes of the keys to be removed.
+             * @param {String}
+             *            message The message of the confirmation, formatted
+             *            with the number of the keys to be removed.
              */
-            var _clear = function(prefixes) {
+            var _clear = function(prefixes, message) {
                 var keys = _keys(prefixes);
-                for (var index = 0; index < keys.length; index++) {
-                    _remove(keys[index]);
+                if (keys.length === 0) {
+                    return;
                 }
-                logger.info("Storage keys removed:", keys.length);
-                _render();
+
+                // asks for the confirmation of the removal, the keys being
+                // removed only in the callback of the confirmation, as the
+                // confirmation window returns before it's answered
+                _body.uxconfirm(String.prototype.formatC.apply(jQuery.uxlocale(message),
+                        [keys.length]) + "\\n\\n"
+                    + jQuery.uxlocale("The preferences kept by the pages in this browser are lost."),
+                    function(result) {
+                        if (!result) {
+                            return;
+                        }
+
+                        for (var index = 0; index < keys.length; index++) {
+                            _remove(keys[index]);
+                        }
+                        logger.info("Storage keys removed:", keys.length);
+                        _render();
+                    });
             };
 
             // registers for the clicks in the clear buttons so that the keys
-            // of omni (or of both omni and uxf) are removed, and for the panel
-            // being shown so that the keys are rendered again
+            // of omni (or of both omni and uxf) are removed, once confirmed,
+            // and for the panel being shown so that the keys are rendered again
             clearOmni.click(function() {
-                _clear(["omni:"]);
+                _clear(["omni:"],
+                    "Remove the %s keys of Omni from the local storage of this browser?");
             });
             clearAll.click(function() {
-                _clear(["omni:", "uxf:"]);
+                _clear(["omni:", "uxf:"],
+                    "Remove the %s keys of Omni and uxf from the local storage of this browser?");
             });
             panel.bind("shown", _render);
         };
@@ -6764,22 +6825,60 @@
         };
 
         /**
-         * Shows the bar, marking the body so that the notifications at the
-         * bottom are raised above it, with the last tool selected.
+         * Raises the notifications at the bottom left of the page above the
+         * dock of the bar while it's open (lowering them once it's closed),
+         * creating their stack as the notifications do in case it doesn't
+         * exist yet, so that the ones shown later are raised too.
+         */
+        var _raise = function() {
+            var isOpen = matchedObject.hasClass("open");
+            var stack = jQuery("> .notifications-stack.bottom-left", _body);
+            if (stack.length === 0 && isOpen) {
+                stack = jQuery("<div class=\"notifications-stack\"></div>");
+                stack.addClass("bottom-left");
+                _body.append(stack);
+            }
+            var height = matchedObject.data("height");
+            stack.css("bottom", isOpen ? height + NOTIFICATIONS_GAP + "px" : "");
+        };
+
+        /**
+         * Sets the height of the dock of the bar, in whole pixels, bounded
+         * by its minimum height and by its maximum one for the height of the
+         * window, with the notifications at the bottom of the page raised
+         * above it.
+         *
+         * @param {Number}
+         *            height The height of the dock to be set, in pixels.
+         */
+        var _height = function(height) {
+            var maximum = Math.floor(_window.height() * MAXIMUM_HEIGHT_RATIO);
+            height = Math.round(Math.max(Math.min(height, maximum), MINIMUM_HEIGHT));
+            dock.css("height", height + "px");
+            matchedObject.data("height", height);
+            _raise();
+        };
+
+        /**
+         * Shows the bar, marking the body and raising the notifications at
+         * the bottom above it, with the last tool selected.
          */
         var _show = function() {
             matchedObject.addClass("open");
             _body.addClass("debug-bar-open");
+            _raise();
             _set("omni:debug:open", "1");
             _select(_get("omni:debug:tool"));
         };
 
         /**
-         * Hides the bar, unmarking the body.
+         * Hides the bar, unmarking the body and lowering the notifications
+         * at the bottom.
          */
         var _hide = function() {
             matchedObject.removeClass("open");
             _body.removeClass("debug-bar-open");
+            _raise();
             _set("omni:debug:open", "0");
         };
 
@@ -6820,12 +6919,39 @@
             _show();
         });
 
+        // registers for the press in the handle of the resize so that the
+        // height of the dock follows the pointer (growing upwards) until it's
+        // released, the height being kept in the local storage of the browser,
+        // and for the double click in it so that the default height is set
+        resize.mousedown(function(event) {
+            var start = event.clientY;
+            var startHeight = matchedObject.data("height");
+            var onMove = null;
+            var onUp = null;
+            event.preventDefault();
+            _body.addClass("debug-bar-resizing");
+            _document.bind("mousemove", onMove = function(event) {
+                _height(startHeight + start - event.clientY);
+            });
+            _document.bind("mouseup", onUp = function() {
+                _document.unbind("mousemove", onMove);
+                _document.unbind("mouseup", onUp);
+                _body.removeClass("debug-bar-resizing");
+                _set("omni:debug:height", String(matchedObject.data("height")));
+            });
+        });
+        resize.dblclick(function() {
+            _height(HEIGHT);
+            _remove("omni:debug:height");
+        });
+
         // starts the variables that are going to store the handlers of the
-        // records of the logs and of the keys of the document, so that they
-        // are unregistered once the bar is destroyed (eg: its contents
-        // replaced by the async navigation)
+        // records of the logs, of the keys of the document and of the resize
+        // of the window, so that they are unregistered once the bar is
+        // destroyed (eg: its contents replaced by the async navigation)
         var onRecord = null;
         var onKeyDown = null;
+        var onResize = null;
 
         // registers for the records of the logs so that the counts of the
         // header are updated and the tools notified about the record
@@ -6845,11 +6971,24 @@
             matchedObject.hasClass("open") ? _hide() : _show();
         });
 
+        // registers for the resize of the window so that the height of the
+        // dock is bounded again by the (new) height of the window
+        _window.bind("resize", onResize = function() {
+            _height(matchedObject.data("height"));
+        });
+
         matchedObject.bind("destroyed", function() {
+            var stack = jQuery("> .notifications-stack.bottom-left", _body);
             _body.unbind("debug_record", onRecord);
             _document.unbind("keydown", onKeyDown);
+            _window.unbind("resize", onResize);
             _body.removeClass("debug-bar-open");
+            stack.css("bottom", "");
         });
+
+        // sets the height of the dock, the one kept in the local storage of
+        // the browser (bounded by the height of the window) or the default
+        _height(parseInt(_get("omni:debug:height"), 10) || HEIGHT);
 
         // updates the counts of the header from the records already kept
         // and shows the bar in case it was left open in this browser
