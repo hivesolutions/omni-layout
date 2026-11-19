@@ -4744,12 +4744,11 @@
         var theme = _get("omni:debug:theme");
         theme = THEMES.indexOf(theme) === -1 ? THEMES[0] : theme;
 
-        // builds the header of the dock of the bar, with its badge, the tabs
-        // of its tools, the counts of the errors and the warnings of the logs,
-        // the select of the theme, the hint of the shortcut and the button
-        // that closes the bar
+        // builds the header of the dock of the bar, with the tabs of its
+        // tools, the counts of the errors and the warnings of the logs, the
+        // select of the theme, the hint of the shortcut and the button that
+        // closes the bar
         var header = jQuery("<div class=\"debug-bar-header\">"
-            + "<span class=\"debug-bar-badge\">DEBUG</span>"
             + "<ul class=\"debug-bar-tabs\"></ul>"
             + "<span class=\"debug-bar-count debug-bar-errors\">0</span>"
             + "<span class=\"debug-bar-count debug-bar-warnings\">0</span>"

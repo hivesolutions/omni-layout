@@ -159,7 +159,6 @@ if(!navigation){return;}
 navigation.events.push(event.type);if(event.type!=="post_async"){return;}
 _window.data("udebug_navigation",{href:document.location.href,duration:new Date().getTime()-navigation.time,events:navigation.events});_window.data("udebug_navigation_start",null);_body.triggerHandler("debug_navigation");});}
 var level=String(_get("uxf:log:level")||_body.data("log_level")||"warning").toLowerCase();level=LEVELS.indexOf(level)===-1?"warning":level;var theme=_get("omni:debug:theme");theme=THEMES.indexOf(theme)===-1?THEMES[0]:theme;var header=jQuery("<div class=\"debug-bar-header\">"
-+"<span class=\"debug-bar-badge\">DEBUG</span>"
 +"<ul class=\"debug-bar-tabs\"></ul>"
 +"<span class=\"debug-bar-count debug-bar-errors\">0</span>"
 +"<span class=\"debug-bar-count debug-bar-warnings\">0</span>"

@@ -168,9 +168,9 @@
     background-color: #f4f4f4;
     border-bottom: 1px solid #dddddd;
     display: flex;
-    flex: 0 0 38px;
-    height: 38px;
-    padding: 0px 12px 0px 12px;
+    flex: 0 0 28px;
+    height: 28px;
+    padding: 0px 12px 0px 4px;
     user-select: none;
     -o-user-select: none;
     -ms-user-select: none;
@@ -179,21 +179,10 @@
     -webkit-user-select: none;
 }
 
-.omni-style .debug-bar .debug-bar-badge {
-    background-color: #3668c6;
-    border-radius: 3px;
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    margin-right: 10px;
-    padding: 3px 7px 3px 7px;
-}
-
 .omni-style .debug-bar .debug-bar-tabs {
     display: flex;
     flex: 1 1 auto;
-    height: 38px;
+    height: 28px;
     list-style: none;
     margin: 0px 0px 0px 0px;
     min-width: 0px;
@@ -208,8 +197,8 @@
     cursor: pointer;
     flex: 0 0 auto;
     font-weight: 600;
-    height: 38px;
-    line-height: 36px;
+    height: 28px;
+    line-height: 26px;
     padding: 0px 9px 0px 9px;
     user-select: none;
     -o-user-select: none;
@@ -284,7 +273,7 @@
     border-radius: 3px;
     color: #2d2d2d;
     font-size: 12px;
-    height: 24px;
+    height: 22px;
     margin-right: 14px;
 }
 
@@ -1308,11 +1297,6 @@
     border-bottom: 1px solid #3a3a3a;
 }
 
-.omni-style .debug-bar.theme-graphite .debug-bar-badge {
-    background-color: #3668c6;
-    color: #ffffff;
-}
-
 .omni-style .debug-bar.theme-graphite .debug-bar-tab {
     color: #a0a0a0;
 }
@@ -1760,11 +1744,6 @@
 .omni-style .debug-bar.theme-midnight .debug-bar-header {
     background-color: #16213a;
     border-bottom: 1px solid #24324f;
-}
-
-.omni-style .debug-bar.theme-midnight .debug-bar-badge {
-    background-color: #38bdf8;
-    color: #04121f;
 }
 
 .omni-style .debug-bar.theme-midnight .debug-bar-tab {
@@ -2216,11 +2195,6 @@
     border-bottom: 1px solid #3a3127;
 }
 
-.omni-style .debug-bar.theme-amber .debug-bar-badge {
-    background-color: #ffb000;
-    color: #1a1206;
-}
-
 .omni-style .debug-bar.theme-amber .debug-bar-tab {
     color: #b8a27f;
 }
@@ -2670,11 +2644,6 @@
     border-bottom: 1px solid #364652;
 }
 
-.omni-style .debug-bar.theme-frontdoor .debug-bar-badge {
-    background-color: #5cc0f0;
-    color: #0b1d29;
-}
-
 .omni-style .debug-bar.theme-frontdoor .debug-bar-tab {
     color: #9fb2c0;
 }
@@ -3122,11 +3091,6 @@
 .omni-style .debug-bar.theme-aubergine .debug-bar-header {
     background-color: #261a32;
     border-bottom: 1px solid #3b2a4c;
-}
-
-.omni-style .debug-bar.theme-aubergine .debug-bar-badge {
-    background-color: #a78bfa;
-    color: #1a1030;
 }
 
 .omni-style .debug-bar.theme-aubergine .debug-bar-tab {
