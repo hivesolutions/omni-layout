@@ -12,6 +12,12 @@
         // (global configurations)
         matchedObject.uconfigurations();
 
+        // retrieves the debug bar elements for the current structure
+        // and applies the debug logic on them, before the other plugins
+        // so that the records of their logs are captured by the bar
+        var debug = jQuery(".debug-bar", matchedObject);
+        debug.udebug();
+
         // applies the top bar related configurations to the
         // current top level object
         matchedObject.utopbar();
