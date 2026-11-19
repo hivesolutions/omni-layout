@@ -6373,6 +6373,7 @@
              */
             var _render = function() {
                 var navigation = _window.data("udebug_navigation");
+                var section = jQuery(".meta > #section", _body);
                 _values(pageList, [{
                     name: "route",
                     label: "Route",
@@ -6388,7 +6389,7 @@
                 }, {
                     name: "section",
                     label: "Section",
-                    value: jQuery(".meta > #section", _body).text()
+                    value: section.text()
                 }, {
                     name: "navigation",
                     label: "Last navigation",
@@ -6995,7 +6996,8 @@
                 // so that a column of the same node keeps it once rendered again,
                 // and starts the columns with the one of the first segments
                 var scrolls = {};
-                jQuery("> .debug-bar-columns-column", list).each(function() {
+                var columns = jQuery("> .debug-bar-columns-column", list);
+                columns.each(function() {
                     var element = jQuery(this);
                     scrolls["$" + element.attr("data-path")] = this.scrollTop;
                 });
