@@ -2160,7 +2160,7 @@
                 // removed only in the callback of the confirmation, as the
                 // confirmation window returns before it's answered
                 _body.uxconfirm(String.prototype.formatC.apply(jQuery.uxlocale(message),
-                        [keys.length]) + "\\n\\n"
+                        [keys.length]) + "\\n"
                     + jQuery.uxlocale("The preferences kept by the pages in this browser are lost."),
                     function(result) {
                         if (!result) {
