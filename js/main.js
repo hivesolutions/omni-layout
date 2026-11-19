@@ -2045,6 +2045,12 @@
         "Allow": "Allow",
         "Validate": "Validate",
         "Deny": "Deny",
+        "%s of %s permissions": "%s of %s permissions",
+        "Permission": "Permission",
+        "Branch": "Branch",
+        "%s keys": "%s keys",
+        "Open a segment to see its keys": "Open a segment to see its keys",
+        "A click in a key (or the enter key) checks it here, and the arrows of the keyboard move in the columns": "A click in a key (or the enter key) checks it here, and the arrows of the keyboard move in the columns",
         "Type the key of a permission": "Type the key of a permission",
         "%s is allowed for the user type %s": "%s is allowed for the user type %s",
         "%s is denied for the user type %s": "%s is denied for the user type %s",
@@ -2292,6 +2298,12 @@
         "Allow": "Permitir",
         "Validate": "Validar",
         "Deny": "Negar",
+        "%s of %s permissions": "%s de %s permissões",
+        "Permission": "Permissão",
+        "Branch": "Ramo",
+        "%s keys": "%s chaves",
+        "Open a segment to see its keys": "Abra um segmento para ver as suas chaves",
+        "A click in a key (or the enter key) checks it here, and the arrows of the keyboard move in the columns": "Um clique numa chave (ou a tecla enter) verifica-a aqui, e as setas do teclado movem-se nas colunas",
         "Type the key of a permission": "Escreva a chave de uma permissão",
         "%s is allowed for the user type %s": "%s é permitida para o tipo de utilizador %s",
         "%s is denied for the user type %s": "%s é negada para o tipo de utilizador %s",
@@ -6624,8 +6636,10 @@
 
         /**
          * Builds the panel of the permissions tool, the permissions of the
-         * session (as retrieved from the server, once shown) filtered by their
-         * keys, and the check of a permission by its key.
+         * session (as retrieved from the server, once shown) as columns of the
+         * segments of their keys (split by their dots), filtered by their keys
+         * and opened with the mouse or the arrows of the keyboard, and the
+         * check of a permission by its key.
          *
          * @param {Element}
          *            panel The panel of the tool to be built.
@@ -6639,7 +6653,8 @@
                 + "<input type=\"text\" class=\"debug-bar-input debug-bar-permissions-filter\""
                 + " autocomplete=\"off\" placeholder=\""
                 + jQuery.uxlocale("Filter, eg: sale") + "\" />" + "</div>"
-                + "<ul class=\"debug-bar-chips debug-bar-permissions\"></ul>" + "</div>"
+                + "<div class=\"debug-bar-columns debug-bar-permissions\" tabindex=\"0\"></div>"
+                + "</div>"
                 + "<div class=\"debug-bar-column debug-bar-half\">"
                 + "<span class=\"debug-bar-title\">" + jQuery.uxlocale("Check a permission")
                 + "</span>" + "<div class=\"debug-bar-row\">"
@@ -6652,6 +6667,9 @@
                 + "<span class=\"debug-bar-hint\">"
                 + jQuery.uxlocale("Answers why a user sees (or doesn't see) a page or an action:"
                     + " the key of its permission and the decision for the user type")
+                + "</span>" + "<span class=\"debug-bar-hint\">"
+                + jQuery.uxlocale("A click in a key (or the enter key) checks it here, and the"
+                    + " arrows of the keyboard move in the columns")
                 + "</span>" + "</div>");
 
             // retrieves the references to the elements of the panel that are
@@ -6666,37 +6684,416 @@
             var userType = jQuery(".debug-bar-session > li[data-name=\"user_type\"]",
                 matchedObject);
 
-            // starts the variable that holds the permissions of the session,
-            // once retrieved from the server
+            // starts the variables that hold the permissions of the session,
+            // once retrieved from the server, the tree of the segments of
+            // their keys and the nodes of the segments opened in the columns
             var permissions = null;
+            var root = null;
+            var path = [];
+
+            /**
+             * Creates a node of the tree of the permissions, the one of the
+             * segment with the provided name and path (the segments up to it
+             * joined by dots), with no value nor children.
+             *
+             * @param {String}
+             *            name The name of the segment of the node.
+             * @param {String}
+             *            nodePath The path of the node, its key.
+             * @return {Object} The node that has been created.
+             */
+            var _node = function(name, nodePath) {
+                return {
+                    name: name,
+                    path: nodePath,
+                    value: null,
+                    children: {},
+                    list: [],
+                    count: 0,
+                    counts: {
+                        allow: 0,
+                        validate: 0,
+                        deny: 0
+                    }
+                };
+            };
+
+            /**
+             * Builds the tree of the segments of the keys of the provided
+             * permissions (split by their dots), each node with the value of
+             * its key (if it's the last segment of a key), its children sorted
+             * by their names and the counts of the keys under it.
+             *
+             * @param {Array}
+             *            items The permissions (keys and values) of the tree.
+             * @return {Object} The root node of the tree.
+             */
+            var _tree = function(items) {
+                // adds the nodes of the segments of each key (once), the
+                // children being kept by their names prefixed, so that a
+                // name of a property of the objects (eg: constructor) is
+                // one more name, and the value to the node of its last one
+                var tree = _node("", "");
+                for (var index = 0; index < items.length; index++) {
+                    var segments = String(items[index].key).split(".");
+                    var node = tree;
+                    for (var _index = 0; _index < segments.length; _index++) {
+                        var name = "$" + segments[_index];
+                        var child = node.children[name];
+                        if (!child) {
+                            child = _node(segments[_index], segments.slice(0, _index + 1).join("."));
+                            node.children[name] = child;
+                            node.list.push(child);
+                        }
+                        node = child;
+                    }
+                    node.value = PERMISSION_VALUES[items[index].value] || "allow";
+                }
+
+                // sorts the children of the nodes by their names and counts
+                // the keys under each node by their values
+                var _sort = function(node) {
+                    node.list.sort(function(first, second) {
+                        return first.name < second.name ? -1 : first.name > second.name ? 1 : 0;
+                    });
+                    node.count = node.value ? 1 : 0;
+                    node.value && node.counts[node.value]++;
+                    for (var index = 0; index < node.list.length; index++) {
+                        var child = node.list[index];
+                        _sort(child);
+                        node.count += child.count;
+                        for (var value in node.counts) {
+                            node.counts[value] += child.counts[value];
+                        }
+                    }
+                };
+                _sort(tree);
+                return tree;
+            };
+
+            /**
+             * Retrieves the text of the filter of the permissions, in lower
+             * case and with no spaces around it.
+             *
+             * @return {String} The text of the filter.
+             */
+            var _query = function() {
+                return String(filter.val()).toLowerCase().replace(/^\s+|\s+$/g, "");
+            };
+
+            /**
+             * Retrieves the paths of the nodes shown with the provided text of
+             * the filter, the ones of the keys that contain it and of their
+             * ancestors, each with the count of the keys under it that contain
+             * it, an invalid value without a text (every node shown).
+             *
+             * @param {String}
+             *            query The text of the filter.
+             * @return {Object} The counts of the nodes shown by their paths.
+             */
+            var _visible = function(query) {
+                if (!query) {
+                    return null;
+                }
+                var visible = {};
+                var _walk = function(node) {
+                    var matches = node.value !== null
+                        && node.path.toLowerCase().indexOf(query) !== -1 ? 1 : 0;
+                    for (var index = 0; index < node.list.length; index++) {
+                        matches += _walk(node.list[index]);
+                    }
+                    matches && (visible["$" + node.path] = matches);
+                    return matches;
+                };
+                _walk(root);
+                return visible;
+            };
+
+            /**
+             * Retrieves the children of the provided node that are shown, the
+             * ones in the provided paths (or every child without them).
+             *
+             * @param {Object}
+             *            node The node whose children are retrieved.
+             * @param {Object}
+             *            visible The paths of the nodes shown, if any.
+             * @return {Array} The children of the node that are shown.
+             */
+            var _children = function(node, visible) {
+                var children = [];
+                for (var index = 0; index < node.list.length; index++) {
+                    var child = node.list[index];
+                    (!visible || visible["$" + child.path]) && children.push(child);
+                }
+                return children;
+            };
+
+            /**
+             * Sets the name of the segment of the provided node as the text of
+             * the element, the parts of it matched by the text of the filter (in
+             * the whole key, so that a text across the dots matches too) being
+             * highlighted.
+             *
+             * @param {Element}
+             *            element The element where the name is set.
+             * @param {Object}
+             *            node The node whose name is set.
+             * @param {String}
+             *            query The text of the filter.
+             */
+            var _segment = function(element, node, query) {
+                var text = node.path;
+                var lower = text.toLowerCase();
+                var position = text.length - node.name.length;
+                var index = query ? lower.indexOf(query) : -1;
+                element.empty();
+                while (index !== -1) {
+                    var start = Math.max(index, position);
+                    var end = index + query.length;
+                    if (end > start) {
+                        var mark = jQuery("<mark class=\"debug-bar-match\"></mark>");
+                        mark.text(text.slice(start, end));
+                        element.append(document.createTextNode(text.slice(position, start)));
+                        element.append(mark);
+                        position = end;
+                    }
+                    index = lower.indexOf(query, index + 1);
+                }
+                element.append(document.createTextNode(text.slice(position)));
+            };
+
+            /**
+             * Creates the item of the provided node in the column of its level,
+             * marked by its value (allow, validate or deny) and as opened or as
+             * the active one (the last opened), with the count of the keys under
+             * it in case it's a branch (it has children), the ones that match
+             * the filter in case there's one.
+             *
+             * @param {Object}
+             *            node The node of the item to be created.
+             * @param {Integer}
+             *            level The level of the column of the item.
+             * @param {String}
+             *            query The text of the filter.
+             * @param {Object}
+             *            visible The counts of the nodes shown, if any.
+             * @return {Element} The item that has been created.
+             */
+            var _item = function(node, level, query, visible) {
+                var item = jQuery("<li class=\"debug-bar-columns-item\"></li>");
+                var name = jQuery("<span class=\"debug-bar-columns-name\"></span>");
+                item.addClass(node.list.length ? "branch" : "leaf");
+                node.value && item.addClass(node.value);
+                path[level] === node && item.addClass(path.length === level + 1 ? "active"
+                    : "selected");
+                item.attr("data-path", node.path);
+                item.attr("title", node.value ? node.path + " (" + jQuery.uxlocale(node.value
+                    .charAt(0).toUpperCase() + node.value.slice(1)) + ")" : node.path);
+                node.value && item.append("<span class=\"debug-bar-columns-dot\"></span>");
+                _segment(name, node, query);
+                item.append(name);
+                node.list.length && item.append("<span class=\"debug-bar-columns-count\">"
+                    + (visible ? visible["$" + node.path] : node.count) + "</span>"
+                    + "<span class=\"debug-bar-columns-chevron\"></span>");
+                item.click(function() {
+                    _open(node, level);
+                    node.value && check.val(node.path);
+                    node.value && _check();
+                });
+                return item;
+            };
+
+            /**
+             * Creates the detail of the active node (the last opened), its key,
+             * its segments, its value (in case it's a key) and the counts of
+             * the keys under it (in case it's a branch), or a hint in case no
+             * node is opened.
+             *
+             * @return {Element} The detail that has been created.
+             */
+            var _detail = function() {
+                var node = path[path.length - 1];
+                var detail = jQuery("<div class=\"debug-bar-columns-detail\"></div>");
+                if (!node) {
+                    detail.append("<span class=\"debug-bar-hint\">"
+                        + jQuery.uxlocale("Open a segment to see its keys") + "</span>");
+                    return detail;
+                }
+                var key = jQuery("<span class=\"debug-bar-columns-key\"></span>");
+                var segments = jQuery("<span class=\"debug-bar-columns-path\"></span>");
+                key.text(node.path);
+                segments.text(node.path.split(".").join(" › "));
+                detail.append("<span class=\"debug-bar-title\">"
+                    + jQuery.uxlocale(node.value ? "Permission" : "Branch") + "</span>");
+                detail.append(key);
+                detail.append(segments);
+                node.value && detail.append("<span class=\"debug-bar-columns-value " + node.value
+                    + "\">" + "<span class=\"debug-bar-columns-dot\"></span>"
+                    + jQuery.uxlocale(node.value.charAt(0).toUpperCase() + node.value.slice(1))
+                    + "</span>");
+                if (!node.list.length) {
+                    return detail;
+                }
+                var sums = jQuery("<span class=\"debug-bar-columns-sums\"></span>");
+                sums.append("<span class=\"debug-bar-columns-sum\">"
+                    + String.prototype.formatC.apply(jQuery.uxlocale("%s keys"), [node.count])
+                    + "</span>");
+                for (var value in node.counts) {
+                    node.counts[value] && sums.append("<span class=\"debug-bar-columns-sum "
+                        + value + "\" title=\"" + jQuery.uxlocale(value.charAt(0).toUpperCase()
+                            + value.slice(1)) + "\">" + "<span class=\"debug-bar-columns-dot\">"
+                        + "</span>" + node.counts[value] + "</span>");
+                }
+                detail.append(sums);
+                return detail;
+            };
+
+            /**
+             * Scrolls the column of the provided item (vertically) and the
+             * columns (horizontally) so that the item and the last column are
+             * in sight.
+             *
+             * @param {Element}
+             *            item The item to be shown, if any.
+             */
+            var _reveal = function(item) {
+                var columns = list[0];
+                columns.scrollLeft = columns.scrollWidth;
+                if (!item.length) {
+                    return;
+                }
+                var column = item.parent()[0];
+                var itemBox = item[0].getBoundingClientRect();
+                var columnBox = column.getBoundingClientRect();
+                itemBox.top < columnBox.top && (column.scrollTop -= columnBox.top - itemBox.top);
+                itemBox.bottom > columnBox.bottom
+                    && (column.scrollTop += itemBox.bottom - columnBox.bottom);
+            };
 
             /**
              * Renders the permissions of the session whose keys match the text
-             * of the filter as chips, marked by their values (allow, validate
-             * or deny), and the count of the permissions.
+             * of the filter, as a column of the first segments and a column of
+             * the children of each opened segment, followed by the detail of
+             * the active one, and the count of the permissions.
              */
             var _render = function() {
-                var query = String(filter.val()).toLowerCase().replace(/^\s+|\s+$/g, "");
+                // counts the permissions whose keys match the text of the filter
+                // and shows the type of the user and the count of the permissions
+                var query = _query();
                 var items = permissions || [];
-                var keys = [];
-                var values = {};
+                var matches = 0;
                 for (var index = 0; index < items.length; index++) {
-                    var key = String(items[index].key);
-                    values[key] = items[index].value;
-                    (!query || key.toLowerCase().indexOf(query) !== -1) && keys.push(key);
+                    String(items[index].key).toLowerCase().indexOf(query) !== -1 && matches++;
                 }
                 type.text(userType.text() || jQuery.uxlocale("Unknown"));
-                count.text(String.prototype.formatC.apply(jQuery.uxlocale("%s permissions"),
-                    [items.length]));
-                var chips = _chips(list, keys, permissions ? "No permissions match the filter"
-                    : "Loading");
-                chips.each(function() {
+                count.text(query ? String.prototype.formatC.apply(
+                    jQuery.uxlocale("%s of %s permissions"), [matches, items.length])
+                    : String.prototype.formatC.apply(jQuery.uxlocale("%s permissions"),
+                        [items.length]));
+
+                // keeps the scroll of the columns, by the paths of their nodes,
+                // so that a column of the same node keeps it once rendered again,
+                // and starts the columns with the one of the first segments
+                var scrolls = {};
+                jQuery("> .debug-bar-columns-column", list).each(function() {
                     var element = jQuery(this);
-                    var value = PERMISSION_VALUES[values[element.attr("data-name")]] || "allow";
-                    element.addClass(value);
-                    element.attr("title", jQuery.uxlocale(value.charAt(0).toUpperCase()
-                        + value.slice(1)));
+                    scrolls["$" + element.attr("data-path")] = this.scrollTop;
                 });
+                list.empty();
+                if (!root) {
+                    list.append("<ul class=\"debug-bar-columns-column\"><li"
+                        + " class=\"debug-bar-columns-empty\">" + jQuery.uxlocale("Loading")
+                        + "</li></ul>");
+                    return;
+                }
+
+                // closes the opened segments that are no longer shown by the
+                // filter (and the ones under them)
+                var visible = _visible(query);
+                for (var index = 0; index < path.length; index++) {
+                    if (visible && !visible["$" + path[index].path]) {
+                        path = path.slice(0, index);
+                        break;
+                    }
+                }
+
+                // renders the column of the children of each opened node, the
+                // first one being the one of the root (the first segments), even
+                // with no permissions, so that it says that none matches
+                var node = root;
+                for (var level = 0; node && (level === 0 || node.list.length); level++) {
+                    var children = _children(node, visible);
+                    var column = jQuery("<ul class=\"debug-bar-columns-column\"></ul>");
+                    column.attr("data-path", node.path);
+                    for (var index = 0; index < children.length; index++) {
+                        column.append(_item(children[index], level, query, visible));
+                    }
+                    children.length === 0 && column.append("<li class=\"debug-bar-columns-empty\">"
+                        + jQuery.uxlocale("No permissions match the filter") + "</li>");
+                    list.append(column);
+                    column[0].scrollTop = scrolls["$" + node.path] || 0;
+                    node = path[level];
+                }
+
+                // renders the detail of the active node and shows it, the
+                // active item in its column and the last column
+                list.append(_detail());
+                _reveal(jQuery(".debug-bar-columns-item.active", list));
+            };
+
+            /**
+             * Opens the provided node in the column of the provided level, the
+             * nodes opened in the columns after it being closed, rendering the
+             * permissions again.
+             *
+             * @param {Object}
+             *            node The node to be opened.
+             * @param {Integer}
+             *            level The level of the column of the node.
+             */
+            var _open = function(node, level) {
+                path = path.slice(0, level).concat([node]);
+                _render();
+            };
+
+            /**
+             * Moves the active node with the provided key of the keyboard, as
+             * in the columns of a file browser: the arrows up and down move in
+             * the column of the active node, the arrow right opens its first
+             * child, the arrow left goes back to its parent and enter checks
+             * it (in case it's a key).
+             *
+             * @param {Integer}
+             *            keyCode The code of the key that has been pressed.
+             * @return {Boolean} If the key has been handled.
+             */
+            var _move = function(keyCode) {
+                var level = Math.max(path.length - 1, 0);
+                var node = path[level];
+                var parent = level ? path[level - 1] : root;
+                var siblings = _children(parent, _visible(_query()));
+                var position = node ? siblings.indexOf(node) : -1;
+                switch (keyCode) {
+                    case 38:
+                    case 40:
+                        var next = keyCode === 40 ? position + 1 : position < 0
+                            ? siblings.length - 1 : position - 1;
+                        siblings[next] && _open(siblings[next], level);
+                        return true;
+                    case 39:
+                        var children = node ? _children(node, _visible(_query())) : siblings;
+                        children.length && _open(children[0], node ? level + 1 : level);
+                        return true;
+                    case 37:
+                        path.length > 1 && _open(path[level - 1], level - 1);
+                        return true;
+                    case 13:
+                        node && node.value && check.val(node.path);
+                        node && node.value && _check();
+                        return true;
+                    default:
+                        return false;
+                }
             };
 
             /**
@@ -6736,10 +7133,20 @@
             };
 
             // registers for the typing in the filter so that the permissions
-            // are rendered again, for the check button and the enter key in
-            // the check field so that the permission is checked, and for the
-            // panel being shown so that the permissions are retrieved, once
+            // are rendered again, for the keys pressed in the columns so that
+            // the active node is moved (their propagation stopped, as in the
+            // fields of the bar, so that the page does not take them as its
+            // own), for the check button and the enter key in the check field
+            // so that the permission is checked, and for the panel being shown
+            // so that the permissions are retrieved, once
             filter.bind("keyup", _render);
+            list.bind("keydown", function(event) {
+                event.stopPropagation();
+                root && _move(event.keyCode) && event.preventDefault();
+            });
+            list.bind("keypress keyup", function(event) {
+                event.stopPropagation();
+            });
             checkButton.click(_check);
             check.bind("keyup", function(event) {
                 event.keyCode === 13 && _check();
@@ -6754,11 +7161,13 @@
                     data: {},
                     success: function(data) {
                         permissions = (data && data.permissions) || [];
+                        root = _tree(permissions);
                         _render();
                     },
                     error: function(request, status, error) {
                         logger.warn("Permissions retrieval failed:", request.status, error);
                         permissions = [];
+                        root = _tree(permissions);
                         _render();
                     }
                 });
