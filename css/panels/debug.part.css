@@ -410,6 +410,14 @@
     line-height: 22px;
 }
 
+.omni-style .debug-bar .debug-bar-toolbar .debug-bar-summary {
+    margin-right: 12px;
+    min-width: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .omni-style .debug-bar .debug-bar-summary {
     color: #6b6b6b;
 }
@@ -486,6 +494,12 @@
     min-width: 0px;
     white-space: pre-wrap;
     word-break: break-word;
+}
+
+.omni-style .debug-bar .debug-bar-match {
+    background-color: #ffe58a;
+    border-radius: 2px;
+    color: inherit;
 }
 
 .omni-style .debug-bar .debug-bar-log-empty {
@@ -1470,6 +1484,10 @@
     color: #e6e6e6;
 }
 
+.omni-style .debug-bar.theme-graphite .debug-bar-match {
+    background-color: rgba(255, 196, 0, 0.35);
+}
+
 .omni-style .debug-bar.theme-graphite .debug-bar-log-empty {
     color: #8a8a8a;
 }
@@ -1931,6 +1949,10 @@
 
 .omni-style .debug-bar.theme-midnight .debug-bar-log-message {
     color: #e2e8f0;
+}
+
+.omni-style .debug-bar.theme-midnight .debug-bar-match {
+    background-color: rgba(255, 196, 0, 0.35);
 }
 
 .omni-style .debug-bar.theme-midnight .debug-bar-log-empty {
@@ -2396,6 +2418,10 @@
     color: #f3e5c9;
 }
 
+.omni-style .debug-bar.theme-amber .debug-bar-match {
+    background-color: rgba(255, 196, 0, 0.35);
+}
+
 .omni-style .debug-bar.theme-amber .debug-bar-log-empty {
     color: #9a8667;
 }
@@ -2859,6 +2885,10 @@
     color: #e6eef3;
 }
 
+.omni-style .debug-bar.theme-frontdoor .debug-bar-match {
+    background-color: rgba(255, 196, 0, 0.35);
+}
+
 .omni-style .debug-bar.theme-frontdoor .debug-bar-log-empty {
     color: #8ba0af;
 }
@@ -3320,6 +3350,10 @@
 
 .omni-style .debug-bar.theme-aubergine .debug-bar-log-message {
     color: #ede4f5;
+}
+
+.omni-style .debug-bar.theme-aubergine .debug-bar-match {
+    background-color: rgba(255, 196, 0, 0.35);
 }
 
 .omni-style .debug-bar.theme-aubergine .debug-bar-log-empty {

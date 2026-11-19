@@ -184,18 +184,22 @@ themeSelect.val(theme);matchedObject.addClass("theme-"+theme);matchedObject.data
 +"<select class=\"debug-bar-select debug-bar-plugin\">"
 +"<option value=\"all\">"+jQuery.uxlocale("All plugins")+"</option>"
 +"</select>"+"</span>"
-+"<input type=\"text\" class=\"debug-bar-input debug-bar-search\""
++"<input type=\"text\" class=\"debug-bar-input debug-bar-logs-filter\""
 +" autocomplete=\"off\" placeholder=\""+jQuery.uxlocale("Filter")+"\""
 +" title=\""+jQuery.uxlocale("Text, /regular expression/ or -text to exclude")
 +"\" />"+"<span class=\"debug-bar-summary\"></span>"
 +"<span class=\"debug-bar-button debug-bar-clear\">"+jQuery.uxlocale("Clear")
-+"</span>"+"</div>"+"<ul class=\"debug-bar-logs\"></ul>");var levelSelect=jQuery(".debug-bar-level",panel);var plugin=jQuery(".debug-bar-plugin",panel);var search=jQuery(".debug-bar-search",panel);var summary=jQuery(".debug-bar-summary",panel);var clear=jQuery(".debug-bar-clear",panel);var list=jQuery(".debug-bar-logs",panel);for(var index=0;index<LEVELS.length;index++){var name=LEVELS[index].charAt(0).toUpperCase()+LEVELS[index].slice(1);levelSelect.append("<option value=\""+LEVELS[index]+"\">"
++"</span>"+"</div>"+"<ul class=\"debug-bar-logs\"></ul>");var levelSelect=jQuery(".debug-bar-level",panel);var plugin=jQuery(".debug-bar-plugin",panel);var search=jQuery(".debug-bar-logs-filter",panel);var summary=jQuery(".debug-bar-summary",panel);var clear=jQuery(".debug-bar-clear",panel);var list=jQuery(".debug-bar-logs",panel);for(var index=0;index<LEVELS.length;index++){var name=LEVELS[index].charAt(0).toUpperCase()+LEVELS[index].slice(1);levelSelect.append("<option value=\""+LEVELS[index]+"\">"
 +jQuery.uxlocale(name)+"</option>");}
 levelSelect.val(matchedObject.data("level"));var _terms=function(text){var terms=[];var parts=text.split(/\s+/);for(var index=0;index<parts.length;index++){var part=parts[index];var negative=part.length>1&&part.charAt(0)==="-";part=negative?part.slice(1):part;if(!part){continue;}
 var regex=null;var isRegex=part.length>2&&part.charAt(0)==="/"&&part.charAt(part.length-1)==="/";try{regex=isRegex?new RegExp(part.slice(1,-1),"i"):null;}catch(exception){regex=null;}
 var escaped=part.replace(/[.*+?^${}()|[\]\\\/]/g,"\\$&");regex=regex||new RegExp(escaped,"i");terms.push({regex:regex,negative:negative});}
 return terms;};var _matches=function(terms,text){for(var index=0;index<terms.length;index++){var term=terms[index];if(term.regex.test(text)===term.negative){return false;}}
-return true;};var _render=function(){var records=_window.data("udebug_records");var minimum=LEVELS.indexOf(matchedObject.data("level"));var selected=plugin.val();var terms=_terms(search.val());var names=[];var count=0;list.empty();for(var index=records.length-1;index>=0;index--){var record=records[index];var _level=record.level==="critical"?"error":record.level;names.indexOf(record.name)===-1&&names.push(record.name);if(LEVELS.indexOf(_level)<minimum){continue;}
+return true;};var _highlight=function(element,text,terms){var ranges=[];for(var index=0;index<terms.length;index++){if(terms[index].negative){continue;}
+var regex=new RegExp(terms[index].regex.source,"gi");var match=regex.exec(text);while(match){match[0].length===0&&regex.lastIndex++;match[0].length&&ranges.push([match.index,match.index+match[0].length]);match=regex.exec(text);}}
+ranges.sort(function(first,second){return first[0]-second[0];});var position=0;element.empty();for(var index=0;index<ranges.length;index++){var start=Math.max(ranges[index][0],position);var end=ranges[index][1];if(end<=start){continue;}
+var mark=jQuery("<mark class=\"debug-bar-match\"></mark>");mark.text(text.slice(start,end));element.append(document.createTextNode(text.slice(position,start)));element.append(mark);position=end;}
+element.append(document.createTextNode(text.slice(position)));};var _render=function(){var records=_window.data("udebug_records");var minimum=LEVELS.indexOf(matchedObject.data("level"));var selected=plugin.val();var terms=_terms(search.val());var names=[];var count=0;list.empty();for(var index=records.length-1;index>=0;index--){var record=records[index];var _level=record.level==="critical"?"error":record.level;names.indexOf(record.name)===-1&&names.push(record.name);if(LEVELS.indexOf(_level)<minimum){continue;}
 if(selected!=="all"&&record.name!==selected){continue;}
 var text=record.level.toUpperCase()+" "+record.name+" "
 +record.message;if(!_matches(terms,text)){continue;}
@@ -203,7 +207,7 @@ var item=jQuery("<li class=\"debug-bar-log "+_level+"\">"
 +"<span class=\"debug-bar-log-time\"></span>"
 +"<span class=\"debug-bar-log-level\"></span>"
 +"<span class=\"debug-bar-log-name\"></span>"
-+"<span class=\"debug-bar-log-message\"></span>"+"</li>");var timeElement=jQuery(".debug-bar-log-time",item);var levelElement=jQuery(".debug-bar-log-level",item);var nameElement=jQuery(".debug-bar-log-name",item);var messageElement=jQuery(".debug-bar-log-message",item);timeElement.text(_time(record.time));levelElement.text(record.level.toUpperCase());nameElement.text(record.name);messageElement.text(record.message);list.append(item);count++;}
++"<span class=\"debug-bar-log-message\"></span>"+"</li>");var timeElement=jQuery(".debug-bar-log-time",item);var levelElement=jQuery(".debug-bar-log-level",item);var nameElement=jQuery(".debug-bar-log-name",item);var messageElement=jQuery(".debug-bar-log-message",item);timeElement.text(_time(record.time));_highlight(levelElement,record.level.toUpperCase(),terms);_highlight(nameElement,record.name,terms);_highlight(messageElement,record.message,terms);list.append(item);count++;}
 count===0&&list.append("<li class=\"debug-bar-log-empty\">"
 +jQuery.uxlocale("No records")+"</li>");summary.text(String.prototype.formatC.apply(jQuery.uxlocale("%s of %s records, newest first"),[count,records.length]));names.sort();for(var index=0;index<names.length;index++){var option=jQuery("option[value=\""+names[index]+"\"]",plugin);if(option.length){continue;}
 option=jQuery("<option></option>");option.attr("value",names[index]);option.text(names[index]);plugin.append(option);}};levelSelect.change(function(){var _level=levelSelect.val();var value=Logging.LevelsMap[_level.toUpperCase()];_set("uxf:log:level",_level);for(var name in Logging.loggers){Logging.loggers[name].setLevel(value);}

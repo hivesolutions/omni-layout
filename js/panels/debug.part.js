@@ -724,7 +724,7 @@
                 + "<select class=\"debug-bar-select debug-bar-plugin\">"
                 + "<option value=\"all\">" + jQuery.uxlocale("All plugins") + "</option>"
                 + "</select>" + "</span>"
-                + "<input type=\"text\" class=\"debug-bar-input debug-bar-search\""
+                + "<input type=\"text\" class=\"debug-bar-input debug-bar-logs-filter\""
                 + " autocomplete=\"off\" placeholder=\"" + jQuery.uxlocale("Filter") + "\""
                 + " title=\"" + jQuery.uxlocale("Text, /regular expression/ or -text to exclude")
                 + "\" />" + "<span class=\"debug-bar-summary\"></span>"
@@ -735,7 +735,7 @@
             // going to be used in the rendering of the records
             var levelSelect = jQuery(".debug-bar-level", panel);
             var plugin = jQuery(".debug-bar-plugin", panel);
-            var search = jQuery(".debug-bar-search", panel);
+            var search = jQuery(".debug-bar-logs-filter", panel);
             var summary = jQuery(".debug-bar-summary", panel);
             var clear = jQuery(".debug-bar-clear", panel);
             var list = jQuery(".debug-bar-logs", panel);
@@ -813,6 +813,62 @@
             };
 
             /**
+             * Sets the provided text as the contents of the element, with the
+             * parts of it matched by the positive terms of the filter
+             * highlighted (as the console of the developer tools of the
+             * browsers does), the text being kept as text, so that no markup
+             * of it reaches the page.
+             *
+             * @param {Element}
+             *            element The element whose contents are set.
+             * @param {String}
+             *            text The text to be set as the contents.
+             * @param {Array}
+             *            terms The terms of the filter, as parsed.
+             */
+            var _highlight = function(element, text, terms) {
+                // collects the ranges of the text matched by the positive terms
+                // of the filter, skipping the empty matches (eg: of a regular
+                // expression that matches nothing) as they highlight nothing
+                var ranges = [];
+                for (var index = 0; index < terms.length; index++) {
+                    if (terms[index].negative) {
+                        continue;
+                    }
+                    var regex = new RegExp(terms[index].regex.source, "gi");
+                    var match = regex.exec(text);
+                    while (match) {
+                        match[0].length === 0 && regex.lastIndex++;
+                        match[0].length && ranges.push([match.index,
+                            match.index + match[0].length]);
+                        match = regex.exec(text);
+                    }
+                }
+
+                // adds the text between the ranges (in their order) and the
+                // text of each range highlighted, the overlapping ranges
+                // continuing the highlight of the previous ones
+                ranges.sort(function(first, second) {
+                    return first[0] - second[0];
+                });
+                var position = 0;
+                element.empty();
+                for (var index = 0; index < ranges.length; index++) {
+                    var start = Math.max(ranges[index][0], position);
+                    var end = ranges[index][1];
+                    if (end <= start) {
+                        continue;
+                    }
+                    var mark = jQuery("<mark class=\"debug-bar-match\"></mark>");
+                    mark.text(text.slice(start, end));
+                    element.append(document.createTextNode(text.slice(position, start)));
+                    element.append(mark);
+                    position = end;
+                }
+                element.append(document.createTextNode(text.slice(position)));
+            };
+
+            /**
              * Renders the records of the logs in the list of the panel, the
              * newest first, keeping the ones at or above the level of the bar,
              * of the selected plugin and matching the text of the filter, and
@@ -855,9 +911,9 @@
                     var nameElement = jQuery(".debug-bar-log-name", item);
                     var messageElement = jQuery(".debug-bar-log-message", item);
                     timeElement.text(_time(record.time));
-                    levelElement.text(record.level.toUpperCase());
-                    nameElement.text(record.name);
-                    messageElement.text(record.message);
+                    _highlight(levelElement, record.level.toUpperCase(), terms);
+                    _highlight(nameElement, record.name, terms);
+                    _highlight(messageElement, record.message, terms);
                     list.append(item);
                     count++;
                 }
