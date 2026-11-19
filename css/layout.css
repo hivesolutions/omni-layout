@@ -2714,14 +2714,51 @@ body.omni-style.opensans {
     -webkit-user-select: none;
 }
 
+.omni-style .debug-bar .debug-bar-select-box {
+    display: inline-block;
+    margin-right: 14px;
+    position: relative;
+}
+
+.omni-style .debug-bar .debug-bar-select-box:after {
+    border-bottom-color: #5f5f5f;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-right-color: #5f5f5f;
+    border-right-style: solid;
+    border-right-width: 2px;
+    content: "";
+    height: 5px;
+    margin-top: -5px;
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -khtml-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 5px;
+}
+
 .omni-style .debug-bar .debug-bar-select {
+    appearance: none;
+    -o-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -khtml-appearance: none;
+    -webkit-appearance: none;
     background-color: #ffffff;
     border: 1px solid #cfcfcf;
     border-radius: 3px;
     color: #2d2d2d;
+    cursor: pointer;
     font-size: 12px;
     height: 22px;
-    margin-right: 14px;
+    min-width: 110px;
+    padding: 0px 26px 0px 8px;
 }
 
 .omni-style .debug-bar .debug-bar-shortcut {
@@ -2813,7 +2850,7 @@ body.omni-style.opensans {
 }
 
 .omni-style .debug-bar .debug-bar-toolbar .debug-bar-select {
-    height: 30px;
+    height: 24px;
 }
 
 .omni-style .debug-bar .debug-bar-summary {
@@ -3790,6 +3827,11 @@ body.omni-style.opensans {
     color: #e6e6e6;
 }
 
+.omni-style .debug-bar.theme-graphite .debug-bar-select-box:after {
+    border-bottom-color: #a0a0a0;
+    border-right-color: #a0a0a0;
+}
+
 .omni-style .debug-bar.theme-graphite .debug-bar-shortcut {
     color: #8a8a8a;
 }
@@ -4246,6 +4288,11 @@ body.omni-style.opensans {
     background-color: #0b1220;
     border: 1px solid #2b3a57;
     color: #e2e8f0;
+}
+
+.omni-style .debug-bar.theme-midnight .debug-bar-select-box:after {
+    border-bottom-color: #94a3b8;
+    border-right-color: #94a3b8;
 }
 
 .omni-style .debug-bar.theme-midnight .debug-bar-shortcut {
@@ -4706,6 +4753,11 @@ body.omni-style.opensans {
     color: #f3e5c9;
 }
 
+.omni-style .debug-bar.theme-amber .debug-bar-select-box:after {
+    border-bottom-color: #b8a27f;
+    border-right-color: #b8a27f;
+}
+
 .omni-style .debug-bar.theme-amber .debug-bar-shortcut {
     color: #9a8667;
 }
@@ -5164,6 +5216,11 @@ body.omni-style.opensans {
     color: #e6eef3;
 }
 
+.omni-style .debug-bar.theme-frontdoor .debug-bar-select-box:after {
+    border-bottom-color: #9fb2c0;
+    border-right-color: #9fb2c0;
+}
+
 .omni-style .debug-bar.theme-frontdoor .debug-bar-shortcut {
     color: #8ba0af;
 }
@@ -5620,6 +5677,11 @@ body.omni-style.opensans {
     background-color: #150e1c;
     border: 1px solid #4a3760;
     color: #ede4f5;
+}
+
+.omni-style .debug-bar.theme-aubergine .debug-bar-select-box:after {
+    border-bottom-color: #b8a6c9;
+    border-right-color: #b8a6c9;
 }
 
 .omni-style .debug-bar.theme-aubergine .debug-bar-shortcut {

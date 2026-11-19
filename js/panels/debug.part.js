@@ -651,7 +651,8 @@
             + "<span class=\"debug-bar-count debug-bar-errors\">0</span>"
             + "<span class=\"debug-bar-count debug-bar-warnings\">0</span>"
             + "<label class=\"debug-bar-label\">" + jQuery.uxlocale("Theme") + "</label>"
-            + "<select class=\"debug-bar-select debug-bar-theme\"></select>"
+            + "<span class=\"debug-bar-select-box\">"
+            + "<select class=\"debug-bar-select debug-bar-theme\"></select>" + "</span>"
             + "<span class=\"debug-bar-shortcut\">Ctrl + Alt + D</span>"
             + "<span class=\"debug-bar-close\" title=\"" + jQuery.uxlocale("Close")
             + "\">&#215;</span>" + "</div>");
@@ -715,11 +716,13 @@
             panel.addClass("debug-bar-tool-list");
             panel.append("<div class=\"debug-bar-toolbar\">"
                 + "<label class=\"debug-bar-label\">" + jQuery.uxlocale("Level") + "</label>"
-                + "<select class=\"debug-bar-select debug-bar-level\"></select>"
+                + "<span class=\"debug-bar-select-box\">"
+                + "<select class=\"debug-bar-select debug-bar-level\"></select>" + "</span>"
                 + "<label class=\"debug-bar-label\">" + jQuery.uxlocale("Plugin") + "</label>"
+                + "<span class=\"debug-bar-select-box\">"
                 + "<select class=\"debug-bar-select debug-bar-plugin\">"
                 + "<option value=\"all\">" + jQuery.uxlocale("All plugins") + "</option>"
-                + "</select>" + "<span class=\"debug-bar-summary\"></span>"
+                + "</select>" + "</span>" + "<span class=\"debug-bar-summary\"></span>"
                 + "<span class=\"debug-bar-button debug-bar-clear\">" + jQuery.uxlocale("Clear")
                 + "</span>" + "</div>" + "<ul class=\"debug-bar-logs\"></ul>");
 

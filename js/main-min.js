@@ -163,7 +163,8 @@ var level=String(_get("uxf:log:level")||_body.data("log_level")||"warning").toLo
 +"<span class=\"debug-bar-count debug-bar-errors\">0</span>"
 +"<span class=\"debug-bar-count debug-bar-warnings\">0</span>"
 +"<label class=\"debug-bar-label\">"+jQuery.uxlocale("Theme")+"</label>"
-+"<select class=\"debug-bar-select debug-bar-theme\"></select>"
++"<span class=\"debug-bar-select-box\">"
++"<select class=\"debug-bar-select debug-bar-theme\"></select>"+"</span>"
 +"<span class=\"debug-bar-shortcut\">Ctrl + Alt + D</span>"
 +"<span class=\"debug-bar-close\" title=\""+jQuery.uxlocale("Close")
 +"\">&#215;</span>"+"</div>");var tools=jQuery("<div class=\"debug-bar-tools\"></div>");var dock=jQuery("<div class=\"debug-bar-dock\"></div>");dock.append(header);dock.append(tools);matchedObject.append(dock);var resize=jQuery("<div class=\"debug-bar-resize\" title=\""
@@ -176,11 +177,13 @@ var level=String(_get("uxf:log:level")||_body.data("log_level")||"warning").toLo
 +jQuery.uxlocale(THEME_NAMES[index])+"</option>");}
 themeSelect.val(theme);matchedObject.addClass("theme-"+theme);matchedObject.data("level",level);matchedObject.data("theme",theme);var _buildLogs=function(panel){panel.addClass("debug-bar-tool-list");panel.append("<div class=\"debug-bar-toolbar\">"
 +"<label class=\"debug-bar-label\">"+jQuery.uxlocale("Level")+"</label>"
-+"<select class=\"debug-bar-select debug-bar-level\"></select>"
++"<span class=\"debug-bar-select-box\">"
++"<select class=\"debug-bar-select debug-bar-level\"></select>"+"</span>"
 +"<label class=\"debug-bar-label\">"+jQuery.uxlocale("Plugin")+"</label>"
++"<span class=\"debug-bar-select-box\">"
 +"<select class=\"debug-bar-select debug-bar-plugin\">"
 +"<option value=\"all\">"+jQuery.uxlocale("All plugins")+"</option>"
-+"</select>"+"<span class=\"debug-bar-summary\"></span>"
++"</select>"+"</span>"+"<span class=\"debug-bar-summary\"></span>"
 +"<span class=\"debug-bar-button debug-bar-clear\">"+jQuery.uxlocale("Clear")
 +"</span>"+"</div>"+"<ul class=\"debug-bar-logs\"></ul>");var levelSelect=jQuery(".debug-bar-level",panel);var plugin=jQuery(".debug-bar-plugin",panel);var summary=jQuery(".debug-bar-summary",panel);var clear=jQuery(".debug-bar-clear",panel);var list=jQuery(".debug-bar-logs",panel);for(var index=0;index<LEVELS.length;index++){var name=LEVELS[index].charAt(0).toUpperCase()+LEVELS[index].slice(1);levelSelect.append("<option value=\""+LEVELS[index]+"\">"
 +jQuery.uxlocale(name)+"</option>");}
