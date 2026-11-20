@@ -961,34 +961,32 @@
     };
 
     var updateDebug = function(base) {
-        // retrieves the debug bar of the target page (rendered only with its
-        // feature flag on, for the users with its permission) and the current
-        // one, that lives out of the parts of the page that are updated
-        var _body = jQuery("body");
-        var debugOuter = base.filter(".debug-bar");
-        var debugInner = jQuery(".debug-bar", base);
-        var debug = debugOuter.add(debugInner);
-        var debug_ = jQuery("> .debug-bar", _body);
+        // retrieves the debug bar of the target page and the current one, as
+        // well as the values of the session rendered in each of them (eg: the
+        // user, the module and the locale of the page)
+        var debugBar = base.filter(".debug-bar");
+        var debugBar_ = jQuery(".debug-bar");
+        var session = jQuery(".debug-bar-session", debugBar);
+        var session_ = jQuery(".debug-bar-session", debugBar_);
+        var sessionHtml = session.html();
+        var sessionHtml_ = session_.html();
 
-        // verifies if the values of the session of the bar of the target page
-        // (eg: the user, the module and the locale) are the ones of the current
-        // bar and if that's the case keeps the current one, with the state of
-        // its tools (eg: the text of a filter), as there's nothing to refresh
-        var session = jQuery(".debug-bar-session", debug);
-        var session_ = jQuery(".debug-bar-session", debug_);
-        var isSame = debug.length === debug_.length && session.html() === session_.html();
-        if (isSame) {
+        // verifies if the debug bar of the target page is different from the
+        // current one (in its existence or in its values of the session) and
+        // in case it's not returns immediately, keeping the state of its tools
+        // (eg: the text of a filter), as there's nothing to be done
+        var isDifferent = debugBar.length !== debugBar_.length || sessionHtml !== sessionHtml_;
+        if (!isDifferent) {
             return;
         }
 
-        // replaces the current bar (if any) with the one of the target page,
-        // built again in its locale and with its values of the session, its
-        // open state, tool, theme and height (kept in the storage of the
-        // browser) and its logs (kept in the window) being kept, and in case
-        // the target page has no bar the current one is just removed
-        debug_.remove();
-        _body.prepend(debug);
-        debug.udebug();
+        // replaces the current debug bar (if any) with the one of the target
+        // page, placed after the footer as rendered by the server, and builds
+        // it again, its state being kept in the storage of the browser
+        var footer_ = jQuery(".footer");
+        debugBar_.remove();
+        footer_.after(debugBar);
+        debugBar.udebug();
     };
 
     var runGarbage = function(base) {
