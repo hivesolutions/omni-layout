@@ -7551,6 +7551,19 @@
             matchedObject.hasClass("open") ? _hide() : _show();
         });
 
+        // registers for the end of the async navigation so that the body is
+        // marked again while the bar is open (as the update of the page sets
+        // the classes of the body of the next page, without the marker),
+        // unregistering once the bar is destroyed
+        var onPostAsync = null;
+        _body.bind("post_async", onPostAsync = function() {
+            var isOpen = matchedObject.hasClass("open");
+            isOpen && _body.addClass("debug-bar-open");
+        });
+        matchedObject.bind("destroyed", function() {
+            _body.unbind("post_async", onPostAsync);
+        });
+
         // registers for the resize of the window so that the height of the
         // dock is bounded again by the (new) height of the window
         _window.bind("resize", onResize = function() {
