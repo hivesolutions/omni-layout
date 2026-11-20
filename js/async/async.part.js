@@ -521,6 +521,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
+        updateDebug(base);
         runGarbage(base);
     };
 
@@ -839,6 +840,35 @@
             sideLeft.append(chat);
             chat.uchat();
         }
+    };
+
+    var updateDebug = function(base) {
+        // retrieves the debug bar of the target page and the current one, as
+        // well as the values of the session rendered in each of them (eg: the
+        // user, the module and the locale of the page)
+        var debugBar = base.filter(".debug-bar");
+        var debugBar_ = jQuery(".debug-bar");
+        var session = jQuery(".debug-bar-session", debugBar);
+        var session_ = jQuery(".debug-bar-session", debugBar_);
+        var sessionHtml = session.html();
+        var sessionHtml_ = session_.html();
+
+        // verifies if the debug bar of the target page is different from the
+        // current one (in its existence or in its values of the session) and
+        // in case it's not returns immediately, keeping the state of its tools
+        // (eg: the text of a filter), as there's nothing to be done
+        var isDifferent = debugBar.length !== debugBar_.length || sessionHtml !== sessionHtml_;
+        if (!isDifferent) {
+            return;
+        }
+
+        // replaces the current debug bar (if any) with the one of the target
+        // page, placed after the footer as rendered by the server, and builds
+        // it again, its state being kept in the storage of the browser
+        var footer_ = jQuery(".footer");
+        debugBar_.remove();
+        footer_.after(debugBar);
+        debugBar.udebug();
     };
 
     var runGarbage = function(base) {

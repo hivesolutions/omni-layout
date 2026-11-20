@@ -93,7 +93,8 @@
             version: "Version",
             environment: "Environment",
             run_mode: "Run mode",
-            module: "Module"
+            module: "Module",
+            locale: "Language"
         };
 
         /**
