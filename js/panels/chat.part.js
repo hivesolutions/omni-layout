@@ -20,7 +20,7 @@
             // retrieves the window dimensions, both the
             // height (discounting the room left at the end
             // of the page by the debug bar) and the width
-            var debugBar = jQuery(".debug-bar");
+            var debugBar = jQuery("> .debug-bar", _body);
             var windowHeight = _window.height() - (debugBar.height() || 0);
             var windowWidth = _window.width();
 
@@ -1007,7 +1007,7 @@
             // and the panel and uses both values to calculate the top
             // position for the panel, keeping the top of the panel
             // (with its controls) inside the window
-            var debugBar = jQuery(".debug-bar");
+            var debugBar = jQuery("> .debug-bar", _body);
             var windowHeight = _window.height() - (debugBar.height() || 0);
             var panelHeight = element.outerHeight(true);
             var panelTop = Math.max(windowHeight - panelHeight + offset, 0);
