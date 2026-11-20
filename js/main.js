@@ -2372,7 +2372,7 @@
             // retrieves the window dimensions, both the
             // height (discounting the room left at the end
             // of the page by the debug bar) and the width
-            var debugBar = jQuery(".debug-bar");
+            var debugBar = jQuery("> .debug-bar", _body);
             var windowHeight = _window.height() - (debugBar.height() || 0);
             var windowWidth = _window.width();
 
@@ -3359,7 +3359,7 @@
             // and the panel and uses both values to calculate the top
             // position for the panel, keeping the top of the panel
             // (with its controls) inside the window
-            var debugBar = jQuery(".debug-bar");
+            var debugBar = jQuery("> .debug-bar", _body);
             var windowHeight = _window.height() - (debugBar.height() || 0);
             var panelHeight = element.outerHeight(true);
             var panelTop = Math.max(windowHeight - panelHeight + offset, 0);
@@ -7448,7 +7448,9 @@
          * whole window otherwise), as when the window is resized.
          */
         var _place = function() {
-            var elements = jQuery(".window.visible, .chat-panel");
+            var windows = jQuery(".window.visible");
+            var panels = jQuery(".chat > .chat-panel", _body);
+            var elements = windows.add(panels);
             elements.each(function(index, element) {
                 var _element = jQuery(this);
                 _element.triggerHandler("layout");
@@ -7581,13 +7583,13 @@
 
         // starts the variables that are going to store the handlers of the
         // records of the logs, of the keys of the document, of the resize
-        // of the window and of the apply of new contents, so that they are
+        // of the window and of the hide of the modals, so that they are
         // unregistered once the bar is destroyed (eg: its contents replaced
         // by the async navigation)
         var onRecord = null;
         var onKeyDown = null;
         var onResize = null;
-        var onApplied = null;
+        var onModal = null;
 
         // registers for the records of the logs so that the counts of the
         // header are updated and the tools notified about the record
@@ -7630,13 +7632,15 @@
         });
 
         // registers for the centering of the windows of the page, and of the
-        // ones of the contents applied later (eg: the windows of a page of the
-        // async navigation), so that they're centered in the part of the page
-        // above the dock while it's open
+        // ones shown later (as a window hides the modals before being placed,
+        // eg: the windows of a page of the async navigation or the window of
+        // a lightbox, created once shown), so that they're centered in the
+        // part of the page above the dock while it's open
         var windows = jQuery(".window");
         windows.bind("centered", _center);
-        _body.bind("applied", onApplied = function(event, base) {
-            var windows = jQuery(".window", base);
+        _body.bind("hide_modal", onModal = function() {
+            var windows = jQuery(".window");
+            windows.unbind("centered", _center);
             windows.bind("centered", _center);
         });
 
@@ -7646,7 +7650,7 @@
             _body.unbind("debug_record", onRecord);
             _document.unbind("keydown", onKeyDown);
             _window.unbind("resize", onResize);
-            _body.unbind("applied", onApplied);
+            _body.unbind("hide_modal", onModal);
             windows.unbind("centered", _center);
             _body.removeClass("debug-bar-open");
             stack.css("bottom", "");
