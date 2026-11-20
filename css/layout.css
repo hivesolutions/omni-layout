@@ -2477,7 +2477,7 @@ body.omni-style.opensans {
     -khtml-user-select: text;
     -webkit-user-select: text;
     visibility: hidden;
-    z-index: 11;
+    z-index: 21;
 }
 
 .omni-style .debug-bar.open .debug-bar-dock {

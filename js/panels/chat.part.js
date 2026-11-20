@@ -18,8 +18,10 @@
 
         var placePanels = function(panels, animate) {
             // retrieves the window dimensions, both the
-            // height and the width
-            var windowHeight = _window.height();
+            // height (discounting the room left at the end
+            // of the page by the debug bar) and the width
+            var debugBar = jQuery(".debug-bar");
+            var windowHeight = _window.height() - (debugBar.height() || 0);
             var windowWidth = _window.width();
 
             // starts the extra margin value, with a value
@@ -41,8 +43,9 @@
 
                 // "calculates" the top and left positions for the
                 // panel from the panel dimensions and the current
-                // visible window dimensions
-                var chatTop = windowHeight - panelHeight + panelOffset;
+                // visible window dimensions, keeping the top of the
+                // panel (with its controls) inside the window
+                var chatTop = Math.max(windowHeight - panelHeight + panelOffset, 0);
                 var chatLeft = windowWidth - panelWidth - extraMargin;
 
                 // in case the animation mode is disabled must disable
@@ -999,12 +1002,15 @@
             // element to be used in the positioning
             var _window = jQuery(window);
 
-            // retrieves the height of both the window and the
-            // panel and uses both values to calculate the top
-            // position for the panel
-            var windowHeight = _window.height();
+            // retrieves the height of both the window (discounting
+            // the room left at the end of the page by the debug bar)
+            // and the panel and uses both values to calculate the top
+            // position for the panel, keeping the top of the panel
+            // (with its controls) inside the window
+            var debugBar = jQuery(".debug-bar");
+            var windowHeight = _window.height() - (debugBar.height() || 0);
             var panelHeight = element.outerHeight(true);
-            var panelTop = windowHeight - panelHeight + offset;
+            var panelTop = Math.max(windowHeight - panelHeight + offset, 0);
 
             // sets the top position of the element as the "calculated"
             // value for the panel top
