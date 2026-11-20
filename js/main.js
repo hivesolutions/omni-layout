@@ -2370,8 +2370,10 @@
 
         var placePanels = function(panels, animate) {
             // retrieves the window dimensions, both the
-            // height and the width
-            var windowHeight = _window.height();
+            // height (discounting the room left at the end
+            // of the page by the debug bar) and the width
+            var debugBar = jQuery(".debug-bar");
+            var windowHeight = _window.height() - (debugBar.height() || 0);
             var windowWidth = _window.width();
 
             // starts the extra margin value, with a value
@@ -2393,8 +2395,9 @@
 
                 // "calculates" the top and left positions for the
                 // panel from the panel dimensions and the current
-                // visible window dimensions
-                var chatTop = windowHeight - panelHeight + panelOffset;
+                // visible window dimensions, keeping the top of the
+                // panel (with its controls) inside the window
+                var chatTop = Math.max(windowHeight - panelHeight + panelOffset, 0);
                 var chatLeft = windowWidth - panelWidth - extraMargin;
 
                 // in case the animation mode is disabled must disable
@@ -3351,12 +3354,15 @@
             // element to be used in the positioning
             var _window = jQuery(window);
 
-            // retrieves the height of both the window and the
-            // panel and uses both values to calculate the top
-            // position for the panel
-            var windowHeight = _window.height();
+            // retrieves the height of both the window (discounting
+            // the room left at the end of the page by the debug bar)
+            // and the panel and uses both values to calculate the top
+            // position for the panel, keeping the top of the panel
+            // (with its controls) inside the window
+            var debugBar = jQuery(".debug-bar");
+            var windowHeight = _window.height() - (debugBar.height() || 0);
             var panelHeight = element.outerHeight(true);
-            var panelTop = windowHeight - panelHeight + offset;
+            var panelTop = Math.max(windowHeight - panelHeight + offset, 0);
 
             // sets the top position of the element as the "calculated"
             // value for the panel top
@@ -7423,10 +7429,54 @@
         };
 
         /**
+         * Leaves room at the end of the page as tall as the dock of the bar
+         * while it's open (removing it once it's closed), the element of the
+         * bar (after the footer, with no height of its own) taking the height
+         * of the dock, so that the whole page may be scrolled above it, as
+         * the developer tools of the browser docked at the bottom do.
+         */
+        var _room = function() {
+            var isOpen = matchedObject.hasClass("open");
+            var height = dock.outerHeight();
+            matchedObject.css("height", isOpen ? height + "px" : "");
+            _place();
+        };
+
+        /**
+         * Places the windows shown and the panels of the chat again, in the
+         * part of the page above the dock of the bar while it's open (in the
+         * whole window otherwise), as when the window is resized.
+         */
+        var _place = function() {
+            var elements = jQuery(".window.visible, .chat-panel");
+            elements.each(function(index, element) {
+                var _element = jQuery(this);
+                _element.triggerHandler("layout");
+            });
+        };
+
+        /**
+         * Centers the window that has just been centered in the window of the
+         * browser (as the handler of its centered event) in the part of the
+         * page above the dock of the bar while it's open, as the room left at
+         * the end of the page is not part of the visible page.
+         */
+        var _center = function() {
+            var element = jQuery(this);
+            var isOpen = matchedObject.hasClass("open");
+            if (!isOpen) {
+                return;
+            }
+            var height = dock.outerHeight();
+            var top = (_window.height() - height - element.outerHeight(true)) / 2;
+            element.css("top", Math.max(top, 0) + "px");
+        };
+
+        /**
          * Sets the height of the dock of the bar, in whole pixels, bounded
          * by its minimum height and by its maximum one for the height of the
          * window, with the notifications at the bottom of the page raised
-         * above it.
+         * above it and the room at the end of the page following it.
          *
          * @param {Number}
          *            height The height of the dock to be set, in pixels.
@@ -7437,28 +7487,32 @@
             dock.css("height", height + "px");
             matchedObject.data("height", height);
             _raise();
+            _room();
         };
 
         /**
-         * Shows the bar, marking the body and raising the notifications at
-         * the bottom above it, with the last tool selected.
+         * Shows the bar, marking the body, raising the notifications at the
+         * bottom above it and leaving room for it at the end of the page,
+         * with the last tool selected.
          */
         var _show = function() {
             matchedObject.addClass("open");
             _body.addClass("debug-bar-open");
             _raise();
+            _room();
             _set("omni:debug:open", "1");
             _select(_get("omni:debug:tool"));
         };
 
         /**
-         * Hides the bar, unmarking the body and lowering the notifications
-         * at the bottom.
+         * Hides the bar, unmarking the body, lowering the notifications at
+         * the bottom and removing its room at the end of the page.
          */
         var _hide = function() {
             matchedObject.removeClass("open");
             _body.removeClass("debug-bar-open");
             _raise();
+            _room();
             _set("omni:debug:open", "0");
         };
 
@@ -7526,12 +7580,14 @@
         });
 
         // starts the variables that are going to store the handlers of the
-        // records of the logs, of the keys of the document and of the resize
-        // of the window, so that they are unregistered once the bar is
-        // destroyed (eg: its contents replaced by the async navigation)
+        // records of the logs, of the keys of the document, of the resize
+        // of the window and of the apply of new contents, so that they are
+        // unregistered once the bar is destroyed (eg: its contents replaced
+        // by the async navigation)
         var onRecord = null;
         var onKeyDown = null;
         var onResize = null;
+        var onApplied = null;
 
         // registers for the records of the logs so that the counts of the
         // header are updated and the tools notified about the record
@@ -7557,13 +7613,29 @@
             _height(matchedObject.data("height"));
         });
 
+        // registers for the centering of the windows of the page, and of the
+        // ones of the contents applied later (eg: the windows of a page of the
+        // async navigation), so that they're centered in the part of the page
+        // above the dock while it's open
+        var windows = jQuery(".window");
+        windows.bind("centered", _center);
+        _body.bind("applied", onApplied = function(event, base) {
+            var windows = jQuery(".window", base);
+            windows.bind("centered", _center);
+        });
+
         matchedObject.bind("destroyed", function() {
             var stack = jQuery("> .notifications-stack.bottom-left", _body);
+            var windows = jQuery(".window");
             _body.unbind("debug_record", onRecord);
             _document.unbind("keydown", onKeyDown);
             _window.unbind("resize", onResize);
+            _body.unbind("applied", onApplied);
+            windows.unbind("centered", _center);
             _body.removeClass("debug-bar-open");
             stack.css("bottom", "");
+            matchedObject.css("height", "");
+            _place();
         });
 
         // sets the height of the dock, the one kept in the local storage of
