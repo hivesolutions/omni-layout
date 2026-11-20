@@ -18,8 +18,10 @@
 
         var placePanels = function(panels, animate) {
             // retrieves the window dimensions, both the
-            // height and the width
-            var windowHeight = _window.height();
+            // height (discounting the room left at the end
+            // of the page by the debug bar) and the width
+            var debugBar = jQuery(".debug-bar");
+            var windowHeight = _window.height() - (debugBar.height() || 0);
             var windowWidth = _window.width();
 
             // starts the extra margin value, with a value
@@ -999,10 +1001,12 @@
             // element to be used in the positioning
             var _window = jQuery(window);
 
-            // retrieves the height of both the window and the
-            // panel and uses both values to calculate the top
+            // retrieves the height of both the window (discounting
+            // the room left at the end of the page by the debug bar)
+            // and the panel and uses both values to calculate the top
             // position for the panel
-            var windowHeight = _window.height();
+            var debugBar = jQuery(".debug-bar");
+            var windowHeight = _window.height() - (debugBar.height() || 0);
             var panelHeight = element.outerHeight(true);
             var panelTop = windowHeight - panelHeight + offset;
 
