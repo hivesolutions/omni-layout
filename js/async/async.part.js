@@ -541,7 +541,6 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
-        updateDebug(base);
         runGarbage(base);
     };
 
