@@ -639,6 +639,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
+        updateDebug(base);
         runGarbage(base);
     };
 
@@ -658,6 +659,7 @@
         updateOverlaySearch(base);
         updateNotifications(base);
         updateChat(base);
+        updateDebug(base);
         runGarbage(base);
     };
 
@@ -957,6 +959,37 @@
             sideLeft.append(chat);
             chat.uchat();
         }
+    };
+
+    var updateDebug = function(base) {
+        // retrieves the debug bar of the target page (rendered only with its
+        // feature flag on, for the users with its permission) and the current
+        // one, that lives out of the parts of the page that are updated
+        var _body = jQuery("body");
+        var debugOuter = base.filter(".debug-bar");
+        var debugInner = jQuery(".debug-bar", base);
+        var debug = debugOuter.add(debugInner);
+        var debug_ = jQuery("> .debug-bar", _body);
+
+        // verifies if the values of the session of the bar of the target page
+        // (eg: the user, the module and the locale) are the ones of the current
+        // bar and if that's the case keeps the current one, with the state of
+        // its tools (eg: the text of a filter), as there's nothing to refresh
+        var session = jQuery(".debug-bar-session", debug);
+        var session_ = jQuery(".debug-bar-session", debug_);
+        var isSame = debug.length === debug_.length && session.html() === session_.html();
+        if (isSame) {
+            return;
+        }
+
+        // replaces the current bar (if any) with the one of the target page,
+        // built again in its locale and with its values of the session, its
+        // open state, tool, theme and height (kept in the storage of the
+        // browser) and its logs (kept in the window) being kept, and in case
+        // the target page has no bar the current one is just removed
+        debug_.remove();
+        _body.prepend(debug);
+        debug.udebug();
     };
 
     var runGarbage = function(base) {
@@ -4209,7 +4242,8 @@
             version: "Version",
             environment: "Environment",
             run_mode: "Run mode",
-            module: "Module"
+            module: "Module",
+            locale: "Language"
         };
 
         /**
