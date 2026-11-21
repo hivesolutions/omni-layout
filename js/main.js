@@ -9637,11 +9637,6 @@
             quantityField.uxvalue(quantity);
             quantityField.change();
             quantityField.umark();
-
-            // removes the focus from the current element so that the next
-            // scan is a scan of a product (not typed into a field)
-            var focused = jQuery(":focus");
-            focused.blur();
         };
 
         var _getData = function(matchedObject, options) {
