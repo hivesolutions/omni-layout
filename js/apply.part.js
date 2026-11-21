@@ -66,6 +66,12 @@
         var report = jQuery(".report", matchedObject);
         report.ureport();
 
+        // retrieves the scan lines as the editable tables of the lines
+        // that receive the scanned products and then starts the scan
+        // lines logic on them (instead of opening the scanned products)
+        var scanLines = jQuery(".scan-lines", matchedObject);
+        scanLines.uscanlines();
+
         // retrieves the activity (list) element and starts
         // it with the activity logic (post processing)
         var activty = jQuery(".activity-list", matchedObject);
