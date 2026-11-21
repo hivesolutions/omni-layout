@@ -245,7 +245,9 @@
         "Language": "Idioma",
         "Desktop": "Computador",
         "Tablet": "Tablet",
-        "Mobile": "Telemóvel"
+        "Mobile": "Telemóvel",
+        "Product not found": "Produto não encontrado",
+        "Product lookup failed, scan it again": "Falha na pesquisa do produto, leia-o novamente"
     }
 
     jQuery.uxloadbundle(BUNDLE_PT_PT, "pt-pt")
